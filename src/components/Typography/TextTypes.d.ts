@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextProps as RnTextProps, Text, TextStyle } from 'react-native';
+import { Animated, Text, TextStyle } from 'react-native';
 import {
    ElementSpacingMap,
    SpacingStyle,
@@ -56,3 +56,8 @@ export interface TextProps
 
 export interface TextFontVariation extends Pick<TextStyle, 'fontSize'> {}
 export interface TextGutter extends SpacingStyle {}
+
+export interface AnimatedTextProps
+   extends React.ComponentPropsWithRef<typeof Animated.Text> {
+   style?: TextStyle;
+}

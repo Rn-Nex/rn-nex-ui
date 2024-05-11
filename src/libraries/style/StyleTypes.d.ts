@@ -14,7 +14,7 @@ import {
    ViewStyle,
 } from 'react-native';
 import { BoxProps } from '../../components/Box/interfaces';
-import { TextProps } from '../../components/Text/interfaces';
+import { TextProps } from '../../components/Typography/interfaces';
 
 /**
  * Interface defining properties related to spacing styles, such as margins and paddings.
