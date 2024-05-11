@@ -1,67 +1,102 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Animated,
+  Easing,
+  LayoutChangeEvent,
+  LayoutRectangle,
+  NativeSyntheticEvent,
+  TextInputFocusEventData,
+  ViewStyle,
+} from 'react-native';
 import { BaseInput } from './BaseInput';
-import { OutlineProps, OutlinedTextFieldProps } from './InputTypes';
-import { LayoutChangeEvent, LayoutRectangle, Text as RnText, TextStyle, View, ViewStyle } from 'react-native';
-import { colors } from '../../libraries';
-import { AnimatedText, Text } from '../Typography';
+import { InputLabel } from './InputLabel';
+import { Outline } from './InputOutline';
+import { OutlinedTextFieldProps } from './InputTypes';
 
-const outlineDefaultStyles: ViewStyle = {
+const LABELED_ANIMATION_DURATION = 120;
+const INPUT_DEFAULT_HEIGHT = 58;
+
+const baseInputDefaultStyles: ViewStyle = {
   width: '100%',
-  overflow: 'hidden',
-  borderRadius: 8,
-  borderWidth: 1,
-  borderColor: colors.white.dark,
-  paddingHorizontal: 5,
+  height: INPUT_DEFAULT_HEIGHT,
   position: 'relative',
-  height: 100,
+  zIndex: 12,
+  backgroundColor: 'transparent',
 };
 
-const placeHolderDefaultStyles: TextStyle = {
-  position: 'absolute',
-  zIndex: 10,
+export const OutlinedTextField = ({
+  placeholder,
+  outlineStyles,
+  value,
+  style,
+  error,
+  activeColor,
+  onFocus: onTextInputFocusHandler,
+  onBlur: onTextInputBlurHandler,
+  onLayout: onTextInputLayoutHandler,
+  ...props
+}: OutlinedTextFieldProps) => {
+  const inputLabeledAnimatedValue = useRef(new Animated.Value(0)).current;
+  const [outlineLayoutRectangle, setOutlineLayoutRectangle] = useState<LayoutRectangle>();
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const onLayout = (event: LayoutChangeEvent) => {
+    const { layout } = event.nativeEvent;
+
+    if (onTextInputLayoutHandler && typeof onTextInputLayoutHandler === 'function') {
+      onTextInputLayoutHandler(event);
+    }
+
+    setOutlineLayoutRectangle(layout);
+  };
+
+  const onFocus = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    if (onTextInputFocusHandler && typeof onTextInputFocusHandler === 'function') {
+      onTextInputFocusHandler(event);
+    }
+    setIsFocused(true);
+  };
+
+  const onBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    if (onTextInputBlurHandler && typeof onTextInputBlurHandler === 'function') {
+      onTextInputBlurHandler(event);
+    }
+    setIsFocused(false);
+  };
+
+  useEffect(() => {
+    inputLabeledAnimatedValue.stopAnimation();
+    if (isFocused || value) {
+      Animated.timing(inputLabeledAnimatedValue, {
+        toValue: 1,
+        duration: LABELED_ANIMATION_DURATION,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(inputLabeledAnimatedValue, {
+        toValue: 0,
+        duration: LABELED_ANIMATION_DURATION,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [isFocused]);
+
+  return (
+    <Outline activeColor={activeColor} style={outlineStyles} isFocused={isFocused || !!value} error={error}>
+      {outlineLayoutRectangle?.width && outlineLayoutRectangle?.height ? (
+        <InputLabel
+          activeColor={activeColor}
+          placeholder={placeholder}
+          labeled={inputLabeledAnimatedValue}
+          translateYAnimatedPosition={-(outlineLayoutRectangle.height / 2)}
+          error={error}
+        />
+      ) : null}
+      <BaseInput onBlur={onBlur} onFocus={onFocus} onLayout={onLayout} style={[baseInputDefaultStyles, style]} {...props} />
+    </Outline>
+  );
 };
 
-export const Outline = React.forwardRef<View, OutlineProps>(({ style, ...props }, ref) => {
-  return <View ref={ref} {...props} style={[outlineDefaultStyles, style]} />;
-});
-
-export const OutlinedTextField = React.forwardRef<View, OutlinedTextFieldProps>(
-  ({ placeholder, outlineStyles, onLayout: onTextInputLayoutHandler, value, ...props }, ref) => {
-    const [baseInputRectangle, setBaseInputRectangle] = useState<LayoutRectangle>();
-    const animatedTextRef = useRef<RnText>(null);
-    const [textLayoutRectangle, setTextLayoutRectangle] = useState<LayoutRectangle>();
-
-    const onLayout = (event: LayoutChangeEvent) => {
-      const { layout } = event.nativeEvent;
-      const inputVerticalCenter = layout.height / 2;
-
-      console.log({ layout });
-      console.log({ inputVerticalCenter });
-
-      if (animatedTextRef.current) {
-        const elementStyles: TextStyle = {
-          transform: [{ translateY: inputVerticalCenter - 12 }],
-          left: 10,
-        };
-        animatedTextRef.current.setNativeProps({ style: elementStyles });
-      }
-
-      if (onTextInputLayoutHandler) {
-        onTextInputLayoutHandler(event);
-      }
-
-      setBaseInputRectangle(layout);
-    };
-
-    return (
-      <Outline {...outlineStyles} ref={ref} onLayout={onLayout}>
-        <AnimatedText ref={animatedTextRef} style={placeHolderDefaultStyles}>
-          <Text variation="h3" fontWeight={400}>
-            {placeholder}
-          </Text>
-        </AnimatedText>
-        <BaseInput {...props} />
-      </Outline>
-    );
-  },
-);
+OutlinedTextField.displayName = 'OutlinedTextField';

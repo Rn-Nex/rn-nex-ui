@@ -4,19 +4,19 @@
  * These functions are designed to be used in generating dynamic styles within React components or similar environments.
  */
 import {
-   DimensionInterface,
-   ElementBorderRadius,
-   ElementBorderRadiusMap,
-   ElementRadius,
-   ElementSpacingMap,
-   KeyOfStylePalette,
-   SpacingStyle,
-   StyleEntry,
-   StylePalette,
+  DimensionInterface,
+  ElementBorderRadius,
+  ElementBorderRadiusMap,
+  ElementRadius,
+  ElementSpacingMap,
+  KeyOfStylePalette,
+  SpacingStyle,
+  StyleEntry,
+  StylePalette,
 } from '../libraries/style/styleTypes';
 
 export const generateStyle = <T extends KeyOfStylePalette>({ propertyName, value }: StyleEntry<T>) =>
-   propertyName && value ? { [propertyName]: value } : {};
+  propertyName && value ? { [propertyName]: value } : {};
 
 /**
     * Function to apply styles based on an array of style entries.
@@ -29,80 +29,81 @@ export const generateStyle = <T extends KeyOfStylePalette>({ propertyName, value
      ]);
     */
 export const applyStyles = <T extends KeyOfStylePalette>(entries: StyleEntry<T>[]): StylePalette => {
-   let styles: StylePalette = {};
+  let styles: StylePalette = {};
 
-   for (const entry of entries) {
-      if (!entry?.propertyName) throw new Error(`Styles error please provide a propertyName`);
-      if (entry?.value === undefined || entry?.value === 'undefined') throw new Error(`Styles error please provide a ${entry?.propertyName} value`);
+  for (const entry of entries) {
+    if (!entry?.propertyName) throw new Error(`Styles error please provide a propertyName`);
+    if (entry?.value === undefined || entry?.value === 'undefined')
+      throw new Error(`Styles error please provide a ${entry?.propertyName} value`);
 
-      styles = {
-         ...styles,
-         ...generateStyle({ propertyName: entry?.propertyName, value: entry?.value }),
-      };
-   }
+    styles = {
+      ...styles,
+      ...generateStyle({ propertyName: entry?.propertyName, value: entry?.value }),
+    };
+  }
 
-   return styles;
+  return styles;
 };
 
 /**
  * Define a helper function to create autocomplete values for property names
  */
 export const createPropertyName = <T extends KeyOfStylePalette>(propertyName: T): T => {
-   return propertyName;
+  return propertyName;
 };
 
 export const generatePaddingStyles = (args: StylePalette, elementPropertyName: keyof ElementSpacingMap) => {
-   const paddingProps: { [key in keyof ElementSpacingMap]?: keyof SpacingStyle } = {
-      p: 'padding',
-      px: 'paddingHorizontal',
-      py: 'paddingVertical',
-      ps: 'marginLeft',
-      pe: 'paddingRight',
-      pt: 'paddingTop',
-      pb: 'paddingBottom',
-   };
+  const paddingProps: { [key in keyof ElementSpacingMap]?: keyof SpacingStyle } = {
+    p: 'padding',
+    px: 'paddingHorizontal',
+    py: 'paddingVertical',
+    ps: 'marginLeft',
+    pe: 'paddingRight',
+    pt: 'paddingTop',
+    pb: 'paddingBottom',
+  };
 
-   const propertyName = paddingProps[elementPropertyName];
-   if (!propertyName) return;
-   return generateStyle({ propertyName, value: args[elementPropertyName] });
+  const propertyName = paddingProps[elementPropertyName];
+  if (!propertyName) return;
+  return generateStyle({ propertyName, value: args[elementPropertyName] });
 };
 
 export const elementRadiusStyle = (args: ElementBorderRadiusMap, elementPropertyName: ElementBorderRadius) => {
-   const radius: { [key in keyof ElementBorderRadiusMap]: keyof ElementRadius } = {
-      r: 'borderRadius',
-      ret: 'borderTopEndRadius',
-      rlt: 'borderTopLeftRadius',
-      ree: 'borderEndEndRadius',
-      rrt: 'borderTopRightRadius',
-      rse: 'borderStartEndRadius',
-      res: 'borderStartEndRadius',
-      rst: 'borderTopStartRadius',
-      reb: 'borderBottomEndRadius',
-      rlb: 'borderBottomLeftRadius',
-      rss: 'borderStartStartRadius',
-      rrb: 'borderBottomRightRadius',
-      rsb: 'borderBottomStartRadius',
-   };
+  const radius: { [key in keyof ElementBorderRadiusMap]: keyof ElementRadius } = {
+    r: 'borderRadius',
+    ret: 'borderTopEndRadius',
+    rlt: 'borderTopLeftRadius',
+    ree: 'borderEndEndRadius',
+    rrt: 'borderTopRightRadius',
+    rse: 'borderStartEndRadius',
+    res: 'borderStartEndRadius',
+    rst: 'borderTopStartRadius',
+    reb: 'borderBottomEndRadius',
+    rlb: 'borderBottomLeftRadius',
+    rss: 'borderStartStartRadius',
+    rrb: 'borderBottomRightRadius',
+    rsb: 'borderBottomStartRadius',
+  };
 
-   const propertyName = radius[elementPropertyName];
-   if (!propertyName) return;
-   return generateStyle({ propertyName, value: args[elementPropertyName] });
+  const propertyName = radius[elementPropertyName];
+  if (!propertyName) return;
+  return generateStyle({ propertyName, value: args[elementPropertyName] });
 };
 
 export const generateMarginStyles = (args: StylePalette, elementPropertyName: keyof ElementSpacingMap) => {
-   const marginProps: { [key in keyof ElementSpacingMap]?: keyof SpacingStyle } = {
-      m: 'margin',
-      mx: 'marginHorizontal',
-      my: 'marginVertical',
-      ms: 'marginLeft',
-      me: 'marginRight',
-      mt: 'marginTop',
-      mb: 'marginBottom',
-   };
+  const marginProps: { [key in keyof ElementSpacingMap]?: keyof SpacingStyle } = {
+    m: 'margin',
+    mx: 'marginHorizontal',
+    my: 'marginVertical',
+    ms: 'marginLeft',
+    me: 'marginRight',
+    mt: 'marginTop',
+    mb: 'marginBottom',
+  };
 
-   const propertyName = marginProps[elementPropertyName];
-   if (!propertyName) return;
-   return generateStyle({ propertyName, value: args[elementPropertyName] });
+  const propertyName = marginProps[elementPropertyName];
+  if (!propertyName) return;
+  return generateStyle({ propertyName, value: args[elementPropertyName] });
 };
 
 /**
@@ -111,75 +112,75 @@ export const generateMarginStyles = (args: StylePalette, elementPropertyName: ke
  * @returns A string representing CSS styles for the element.
  */
 export const generateElementStyles = (args: StylePalette) => {
-   let styles: StylePalette = {};
-   const keys = Object.keys(args);
+  let styles: StylePalette = {};
+  const keys = Object.keys(args);
 
-   for (let property of keys) {
-      const elementPropertyName = property as keyof StylePalette;
+  for (let property of keys) {
+    const elementPropertyName = property as keyof StylePalette;
 
-      if (args[elementPropertyName] === undefined) continue;
+    if (args[elementPropertyName] === undefined) continue;
 
-      if (
-         elementPropertyName === 'p' ||
-         elementPropertyName === 'px' ||
-         elementPropertyName === 'py' ||
-         elementPropertyName === 'ps' ||
-         elementPropertyName === 'pe' ||
-         elementPropertyName === 'pt' ||
-         elementPropertyName === 'pb'
-      ) {
-         styles = {
-            ...styles,
-            ...generatePaddingStyles(args, elementPropertyName),
-         };
-         continue;
-      } else if (
-         elementPropertyName === 'm' ||
-         elementPropertyName === 'mx' ||
-         elementPropertyName === 'my' ||
-         elementPropertyName === 'ms' ||
-         elementPropertyName === 'me' ||
-         elementPropertyName === 'mt' ||
-         elementPropertyName == 'mb'
-      ) {
-         styles = {
-            ...styles,
-            ...generateMarginStyles(args, elementPropertyName),
-         };
-         continue;
-      } else if (
-         elementPropertyName === 'r' ||
-         elementPropertyName === 'ret' ||
-         elementPropertyName === 'rlt' ||
-         elementPropertyName === 'ree' ||
-         elementPropertyName === 'rrt' ||
-         elementPropertyName === 'rse' ||
-         elementPropertyName === 'res' ||
-         elementPropertyName === 'rst' ||
-         elementPropertyName === 'reb' ||
-         elementPropertyName === 'rlb' ||
-         elementPropertyName === 'rss' ||
-         elementPropertyName === 'rrb' ||
-         elementPropertyName === 'rsb'
-      ) {
-         styles = {
-            ...styles,
-            ...elementRadiusStyle(args, elementPropertyName),
-         };
-      } else {
-         styles = {
-            ...styles,
-            ...generateStyle({ propertyName: elementPropertyName, value: args[elementPropertyName] }),
-         };
-      }
-   }
+    if (
+      elementPropertyName === 'p' ||
+      elementPropertyName === 'px' ||
+      elementPropertyName === 'py' ||
+      elementPropertyName === 'ps' ||
+      elementPropertyName === 'pe' ||
+      elementPropertyName === 'pt' ||
+      elementPropertyName === 'pb'
+    ) {
+      styles = {
+        ...styles,
+        ...generatePaddingStyles(args, elementPropertyName),
+      };
+      continue;
+    } else if (
+      elementPropertyName === 'm' ||
+      elementPropertyName === 'mx' ||
+      elementPropertyName === 'my' ||
+      elementPropertyName === 'ms' ||
+      elementPropertyName === 'me' ||
+      elementPropertyName === 'mt' ||
+      elementPropertyName == 'mb'
+    ) {
+      styles = {
+        ...styles,
+        ...generateMarginStyles(args, elementPropertyName),
+      };
+      continue;
+    } else if (
+      elementPropertyName === 'r' ||
+      elementPropertyName === 'ret' ||
+      elementPropertyName === 'rlt' ||
+      elementPropertyName === 'ree' ||
+      elementPropertyName === 'rrt' ||
+      elementPropertyName === 'rse' ||
+      elementPropertyName === 'res' ||
+      elementPropertyName === 'rst' ||
+      elementPropertyName === 'reb' ||
+      elementPropertyName === 'rlb' ||
+      elementPropertyName === 'rss' ||
+      elementPropertyName === 'rrb' ||
+      elementPropertyName === 'rsb'
+    ) {
+      styles = {
+        ...styles,
+        ...elementRadiusStyle(args, elementPropertyName),
+      };
+    } else {
+      styles = {
+        ...styles,
+        ...generateStyle({ propertyName: elementPropertyName, value: args[elementPropertyName] }),
+      };
+    }
+  }
 
-   return styles;
+  return styles;
 };
 
 export const generateDimensionStyles = ({ width, height }: DimensionInterface) => {
-   return applyStyles([
-      { propertyName: createPropertyName('width'), value: width },
-      { propertyName: createPropertyName('height'), value: height },
-   ]);
+  return applyStyles([
+    { propertyName: createPropertyName('width'), value: width },
+    { propertyName: createPropertyName('height'), value: height },
+  ]);
 };
