@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Text, TextStyle } from 'react-native';
+import { Animated, ColorValue, Text, TextStyle } from 'react-native';
 import { ElementSpacingMap, SpacingStyle } from '../../libraries/style/styleTypes';
 
 /**
@@ -38,6 +38,9 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text>, Tex
    */
   maxLength?: number;
   error?: boolean;
+  errorColor?: ColorValue;
+  isActive?: boolean;
+  activeColor?: ColorValue;
 }
 
 export interface TextFontVariation extends Pick<TextStyle, 'fontSize'> {}

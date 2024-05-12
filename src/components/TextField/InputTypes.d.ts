@@ -2,18 +2,63 @@ import React from 'react';
 import { Animated, ColorValue, StyleProp, TextInputProps, View, ViewStyle } from 'react-native';
 import { TextProps } from '../Typography/TextTypes';
 
+/**
+ * Defines the common props for a base input component
+ */
 export interface BaseInputProps extends TextInputProps {
+  /**
+   * Indicates if there's an error in the input
+   */
   error?: boolean;
-  activeColor?: string;
+  /**
+   * The color to use when the input is active or focused
+   */
+  activeColor?: ColorValue;
+  /**
+   * Indicates if the input is focused
+   */
+  isFocused?: boolean;
+  errorColor?: ColorValue;
 }
-export interface InputLabelProps extends Pick<BaseInputProps, 'placeholder' | 'activeColor'>, Omit<TextProps, 'children'> {
+
+/**
+ * Defines the props for an input label component
+ */
+export interface InputLabelProps
+  extends Pick<BaseInputProps, 'placeholder' | 'activeColor' | 'errorColor'>,
+    Omit<TextProps, 'children'> {
+  /**
+   * Animated value for controlling label animation
+   */
   labeled?: Animated.Value;
+  /**
+   * Animated position for label translation
+   */
   translateYAnimatedPosition?: number;
+  /**
+   * Position of the placeholder when the label is active
+   */
   placeholderLeftPosition?: number;
 }
-export interface OutlinedTextFieldProps extends BaseInputProps {
+
+/**
+ *  Defines the props for an outlined text field component
+ */
+export interface TextFieldProps extends BaseInputProps {
+  /**
+   * Styles for the outline container
+   */
   outlineStyles?: StyleProp<ViewStyle>;
+  /**
+   * Props for the input label component
+   */
+  inputLabelProps?: InputLabelProps;
 }
-export interface OutlineProps extends React.ComponentPropsWithRef<typeof View>, Pick<BaseInputProps, 'error' | 'activeColor'> {
-  isFocused?: boolean;
-}
+
+/**
+ * Defines the props for an outline component
+ */
+export interface OutlineProps
+  extends React.ComponentPropsWithRef<typeof View>,
+    Pick<BaseInputProps, 'error' | 'activeColor' | 'isFocused' | 'errorColor'> {}
+export interface FiledTextProps extends OutlinedTextFieldProps {}

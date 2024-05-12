@@ -11,10 +11,8 @@ import {
 import { BaseInput } from './BaseInput';
 import { InputLabel } from './InputLabel';
 import { Outline } from './InputOutline';
-import { OutlinedTextFieldProps } from './InputTypes';
-
-const LABELED_ANIMATION_DURATION = 120;
-const INPUT_DEFAULT_HEIGHT = 58;
+import { TextFieldProps } from './InputTypes';
+import { INPUT_DEFAULT_HEIGHT, LABELED_ANIMATION_DURATION } from './constants';
 
 const baseInputDefaultStyles: ViewStyle = {
   width: '100%',
@@ -24,18 +22,20 @@ const baseInputDefaultStyles: ViewStyle = {
   backgroundColor: 'transparent',
 };
 
-export const OutlinedTextField = ({
+export const TextField = ({
   placeholder,
   outlineStyles,
   value,
   style,
   error,
   activeColor,
+  errorColor,
+  inputLabelProps,
   onFocus: onTextInputFocusHandler,
   onBlur: onTextInputBlurHandler,
   onLayout: onTextInputLayoutHandler,
   ...props
-}: OutlinedTextFieldProps) => {
+}: TextFieldProps) => {
   const inputLabeledAnimatedValue = useRef(new Animated.Value(0)).current;
   const [outlineLayoutRectangle, setOutlineLayoutRectangle] = useState<LayoutRectangle>();
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -84,14 +84,17 @@ export const OutlinedTextField = ({
   }, [isFocused]);
 
   return (
-    <Outline activeColor={activeColor} style={outlineStyles} isFocused={isFocused || !!value} error={error}>
+    <Outline activeColor={activeColor} errorColor={errorColor} style={outlineStyles} isFocused={isFocused} error={error}>
       {outlineLayoutRectangle?.width && outlineLayoutRectangle?.height ? (
         <InputLabel
+          isActive={isFocused}
           activeColor={activeColor}
+          errorColor={errorColor}
           placeholder={placeholder}
           labeled={inputLabeledAnimatedValue}
           translateYAnimatedPosition={-(outlineLayoutRectangle.height / 2)}
           error={error}
+          {...inputLabelProps}
         />
       ) : null}
       <BaseInput onBlur={onBlur} onFocus={onFocus} onLayout={onLayout} style={[baseInputDefaultStyles, style]} {...props} />
@@ -99,4 +102,4 @@ export const OutlinedTextField = ({
   );
 };
 
-OutlinedTextField.displayName = 'OutlinedTextField';
+TextField.displayName = 'TextField';

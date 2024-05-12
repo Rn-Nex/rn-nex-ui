@@ -6,16 +6,16 @@ import { generateElementStyles } from '../../utils';
 import { colors } from '../../libraries';
 
 export const Text = React.forwardRef<RnText, TextProps>(
-  ({ sx, children, maxLength, variation, gutterBottom, error, ...props }, ref) => {
+  ({ children, maxLength, variation, gutterBottom, error, errorColor, isActive, activeColor, ...props }, ref) => {
     return (
       <RnText
         ref={ref}
         style={[
           variation && textFontVariation(variation),
           gutterBottom && gutter('marginBottom', 10),
+          error && { color: errorColor ? errorColor : colors.error.light },
+          isActive && { color: activeColor ? activeColor : colors.blue.dark },
           generateElementStyles(props),
-          error && { color: colors.error.light },
-          sx,
         ]}
         {...props}>
         {typeof children === 'string' && maxLength ? maxLengthUtile(children, maxLength) : children}

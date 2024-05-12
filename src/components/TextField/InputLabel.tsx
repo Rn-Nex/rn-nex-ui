@@ -3,10 +3,7 @@ import { Animated, LayoutChangeEvent, LayoutRectangle, TextStyle, ViewStyle } fr
 import { colors } from '../../libraries';
 import { AnimatedText, Text } from '../Typography';
 import { InputLabelProps } from './InputTypes';
-
-const PLACEHOLDER_LEFT_POSITION = 8;
-const TEXT_FONT_DEFAULT_HEIGHT = 10;
-const TRANSLATE_Y_ANIMATED_DEFAULT_POSITION = -28;
+import { PLACEHOLDER_LEFT_POSITION, TEXT_FONT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 
 export const InputLabel = function ({
   placeholder,
@@ -42,6 +39,14 @@ export const InputLabel = function ({
               outputRange: [-(textHeight / 2), translateYAnimatedPosition + -(textHeight / 2)],
             })
           : 0,
+      },
+      {
+        scale: labeled
+          ? labeled.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 0.8],
+            })
+          : 1,
       },
     ],
   };
