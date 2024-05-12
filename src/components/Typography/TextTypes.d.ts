@@ -12,11 +12,11 @@ export type TextVariation = 'body1' | 'body2' | 'caption' | 'h1' | 'h2' | 'h3' |
  * Interface for the properties that can be passed to a text component.
  * Extends TextStyle for text styling and ElementSpacingMap for spacing properties.
  */
-export interface TextProps extends React.ComponentPropsWithRef<typeof Text>, TextStyle, ElementSpacingMap {
+export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
   /**
    * Custom styles to be applied to the text.
    */
-  sx?: TextStyle;
+  style?: TextStyle & ElementSpacingMap;
 
   /**
    * The content to be displayed within the text component.
@@ -41,6 +41,7 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text>, Tex
   errorColor?: ColorValue;
   isActive?: boolean;
   activeColor?: ColorValue;
+  disabled?: boolean;
 }
 
 export interface TextFontVariation extends Pick<TextStyle, 'fontSize'> {}

@@ -1,12 +1,15 @@
 import React from 'react';
 import { Text as RnText } from 'react-native';
+import { colors } from '../../libraries';
+import { generateElementStyles } from '../../utils';
 import { TextProps } from './TextTypes';
 import { gutter, maxLength as maxLengthUtile, textFontVariation } from './utils';
-import { generateElementStyles } from '../../utils';
-import { colors } from '../../libraries';
 
 export const Text = React.forwardRef<RnText, TextProps>(
-  ({ children, maxLength, variation, gutterBottom, error, errorColor, isActive, activeColor, ...props }, ref) => {
+  (
+    { children, maxLength, variation, gutterBottom, error, errorColor, isActive, activeColor, style, disabled = true, ...props },
+    ref,
+  ) => {
     return (
       <RnText
         ref={ref}
@@ -15,7 +18,8 @@ export const Text = React.forwardRef<RnText, TextProps>(
           gutterBottom && gutter('marginBottom', 10),
           error && { color: errorColor ? errorColor : colors.error.light },
           isActive && { color: activeColor ? activeColor : colors.blue.dark },
-          generateElementStyles(props),
+          !disabled && { color: colors.disabled.dark },
+          style && generateElementStyles(style),
         ]}
         {...props}>
         {typeof children === 'string' && maxLength ? maxLengthUtile(children, maxLength) : children}

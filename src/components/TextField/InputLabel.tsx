@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { Animated, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { AnimatedText, Text } from '../Typography';
 import { InputLabelProps } from './InputTypes';
-import { PLACEHOLDER_OUTLINE_LEFT_POSITION, TEXT_FONT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
+import { PLACEHOLDER_OUTLINE_LEFT_POSITION, TEXT_FONT_DEFAULT_HEIGHT } from './constants';
 import { getLabelTransformStyle } from './utils';
 
 export const InputLabel = function ({
   placeholder,
   labeled,
   variant,
+  editable,
   translateYAnimatedPosition,
   placeholderLeftPosition,
   textInputLayoutRect,
@@ -36,7 +37,7 @@ export const InputLabel = function ({
       ]}>
       <AnimatedText onLayout={onTextLayoutHandler}>
         {textLayoutRect ? (
-          <Text variation="h3" fontWeight={400} {...props}>
+          <Text variation="h3" fontWeight={400} disabled={!editable} {...props}>
             {placeholder}
           </Text>
         ) : null}

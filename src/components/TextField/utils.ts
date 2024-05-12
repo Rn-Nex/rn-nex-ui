@@ -1,6 +1,6 @@
-import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 import { colors } from '../../libraries';
-import { GetLabelTransformStyleProps, TextFiledVariation } from './InputTypes';
+import { GenerateOutlineStyles, GetLabelTransformStyleProps, GetTextInputStylesProps, TextFiledVariation } from './InputTypes';
 import { INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 
 const outlineDefaultStyles: ViewStyle = {
@@ -14,7 +14,6 @@ const outlineDefaultStyles: ViewStyle = {
 };
 
 const baseInputDefaultStyles: ViewStyle = {
-  width: '100%',
   height: INPUT_DEFAULT_HEIGHT,
   position: 'relative',
   zIndex: 12,
@@ -45,7 +44,17 @@ export const getInputOutlineVariationStyles = (variation: TextFiledVariation): S
   return outlineDefaultStyles;
 };
 
-export const getTextInputStyles = (variation: TextFiledVariation): ViewStyle => {
+export const getTextInputStyles = ({ variant, endAdornment, startAdornment }: GetTextInputStylesProps): ViewStyle => {
+  const adornmentStyles: ViewStyle = {
+    width: '100%',
+  };
+
+  if (endAdornment || startAdornment) {
+    adornmentStyles.width = '90%';
+  }
+
+  if (variant === 'outlined' || variant === 'filled') return { ...baseInputDefaultStyles, ...adornmentStyles };
+  else if (variant === 'standard') return { ...baseInputDefaultStyles, ...adornmentStyles, marginBottom: -10 };
   return baseInputDefaultStyles;
 };
 
@@ -62,8 +71,10 @@ export const getLabelTransformStyle = ({
 
     if (variant === 'filled' || variant === 'outlined') {
       outputRange = [-(textHeight / 2), translateYAnimatedPosition + -(textHeight / 2)];
+    } else if (textInputLayoutRect) {
+      outputRange = [-(textHeight / 2) + textInputLayoutRect.height / 2 - 20, translateYAnimatedPosition];
     } else {
-      outputRange = [-(textHeight / 2) + INPUT_DEFAULT_HEIGHT / 2 - 20, translateYAnimatedPosition + -(textHeight / 2)];
+      outputRange = [-(textHeight / 2) + INPUT_DEFAULT_HEIGHT / 2 - 20, translateYAnimatedPosition];
     }
 
     return outputRange;
@@ -95,4 +106,26 @@ export const getLabelTransformStyle = ({
       },
     ],
   };
+};
+
+export const generateOutlineStyles = ({
+  error,
+  errorColor,
+  isFocused,
+  activeColor,
+}: GenerateOutlineStyles): StyleProp<ViewStyle> => {
+  let styles: ViewStyle = {
+    borderColor: colors.white.dark,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  };
+
+  if (error) {
+    styles = { ...styles, borderColor: errorColor ? errorColor : colors.error.light };
+  } else if (isFocused) {
+    styles = { ...styles, borderColor: activeColor ? activeColor : colors.blue.dark };
+  }
+
+  return styles;
 };

@@ -7,6 +7,7 @@ import {
   NativeSyntheticEvent,
   TextInputFocusEventData,
 } from 'react-native';
+import { Box } from '../Box';
 import { BaseInput } from './BaseInput';
 import { InputLabel } from './InputLabel';
 import { Outline } from './InputOutline';
@@ -29,6 +30,11 @@ export const TextField = ({
   errorColor,
   inputLabelProps,
   animatedDuration,
+  editable,
+  startAdornment,
+  startAdornmentContainerProps,
+  endAdornment,
+  endAdornmentContainerProps,
   variant = 'outlined',
   onFocus: onTextInputFocusHandler,
   onBlur: onTextInputBlurHandler,
@@ -39,8 +45,7 @@ export const TextField = ({
   const [textInputLayoutRectangle, setTextInputLayoutRectangle] = useState<LayoutRectangle>();
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
-  const placeHolderLeftPos =
-    variant === 'filled' || variant === 'standard' ? PLACEHOLDER_FILED_INPUT_LEFT_POSITION : PLACEHOLDER_OUTLINE_LEFT_POSITION;
+  const placeHolderLeftPos = variant === 'filled' ? PLACEHOLDER_FILED_INPUT_LEFT_POSITION : PLACEHOLDER_OUTLINE_LEFT_POSITION;
 
   const onLayout = (event: LayoutChangeEvent) => {
     const { layout } = event.nativeEvent;
@@ -76,7 +81,7 @@ export const TextField = ({
 
   useEffect(() => {
     inputLabeledAnimatedValue.stopAnimation();
-    if (isFocused || value) {
+    if (isFocused || value || !!startAdornment) {
       Animated.timing(inputLabeledAnimatedValue, {
         toValue: 1,
         duration: animatedDuration ? animatedDuration : LABELED_ANIMATION_DURATION,
@@ -100,9 +105,11 @@ export const TextField = ({
       errorColor={errorColor}
       style={outlineStyles}
       isFocused={isFocused}
+      editable={editable}
       error={error}>
       {textInputLayoutRectangle?.width && textInputLayoutRectangle?.height ? (
         <InputLabel
+          disabled={editable}
           variant={variant}
           isActive={isFocused}
           activeColor={activeColor}
@@ -116,7 +123,25 @@ export const TextField = ({
           {...inputLabelProps}
         />
       ) : null}
-      <BaseInput onBlur={onBlur} onFocus={onFocus} onLayout={onLayout} style={[getTextInputStyles(variant), style]} {...props} />
+      {startAdornment && (
+        <Box sx={{ marginRight: 8 }} {...startAdornmentContainerProps}>
+          {startAdornment}
+        </Box>
+      )}
+      <BaseInput
+        value={value}
+        editable={editable}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        onLayout={onLayout}
+        style={[getTextInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }), style]}
+        {...props}
+      />
+      {endAdornment && (
+        <Box sx={{ marginLeft: 8 }} {...endAdornmentContainerProps}>
+          {endAdornment}
+        </Box>
+      )}
     </Outline>
   );
 };

@@ -16,7 +16,7 @@ import {
 } from '../libraries/style/styleTypes';
 
 export const generateStyle = <T extends KeyOfStylePalette>({ propertyName, value }: StyleEntry<T>) =>
-  propertyName && value ? { [propertyName]: value } : {};
+  propertyName && value !== undefined ? { [propertyName]: value } : {};
 
 /**
     * Function to apply styles based on an array of style entries.
@@ -86,6 +86,7 @@ export const elementRadiusStyle = (args: ElementBorderRadiusMap, elementProperty
   };
 
   const propertyName = radius[elementPropertyName];
+
   if (!propertyName) return;
   return generateStyle({ propertyName, value: args[elementPropertyName] });
 };
@@ -133,7 +134,6 @@ export const generateElementStyles = (args: StylePalette) => {
         ...styles,
         ...generatePaddingStyles(args, elementPropertyName),
       };
-      continue;
     } else if (
       elementPropertyName === 'm' ||
       elementPropertyName === 'mx' ||
@@ -147,7 +147,6 @@ export const generateElementStyles = (args: StylePalette) => {
         ...styles,
         ...generateMarginStyles(args, elementPropertyName),
       };
-      continue;
     } else if (
       elementPropertyName === 'r' ||
       elementPropertyName === 'ret' ||
@@ -170,7 +169,7 @@ export const generateElementStyles = (args: StylePalette) => {
     } else {
       styles = {
         ...styles,
-        ...generateStyle({ propertyName: elementPropertyName, value: args[elementPropertyName] }),
+        [elementPropertyName]: args[elementPropertyName],
       };
     }
   }

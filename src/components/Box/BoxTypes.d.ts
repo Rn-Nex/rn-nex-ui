@@ -1,14 +1,8 @@
 import React from 'react';
-import { View, ViewStyle } from 'react-native';
-import {
-   ElementBorderRadiusMap,
-   ElementSpacingMap,
-} from '../../libraries/style/styleTypes';
+import { View, ViewProps, ViewStyle } from 'react-native';
+import { ElementBorderRadiusMap, ElementSpacingMap } from '../../libraries/style/styleTypes';
 
-export interface BoxProps
-   extends React.ComponentPropsWithRef<typeof View>,
-      ElementSpacingMap,
-      ElementBorderRadiusMap,
-      ViewStyle {
-   children?: React.ReactNode;
+export interface BoxProps extends Omit<ViewProps, 'style'> {
+  sx?: ElementSpacingMap & ElementBorderRadiusMap & ViewStyle;
+  children?: React.ReactNode;
 }

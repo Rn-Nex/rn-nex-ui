@@ -1,26 +1,24 @@
 import React from 'react';
 import { View } from 'react-native';
-import { cardVariation } from './utils';
 import { generateElementStyles } from '../../utils';
 import { CardProps } from './CardTypes';
+import { cardVariation } from './utils';
 
-export const Card = React.forwardRef<View, CardProps>(
-   ({ children, variation, ...props }, ref) => {
-      return (
-         <View
-            ref={ref}
-            style={{
-               ...(variation
-                  ? generateElementStyles({
-                       ...props,
-                       ...cardVariation(variation),
-                    })
-                  : generateElementStyles(props)),
-            }}>
-            {children}
-         </View>
-      );
-   },
-);
+export const Card = React.forwardRef<View, CardProps>(({ children, variation, style, ...props }, ref) => {
+  return (
+    <View
+      ref={ref}
+      style={[
+        variation &&
+          generateElementStyles({
+            ...style,
+            ...cardVariation(variation),
+          }),
+      ]}
+      {...props}>
+      {children}
+    </View>
+  );
+});
 
 Card.displayName = 'Card';

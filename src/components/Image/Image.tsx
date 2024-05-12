@@ -4,25 +4,21 @@ import { generateElementStyles } from '../../utils';
 import { ImageProps } from './ImageTypes';
 import { generateImageRadiusStyles } from './utils';
 
-export const Image = React.forwardRef<RnImage, ImageProps>(
-   ({ sx, size, variation, ...props }, ref) => {
-      return (
-         <RnImage
-            ref={ref}
-            {...props}
-            style={{
-               ...(size
-                  ? (generateElementStyles({
-                       width: size,
-                       height: size,
-                    }) as ImageStyle)
-                  : {}),
-               ...(variation ? generateImageRadiusStyles(variation) : {}),
-               ...sx,
-            }}
-         />
-      );
-   },
-);
+export const Image = React.forwardRef<RnImage, ImageProps>(({ size, variation, style, ...props }, ref) => {
+  return (
+    <RnImage
+      ref={ref}
+      {...props}
+      style={[
+        generateElementStyles({
+          width: size,
+          height: size,
+          ...style,
+        }) as ImageStyle,
+        variation && generateImageRadiusStyles(variation),
+      ]}
+    />
+  );
+});
 
 Image.displayName = 'Image';

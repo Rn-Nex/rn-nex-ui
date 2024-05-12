@@ -10,9 +10,9 @@ export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonP
       disableRipple,
       disabled,
       children,
-      ripple,
+      rippleProps,
       rippleEdge,
-      sx,
+      style,
       onLayout: onLayoutHandler,
       onPress: onPressHandler,
       onLongPress: onLongPressHandler,
@@ -63,9 +63,9 @@ export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonP
         onLongPress={buttonLongPressHandler}
         onLayout={buttonLayoutHandler}
         {...props}>
-        <Animated.View pointerEvents="box-only" style={sx}>
+        <Animated.View pointerEvents="box-only" style={style}>
           {children}
-          {disableRipple ? null : <Ripple ref={rippleRef} {...ripple} />}
+          {disableRipple ? null : <Ripple ref={rippleRef} {...rippleProps} />}
         </Animated.View>
       </TouchableWithoutFeedback>
     );

@@ -116,7 +116,7 @@ export const Ripple = React.forwardRef<RippleInterface, RippleProps>(
     );
 
     return (
-      <View ref={ref} {...props} style={rippleContainerDefaultStyles}>
+      <View ref={ref} style={[rippleContainerDefaultStyles, rippleContainerStyles]} {...props}>
         {ripples.map(item => renderRipple(item))}
       </View>
     );

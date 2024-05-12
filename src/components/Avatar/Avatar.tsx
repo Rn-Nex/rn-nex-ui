@@ -4,7 +4,7 @@ import { Image } from '../Image';
 import { AvatarProps } from './AvatarTypes';
 
 export const Avatar = React.forwardRef<RnImage, AvatarProps>((props, ref) => {
-   return <Image ref={ref} {...props} />;
+  return <Image ref={ref} {...props} />;
 });
 
 Avatar.displayName = 'Avatar';

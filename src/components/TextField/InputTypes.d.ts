@@ -1,11 +1,12 @@
 import React from 'react';
 import { Animated, ColorValue, LayoutRectangle, StyleProp, TextInputProps, View, ViewStyle } from 'react-native';
 import { TextProps } from '../Typography/TextTypes';
+import { BoxProps } from '../Box/BoxTypes';
 
 /**
  * Represents the variation options for a text field.
  */
-export type TextFiledVariation = 'outlined' | 'filled' | 'standard';
+export type TextFiledVariation = 'outlined' | 'filled';
 
 /**
  * Defines the common props for a base input component.
@@ -37,7 +38,7 @@ export interface BaseInputProps extends TextInputProps {
  * Defines the props for an input label component.
  */
 export interface InputLabelProps
-  extends Pick<BaseInputProps, 'placeholder' | 'activeColor' | 'errorColor' | 'variant'>,
+  extends Pick<BaseInputProps, 'placeholder' | 'activeColor' | 'errorColor' | 'variant' | 'editable'>,
     Omit<TextProps, 'children'> {
   /**
    * Animated value for controlling label animation.
@@ -70,6 +71,10 @@ export interface TextFieldProps extends BaseInputProps {
    * Duration of animation.
    */
   animatedDuration?: number;
+  endAdornment?: React.ReactNode;
+  endAdornmentContainerProps?: BoxProps;
+  startAdornment?: React.ReactNode;
+  startAdornmentContainerProps?: BoxProps;
 }
 
 /**
@@ -77,7 +82,7 @@ export interface TextFieldProps extends BaseInputProps {
  */
 export interface OutlineProps
   extends React.ComponentPropsWithRef<typeof View>,
-    Pick<BaseInputProps, 'error' | 'activeColor' | 'isFocused' | 'errorColor' | 'variant'> {}
+    Pick<BaseInputProps, 'error' | 'activeColor' | 'isFocused' | 'errorColor' | 'variant' | 'editable'> {}
 
 /**
  * Represents the properties required to get label transformation styles.
@@ -88,4 +93,11 @@ export interface GetLabelTransformStyleProps
     'labeled' | 'translateYAnimatedPosition' | 'variant' | 'placeholderLeftPosition' | 'textInputLayoutRect'
   > {
   textHeight: number;
+}
+
+export interface GenerateOutlineStyles extends Pick<OutlineProps, 'error' | 'errorColor' | 'isFocused' | 'activeColor'> {}
+export interface GetTextInputStylesProps {
+  variant: TextFiledVariation;
+  endAdornment?: boolean;
+  startAdornment?: boolean;
 }

@@ -1,17 +1,17 @@
 import {
-   AnimatableNumericValue,
-   DimensionValue,
-   FlexStyle,
-   ImageStyle,
-   TextProps as RnTextProps,
-   TextStyle,
-   TouchableOpacity,
-   TouchableOpacityProps,
-   TouchableWithoutFeedback,
-   TransformsStyle,
-   View,
-   ViewProps,
-   ViewStyle,
+  AnimatableNumericValue,
+  DimensionValue,
+  FlexStyle,
+  ImageStyle,
+  TextProps as RnTextProps,
+  TextStyle,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  TouchableWithoutFeedback,
+  TransformsStyle,
+  View,
+  ViewProps,
+  ViewStyle,
 } from 'react-native';
 import { BoxProps } from '../../components/Box/interfaces';
 import { TextProps } from '../../components/Typography/interfaces';
@@ -21,37 +21,36 @@ import { TextProps } from '../../components/Typography/interfaces';
  * This extends the FlexStyle interface and picks specific properties relevant to spacing.
  */
 export interface SpacingStyle
-   extends Pick<
-      FlexStyle,
-      | 'gap'
-      | 'margin'
-      | 'marginBottom'
-      | 'marginEnd'
-      | 'marginHorizontal'
-      | 'marginLeft'
-      | 'marginRight'
-      | 'marginStart'
-      | 'marginTop'
-      | 'marginVertical'
-      | 'padding'
-      | 'paddingBottom'
-      | 'paddingEnd'
-      | 'paddingHorizontal'
-      | 'paddingLeft'
-      | 'paddingRight'
-      | 'paddingStart'
-      | 'paddingTop'
-      | 'paddingVertical'
-   > {}
+  extends Pick<
+    FlexStyle,
+    | 'gap'
+    | 'margin'
+    | 'marginBottom'
+    | 'marginEnd'
+    | 'marginHorizontal'
+    | 'marginLeft'
+    | 'marginRight'
+    | 'marginStart'
+    | 'marginTop'
+    | 'marginVertical'
+    | 'padding'
+    | 'paddingBottom'
+    | 'paddingEnd'
+    | 'paddingHorizontal'
+    | 'paddingLeft'
+    | 'paddingRight'
+    | 'paddingStart'
+    | 'paddingTop'
+    | 'paddingVertical'
+  > {}
 
 export interface StylePalette
-   extends ViewStyle,
-      TextStyle,
-      TransformsStyle,
-      ImageStyle,
-      DimensionInterface,
-      ElementSpacingMap,
-      ElementBorderRadiusMap {}
+  extends ViewStyle,
+    TextStyle,
+    TransformsStyle,
+    ImageStyle,
+    ElementSpacingMap,
+    ElementBorderRadiusMap {}
 
 export type KeyOfStylePalette = keyof StylePalette;
 export type KeyOfTextStyleFontWeight = keyof TextStyle['fontWeight'];
@@ -62,17 +61,14 @@ export type KeyOfTextStyleFontWeight = keyof TextStyle['fontWeight'];
  * Value type is determined based on the propertyName
  */
 export interface StyleEntry<T extends KeyOfStylePalette> {
-   propertyName: T;
-   value: StylePalette[T];
+  propertyName: T;
+  value: StylePalette[T];
 }
 
 /**
  * Define a type representing the props of common native elements such as View, Text, TouchableOpacity.
  */
-export type NativeElementProps =
-   | ViewProps
-   | RnTextProps
-   | TouchableOpacityProps;
+export type NativeElementProps = ViewProps | RnTextProps | TouchableOpacityProps;
 
 /**
  * Define a type representing the props of styled components.
@@ -83,25 +79,20 @@ export type StyledElementProps = BoxProps | TextProps;
  * Define a type representing common native elements used in the application,
  * including View, Text, TouchableOpacity, and TouchableWithoutFeedback. etc.
  */
-export type NativeElements =
-   | View
-   | Text
-   | TouchableOpacity
-   | TouchableWithoutFeedback;
+export type NativeElements = View | Text | TouchableOpacity | TouchableWithoutFeedback;
 
 /**
  * Define a type representing React component ref attributes for the native elements, ensuring
  * compatibility with React's ref system.
  */
-export type ReactComponentRefAttributesType =
-   React.RefAttributes<NativeElements>;
+export type ReactComponentRefAttributesType = React.RefAttributes<NativeElements>;
 /**
  * Interface defining dimensions for width and height.
  * Each dimension can be a number, string, or a combination of both (e.g., '100%', 200).
  */
 export interface DimensionInterface {
-   width?: DimensionValue;
-   height?: DimensionValue;
+  width?: DimensionValue;
+  height?: DimensionValue;
 }
 /**
  * Defines the types of padding that can be applied to an element.
@@ -135,7 +126,7 @@ export type ElementMarginTypes = 'm' | 'mx' | 'my' | 'ms' | 'me' | 'mt' | 'mb';
  * DimensionValue can be a string representing a CSS size (e.g., '10px') or a number representing pixels.
  */
 export type ElementPaddingMap = {
-   [key in ElementPaddingTypes]?: DimensionValue;
+  [key in ElementPaddingTypes]?: DimensionValue;
 };
 /**
  * Represents a mapping of margin types to their corresponding dimension values.
@@ -143,7 +134,7 @@ export type ElementPaddingMap = {
  * DimensionValue can be a string representing a CSS size (e.g., '10px') or a number representing pixels.
  */
 export type ElementMarginMap = {
-   [key in ElementMarginTypes]?: DimensionValue;
+  [key in ElementMarginTypes]?: DimensionValue;
 };
 
 /**
@@ -152,7 +143,7 @@ export type ElementMarginMap = {
  * and the value is a DimensionInterface defining the dimension properties (e.g., width, height).
  */
 export type ElementSpacingMap = {
-   [key in ElementPaddingTypes | ElementMarginTypes]?: DimensionValue;
+  [key in ElementPaddingTypes | ElementMarginTypes]?: DimensionValue;
 };
 export interface SpacingProps extends ElementSpacingMap, SpacingStyle {}
 
@@ -160,23 +151,23 @@ export interface SpacingProps extends ElementSpacingMap, SpacingStyle {}
  * interface for element border radius properties, which may be used in styling
  */
 export interface ElementRadius
-   extends Pick<
-      ViewStyle,
-      | 'borderRadius'
-      | 'borderTopEndRadius'
-      | 'borderTopLeftRadius'
-      | 'borderEndEndRadius'
-      | 'borderTopRightRadius'
-      | 'borderEndStartRadius'
-      | 'borderStartEndRadius'
-      | 'borderTopStartRadius'
-      | 'borderBottomEndRadius'
-      | 'borderBottomLeftRadius'
-      | 'borderStartStartRadius'
-      | 'borderBottomRightRadius'
-      | 'borderBottomStartRadius'
-      | 'shadowRadius'
-   > {}
+  extends Pick<
+    ViewStyle,
+    | 'borderRadius'
+    | 'borderTopEndRadius'
+    | 'borderTopLeftRadius'
+    | 'borderEndEndRadius'
+    | 'borderTopRightRadius'
+    | 'borderEndStartRadius'
+    | 'borderStartEndRadius'
+    | 'borderTopStartRadius'
+    | 'borderBottomEndRadius'
+    | 'borderBottomLeftRadius'
+    | 'borderStartStartRadius'
+    | 'borderBottomRightRadius'
+    | 'borderBottomStartRadius'
+    | 'shadowRadius'
+  > {}
 /**
  * Type alias for element border radius properties.
  * Abbreviations:
@@ -195,37 +186,31 @@ export interface ElementRadius
  * - 'rsb': 'borderBottomStartRadius'
  */
 export type ElementBorderRadius =
-   | 'r'
-   | 'ret'
-   | 'rlt'
-   | 'ree'
-   | 'rrt'
-   | 'rse'
-   | 'res'
-   | 'rst'
-   | 'reb'
-   | 'rlb'
-   | 'rss'
-   | 'rrb'
-   | 'rsb';
+  | 'r'
+  | 'ret'
+  | 'rlt'
+  | 'ree'
+  | 'rrt'
+  | 'rse'
+  | 'res'
+  | 'rst'
+  | 'reb'
+  | 'rlb'
+  | 'rss'
+  | 'rrb'
+  | 'rsb';
 
 /**
  * Mapping of element border radius keys to their respective animatable numeric values.
  */
 export type ElementBorderRadiusMap = {
-   [key in ElementBorderRadius]?: AnimatableNumericValue;
+  [key in ElementBorderRadius]?: AnimatableNumericValue;
 };
 
 export interface ElementBorderColorStyles
-   extends Pick<
-      ViewStyle,
-      | 'borderBlockColor'
-      | 'borderBlockEndColor'
-      | 'borderBlockStartColor'
-      | 'borderBottomColor'
-      | 'borderColor'
-   > {}
+  extends Pick<
+    ViewStyle,
+    'borderBlockColor' | 'borderBlockEndColor' | 'borderBlockStartColor' | 'borderBottomColor' | 'borderColor'
+  > {}
 
-export interface ElementBorderStyles
-   extends ElementRadius,
-      ElementBorderColorStyles {}
+export interface ElementBorderStyles extends ElementRadius, ElementBorderColorStyles {}

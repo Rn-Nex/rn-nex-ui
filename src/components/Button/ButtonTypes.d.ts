@@ -1,6 +1,7 @@
 import React from 'react';
-import { TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
+import { StyleProp, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import { RipplePosition, RippleProps } from '../Ripple/RippleTypes';
+import { ElementBorderRadiusMap, ElementSpacingMap } from '../../libraries/style/styleTypes';
 
 export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof TouchableWithoutFeedback> {
   /**
@@ -21,7 +22,7 @@ export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof Touc
   /**
    * Props for configuring the ripple effect.
    */
-  ripple?: RippleProps;
+  rippleProps?: RippleProps;
 
   /**
    * Determines the position of the ripple effect relative to the button.
@@ -31,7 +32,7 @@ export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof Touc
   /**
    * Additional styles for the button container.
    */
-  sx?: ViewStyle;
+  style?: ElementSpacingMap & ElementBorderRadiusMap & ViewStyle;
 }
 
 /**
