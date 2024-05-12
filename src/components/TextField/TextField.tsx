@@ -6,21 +6,18 @@ import {
   LayoutRectangle,
   NativeSyntheticEvent,
   TextInputFocusEventData,
-  ViewStyle,
 } from 'react-native';
 import { BaseInput } from './BaseInput';
 import { InputLabel } from './InputLabel';
 import { Outline } from './InputOutline';
 import { TextFieldProps } from './InputTypes';
-import { INPUT_DEFAULT_HEIGHT, LABELED_ANIMATION_DURATION } from './constants';
-
-const baseInputDefaultStyles: ViewStyle = {
-  width: '100%',
-  height: INPUT_DEFAULT_HEIGHT,
-  position: 'relative',
-  zIndex: 12,
-  backgroundColor: 'transparent',
-};
+import {
+  LABELED_ANIMATION_DURATION,
+  PLACEHOLDER_FILED_INPUT_LEFT_POSITION,
+  PLACEHOLDER_OUTLINE_LEFT_POSITION,
+  TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
+} from './constants';
+import { getTextInputStyles } from './utils';
 
 export const TextField = ({
   placeholder,
@@ -31,14 +28,19 @@ export const TextField = ({
   activeColor,
   errorColor,
   inputLabelProps,
+  animatedDuration,
+  variant = 'outlined',
   onFocus: onTextInputFocusHandler,
   onBlur: onTextInputBlurHandler,
   onLayout: onTextInputLayoutHandler,
   ...props
 }: TextFieldProps) => {
   const inputLabeledAnimatedValue = useRef(new Animated.Value(0)).current;
-  const [outlineLayoutRectangle, setOutlineLayoutRectangle] = useState<LayoutRectangle>();
+  const [textInputLayoutRectangle, setTextInputLayoutRectangle] = useState<LayoutRectangle>();
   const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const placeHolderLeftPos =
+    variant === 'filled' || variant === 'standard' ? PLACEHOLDER_FILED_INPUT_LEFT_POSITION : PLACEHOLDER_OUTLINE_LEFT_POSITION;
 
   const onLayout = (event: LayoutChangeEvent) => {
     const { layout } = event.nativeEvent;
@@ -47,7 +49,7 @@ export const TextField = ({
       onTextInputLayoutHandler(event);
     }
 
-    setOutlineLayoutRectangle(layout);
+    setTextInputLayoutRectangle(layout);
   };
 
   const onFocus = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -64,19 +66,27 @@ export const TextField = ({
     setIsFocused(false);
   };
 
+  const getLabelTranslatePos = (): number => {
+    if (textInputLayoutRectangle?.width && textInputLayoutRectangle?.width) {
+      if (variant === 'outlined') return (textInputLayoutRectangle.height / 2) * -1;
+      else if (variant === 'filled') return ((textInputLayoutRectangle.height - 20) / 2) * -1;
+    }
+    return TRANSLATE_Y_ANIMATED_DEFAULT_POSITION;
+  };
+
   useEffect(() => {
     inputLabeledAnimatedValue.stopAnimation();
     if (isFocused || value) {
       Animated.timing(inputLabeledAnimatedValue, {
         toValue: 1,
-        duration: LABELED_ANIMATION_DURATION,
+        duration: animatedDuration ? animatedDuration : LABELED_ANIMATION_DURATION,
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
       }).start();
     } else {
       Animated.timing(inputLabeledAnimatedValue, {
         toValue: 0,
-        duration: LABELED_ANIMATION_DURATION,
+        duration: animatedDuration ? animatedDuration : LABELED_ANIMATION_DURATION,
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
       }).start();
@@ -84,20 +94,29 @@ export const TextField = ({
   }, [isFocused]);
 
   return (
-    <Outline activeColor={activeColor} errorColor={errorColor} style={outlineStyles} isFocused={isFocused} error={error}>
-      {outlineLayoutRectangle?.width && outlineLayoutRectangle?.height ? (
+    <Outline
+      variant={variant}
+      activeColor={activeColor}
+      errorColor={errorColor}
+      style={outlineStyles}
+      isFocused={isFocused}
+      error={error}>
+      {textInputLayoutRectangle?.width && textInputLayoutRectangle?.height ? (
         <InputLabel
+          variant={variant}
           isActive={isFocused}
           activeColor={activeColor}
           errorColor={errorColor}
           placeholder={placeholder}
           labeled={inputLabeledAnimatedValue}
-          translateYAnimatedPosition={-(outlineLayoutRectangle.height / 2)}
+          translateYAnimatedPosition={getLabelTranslatePos()}
+          placeholderLeftPosition={placeHolderLeftPos}
           error={error}
+          textInputLayoutRect={textInputLayoutRectangle}
           {...inputLabelProps}
         />
       ) : null}
-      <BaseInput onBlur={onBlur} onFocus={onFocus} onLayout={onLayout} style={[baseInputDefaultStyles, style]} {...props} />
+      <BaseInput onBlur={onBlur} onFocus={onFocus} onLayout={onLayout} style={[getTextInputStyles(variant), style]} {...props} />
     </Outline>
   );
 };
