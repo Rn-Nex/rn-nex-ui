@@ -37,7 +37,7 @@ export const InputLabel = function ({
       ]}>
       <AnimatedText onLayout={onTextLayoutHandler}>
         {textLayoutRect ? (
-          <Text variation="h3" fontWeight={400} disabled={!editable} {...props}>
+          <Text variation="h3" disabled={!editable} {...props}>
             {placeholder}
           </Text>
         ) : null}

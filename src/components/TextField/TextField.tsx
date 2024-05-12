@@ -19,6 +19,7 @@ import {
   TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
 } from './constants';
 import { getTextInputStyles } from './utils';
+import { generateElementStyles } from '../../utils';
 
 export const TextField = ({
   placeholder,
@@ -35,6 +36,8 @@ export const TextField = ({
   startAdornmentContainerProps,
   endAdornment,
   endAdornmentContainerProps,
+  inputStyles,
+  isFocused: inputIsFocused,
   variant = 'outlined',
   onFocus: onTextInputFocusHandler,
   onBlur: onTextInputBlurHandler,
@@ -81,7 +84,7 @@ export const TextField = ({
 
   useEffect(() => {
     inputLabeledAnimatedValue.stopAnimation();
-    if (isFocused || value || !!startAdornment) {
+    if (isFocused || value || !!startAdornment || inputIsFocused) {
       Animated.timing(inputLabeledAnimatedValue, {
         toValue: 1,
         duration: animatedDuration ? animatedDuration : LABELED_ANIMATION_DURATION,
@@ -96,14 +99,14 @@ export const TextField = ({
         useNativeDriver: true,
       }).start();
     }
-  }, [isFocused]);
+  }, [isFocused, inputIsFocused]);
 
   return (
     <Outline
       variant={variant}
       activeColor={activeColor}
       errorColor={errorColor}
-      style={outlineStyles}
+      style={[outlineStyles, style && generateElementStyles(style)]}
       isFocused={isFocused}
       editable={editable}
       error={error}>
@@ -124,7 +127,7 @@ export const TextField = ({
         />
       ) : null}
       {startAdornment && (
-        <Box sx={{ marginRight: 8 }} {...startAdornmentContainerProps}>
+        <Box style={{ marginRight: 8 }} {...startAdornmentContainerProps}>
           {startAdornment}
         </Box>
       )}
@@ -134,11 +137,11 @@ export const TextField = ({
         onBlur={onBlur}
         onFocus={onFocus}
         onLayout={onLayout}
-        style={[getTextInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }), style]}
+        style={[getTextInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }), inputStyles]}
         {...props}
       />
       {endAdornment && (
-        <Box sx={{ marginLeft: 8 }} {...endAdornmentContainerProps}>
+        <Box style={{ marginLeft: 8 }} {...endAdornmentContainerProps}>
           {endAdornment}
         </Box>
       )}

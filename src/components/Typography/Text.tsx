@@ -16,9 +16,9 @@ export const Text = React.forwardRef<RnText, TextProps>(
         style={[
           variation && textFontVariation(variation),
           gutterBottom && gutter('marginBottom', 10),
-          error && { color: errorColor ? errorColor : colors.error.light },
           isActive && { color: activeColor ? activeColor : colors.blue.dark },
           !disabled && { color: colors.disabled.dark },
+          error && { color: errorColor ? errorColor : colors.error.light },
           style && generateElementStyles(style),
         ]}
         {...props}>
