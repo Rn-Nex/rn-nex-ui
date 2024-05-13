@@ -1,8 +1,15 @@
 import React from 'react';
-import { View, ViewProps, ViewStyle } from 'react-native';
-import { ElementBorderRadiusMap, ElementSpacingMap } from '../../libraries/style/styleTypes';
+import { View } from 'react-native';
+import {
+  ELementDimensionMap,
+  ElementBorderRadiusMap,
+  ElementDimension,
+  ElementMargin,
+  ElementPadding,
+  ElementPositionMap,
+} from '../../libraries/style/styleTypes';
 
 export interface BoxProps extends React.ComponentPropsWithRef<typeof View> {
-  sx?: ElementSpacingMap & ElementBorderRadiusMap;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap & ElementPositionMap;
   children?: React.ReactNode;
 }

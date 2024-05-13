@@ -1,7 +1,13 @@
 import React from 'react';
 import { Animated, ColorValue, Text, TextStyle } from 'react-native';
-import { ElementSpacingMap, SpacingStyle } from '../../libraries/style/styleTypes';
-
+import {
+  ELementDimensionMap,
+  ElementDimension,
+  ElementMargin,
+  ElementPadding,
+  ElementTextStyleProps,
+  SpacingStyle,
+} from '../../libraries/style/styleTypes';
 /**
  * Defines the possible variations for text components.
  * These variations include different typographic styles such as headings, body text, buttons, etc.
@@ -10,13 +16,13 @@ export type TextVariation = 'body1' | 'body2' | 'caption' | 'h1' | 'h2' | 'h3' |
 
 /**
  * Interface for the properties that can be passed to a text component.
- * Extends TextStyle for text styling and ElementSpacingMap for spacing properties.
+ * Extends TextStyle for text styling and ElementDimensionMap for spacing properties.
  */
 export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
   /**
    * Custom styles to be applied to the text.
    */
-  sx?: ElementSpacingMap;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementTextStyleProps;
 
   /**
    * The content to be displayed within the text component.
@@ -37,13 +43,44 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
    * Maximum length of the text content. Used for truncating or limiting text length.
    */
   maxLength?: number;
+
+  /**
+   * Specifies if the text component is in an error state.
+   */
   error?: boolean;
+
+  /**
+   * Color value for the text when in an error state.
+   */
   errorColor?: ColorValue;
+
+  /**
+   * Specifies if the text component is in an active state.
+   */
   isActive?: boolean;
+
+  /**
+   * Color value for the text when in an active state.
+   */
   activeColor?: ColorValue;
+
+  /**
+   * Specifies if the text component is disabled.
+   */
   disabled?: boolean;
 }
 
+/**
+ * Interface representing font variations for text.
+ */
 export interface TextFontVariation extends Pick<TextStyle, 'fontSize'> {}
+
+/**
+ * Interface representing gutter styles for text.
+ */
 export interface TextGutter extends SpacingStyle {}
+
+/**
+ * Interface for animated text component properties.
+ */
 export interface AnimatedTextProps extends React.ComponentPropsWithRef<typeof Animated.Text> {}

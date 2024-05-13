@@ -1,8 +1,14 @@
-import { View, ViewStyle } from 'react-native';
-import { ElementBorderRadiusMap, ElementSpacingMap } from '../../libraries/style/styleTypes';
 import React from 'react';
-import { ImageProps } from '../Image/ImageTypes';
+import { View } from 'react-native';
+import {
+  ELementDimensionMap,
+  ElementBorderRadiusMap,
+  ElementDimension,
+  ElementMargin,
+  ElementPadding,
+} from '../../libraries/style/styleTypes';
 import { BaseButtonProps } from '../Button/ButtonTypes';
+import { ImageProps } from '../Image/ImageTypes';
 
 /**
  * `CardVariations` represents the various styles a card component can have, including 'outlined' or undefined.
@@ -14,7 +20,7 @@ export type CardVariations = 'outlined' | undefined;
  * Extends various style interfaces for flexibility in styling.
  */
 export interface CardProps extends React.ComponentPropsWithRef<typeof View> {
-  sx?: ElementSpacingMap & ElementBorderRadiusMap;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap;
   /**
    * Children elements to be rendered within the card.
    */
@@ -29,7 +35,7 @@ export interface CardProps extends React.ComponentPropsWithRef<typeof View> {
 export interface CardMediaProps extends ImageProps {}
 
 export interface CardHeaderProps extends React.ComponentPropsWithRef<typeof View> {
-  sx?: ElementSpacingMap & ElementBorderRadiusMap;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap;
   children?: React.ReactNode;
 }
 
