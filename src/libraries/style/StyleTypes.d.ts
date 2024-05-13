@@ -4,6 +4,7 @@ import {
   FlexStyle,
   ImageStyle,
   TextProps as RnTextProps,
+  StyleProp,
   TextStyle,
   TouchableOpacity,
   TouchableOpacityProps,
@@ -53,7 +54,6 @@ export interface StylePalette
     ElementBorderRadiusMap {}
 
 export type KeyOfStylePalette = keyof StylePalette;
-export type KeyOfTextStyleFontWeight = keyof TextStyle['fontWeight'];
 
 /**
  * Define the object structure for each entry in the array Property name should be one of
@@ -65,27 +65,6 @@ export interface StyleEntry<T extends KeyOfStylePalette> {
   value: StylePalette[T];
 }
 
-/**
- * Define a type representing the props of common native elements such as View, Text, TouchableOpacity.
- */
-export type NativeElementProps = ViewProps | RnTextProps | TouchableOpacityProps;
-
-/**
- * Define a type representing the props of styled components.
- */
-export type StyledElementProps = BoxProps | TextProps;
-
-/**
- * Define a type representing common native elements used in the application,
- * including View, Text, TouchableOpacity, and TouchableWithoutFeedback. etc.
- */
-export type NativeElements = View | Text | TouchableOpacity | TouchableWithoutFeedback;
-
-/**
- * Define a type representing React component ref attributes for the native elements, ensuring
- * compatibility with React's ref system.
- */
-export type ReactComponentRefAttributesType = React.RefAttributes<NativeElements>;
 /**
  * Interface defining dimensions for width and height.
  * Each dimension can be a number, string, or a combination of both (e.g., '100%', 200).
@@ -145,7 +124,6 @@ export type ElementMarginMap = {
 export type ElementSpacingMap = {
   [key in ElementPaddingTypes | ElementMarginTypes]?: DimensionValue;
 };
-export interface SpacingProps extends ElementSpacingMap, SpacingStyle {}
 
 /**
  * interface for element border radius properties, which may be used in styling
@@ -212,5 +190,3 @@ export interface ElementBorderColorStyles
     ViewStyle,
     'borderBlockColor' | 'borderBlockEndColor' | 'borderBlockStartColor' | 'borderBottomColor' | 'borderColor'
   > {}
-
-export interface ElementBorderStyles extends ElementRadius, ElementBorderColorStyles {}

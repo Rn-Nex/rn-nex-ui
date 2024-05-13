@@ -6,21 +6,22 @@ import { ButtonProps } from './ButtonTypes';
 import { getButtonStyles } from './utils';
 
 export const Button = React.forwardRef<TouchableWithoutFeedback, ButtonProps>(
-  ({ children, style, variation, disabled, fullWidth, disableElevation, buttonColor, ...props }, ref) => {
+  ({ children, style, sx, variation, disabled, fullWidth, disableElevation, buttonColor, ...props }, ref) => {
     return (
       <BaseButton
         ref={ref}
         {...props}
-        style={{
-          ...getButtonStyles({
+        style={[
+          getButtonStyles({
             variation,
             fullWidth,
             disableElevation,
             disabled,
             buttonColor,
           }),
-          ...(style && generateElementStyles(style)),
-        }}>
+          sx && generateElementStyles(sx),
+          style,
+        ]}>
         {children}
       </BaseButton>
     );

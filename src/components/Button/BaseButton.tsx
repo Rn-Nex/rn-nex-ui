@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { Animated, GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, TouchableWithoutFeedback } from 'react-native';
+import { generateElementStyles } from '../../utils';
 import { Ripple } from '../Ripple';
-import { BaseButtonProps } from './ButtonTypes';
 import { RippleInterface } from '../Ripple/RippleTypes';
+import { BaseButtonProps } from './ButtonTypes';
 
 export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonProps>(
   (
@@ -13,6 +14,7 @@ export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonP
       rippleProps,
       rippleEdge,
       style,
+      sx,
       onLayout: onLayoutHandler,
       onPress: onPressHandler,
       onLongPress: onLongPressHandler,
@@ -63,7 +65,7 @@ export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonP
         onLongPress={buttonLongPressHandler}
         onLayout={buttonLayoutHandler}
         {...props}>
-        <Animated.View pointerEvents="box-only" style={style}>
+        <Animated.View pointerEvents="box-only" style={[sx && generateElementStyles(sx), style]}>
           {children}
           {disableRipple ? null : <Ripple ref={rippleRef} {...rippleProps} />}
         </Animated.View>

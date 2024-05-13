@@ -4,7 +4,7 @@ import { generateElementStyles } from '../../utils';
 import { ImageProps } from './ImageTypes';
 import { generateImageRadiusStyles } from './utils';
 
-export const Image = React.forwardRef<RnImage, ImageProps>(({ size, variation, style, ...props }, ref) => {
+export const Image = React.forwardRef<RnImage, ImageProps>(({ size, variation, style, sx, ...props }, ref) => {
   return (
     <RnImage
       ref={ref}
@@ -13,9 +13,10 @@ export const Image = React.forwardRef<RnImage, ImageProps>(({ size, variation, s
         generateElementStyles({
           width: size,
           height: size,
-          ...style,
+          ...sx,
         }) as ImageStyle,
         variation && generateImageRadiusStyles(variation),
+        style,
       ]}
     />
   );

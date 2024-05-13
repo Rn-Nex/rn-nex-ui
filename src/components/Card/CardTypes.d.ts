@@ -14,7 +14,7 @@ export type CardVariations = 'outlined' | undefined;
  * Extends various style interfaces for flexibility in styling.
  */
 export interface CardProps extends React.ComponentPropsWithRef<typeof View> {
-  style?: ViewStyle & ElementSpacingMap & ElementBorderRadiusMap;
+  sx?: ElementSpacingMap & ElementBorderRadiusMap;
   /**
    * Children elements to be rendered within the card.
    */
@@ -29,7 +29,7 @@ export interface CardProps extends React.ComponentPropsWithRef<typeof View> {
 export interface CardMediaProps extends ImageProps {}
 
 export interface CardHeaderProps extends React.ComponentPropsWithRef<typeof View> {
-  style?: ElementSpacingMap & ElementBorderRadiusMap & ViewStyle;
+  sx?: ElementSpacingMap & ElementBorderRadiusMap;
   children?: React.ReactNode;
 }
 

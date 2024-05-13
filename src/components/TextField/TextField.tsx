@@ -26,6 +26,7 @@ export const TextField = ({
   outlineStyles,
   value,
   style,
+  sx,
   error,
   activeColor,
   errorColor,
@@ -106,7 +107,7 @@ export const TextField = ({
       variant={variant}
       activeColor={activeColor}
       errorColor={errorColor}
-      style={[outlineStyles, style && generateElementStyles(style)]}
+      style={[outlineStyles, sx && generateElementStyles(sx), style]}
       isFocused={isFocused}
       editable={editable}
       error={error}>

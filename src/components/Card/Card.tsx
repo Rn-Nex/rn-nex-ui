@@ -4,16 +4,17 @@ import { generateElementStyles } from '../../utils';
 import { CardProps } from './CardTypes';
 import { cardVariation } from './utils';
 
-export const Card = React.forwardRef<View, CardProps>(({ children, variation, style, ...props }, ref) => {
+export const Card = React.forwardRef<View, CardProps>(({ children, variation, style, sx, ...props }, ref) => {
   return (
     <View
       ref={ref}
       style={[
         variation &&
           generateElementStyles({
-            ...style,
+            ...sx,
             ...cardVariation(variation),
           }),
+        style,
       ]}
       {...props}>
       {children}

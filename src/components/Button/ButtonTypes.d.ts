@@ -32,7 +32,7 @@ export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof Touc
   /**
    * Additional styles for the button container.
    */
-  style?: ElementSpacingMap & ElementBorderRadiusMap & ViewStyle;
+  sx?: ElementSpacingMap & ElementBorderRadiusMap;
 }
 
 /**

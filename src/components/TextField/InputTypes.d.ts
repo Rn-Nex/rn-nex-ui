@@ -94,11 +94,11 @@ export interface TextFieldProps extends BaseInputProps {
   /**
    * Styles for the text input.
    */
-  inputStyles?: ViewStyle;
+  inputStyles?: StyleProp<ViewStyle>;
   /**
    * Additional styles for the component.
    */
-  style?: ElementSpacingMap & ElementBorderRadiusMap & ViewStyle;
+  sx?: ElementSpacingMap & ElementBorderRadiusMap;
 }
 
 /**

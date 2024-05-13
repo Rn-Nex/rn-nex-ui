@@ -1,5 +1,5 @@
 import { AnimatableNumericValue, DimensionValue, Image, ImageStyle, ImageProps as RnImageProps } from 'react-native';
-import { ElementBorderRadiusMap, ElementSpacingMap } from '../../libraries/style/styleTypes';
+import { ElementBorderRadiusMap, ElementSpacingMap, ElementRadius } from '../../libraries/style/styleTypes';
 
 /**
  * Define the type for the variant of the image.
@@ -14,13 +14,6 @@ export interface ImageVariationProp {
 }
 
 /**
- * Interface defining styles for different image variations based on ElementRadius.
- */
-export interface ImageVariationStyles {
-  [key: keyof typeof ElementRadius]: AnimatableNumericValue;
-}
-
-/**
  * Interface for properties that can be passed to an image component.
  * Extends React Native ImageProps and ImageVariationProp for styling flexibility.
  */
@@ -29,5 +22,5 @@ export interface ImageProps extends React.ComponentType<Image>, RnImageProps, Im
    * Size of the image.
    */
   size?: DimensionValue;
-  style?: ImageStyle & ElementSpacingMap & ElementBorderRadiusMap;
+  sx?: ElementSpacingMap & ElementBorderRadiusMap;
 }

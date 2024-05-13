@@ -16,7 +16,7 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
   /**
    * Custom styles to be applied to the text.
    */
-  style?: TextStyle & ElementSpacingMap;
+  sx?: ElementSpacingMap;
 
   /**
    * The content to be displayed within the text component.
@@ -46,7 +46,4 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
 
 export interface TextFontVariation extends Pick<TextStyle, 'fontSize'> {}
 export interface TextGutter extends SpacingStyle {}
-
-export interface AnimatedTextProps extends React.ComponentPropsWithRef<typeof Animated.Text> {
-  style?: TextStyle;
-}
+export interface AnimatedTextProps extends React.ComponentPropsWithRef<typeof Animated.Text> {}

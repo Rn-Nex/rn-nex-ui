@@ -7,7 +7,20 @@ import { gutter, maxLength as maxLengthUtile, textFontVariation } from './utils'
 
 export const Text = React.forwardRef<RnText, TextProps>(
   (
-    { children, maxLength, variation, gutterBottom, error, errorColor, isActive, activeColor, style, disabled = true, ...props },
+    {
+      children,
+      maxLength,
+      variation,
+      gutterBottom,
+      error,
+      errorColor,
+      isActive,
+      activeColor,
+      style,
+      sx,
+      disabled = true,
+      ...props
+    },
     ref,
   ) => {
     return (
@@ -19,7 +32,8 @@ export const Text = React.forwardRef<RnText, TextProps>(
           isActive && { color: activeColor ? activeColor : colors.blue.dark },
           !disabled && { color: colors.disabled.dark },
           error && { color: errorColor ? errorColor : colors.error.light },
-          style && generateElementStyles(style),
+          sx && generateElementStyles(sx),
+          style,
         ]}
         {...props}>
         {typeof children === 'string' && maxLength ? maxLengthUtile(children, maxLength) : children}

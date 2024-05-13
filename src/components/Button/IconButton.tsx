@@ -6,16 +6,13 @@ import { IconButtonProps } from './ButtonTypes';
 import { getButtonStyles } from './utils';
 
 export const IconButton = React.forwardRef<TouchableWithoutFeedback, IconButtonProps>(
-  ({ disabled, children, style, variation = 'roundedIconButton', ...props }, ref) => {
+  ({ disabled, children, style, sx, variation = 'roundedIconButton', ...props }, ref) => {
     return (
       <BaseButton
         rippleEdge="center"
         {...props}
         ref={ref}
-        style={{
-          ...getButtonStyles({ variation, disabled }),
-          ...(style && generateElementStyles(style)),
-        }}>
+        style={[getButtonStyles({ variation, disabled }), sx && generateElementStyles(sx), style]}>
         {children}
       </BaseButton>
     );

@@ -3,9 +3,9 @@ import { View } from 'react-native';
 import { generateElementStyles } from '../../utils';
 import { BoxProps } from './BoxTypes';
 
-export const Box = React.forwardRef<View, BoxProps>(({ children, style, ...props }, ref) => {
+export const Box = React.forwardRef<View, BoxProps>(({ children, style, sx, ...props }, ref) => {
   return (
-    <View ref={ref} {...props} style={[style && generateElementStyles(style)]}>
+    <View ref={ref} {...props} style={[sx && generateElementStyles(sx), style]}>
       {children}
     </View>
   );

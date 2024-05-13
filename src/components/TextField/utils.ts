@@ -44,8 +44,8 @@ export const getInputOutlineVariationStyles = (variation: TextFiledVariation): S
   return outlineDefaultStyles;
 };
 
-export const getTextInputStyles = ({ variant, endAdornment, startAdornment }: GetTextInputStylesProps): ViewStyle => {
-  const adornmentStyles: ViewStyle = {
+export const getTextInputStyles = ({ variant, endAdornment, startAdornment }: GetTextInputStylesProps): StyleProp<ViewStyle> => {
+  const adornmentStyles: StyleProp<ViewStyle> = {
     width: '100%',
   };
 

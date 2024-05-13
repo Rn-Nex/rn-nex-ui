@@ -32,8 +32,14 @@ type RipplePosition = 'center' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottom
  * Type definition for a function handling Ripple animation.
  */
 export type onRippleAnimationType = (
-  animation: Animated.CompositeAnimation, // The animation instance controlling the ripple effect
-  callBack: Animated.EndCallback, // Callback function to execute when the animation ends
+  /**
+   * The animation instance controlling the ripple effect
+   */
+  animation: Animated.CompositeAnimation,
+  /**
+   * Callback function to execute when the animation ends
+   */
+  callBack: Animated.EndCallback,
 ) => void;
 
 /**
