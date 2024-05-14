@@ -10,7 +10,6 @@ import {
 
 /**
  * Defines the types of padding that can be applied to an element.
- * @example
  * 'p': Padding on all sides
  * 'px': Horizontal padding (left and right)
  * 'py': Vertical padding (top and bottom)
@@ -23,7 +22,6 @@ export type ElementPadding = 'p' | 'px' | 'py' | 'ps' | 'pe' | 'pt' | 'pb';
 
 /**
  * Defines the types of margin that can be applied to an element.
- * @example
  * 'm': Margin on all sides
  * 'mx': Horizontal margin (left and right)
  * 'my': Vertical margin (top and bottom)
@@ -36,7 +34,6 @@ export type ElementMargin = 'm' | 'mx' | 'my' | 'ms' | 'me' | 'mt' | 'mb';
 
 /**
  * Defines the types of dimension-related properties commonly used in React Native styling.
- * @example
  * 'w': Sets the width of an element.
  * 'h': Sets the height of an element.
  * 'minW': Sets the minimum width of an element.
@@ -57,7 +54,6 @@ export type ELementDimensionMap<T> = {
 
 /**
  * Defines the types of position-related properties commonly used in React Native styling.
- * @example
  * 'pos': Sets the positioning method used for an element.
  * 'posT': Sets the top position of a positioned element.
  * 'posB': Sets the bottom position of a positioned element.
@@ -78,7 +74,6 @@ export type KeyOfPositionStyles = keyof PositionStyles;
 /**
  * Type alias for element border radius properties.
  * Abbreviations:
- * @example
  * - 'r': 'borderRadius'
  * - 'ret': 'borderTopEndRadius'
  * - 'rlt': 'borderTopLeftRadius'
@@ -115,7 +110,6 @@ export type ElementBorderRadiusMap = {
   [key in ElementBorderRadius]?: AnimatableNumericValue;
 };
 
-
 export type ElementTextStyleProps = {
   color?: TextStyle['color'];
   family?: TextStyle['fontFamily'];
@@ -124,7 +118,6 @@ export type ElementTextStyleProps = {
   weight?: TextStyle['fontWeight'];
   lSpacing?: TextStyle['letterSpacing'];
   lHeight?: TextStyle['lineHeight'];
-  content?: TextStyle['alignContent'];
   dLine?: TextStyle['textDecorationLine'];
   dStyle?: TextStyle['textDecorationStyle'];
   dColor?: TextStyle['textDecorationColor'];
@@ -152,6 +145,15 @@ export type ElementFlexStyleProps = {
   fGrow?: FlexStyle['flexGrow'];
   fShrink?: FlexStyle['flexShrink'];
   wrap?: FlexStyle['flexWrap'];
+};
+
+export type ElementViewStyles = {
+  bVisibility?: ViewStyle['backfaceVisibility'];
+  bg?: ViewStyle['backgroundColor'];
+  o?: ViewStyle['opacity'];
+  e?: ViewStyle['elevation'];
+  pEvents?: ViewStyle['pointerEvents'];
+  c?: ViewStyle['cursor'];
 };
 
 /**

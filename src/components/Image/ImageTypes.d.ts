@@ -6,6 +6,7 @@ import {
   ElementMargin,
   ElementPadding,
   ElementDimension,
+  ElementFlexStyleProps,
 } from '../../libraries/style/styleTypes';
 
 /**
@@ -29,5 +30,5 @@ export interface ImageProps extends React.ComponentType<Image>, RnImageProps, Im
    * Size of the image.
    */
   size?: DimensionValue;
-  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap & ElementFlexStyleProps;
 }

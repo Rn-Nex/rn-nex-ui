@@ -7,6 +7,7 @@ import {
   ElementMargin,
   ElementPadding,
   ElementTextStyleProps,
+  ElementViewStyles,
   SpacingStyle,
 } from '../../libraries/style/styleTypes';
 /**
@@ -23,7 +24,10 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
   /**
    * Custom styles to be applied to the text.
    */
-  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementTextStyleProps & ElementFlexStyleProps;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> &
+    ElementTextStyleProps &
+    ElementFlexStyleProps &
+    ElementViewStyles;
 
   /**
    * The content to be displayed within the text component.

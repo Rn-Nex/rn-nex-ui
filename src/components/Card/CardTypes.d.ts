@@ -6,6 +6,7 @@ import {
   ElementDimension,
   ElementMargin,
   ElementPadding,
+  ElementViewStyles,
 } from '../../libraries/style/styleTypes';
 import { BaseButtonProps } from '../Button/ButtonTypes';
 import { ImageProps } from '../Image/ImageTypes';
@@ -20,7 +21,7 @@ export type CardVariations = 'outlined' | undefined;
  * Extends various style interfaces for flexibility in styling.
  */
 export interface CardProps extends React.ComponentPropsWithRef<typeof View> {
-  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap & ElementViewStyles;
   /**
    * Children elements to be rendered within the card.
    */
@@ -35,7 +36,7 @@ export interface CardProps extends React.ComponentPropsWithRef<typeof View> {
 export interface CardMediaProps extends ImageProps {}
 
 export interface CardHeaderProps extends React.ComponentPropsWithRef<typeof View> {
-  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap & ElementViewStyles;
   children?: React.ReactNode;
 }
 

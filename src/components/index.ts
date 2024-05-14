@@ -5,3 +5,4 @@ export * from './Card';
 export * from './Button';
 export * from './ActivityIndicator';
 export * from './TextField';
+export * from './Badge';

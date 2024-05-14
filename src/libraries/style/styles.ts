@@ -1,14 +1,14 @@
 import {
   ELementDimensionMap,
   ElementBorderRadius,
-  ElementBorderRadiusMap,
   ElementDimension,
+  ElementFlexStyleProps,
   ElementMargin,
   ElementPadding,
   ElementPositionMap,
   ElementTextStyleProps,
+  ElementViewStyles,
   KeyOfStylePalette,
-  ElementFlexStyleProps,
 } from './styleTypes';
 
 export const styles: Record<
@@ -16,21 +16,22 @@ export const styles: Record<
   | ElementBorderRadius
   | keyof ElementPositionMap
   | keyof ElementTextStyleProps
-  | keyof ElementFlexStyleProps,
+  | keyof ElementFlexStyleProps
+  | keyof ElementViewStyles,
   KeyOfStylePalette
 > = {
   p: 'padding',
   px: 'paddingHorizontal',
   py: 'paddingVertical',
-  ps: 'marginLeft',
-  pe: 'paddingRight',
+  ps: 'paddingStart',
+  pe: 'paddingEnd',
   pt: 'paddingTop',
   pb: 'paddingBottom',
   m: 'margin',
   mx: 'marginHorizontal',
   my: 'marginVertical',
-  ms: 'marginLeft',
-  me: 'marginRight',
+  ms: 'marginStart',
+  me: 'marginEnd',
   mt: 'marginTop',
   mb: 'marginBottom',
   r: 'borderRadius',
@@ -89,4 +90,10 @@ export const styles: Record<
   fGrow: 'flexGrow',
   fShrink: 'flexShrink',
   wrap: 'flexWrap',
+  bVisibility: 'backfaceVisibility',
+  bg: 'backgroundColor',
+  o: 'opacity',
+  e: 'elevation',
+  pEvents: 'pointerEvents',
+  c: 'cursor',
 };
