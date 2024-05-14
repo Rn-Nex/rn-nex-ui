@@ -7,6 +7,7 @@ import {
   NativeSyntheticEvent,
   TextInputFocusEventData,
 } from 'react-native';
+import { generateElementStyles } from '../../utils';
 import { Box } from '../Box';
 import { BaseInput } from './BaseInput';
 import { InputLabel } from './InputLabel';
@@ -19,10 +20,8 @@ import {
   TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
 } from './constants';
 import { getTextInputStyles } from './utils';
-import { generateElementStyles } from '../../utils';
 
 export const TextField = ({
-  placeholder,
   outlineStyles,
   value,
   style,
@@ -32,17 +31,18 @@ export const TextField = ({
   errorColor,
   inputLabelProps,
   animatedDuration,
-  editable,
   startAdornment,
   startAdornmentContainerProps,
   endAdornment,
   endAdornmentContainerProps,
   inputStyles,
   isFocused: inputIsFocused,
-  variant = 'outlined',
   onFocus: onTextInputFocusHandler,
   onBlur: onTextInputBlurHandler,
   onLayout: onTextInputLayoutHandler,
+  editable = true,
+  placeholder = 'Outlined',
+  variant = 'outlined',
   ...props
 }: TextFieldProps) => {
   const inputLabeledAnimatedValue = useRef(new Animated.Value(0)).current;

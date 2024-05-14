@@ -3,7 +3,13 @@
  * It includes functions for handling spacing, display properties, width, height, and positioning.
  * These functions are designed to be used in generating dynamic styles within React components or similar environments.
  */
-import { ElementTextStyleProps, KeyOfStylePalette, StyleEntry, StylePalette } from '../libraries/style/styleTypes';
+import {
+  ElementFlexStyleProps,
+  ElementTextStyleProps,
+  KeyOfStylePalette,
+  StyleEntry,
+  StylePalette,
+} from '../libraries/style/styleTypes';
 import { styles } from '../libraries';
 
 export const generateStyle = <T extends KeyOfStylePalette>({ propertyName, value }: StyleEntry<T>) =>
@@ -28,7 +34,7 @@ export const generateSortStyles = (args: StylePalette, elementPropertyName: keyo
  * @returns A string representing CSS styles for the element.
  */
 export const generateElementStyles = (args: StylePalette) => {
-  let nativeStyles: StylePalette & ElementTextStyleProps = {};
+  let nativeStyles: StylePalette & ElementTextStyleProps & ElementFlexStyleProps = {};
   const keys = Object.keys(args);
 
   for (let property of keys) {
@@ -39,8 +45,6 @@ export const generateElementStyles = (args: StylePalette) => {
       ...generateSortStyles(args, elementPropertyName),
     };
   }
-
-  console.log({ nativeStyles });
 
   return nativeStyles;
 };

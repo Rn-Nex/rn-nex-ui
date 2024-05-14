@@ -66,8 +66,9 @@ export type ELementDimensionMap<T> = {
  */
 export type PositionType = {
   pos?: ViewStyle['position'];
+  index?: number;
 };
-export type ElementPosition = 'posT' | 'posB' | 'posL' | 'posR';
+export type ElementPosition = 'posT' | 'posB' | 'posL' | 'posR' | 'index';
 export type ElementPositionMap = {
   [key in ElementPosition]?: DimensionValue;
 } & PositionType;
@@ -114,27 +115,7 @@ export type ElementBorderRadiusMap = {
   [key in ElementBorderRadius]?: AnimatableNumericValue;
 };
 
-/**
- * Defines the types of text-related properties commonly used in React Native styling.
- * @example
- * 'color': Sets the color of text within an element.
- * 'family': Sets the font family of text within an element.
- * 'size': Sets the font size of text within an element.
- * 'style': Sets the font style of text within an element.
- * 'weight': Sets the font weight of text within an element.
- * 'lSpacing': Sets the spacing between characters of text within an element.
- * 'content': Sets the content alignment within a flex container.
- * 'self': Sets the self-alignment of individual flex items within a flex container.
- * 'items': Sets the alignment of flex items along the cross-axis of their container.
- * 'dLine': Sets the decoration line to be used on text within an element.
- * 'dStyle': Sets the style of the decoration line on text within an element.
- * 'dColor': Sets the color of the decoration line on text within an element.
- * 'sColor': Sets the color of the shadow of text within an element.
- * 'sOffset': Sets the offset of the shadow of text within an element.
- * 'sRadius': Sets the radius of the shadow of text within an element.
- * 'transform': Sets the transformation of text within an element.
- * 'select': Sets whether text can be selected within an element.
- */
+
 export type ElementTextStyleProps = {
   color?: TextStyle['color'];
   family?: TextStyle['fontFamily'];
@@ -142,9 +123,8 @@ export type ElementTextStyleProps = {
   style?: TextStyle['fontStyle'];
   weight?: TextStyle['fontWeight'];
   lSpacing?: TextStyle['letterSpacing'];
+  lHeight?: TextStyle['lineHeight'];
   content?: TextStyle['alignContent'];
-  self?: TextStyle['alignSelf'];
-  items?: TextStyle['alignItems'];
   dLine?: TextStyle['textDecorationLine'];
   dStyle?: TextStyle['textDecorationStyle'];
   dColor?: TextStyle['textDecorationColor'];
@@ -153,6 +133,25 @@ export type ElementTextStyleProps = {
   sRadius?: TextStyle['shadowRadius'];
   transform?: TextStyle['textTransform'];
   select?: TextStyle['userSelect'];
+};
+
+export type ElementFlexStyleProps = {
+  align?: FlexStyle['alignContent'];
+  content?: FlexStyle['justifyContent'];
+  items?: FlexStyle['alignItems'];
+  self?: FlexStyle['alignSelf'];
+  ratio?: FlexStyle['aspectRatio'];
+  d?: FlexStyle['display'];
+  end?: FlexStyle['end'];
+  f?: FlexStyle['flex'];
+  fBasis?: FlexStyle['flexBasis'];
+  fDirection?: FlexStyle['flexDirection'];
+  rGap?: FlexStyle['rowGap'];
+  gap?: FlexStyle['gap'];
+  cGap?: FlexStyle['columnGap'];
+  fGrow?: FlexStyle['flexGrow'];
+  fShrink?: FlexStyle['flexShrink'];
+  wrap?: FlexStyle['flexWrap'];
 };
 
 /**
@@ -188,7 +187,6 @@ export interface SpacingStyle
     | 'maxWidth'
     | 'maxHeight'
   > {}
-export type KeyOfSpacingStyle = keyof SpacingStyle;
 
 export interface StylePalette
   extends ViewStyle,
@@ -198,6 +196,7 @@ export interface StylePalette
     ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension>,
     ElementPositionMap,
     ElementTextStyleProps,
+    ElementFlexStyleProps,
     ElementBorderRadiusMap {}
 
 export type KeyOfStylePalette = keyof StylePalette;

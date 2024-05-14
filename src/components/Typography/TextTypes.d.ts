@@ -3,6 +3,7 @@ import { Animated, ColorValue, Text, TextStyle } from 'react-native';
 import {
   ELementDimensionMap,
   ElementDimension,
+  ElementFlexStyleProps,
   ElementMargin,
   ElementPadding,
   ElementTextStyleProps,
@@ -22,7 +23,7 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
   /**
    * Custom styles to be applied to the text.
    */
-  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementTextStyleProps;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementTextStyleProps & ElementFlexStyleProps;
 
   /**
    * The content to be displayed within the text component.

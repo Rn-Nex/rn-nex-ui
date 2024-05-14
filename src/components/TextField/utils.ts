@@ -1,12 +1,12 @@
 import { StyleProp, ViewStyle } from 'react-native';
 import { colors } from '../../libraries';
 import { GenerateOutlineStyles, GetLabelTransformStyleProps, GetTextInputStylesProps, TextFiledVariation } from './InputTypes';
-import { INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
+import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 
 const outlineDefaultStyles: ViewStyle = {
   width: '100%',
   borderRadius: 6,
-  borderWidth: 1,
+  borderWidth: INPUT_DEFAULT_BORDER_WIDTH,
   borderColor: colors.white.dark,
   paddingHorizontal: 14,
   position: 'relative',
@@ -30,7 +30,7 @@ export const getInputOutlineVariationStyles = (variation: TextFiledVariation): S
       backgroundColor: colors.disabled.light,
       borderBottomRightRadius: 0,
       borderBottomLeftRadius: 0,
-      borderBottomWidth: 1,
+      borderBottomWidth: INPUT_DEFAULT_BORDER_WIDTH,
     };
   else if (variation === 'standard')
     return {
@@ -39,7 +39,7 @@ export const getInputOutlineVariationStyles = (variation: TextFiledVariation): S
       borderColor: 'transparent',
       borderBottomRightRadius: 0,
       borderBottomLeftRadius: 0,
-      borderBottomWidth: 1,
+      borderBottomWidth: INPUT_DEFAULT_BORDER_WIDTH,
     };
   return outlineDefaultStyles;
 };

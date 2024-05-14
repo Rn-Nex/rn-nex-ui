@@ -1,16 +1,24 @@
 import {
   ELementDimensionMap,
+  ElementBorderRadius,
   ElementBorderRadiusMap,
   ElementDimension,
   ElementMargin,
   ElementPadding,
   ElementPositionMap,
-  ElementRadius,
-  KeyOfPositionStyles,
-  KeyOfSpacingStyle,
+  ElementTextStyleProps,
+  KeyOfStylePalette,
+  ElementFlexStyleProps,
 } from './styleTypes';
 
-export const padding: Record<keyof ELementDimensionMap<ElementPadding>, KeyOfSpacingStyle> = {
+export const styles: Record<
+  | keyof ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension>
+  | ElementBorderRadius
+  | keyof ElementPositionMap
+  | keyof ElementTextStyleProps
+  | keyof ElementFlexStyleProps,
+  KeyOfStylePalette
+> = {
   p: 'padding',
   px: 'paddingHorizontal',
   py: 'paddingVertical',
@@ -18,9 +26,13 @@ export const padding: Record<keyof ELementDimensionMap<ElementPadding>, KeyOfSpa
   pe: 'paddingRight',
   pt: 'paddingTop',
   pb: 'paddingBottom',
-};
-
-export const radius: Record<keyof ElementBorderRadiusMap, keyof ElementRadius> = {
+  m: 'margin',
+  mx: 'marginHorizontal',
+  my: 'marginVertical',
+  ms: 'marginLeft',
+  me: 'marginRight',
+  mt: 'marginTop',
+  mb: 'marginBottom',
   r: 'borderRadius',
   ret: 'borderTopEndRadius',
   rlt: 'borderTopLeftRadius',
@@ -34,39 +46,47 @@ export const radius: Record<keyof ElementBorderRadiusMap, keyof ElementRadius> =
   rss: 'borderStartStartRadius',
   rrb: 'borderBottomRightRadius',
   rsb: 'borderBottomStartRadius',
-};
-
-export const margin: Record<keyof ELementDimensionMap<ElementMargin>, KeyOfSpacingStyle> = {
-  m: 'margin',
-  mx: 'marginHorizontal',
-  my: 'marginVertical',
-  ms: 'marginLeft',
-  me: 'marginRight',
-  mt: 'marginTop',
-  mb: 'marginBottom',
-};
-
-export const position: Record<keyof ElementPositionMap, KeyOfPositionStyles> = {
   pos: 'position',
   posB: 'bottom',
   posL: 'left',
   posR: 'right',
   posT: 'top',
-};
-
-export const dimension: Record<keyof ELementDimensionMap<ElementDimension>, KeyOfSpacingStyle> = {
+  index: 'zIndex',
   w: 'width',
   h: 'height',
   minW: 'minWidth',
   minH: 'minHeight',
   maxW: 'maxWidth',
   maxH: 'maxHeight',
-};
-
-export const styles = {
-  ...padding,
-  ...radius,
-  ...margin,
-  ...position,
-  ...dimension,
+  color: 'color',
+  family: 'fontFamily',
+  size: 'fontSize',
+  style: 'fontStyle',
+  weight: 'fontWeight',
+  lSpacing: 'letterSpacing',
+  lHeight: 'lineHeight',
+  dLine: 'textDecorationLine',
+  dStyle: 'textDecorationStyle',
+  dColor: 'textDecorationColor',
+  sColor: 'shadowColor',
+  sOffset: 'shadowOffset',
+  sRadius: 'shadowRadius',
+  transform: 'textTransform',
+  select: 'userSelect',
+  align: 'alignContent',
+  content: 'justifyContent',
+  items: 'alignItems',
+  self: 'alignSelf',
+  ratio: 'aspectRatio',
+  d: 'display',
+  end: 'end',
+  f: 'flex',
+  fBasis: 'flexBasis',
+  fDirection: 'flexDirection',
+  rGap: 'rowGap',
+  gap: 'gap',
+  cGap: 'columnGap',
+  fGrow: 'flexGrow',
+  fShrink: 'flexShrink',
+  wrap: 'flexWrap',
 };

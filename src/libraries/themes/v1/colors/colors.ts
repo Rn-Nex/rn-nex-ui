@@ -144,4 +144,204 @@ export const colors = {
     main: '#8bc34a',
     dark: '#689f38',
   },
+  coral: {
+    light: '#FF6F61',
+    main: '#FF4040',
+    dark: '#CC3232',
+  },
+  mint: {
+    light: '#B0E57C',
+    main: '#8CD790',
+    dark: '#6CAE75',
+  },
+  lavender: {
+    light: '#D7B9FF',
+    main: '#B788FF',
+    dark: '#9966CC',
+  },
+  peach: {
+    light: '#FFCCB6',
+    main: '#FFAB8F',
+    dark: '#CC7A68',
+  },
+  skyBlue: {
+    light: '#8EDCE6',
+    main: '#5EB3E4',
+    dark: '#4E8AA1',
+  },
+  goldenrod: {
+    light: '#FFD080',
+    main: '#FFBF00',
+    dark: '#CC9900',
+  },
+  turquoise: {
+    light: '#82E0AA',
+    main: '#5BC2B9',
+    dark: '#43977E',
+  },
+  crimson: {
+    light: '#FF90A5',
+    main: '#FF6B81',
+    dark: '#CC5764',
+  },
+  silver: {
+    light: '#E8E8E8',
+    main: '#CCCCCC',
+    dark: '#B5B5B5',
+  },
+  chocolate: {
+    light: '#D2691E',
+    main: '#8B4513',
+    dark: '#6A5D4D',
+  },
+  orchid: {
+    light: '#E6A8D7',
+    main: '#D07AB9',
+    dark: '#8E5586',
+  },
+  limeGreen: {
+    light: '#A9FF94',
+    main: '#7FFF4D',
+    dark: '#5AAC32',
+  },
+  salmon: {
+    light: '#FF9C7C',
+    main: '#FF695E',
+    dark: '#CC524A',
+  },
+  navy: {
+    light: '#738FFE',
+    main: '#4267B2',
+    dark: '#344E80',
+  },
+  slateBlue: {
+    light: '#9AB8F9',
+    main: '#6782D2',
+    dark: '#4D65A7',
+  },
+  olive: {
+    light: '#B2CC6A',
+    main: '#8EBE5B',
+    dark: '#6A8E41',
+  },
+  maroon: {
+    light: '#D25252',
+    main: '#A52828',
+    dark: '#7B1E1E',
+  },
+  mustard: {
+    light: '#FFD472',
+    main: '#FFB300',
+    dark: '#CC9200',
+  },
+  aqua: {
+    light: '#7FFFD4',
+    main: '#00FFFF',
+    dark: '#008080',
+  },
+  gold: {
+    light: '#FFD700',
+    main: '#FFA500',
+    dark: '#CC8C00',
+  },
+  forestGreen: {
+    light: '#228B22',
+    main: '#008000',
+    dark: '#006400',
+  },
+  khaki: {
+    light: '#FFF68F',
+    main: '#F0E68C',
+    dark: '#BDB76B',
+  },
+  violet: {
+    light: '#8A2BE2',
+    main: '#9400D3',
+    dark: '#800080',
+  },
+  tomato: {
+    light: '#FF6347',
+    main: '#FF4500',
+    dark: '#FF0000',
+  },
+  darkSlateGray: {
+    light: '#2F4F4F',
+    main: '#2F4F4F',
+    dark: '#2F4F4F',
+  },
+  mediumSlateBlue: {
+    light: '#7B68EE',
+    main: '#7B68EE',
+    dark: '#7B68EE',
+  },
+  mediumVioletRed: {
+    light: '#C71585',
+    main: '#C71585',
+    dark: '#C71585',
+  },
+  paleGoldenrod: {
+    light: '#EEE8AA',
+    main: '#EEE8AA',
+    dark: '#EEE8AA',
+  },
+  slateGray: {
+    light: '#708090',
+    main: '#708090',
+    dark: '#708090',
+  },
+  darkCyan: {
+    light: '#008B8B',
+    main: '#008B8B',
+    dark: '#008B8B',
+  },
+  darkMagenta: {
+    light: '#8B008B',
+    main: '#8B008B',
+    dark: '#8B008B',
+  },
+  darkOliveGreen: {
+    light: '#556B2F',
+    main: '#556B2F',
+    dark: '#556B2F',
+  },
+  darkOrange: {
+    light: '#FF8C00',
+    main: '#FF8C00',
+    dark: '#FF8C00',
+  },
+  darkOrchid: {
+    light: '#9932CC',
+    main: '#9932CC',
+    dark: '#9932CC',
+  },
+  darkRed: {
+    light: '#8B0000',
+    main: '#8B0000',
+    dark: '#8B0000',
+  },
+  darkSalmon: {
+    light: '#E9967A',
+    main: '#E9967A',
+    dark: '#E9967A',
+  },
+  darkSeaGreen: {
+    light: '#8FBC8F',
+    main: '#8FBC8F',
+    dark: '#8FBC8F',
+  },
+  darkSlateBlue: {
+    light: '#483D8B',
+    main: '#483D8B',
+    dark: '#483D8B',
+  },
+  darkTurquoise: {
+    light: '#00CED1',
+    main: '#00CED1',
+    dark: '#00CED1',
+  },
+  darkViolet: {
+    light: '#9400D3',
+    main: '#9400D3',
+    dark: '#9400D3',
+  },
 };

@@ -4,6 +4,7 @@ import {
   ELementDimensionMap,
   ElementBorderRadiusMap,
   ElementDimension,
+  ElementFlexStyleProps,
   ElementMargin,
   ElementPadding,
 } from '../../libraries/style/styleTypes';
@@ -104,7 +105,7 @@ export interface TextFieldProps extends BaseInputProps {
   /**
    * Additional styles for the component.
    */
-  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap & ElementFlexStyleProps;
 }
 
 /**
