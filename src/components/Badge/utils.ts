@@ -7,23 +7,35 @@ export const BadgeContainerDefaultStyles: ViewStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  position: 'relative',
+  backgroundColor: 'red',
 };
 
 export const BadgeDefaultStyles: ViewStyle = {
-  width: 20,
-  height: 20,
+  paddingHorizontal: 5,
+  paddingVertical: 3,
   borderRadius: 100,
-  position: 'absolute',
-  top: -12,
-  right: -12,
-  display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  elevation: 5,
+  shadowColor: colors.black.light,
+  shadowOffset: { width: -2, height: 4 },
+  shadowOpacity: 0.2,
+  shadowRadius: 3,
+  flexDirection: 'row',
+  position: 'absolute',
 };
 
-export const generateBadgeStyles = ({ variation }: GenerateBadgeStylesProps) => {
+export const generateBadgeStyles = ({ rootElementRect, variation }: GenerateBadgeStylesProps) => {
   const styles: ViewStyle = {};
+
+  if (!rootElementRect) {
+    throw new Error('Root element rect cannot be null.');
+  }
+
+  const { x, y } = rootElementRect;
+
+  styles.top = y - 15;
+  styles.left = x + 10;
 
   if (variation === 'primary') {
     styles.backgroundColor = colors.primary.light;
