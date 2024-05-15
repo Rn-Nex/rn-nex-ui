@@ -1,6 +1,7 @@
-import { ViewStyle } from 'react-native';
-import { GenerateBadgeStylesProps } from './BadgeTypes';
+import { TextStyle, ViewStyle } from 'react-native';
 import { colors } from '../../libraries';
+import { GenerateBadgeStylesProps, PlaceBadgeBasedPosition } from './BadgeTypes';
+import { BADGE_DEFAULT_HEIGHT, BADGE_DEFAULT_WIDTH, BADGE_LEFT_POSITION, BADGE_TOP_POSITION } from './constants';
 
 export const BadgeContainerDefaultStyles: ViewStyle = {
   padding: 6,
@@ -8,6 +9,7 @@ export const BadgeContainerDefaultStyles: ViewStyle = {
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'red',
+  // alignSelf: 'flex-start',
 };
 
 export const BadgeDefaultStyles: ViewStyle = {
@@ -25,17 +27,61 @@ export const BadgeDefaultStyles: ViewStyle = {
   position: 'absolute',
 };
 
-export const generateBadgeStyles = ({ rootElementRect, variation }: GenerateBadgeStylesProps) => {
-  const styles: ViewStyle = {};
+export const BadgeContentDefaultStyles: TextStyle = {
+  color: colors.white.main,
+  fontWeight: '400',
+  fontSize: 11,
+};
 
+export const placeBadgeBasedPosition = ({ anchorOrigin, rootElementRect, variant }: PlaceBadgeBasedPosition): ViewStyle => {
+  const { width, height, x, y } = rootElementRect;
+  const isDotVariation = variant === 'dot';
+
+  const halfOfDefaultWidth = BADGE_DEFAULT_WIDTH / 2;
+  const halfOfDefaultHeight = BADGE_DEFAULT_HEIGHT / 2;
+  const halfOfBadgeTopPosition = BADGE_TOP_POSITION / 2;
+
+  let topPosition = 0;
+  let leftPosition = 0;
+
+  if (anchorOrigin?.vertical === 'bottom') {
+    topPosition = y + (anchorOrigin.horizontal === 'right' ? width / 2 : height / 2) + halfOfDefaultHeight;
+    leftPosition = isDotVariation
+      ? x + (anchorOrigin.horizontal === 'right' ? width / 2 : -(width / 2)) + halfOfDefaultWidth
+      : x + (anchorOrigin.horizontal === 'right' ? width / 2 : -(width / 2));
+  } else if (anchorOrigin?.vertical === 'top') {
+    topPosition = isDotVariation
+      ? y + (anchorOrigin.horizontal === 'left' ? halfOfBadgeTopPosition : -(height / 2) + halfOfDefaultHeight)
+      : y + (anchorOrigin.horizontal === 'left' ? -(height / 2) + halfOfDefaultHeight : BADGE_TOP_POSITION + halfOfDefaultHeight);
+    leftPosition = isDotVariation
+      ? x + (anchorOrigin.horizontal === 'left' ? -(width / 2) : BADGE_LEFT_POSITION + halfOfDefaultWidth)
+      : x + (anchorOrigin.horizontal === 'left' ? -(width / 2) : BADGE_LEFT_POSITION + halfOfDefaultWidth);
+  }
+
+  return {
+    top: topPosition,
+    left: leftPosition,
+  };
+};
+
+export const generateBadgeStyles = ({
+  rootElementRect,
+  variation,
+  badgeVisibility,
+  variant,
+  anchorOrigin,
+}: GenerateBadgeStylesProps) => {
   if (!rootElementRect) {
     throw new Error('Root element rect cannot be null.');
   }
 
-  const { x, y } = rootElementRect;
+  const isDotVariation = variant === 'dot';
+  let styles: ViewStyle = {};
 
-  styles.top = y - 15;
-  styles.left = x + 10;
+  styles = {
+    ...styles,
+    ...placeBadgeBasedPosition({ rootElementRect, anchorOrigin, variant }),
+  };
 
   if (variation === 'primary') {
     styles.backgroundColor = colors.primary.light;
@@ -44,7 +90,7 @@ export const generateBadgeStyles = ({ rootElementRect, variation }: GenerateBadg
   } else if (variation === 'error') {
     styles.backgroundColor = colors.error.light;
   } else if (variation === 'warning') {
-    styles.backgroundColor = colors.yellow.light;
+    styles.backgroundColor = colors.yellow.dark;
   } else if (variation === 'info') {
     styles.backgroundColor = colors.info.light;
   } else if (variation === 'success') {
@@ -52,6 +98,22 @@ export const generateBadgeStyles = ({ rootElementRect, variation }: GenerateBadg
   } else {
     styles.backgroundColor = colors.green.dark;
   }
+
+  styles = {
+    ...styles,
+    width: isDotVariation ? BADGE_DEFAULT_WIDTH : 'auto',
+    height: isDotVariation ? BADGE_DEFAULT_HEIGHT : 'auto',
+    transform: [
+      {
+        scale: badgeVisibility
+          ? badgeVisibility.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 1],
+            })
+          : 0,
+      },
+    ],
+  };
 
   return styles;
 };
