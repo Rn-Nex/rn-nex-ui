@@ -17,8 +17,8 @@ export type BadgeVariant = 'dot';
  * Defines the anchor origin configuration for positioning the badge.
  */
 export interface AnchorOrigin {
-  vertical?: 'top' | 'bottom';
-  horizontal?: 'left' | 'right';
+  vertical: 'top' | 'bottom';
+  horizontal: 'left' | 'right';
 }
 
 /**

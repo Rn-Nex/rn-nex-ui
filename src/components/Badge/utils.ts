@@ -1,7 +1,7 @@
 import { TextStyle, ViewStyle } from 'react-native';
 import { colors } from '../../libraries';
 import { GenerateBadgeStylesProps, PlaceBadgeBasedPosition } from './BadgeTypes';
-import { BADGE_DEFAULT_HEIGHT, BADGE_DEFAULT_WIDTH, BADGE_LEFT_POSITION, BADGE_TOP_POSITION } from './constants';
+import { BADGE_DEFAULT_RADIUS } from './constants';
 
 export const BadgeContainerDefaultStyles: ViewStyle = {
   padding: 6,
@@ -25,7 +25,6 @@ export const BadgeDefaultStyles: ViewStyle = {
   shadowRadius: 3,
   flexDirection: 'row',
   position: 'absolute',
-  minWidth: 20,
 };
 
 export const BadgeContentDefaultStyles: TextStyle = {
@@ -38,29 +37,27 @@ export const placeBadgeBasedPosition = ({ anchorOrigin, rootElementRect, variant
   const { width, height, x, y } = rootElementRect;
   const isDotVariation = variant === 'dot';
 
-  const halfOfDefaultWidth = BADGE_DEFAULT_WIDTH / 2;
-  const halfOfDefaultHeight = BADGE_DEFAULT_HEIGHT / 2;
-  const halfOfBadgeTopPosition = BADGE_TOP_POSITION / 2;
+  const halfOfBadgeRadius = BADGE_DEFAULT_RADIUS / 2;
 
   if (anchorOrigin?.vertical === 'bottom' && anchorOrigin?.horizontal === 'right') {
     return {
-      top: y + width / 2 + BADGE_DEFAULT_HEIGHT,
-      left: isDotVariation ? x + width / 2 + BADGE_DEFAULT_WIDTH : x + width / 2,
+      top: isDotVariation ? y + height - halfOfBadgeRadius : y + height - BADGE_DEFAULT_RADIUS,
+      left: isDotVariation ? x + width - halfOfBadgeRadius : x + width - BADGE_DEFAULT_RADIUS,
     };
   } else if (anchorOrigin?.vertical === 'bottom' && anchorOrigin?.horizontal === 'left') {
     return {
-      top: y + height / 2 + BADGE_DEFAULT_HEIGHT,
-      left: isDotVariation ? x + -(width / 2) + BADGE_DEFAULT_WIDTH : x + -(width / 2),
+      top: isDotVariation ? y + height - halfOfBadgeRadius : y + height - BADGE_DEFAULT_RADIUS,
+      left: isDotVariation ? x - halfOfBadgeRadius : x - BADGE_DEFAULT_RADIUS,
     };
   } else if (anchorOrigin?.vertical === 'top' && anchorOrigin?.horizontal === 'left') {
     return {
-      top: isDotVariation ? y + halfOfBadgeTopPosition : y + -(height / 2) + halfOfDefaultHeight,
-      left: isDotVariation ? x + -(width / 2) + halfOfDefaultWidth : x + -(width / 2),
+      top: isDotVariation ? y - halfOfBadgeRadius : y - BADGE_DEFAULT_RADIUS,
+      left: isDotVariation ? x - halfOfBadgeRadius : x - BADGE_DEFAULT_RADIUS,
     };
   } else {
     return {
-      top: isDotVariation ? y + BADGE_TOP_POSITION + BADGE_DEFAULT_HEIGHT : y + BADGE_TOP_POSITION + halfOfDefaultHeight,
-      left: isDotVariation ? x + BADGE_LEFT_POSITION + BADGE_DEFAULT_WIDTH : x + BADGE_LEFT_POSITION + halfOfDefaultWidth,
+      top: isDotVariation ? y - halfOfBadgeRadius : y - BADGE_DEFAULT_RADIUS,
+      left: isDotVariation ? x + width - halfOfBadgeRadius : x + width - BADGE_DEFAULT_RADIUS,
     };
   }
 };
@@ -102,8 +99,8 @@ export const generateBadgeStyles = ({
 
   styles = {
     ...styles,
-    width: isDotVariation ? BADGE_DEFAULT_WIDTH : 'auto',
-    height: isDotVariation ? BADGE_DEFAULT_HEIGHT : 'auto',
+    minWidth: isDotVariation ? BADGE_DEFAULT_RADIUS : BADGE_DEFAULT_RADIUS * 2,
+    minHeight: isDotVariation ? BADGE_DEFAULT_RADIUS : BADGE_DEFAULT_RADIUS * 2,
     transform: [
       {
         scale: badgeVisibility
