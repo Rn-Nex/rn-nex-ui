@@ -4,11 +4,11 @@ import { AnimatedView, Box } from '../Box';
 import { Text } from '../Typography';
 import { BadgeContainerProps, BadgeProps } from './BadgeTypes';
 import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE } from './constants';
-import { BadgeContainerDefaultStyles, BadgeContentDefaultStyles, BadgeDefaultStyles, generateBadgeStyles } from './utils';
+import { BadgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './utils';
 
-const BadgeContainer = React.forwardRef<View, BadgeContainerProps>(({ children, style, ...props }, ref) => {
+const BadgeContainer = React.forwardRef<View, BadgeContainerProps>(({ children, style, overlap, ...props }, ref) => {
   return (
-    <Box ref={ref} style={[BadgeContainerDefaultStyles, style]} {...props}>
+    <Box ref={ref} style={[generateBadgeContainerStyles({ overlap }), style]} {...props}>
       {children}
     </Box>
   );
@@ -28,6 +28,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       variant,
       anchorOrigin,
       badgeContainerProps,
+      overlap,
       ...props
     },
     ref,
@@ -75,14 +76,13 @@ export const Badge = React.forwardRef<View, BadgeProps>(
 
     return (
       <Fragment>
-        <BadgeContainer onLayout={badgeContainerLayoutHandler} {...badgeContainerProps}>
+        <BadgeContainer overlap={overlap} onLayout={badgeContainerLayoutHandler} {...badgeContainerProps}>
           {children}
         </BadgeContainer>
         {badgeContainerLayoutRect ? (
           <AnimatedView
             ref={ref}
             style={[
-              BadgeDefaultStyles,
               generateBadgeStyles({
                 rootElementRect: badgeContainerLayoutRect,
                 variation,

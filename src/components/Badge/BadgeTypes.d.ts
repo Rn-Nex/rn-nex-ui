@@ -13,6 +13,8 @@ export type BadgeVariations = 'primary' | 'secondary' | 'error' | 'info' | 'succ
  */
 export type BadgeVariant = 'dot';
 
+export type BadgeOverlap = 'circular' | 'rectangular';
+
 /**
  * Defines the anchor origin configuration for positioning the badge.
  */
@@ -20,11 +22,6 @@ export interface AnchorOrigin {
   vertical: 'top' | 'bottom';
   horizontal: 'left' | 'right';
 }
-
-/**
- * Props for the container that wraps the badge.
- */
-export interface BadgeContainerProps extends BoxProps {}
 
 /**
  * Props for the badge component.
@@ -66,7 +63,16 @@ export interface BadgeProps extends React.ComponentPropsWithRef<typeof View> {
    * badger container props for customizing the badge wrapper element.
    */
   badgeContainerProps?: BadgeContainerProps;
+  /**
+   * Wrapped shape the badge should overlap.
+   */
+  overlap?: BadgeOverlap;
 }
+
+/**
+ * Props for the container that wraps the badge.
+ */
+export interface BadgeContainerProps extends Pick<BadgeProps, 'overlap'>, BoxProps {}
 
 /**
  * Props used for generating badge styles.
@@ -83,3 +89,4 @@ export interface GenerateBadgeStylesProps extends Pick<BadgeProps, 'variation' |
 }
 
 export interface PlaceBadgeBasedPosition extends Pick<GenerateBadgeStylesProps, 'rootElementRect' | 'anchorOrigin' | 'variant'> {}
+export interface GenerateBadgeContainerStylesProps extends Pick<BadgeContainerProps, 'overlap'> {}

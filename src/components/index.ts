@@ -6,3 +6,4 @@ export * from './Button';
 export * from './ActivityIndicator';
 export * from './TextField';
 export * from './Badge';
+export * from './Chip';

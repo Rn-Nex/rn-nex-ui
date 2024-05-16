@@ -1,31 +1,7 @@
 import { TextStyle, ViewStyle } from 'react-native';
 import { colors } from '../../libraries';
-import { GenerateBadgeStylesProps, PlaceBadgeBasedPosition } from './BadgeTypes';
+import { GenerateBadgeContainerStylesProps, GenerateBadgeStylesProps, PlaceBadgeBasedPosition } from './BadgeTypes';
 import { BADGE_DEFAULT_RADIUS } from './constants';
-
-export const BadgeContainerDefaultStyles: ViewStyle = {
-  padding: 6,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'red',
-  width: 30,
-};
-
-export const BadgeDefaultStyles: ViewStyle = {
-  paddingHorizontal: 5,
-  paddingVertical: 3,
-  borderRadius: 100,
-  alignItems: 'center',
-  justifyContent: 'center',
-  elevation: 5,
-  shadowColor: colors.black.light,
-  shadowOffset: { width: -2, height: 4 },
-  shadowOpacity: 0.2,
-  shadowRadius: 3,
-  flexDirection: 'row',
-  position: 'absolute',
-};
 
 export const BadgeContentDefaultStyles: TextStyle = {
   color: colors.white.main,
@@ -36,7 +12,6 @@ export const BadgeContentDefaultStyles: TextStyle = {
 export const placeBadgeBasedPosition = ({ anchorOrigin, rootElementRect, variant }: PlaceBadgeBasedPosition): ViewStyle => {
   const { width, height, x, y } = rootElementRect;
   const isDotVariation = variant === 'dot';
-
   const halfOfBadgeRadius = BADGE_DEFAULT_RADIUS / 2;
 
   if (anchorOrigin?.vertical === 'bottom' && anchorOrigin?.horizontal === 'right') {
@@ -62,19 +37,48 @@ export const placeBadgeBasedPosition = ({ anchorOrigin, rootElementRect, variant
   }
 };
 
+export const generateBadgeContainerStyles = ({ overlap }: GenerateBadgeContainerStylesProps): ViewStyle => {
+  const isCircles = overlap === 'circular';
+  const isRectangular = overlap === 'rectangular';
+
+  const BadgeContainerDefaultStyles: ViewStyle = {
+    padding: 6,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 30,
+    borderRadius: isCircles ? 100 : isRectangular ? 5 : 0,
+  };
+
+  return BadgeContainerDefaultStyles;
+};
+
 export const generateBadgeStyles = ({
   rootElementRect,
   variation,
   badgeVisibility,
   variant,
   anchorOrigin,
-}: GenerateBadgeStylesProps) => {
+}: GenerateBadgeStylesProps): ViewStyle => {
   if (!rootElementRect) {
     throw new Error('Root element rect cannot be null.');
   }
 
   const isDotVariation = variant === 'dot';
-  let styles: ViewStyle = {};
+  let styles: ViewStyle = {
+    paddingHorizontal: 5,
+    paddingVertical: 3,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5,
+    shadowColor: colors.black.light,
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    flexDirection: 'row',
+    position: 'absolute',
+  };
 
   styles = {
     ...styles,

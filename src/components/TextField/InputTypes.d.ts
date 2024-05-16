@@ -90,7 +90,7 @@ export interface TextFieldProps extends BaseInputProps {
   /**
    * Props for the end adornment container.
    */
-  endAdornmentContainerProps?: BoxProps;
+  endAdornmentContainerProps?: Omit<BoxProps, 'children'>;
   /**
    * React node for the start adornment.
    */
@@ -98,7 +98,7 @@ export interface TextFieldProps extends BaseInputProps {
   /**
    * Props for the start adornment container.
    */
-  startAdornmentContainerProps?: BoxProps;
+  startAdornmentContainerProps?: Omit<BoxProps, 'children'>;
   /**
    * Styles for the text input.
    */
