@@ -199,6 +199,7 @@ export interface StylePalette
     ElementPositionMap,
     ElementTextStyleProps,
     ElementFlexStyleProps,
+    ElementViewStyles,
     ElementBorderRadiusMap {}
 
 export type KeyOfStylePalette = keyof StylePalette;

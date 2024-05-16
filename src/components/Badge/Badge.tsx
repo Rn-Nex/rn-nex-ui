@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
-import { AnimatedView } from '../Box';
+import { AnimatedView, Box } from '../Box';
 import { Text } from '../Typography';
 import { BadgeContainerProps, BadgeProps } from './BadgeTypes';
 import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE } from './constants';
@@ -8,9 +8,9 @@ import { BadgeContainerDefaultStyles, BadgeContentDefaultStyles, BadgeDefaultSty
 
 const BadgeContainer = React.forwardRef<View, BadgeContainerProps>(({ children, style, ...props }, ref) => {
   return (
-    <View ref={ref} style={[BadgeContainerDefaultStyles, style]} {...props}>
+    <Box ref={ref} style={[BadgeContainerDefaultStyles, style]} {...props}>
       {children}
-    </View>
+    </Box>
   );
 });
 
@@ -27,6 +27,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       max,
       variant,
       anchorOrigin,
+      badgeContainerProps,
       ...props
     },
     ref,
@@ -74,7 +75,9 @@ export const Badge = React.forwardRef<View, BadgeProps>(
 
     return (
       <Fragment>
-        <BadgeContainer onLayout={badgeContainerLayoutHandler}>{children}</BadgeContainer>
+        <BadgeContainer onLayout={badgeContainerLayoutHandler} {...badgeContainerProps}>
+          {children}
+        </BadgeContainer>
         {badgeContainerLayoutRect ? (
           <AnimatedView
             ref={ref}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Animated, LayoutRectangle, View } from 'react-native';
 import { TextProps } from '../Typography/TextTypes';
+import { BoxProps } from '../Box/BoxTypes';
 
 /**
  * Defines the available variations for the badge.
@@ -23,7 +24,7 @@ export interface AnchorOrigin {
 /**
  * Props for the container that wraps the badge.
  */
-export interface BadgeContainerProps extends React.ComponentPropsWithRef<typeof View> {}
+export interface BadgeContainerProps extends BoxProps {}
 
 /**
  * Props for the badge component.
@@ -61,6 +62,10 @@ export interface BadgeProps extends React.ComponentPropsWithRef<typeof View> {
    * Anchor origin configuration to position the badge.
    */
   anchorOrigin?: AnchorOrigin;
+  /**
+   * badger container props for customizing the badge wrapper element.
+   */
+  badgeContainerProps?: BadgeContainerProps;
 }
 
 /**

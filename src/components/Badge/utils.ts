@@ -9,7 +9,7 @@ export const BadgeContainerDefaultStyles: ViewStyle = {
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'red',
-  // alignSelf: 'flex-start',
+  width: 30,
 };
 
 export const BadgeDefaultStyles: ViewStyle = {
@@ -25,6 +25,7 @@ export const BadgeDefaultStyles: ViewStyle = {
   shadowRadius: 3,
   flexDirection: 'row',
   position: 'absolute',
+  minWidth: 20,
 };
 
 export const BadgeContentDefaultStyles: TextStyle = {
@@ -41,27 +42,27 @@ export const placeBadgeBasedPosition = ({ anchorOrigin, rootElementRect, variant
   const halfOfDefaultHeight = BADGE_DEFAULT_HEIGHT / 2;
   const halfOfBadgeTopPosition = BADGE_TOP_POSITION / 2;
 
-  let topPosition = 0;
-  let leftPosition = 0;
-
-  if (anchorOrigin?.vertical === 'bottom') {
-    topPosition = y + (anchorOrigin.horizontal === 'right' ? width / 2 : height / 2) + halfOfDefaultHeight;
-    leftPosition = isDotVariation
-      ? x + (anchorOrigin.horizontal === 'right' ? width / 2 : -(width / 2)) + halfOfDefaultWidth
-      : x + (anchorOrigin.horizontal === 'right' ? width / 2 : -(width / 2));
-  } else if (anchorOrigin?.vertical === 'top') {
-    topPosition = isDotVariation
-      ? y + (anchorOrigin.horizontal === 'left' ? halfOfBadgeTopPosition : -(height / 2) + halfOfDefaultHeight)
-      : y + (anchorOrigin.horizontal === 'left' ? -(height / 2) + halfOfDefaultHeight : BADGE_TOP_POSITION + halfOfDefaultHeight);
-    leftPosition = isDotVariation
-      ? x + (anchorOrigin.horizontal === 'left' ? -(width / 2) : BADGE_LEFT_POSITION + halfOfDefaultWidth)
-      : x + (anchorOrigin.horizontal === 'left' ? -(width / 2) : BADGE_LEFT_POSITION + halfOfDefaultWidth);
+  if (anchorOrigin?.vertical === 'bottom' && anchorOrigin?.horizontal === 'right') {
+    return {
+      top: y + width / 2 + BADGE_DEFAULT_HEIGHT,
+      left: isDotVariation ? x + width / 2 + BADGE_DEFAULT_WIDTH : x + width / 2,
+    };
+  } else if (anchorOrigin?.vertical === 'bottom' && anchorOrigin?.horizontal === 'left') {
+    return {
+      top: y + height / 2 + BADGE_DEFAULT_HEIGHT,
+      left: isDotVariation ? x + -(width / 2) + BADGE_DEFAULT_WIDTH : x + -(width / 2),
+    };
+  } else if (anchorOrigin?.vertical === 'top' && anchorOrigin?.horizontal === 'left') {
+    return {
+      top: isDotVariation ? y + halfOfBadgeTopPosition : y + -(height / 2) + halfOfDefaultHeight,
+      left: isDotVariation ? x + -(width / 2) + halfOfDefaultWidth : x + -(width / 2),
+    };
+  } else {
+    return {
+      top: isDotVariation ? y + BADGE_TOP_POSITION + BADGE_DEFAULT_HEIGHT : y + BADGE_TOP_POSITION + halfOfDefaultHeight,
+      left: isDotVariation ? x + BADGE_LEFT_POSITION + BADGE_DEFAULT_WIDTH : x + BADGE_LEFT_POSITION + halfOfDefaultWidth,
+    };
   }
-
-  return {
-    top: topPosition,
-    left: leftPosition,
-  };
 };
 
 export const generateBadgeStyles = ({
