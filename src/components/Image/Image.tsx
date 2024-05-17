@@ -11,8 +11,8 @@ export const Image = React.forwardRef<RnImage, ImageProps>(({ size, variation, s
       {...props}
       style={[
         generateElementStyles({
-          width: size,
-          height: size,
+          h: size,
+          w: size,
           ...sx,
         }) as ImageStyle,
         variation && generateImageRadiusStyles(variation),

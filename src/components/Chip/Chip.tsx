@@ -1,10 +1,10 @@
 import React from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback, View } from 'react-native';
+import { AnimatedView, Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
+import { Text } from '../Typography';
 import { ChipProps } from './ChipTypes';
 import { generateChipAdornmentStyles, generateChipElementWrapperStyles, generateChipStyles } from './utils';
-import { Text } from '../Typography';
-import { Box } from '../Box';
 
 export const Chip = React.forwardRef<TouchableWithoutFeedback, ChipProps>(
   (
@@ -13,30 +13,43 @@ export const Chip = React.forwardRef<TouchableWithoutFeedback, ChipProps>(
       labelContainerProps,
       variant,
       disabled,
-      endAdornment,
-      endAdornmentContainerProps,
       startAdornment,
-      startAdornmentContainerProps,
+      endAdornmentContainerStyle,
+      startAdornmentTouchableProps,
+      endAdornment,
+      startAdornmentContainerStyle,
+      endAdornmentTouchableProps,
       disableRipple,
       ...props
     },
     ref,
   ) => {
-    const isDisableRipple = !!startAdornment || !!endAdornment;
+    if (!!startAdornment || !!endAdornment) {
+      return (
+        <AnimatedView style={[generateChipStyles({ variant, disabled, withAdornment: true })]}>
+          {startAdornment && (
+            <TouchableWithoutFeedback {...startAdornmentTouchableProps}>
+              <Box style={[generateChipAdornmentStyles(), startAdornmentContainerStyle]}>{startAdornment}</Box>
+            </TouchableWithoutFeedback>
+          )}
+          <Text variation="h4" {...labelContainerProps}>
+            {label}
+          </Text>
+          {endAdornment && (
+            <TouchableWithoutFeedback {...endAdornmentTouchableProps}>
+              <Box style={[generateChipAdornmentStyles(), endAdornmentContainerStyle]}>{endAdornment}</Box>
+            </TouchableWithoutFeedback>
+          )}
+        </AnimatedView>
+      );
+    }
 
     return (
-      <BaseButton
-        ref={ref}
-        disableRipple={isDisableRipple || disableRipple}
-        disabled={disabled}
-        style={[generateChipStyles({ variant, disabled })]}
-        {...props}>
+      <BaseButton ref={ref} disabled={disabled} style={[generateChipStyles({ variant, disabled })]} {...props}>
         <Box style={[generateChipElementWrapperStyles()]}>
           {startAdornment && (
             <TouchableWithoutFeedback>
-              <Box style={[generateChipAdornmentStyles()]} {...startAdornmentContainerProps}>
-                {startAdornment}
-              </Box>
+              <Box style={[generateChipAdornmentStyles(), startAdornmentContainerStyle]}>{startAdornment}</Box>
             </TouchableWithoutFeedback>
           )}
           <Text variation="h4" {...labelContainerProps}>
@@ -44,9 +57,7 @@ export const Chip = React.forwardRef<TouchableWithoutFeedback, ChipProps>(
           </Text>
           {endAdornment && (
             <TouchableWithoutFeedback>
-              <Box style={[generateChipAdornmentStyles()]} {...endAdornmentContainerProps}>
-                {endAdornment}
-              </Box>
+              <Box style={[generateChipAdornmentStyles(), endAdornmentContainerStyle]}>{endAdornment}</Box>
             </TouchableWithoutFeedback>
           )}
         </Box>

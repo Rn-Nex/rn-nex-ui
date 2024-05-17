@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
+import { StyleProp, TouchableWithoutFeedback, TouchableWithoutFeedbackProps, ViewStyle } from 'react-native';
 import { RippleProps } from '../Ripple/RippleTypes';
 import {
   ELementDimensionMap,
@@ -19,13 +19,13 @@ export interface ChipProps extends Omit<BaseButtonProps, 'children'> {
   labelContainerProps?: Omit<TextProps, 'children'>;
   variant?: ChipVariant;
   endAdornment?: React.ReactNode;
-  endAdornmentContainerProps?: Omit<BoxProps, 'children'> & {
-    touchableProps: React.ComponentPropsWithRef<typeof TouchableWithoutFeedback>;
-  };
+  endAdornmentContainerStyle?: StyleProp<ViewStyle>;
+  endAdornmentTouchableProps?: Omit<TouchableWithoutFeedbackProps, 'children' | 'style'>;
   startAdornment?: React.ReactNode;
-  startAdornmentContainerProps?: Omit<BoxProps, 'children'> & {
-    touchableProps: React.ComponentPropsWithRef<typeof TouchableWithoutFeedback>;
-  };
+  startAdornmentContainerStyle?: StyleProp<ViewStyle>;
+  startAdornmentTouchableProps?: Omit<TouchableWithoutFeedbackProps, 'children' | 'style'>;
 }
 
-export interface GenerateChipStylesProps extends Pick<ChipProps, 'variant' | 'disabled'> {}
+export interface GenerateChipStylesProps extends Pick<ChipProps, 'variant' | 'disabled'> {
+  withAdornment?: boolean;
+}

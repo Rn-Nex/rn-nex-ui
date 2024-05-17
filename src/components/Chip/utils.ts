@@ -12,6 +12,7 @@ export const generateChipAdornmentStyles = (): ViewStyle => {
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+    borderRadius: 100,
   };
 
   return styles;
@@ -29,7 +30,7 @@ export const generateChipElementWrapperStyles = (): ViewStyle => {
   return styles;
 };
 
-export const generateChipStyles = ({ variant, disabled }: GenerateChipStylesProps) => {
+export const generateChipStyles = ({ variant, disabled, withAdornment }: GenerateChipStylesProps) => {
   let styles: ViewStyle = {
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -57,6 +58,16 @@ export const generateChipStyles = ({ variant, disabled }: GenerateChipStylesProp
 
   if (disabled) {
     styles = { ...styles, opacity: 0.5 };
+  }
+
+  if (withAdornment) {
+    styles = {
+      ...styles,
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+    };
   }
 
   return styles;
