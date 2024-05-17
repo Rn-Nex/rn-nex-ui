@@ -1,5 +1,5 @@
-import React from 'react';
-import { TouchableWithoutFeedback, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { TouchableWithoutFeedback } from 'react-native';
 import { AnimatedView, Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
@@ -20,46 +20,49 @@ export const Chip = React.forwardRef<TouchableWithoutFeedback, ChipProps>(
       startAdornmentContainerStyle,
       endAdornmentTouchableProps,
       disableRipple,
+      style,
+      color,
       ...props
     },
     ref,
   ) => {
-    if (!!startAdornment || !!endAdornment) {
+    const chipStyles = useMemo(
+      () => generateChipStyles({ variant, disabled, withAdornment: !!startAdornment || !!endAdornment, color }),
+      [variant, disabled, startAdornment, endAdornment, color],
+    );
+
+    const startAdornmentElement = startAdornment && (
+      <TouchableWithoutFeedback {...startAdornmentTouchableProps}>
+        <Box style={[generateChipAdornmentStyles(), startAdornmentContainerStyle]}>{startAdornment}</Box>
+      </TouchableWithoutFeedback>
+    );
+
+    const endAdornmentElement = endAdornment && (
+      <TouchableWithoutFeedback {...endAdornmentTouchableProps}>
+        <Box style={[generateChipAdornmentStyles(), endAdornmentContainerStyle]}>{endAdornment}</Box>
+      </TouchableWithoutFeedback>
+    );
+
+    if (startAdornment || endAdornment) {
       return (
-        <AnimatedView style={[generateChipStyles({ variant, disabled, withAdornment: true })]}>
-          {startAdornment && (
-            <TouchableWithoutFeedback {...startAdornmentTouchableProps}>
-              <Box style={[generateChipAdornmentStyles(), startAdornmentContainerStyle]}>{startAdornment}</Box>
-            </TouchableWithoutFeedback>
-          )}
+        <AnimatedView style={chipStyles}>
+          {startAdornmentElement}
           <Text variation="h4" {...labelContainerProps}>
             {label}
           </Text>
-          {endAdornment && (
-            <TouchableWithoutFeedback {...endAdornmentTouchableProps}>
-              <Box style={[generateChipAdornmentStyles(), endAdornmentContainerStyle]}>{endAdornment}</Box>
-            </TouchableWithoutFeedback>
-          )}
+          {endAdornmentElement}
         </AnimatedView>
       );
     }
 
     return (
-      <BaseButton ref={ref} disabled={disabled} style={[generateChipStyles({ variant, disabled })]} {...props}>
-        <Box style={[generateChipElementWrapperStyles()]}>
-          {startAdornment && (
-            <TouchableWithoutFeedback>
-              <Box style={[generateChipAdornmentStyles(), startAdornmentContainerStyle]}>{startAdornment}</Box>
-            </TouchableWithoutFeedback>
-          )}
+      <BaseButton ref={ref} disabled={disabled} style={chipStyles} {...props}>
+        <Box style={generateChipElementWrapperStyles()}>
+          {startAdornmentElement}
           <Text variation="h4" {...labelContainerProps}>
             {label}
           </Text>
-          {endAdornment && (
-            <TouchableWithoutFeedback>
-              <Box style={[generateChipAdornmentStyles(), endAdornmentContainerStyle]}>{endAdornment}</Box>
-            </TouchableWithoutFeedback>
-          )}
+          {endAdornmentElement}
         </Box>
       </BaseButton>
     );

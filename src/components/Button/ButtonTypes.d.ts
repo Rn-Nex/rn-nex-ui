@@ -1,6 +1,14 @@
 import React from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
-import { ELementDimensionMap, ElementBorderRadiusMap, ElementMargin, ElementPadding } from '../../libraries/style/styleTypes';
+import {
+  ELementDimensionMap,
+  ElementBorderRadiusMap,
+  ElementDimension,
+  ElementFlexStyleProps,
+  ElementMargin,
+  ElementPadding,
+  ElementViewStyles,
+} from '../../libraries/style/styleTypes';
 import { RipplePosition, RippleProps } from '../Ripple/RippleTypes';
 
 export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof TouchableWithoutFeedback> {
@@ -32,7 +40,10 @@ export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof Touc
   /**
    * Additional styles for the button container.
    */
-  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap;
+  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> &
+    ElementBorderRadiusMap &
+    ElementFlexStyleProps &
+    ElementViewStyles;
 }
 
 /**

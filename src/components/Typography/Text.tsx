@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Text as RnText } from 'react-native';
 import { colors } from '../../libraries';
 import { generateElementStyles } from '../../utils';
@@ -23,20 +23,29 @@ export const Text = React.forwardRef<RnText, TextProps>(
     },
     ref,
   ) => {
+    const textStyles = useMemo(() => {
+      const styles = [];
+      if (variation) styles.push(textFontVariation(variation));
+      if (gutterBottom) styles.push(gutter('marginBottom', 10));
+      if (isActive) styles.push({ color: activeColor || colors.blue.dark });
+      if (!disabled) styles.push({ color: colors.disabled.dark });
+      if (error) styles.push({ color: errorColor || colors.error.light });
+      if (sx) styles.push(generateElementStyles(sx));
+      if (style) styles.push(style);
+
+      return styles;
+    }, [variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, style]);
+
+    const renderedChildren = useMemo(() => {
+      if (typeof children === 'string' && maxLength) {
+        return maxLengthUtile(children, maxLength);
+      }
+      return children;
+    }, [children, maxLength]);
+
     return (
-      <RnText
-        ref={ref}
-        style={[
-          variation && textFontVariation(variation),
-          gutterBottom && gutter('marginBottom', 10),
-          isActive && { color: activeColor ? activeColor : colors.blue.dark },
-          !disabled && { color: colors.disabled.dark },
-          error && { color: errorColor ? errorColor : colors.error.light },
-          sx && generateElementStyles(sx),
-          style,
-        ]}
-        {...props}>
-        {typeof children === 'string' && maxLength ? maxLengthUtile(children, maxLength) : children}
+      <RnText ref={ref} style={textStyles} {...props}>
+        {renderedChildren}
       </RnText>
     );
   },

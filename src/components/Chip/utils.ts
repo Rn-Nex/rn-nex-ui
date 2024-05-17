@@ -30,7 +30,7 @@ export const generateChipElementWrapperStyles = (): ViewStyle => {
   return styles;
 };
 
-export const generateChipStyles = ({ variant, disabled, withAdornment }: GenerateChipStylesProps) => {
+export const generateChipStyles = ({ variant, disabled, withAdornment, color }: GenerateChipStylesProps) => {
   let styles: ViewStyle = {
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -47,7 +47,6 @@ export const generateChipStyles = ({ variant, disabled, withAdornment }: Generat
   } else {
     styles = {
       ...styles,
-      backgroundColor: colors.gray.dark,
       elevation: 5,
       shadowColor: Colors.black.light,
       shadowOffset: { width: -2, height: 4 },
@@ -58,6 +57,22 @@ export const generateChipStyles = ({ variant, disabled, withAdornment }: Generat
 
   if (disabled) {
     styles = { ...styles, opacity: 0.5 };
+  }
+
+  if (color === 'primary') {
+    styles.backgroundColor = colors.primary.light;
+  } else if (color === 'secondary') {
+    styles.backgroundColor = colors.secondary.light;
+  } else if (color === 'error') {
+    styles.backgroundColor = colors.error.light;
+  } else if (color === 'warning') {
+    styles.backgroundColor = colors.yellow.dark;
+  } else if (color === 'info') {
+    styles.backgroundColor = colors.info.light;
+  } else if (color === 'success') {
+    styles.backgroundColor = colors.green.dark;
+  } else {
+    styles.backgroundColor = colors.gray.dark;
   }
 
   if (withAdornment) {

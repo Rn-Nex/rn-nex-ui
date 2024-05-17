@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Animated,
   Easing,
@@ -83,6 +83,11 @@ export const TextField = ({
     return TRANSLATE_Y_ANIMATED_DEFAULT_POSITION;
   };
 
+  const textInputStyles = useMemo(
+    () => getTextInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }),
+    [variant, endAdornment, startAdornment],
+  );
+
   useEffect(() => {
     inputLabeledAnimatedValue.stopAnimation();
     if (isFocused || value || !!startAdornment || inputIsFocused) {
@@ -138,7 +143,7 @@ export const TextField = ({
         onBlur={onBlur}
         onFocus={onFocus}
         onLayout={onLayout}
-        style={[getTextInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }), inputStyles]}
+        style={[textInputStyles, inputStyles]}
         {...props}
       />
       {endAdornment && (

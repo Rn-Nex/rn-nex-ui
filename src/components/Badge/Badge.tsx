@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 import { AnimatedView, Box } from '../Box';
 import { Text } from '../Typography';
@@ -34,8 +34,20 @@ export const Badge = React.forwardRef<View, BadgeProps>(
     ref,
   ) => {
     const [badgeContainerLayoutRect, setBadgeContainerLayoutRect] = useState<LayoutRectangle>();
-    const badgeVisibility = useRef(new Animated.Value(1)).current;
+    const badgeVisibility = useRef(new Animated.Value(0)).current;
     const maxValueLimit = max || BADGE_MAX_DEFAULT_VALUE;
+
+    const badgeStyles = useMemo(() => {
+      if (badgeContainerLayoutRect) {
+        return generateBadgeStyles({
+          rootElementRect: badgeContainerLayoutRect,
+          variation,
+          badgeVisibility,
+          variant,
+          anchorOrigin,
+        });
+      }
+    }, [badgeContainerLayoutRect, variation, badgeVisibility, variant, anchorOrigin]);
 
     const badgeContainerLayoutHandler = (event: LayoutChangeEvent) => {
       const { layout } = event.nativeEvent;
@@ -80,19 +92,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
           {children}
         </BadgeContainer>
         {badgeContainerLayoutRect ? (
-          <AnimatedView
-            ref={ref}
-            style={[
-              generateBadgeStyles({
-                rootElementRect: badgeContainerLayoutRect,
-                variation,
-                badgeVisibility,
-                variant,
-                anchorOrigin,
-              }),
-              style,
-            ]}
-            {...props}>
+          <AnimatedView ref={ref} style={[badgeStyles, style]} {...props}>
             {renderBadgeContent(badgeContent)}
           </AnimatedView>
         ) : null}
