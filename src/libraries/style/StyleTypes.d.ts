@@ -190,17 +190,13 @@ export interface SpacingStyle
     | 'maxHeight'
   > {}
 
-export interface StylePalette
-  extends ViewStyle,
-    TextStyle,
-    TransformsStyle,
-    ImageStyle,
-    ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension>,
-    ElementPositionMap,
-    ElementTextStyleProps,
-    ElementFlexStyleProps,
-    ElementViewStyles,
-    ElementBorderRadiusMap {}
+export type BaseStyles = ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> &
+  ElementPositionMap &
+  ElementFlexStyleProps &
+  ElementViewStyles &
+  ElementBorderRadiusMap;
+
+export interface StylePalette extends ViewStyle, TextStyle, TransformsStyle, ImageStyle, BaseStyles, ElementTextStyleProps {}
 
 export type KeyOfStylePalette = keyof StylePalette;
 

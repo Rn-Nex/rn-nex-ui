@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, TouchableWithoutFeedback } from 'react-native';
 import { generateElementStyles } from '../../utils';
 import { AnimatedView } from '../Box';
@@ -53,11 +53,14 @@ export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonP
       }
     };
 
-    const buttonLayoutHandler = (event: LayoutChangeEvent) => {
-      const { layout } = event.nativeEvent;
-      setButtonLayoutRectangle(layout);
-      if (onLayoutHandler && typeof onLayoutHandler === 'function') onLayoutHandler(event);
-    };
+    const buttonLayoutHandler = useCallback(
+      (event: LayoutChangeEvent) => {
+        const { layout } = event.nativeEvent;
+        setButtonLayoutRectangle(layout);
+        if (onLayoutHandler && typeof onLayoutHandler === 'function') onLayoutHandler(event);
+      },
+      [onLayoutHandler],
+    );
 
     return (
       <TouchableWithoutFeedback

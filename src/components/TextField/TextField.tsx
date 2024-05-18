@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Animated,
   Easing,
@@ -51,7 +51,7 @@ export const TextField = ({
 
   const placeHolderLeftPos = variant === 'filled' ? PLACEHOLDER_FILED_INPUT_LEFT_POSITION : PLACEHOLDER_OUTLINE_LEFT_POSITION;
 
-  const onLayout = (event: LayoutChangeEvent) => {
+  const onLayout = useCallback((event: LayoutChangeEvent) => {
     const { layout } = event.nativeEvent;
 
     if (onTextInputLayoutHandler && typeof onTextInputLayoutHandler === 'function') {
@@ -59,7 +59,7 @@ export const TextField = ({
     }
 
     setTextInputLayoutRectangle(layout);
-  };
+  }, []);
 
   const onFocus = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
     if (onTextInputFocusHandler && typeof onTextInputFocusHandler === 'function') {

@@ -68,3 +68,5 @@ export const Chip = React.forwardRef<TouchableWithoutFeedback, ChipProps>(
     );
   },
 );
+
+Chip.displayName = 'Chip';

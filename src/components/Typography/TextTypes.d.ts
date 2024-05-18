@@ -1,15 +1,6 @@
 import React from 'react';
 import { Animated, ColorValue, Text, TextStyle } from 'react-native';
-import {
-  ELementDimensionMap,
-  ElementDimension,
-  ElementFlexStyleProps,
-  ElementMargin,
-  ElementPadding,
-  ElementTextStyleProps,
-  ElementViewStyles,
-  SpacingStyle,
-} from '../../libraries/style/styleTypes';
+import { BaseStyles, ElementTextStyleProps, SpacingStyle } from '../../libraries/style/styleTypes';
 /**
  * Defines the possible variations for text components.
  * These variations include different typographic styles such as headings, body text, buttons, etc.
@@ -24,10 +15,7 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
   /**
    * Custom styles to be applied to the text.
    */
-  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> &
-    ElementTextStyleProps &
-    ElementFlexStyleProps &
-    ElementViewStyles;
+  sx?: BaseStyles & ElementTextStyleProps;
 
   /**
    * The content to be displayed within the text component.

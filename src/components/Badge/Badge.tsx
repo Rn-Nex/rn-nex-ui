@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 import { AnimatedView, Box } from '../Box';
 import { Text } from '../Typography';
@@ -49,10 +49,10 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       }
     }, [badgeContainerLayoutRect, variation, badgeVisibility, variant, anchorOrigin]);
 
-    const badgeContainerLayoutHandler = (event: LayoutChangeEvent) => {
+    const badgeContainerLayoutHandler = useCallback((event: LayoutChangeEvent) => {
       const { layout } = event.nativeEvent;
       setBadgeContainerLayoutRect(layout);
-    };
+    }, []);
 
     const renderBadgeContent = function (content: BadgeProps['badgeContent']) {
       if (variant === 'dot') return null;
@@ -100,3 +100,5 @@ export const Badge = React.forwardRef<View, BadgeProps>(
     );
   },
 );
+
+Badge.displayName = 'Badge';

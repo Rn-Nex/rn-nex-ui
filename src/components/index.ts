@@ -7,3 +7,4 @@ export * from './ActivityIndicator';
 export * from './TextField';
 export * from './Badge';
 export * from './Chip';
+export * from './Divider';

@@ -1,14 +1,6 @@
 import React from 'react';
 import { Animated, ColorValue, LayoutRectangle, StyleProp, TextInputProps, View, ViewStyle } from 'react-native';
-import {
-  ELementDimensionMap,
-  ElementBorderRadiusMap,
-  ElementDimension,
-  ElementFlexStyleProps,
-  ElementMargin,
-  ElementPadding,
-  ElementViewStyles,
-} from '../../libraries/style/styleTypes';
+import { BaseStyles } from '../../libraries/style/styleTypes';
 import { BoxProps } from '../Box/BoxTypes';
 import { TextProps } from '../Typography/TextTypes';
 
@@ -106,10 +98,7 @@ export interface TextFieldProps extends BaseInputProps {
   /**
    * Additional styles for the component.
    */
-  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> &
-    ElementBorderRadiusMap &
-    ElementFlexStyleProps &
-    ElementViewStyles;
+  sx?: BaseStyles;
 }
 
 /**
