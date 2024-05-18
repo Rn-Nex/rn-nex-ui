@@ -68,8 +68,6 @@ export const Divider: React.FC<DividerProps> = ({
     [variant, children, childWrapperLayoutRect, dividerRootLayoutRect, textAlign, orientation],
   );
 
-  console.log(leftStyle);
-
   return (
     <DividerRootContainer orientation={orientation} onLayout={dividerRootOnLayoutHandler} variant={variant} {...props}>
       <View style={leftStyle} />
