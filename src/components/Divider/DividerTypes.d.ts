@@ -8,9 +8,10 @@ export type DividerChildAlignment = 'left' | 'right' | 'center';
 export interface DividerProps extends React.ComponentPropsWithoutRef<typeof View> {
   variant?: DividerVariants;
   textAlign?: DividerChildAlignment;
+  orientation?: DividerOrientation;
 }
-export interface DividerRootContainerProps extends ViewProps, Pick<DividerProps, 'variant'> {}
-export interface GenerateDividerStylesProps extends Pick<DividerProps, 'variant' | 'textAlign'> {
+export interface DividerRootContainerProps extends ViewProps, Pick<DividerProps, 'variant' | 'orientation'> {}
+export interface GenerateDividerStylesProps extends Pick<DividerProps, 'variant' | 'textAlign' | 'orientation'> {
   dividerType: 'left' | 'right';
   childWrapperLayoutRect?: LayoutRectangle;
   hasChild?: boolean;

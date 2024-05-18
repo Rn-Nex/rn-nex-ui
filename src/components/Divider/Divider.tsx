@@ -3,8 +3,8 @@ import { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 import { DividerProps, DividerRootContainerProps } from './DividerTypes';
 import { generateRootContainerStyles, generateDividerStyles } from './utils';
 
-const DividerRootContainer: React.FC<DividerRootContainerProps> = ({ children, variant, style, ...props }) => {
-  const dividerStyles = useMemo(() => generateRootContainerStyles({ variant }), [variant]);
+const DividerRootContainer: React.FC<DividerRootContainerProps> = ({ children, variant, style, orientation, ...props }) => {
+  const dividerStyles = useMemo(() => generateRootContainerStyles({ variant, orientation }), [variant, orientation]);
 
   return (
     <View style={[dividerStyles, style]} {...props}>
@@ -16,6 +16,7 @@ const DividerRootContainer: React.FC<DividerRootContainerProps> = ({ children, v
 export const Divider: React.FC<DividerProps> = ({
   children,
   onLayout: dividerOnLayoutHandler,
+  orientation = 'horizontal',
   textAlign = 'center',
   variant = 'fullWidth',
   ...props
@@ -48,8 +49,9 @@ export const Divider: React.FC<DividerProps> = ({
         childWrapperLayoutRect,
         dividerRootLayoutRect,
         textAlign,
+        orientation,
       }),
-    [variant, children, childWrapperLayoutRect, dividerRootLayoutRect, textAlign],
+    [variant, children, childWrapperLayoutRect, dividerRootLayoutRect, textAlign, orientation],
   );
 
   const rightStyle = useMemo(
@@ -61,12 +63,15 @@ export const Divider: React.FC<DividerProps> = ({
         childWrapperLayoutRect,
         dividerRootLayoutRect,
         textAlign,
+        orientation,
       }),
-    [variant, children, childWrapperLayoutRect, dividerRootLayoutRect, textAlign],
+    [variant, children, childWrapperLayoutRect, dividerRootLayoutRect, textAlign, orientation],
   );
 
+  console.log(leftStyle);
+
   return (
-    <DividerRootContainer onLayout={dividerRootOnLayoutHandler} variant={variant} {...props}>
+    <DividerRootContainer orientation={orientation} onLayout={dividerRootOnLayoutHandler} variant={variant} {...props}>
       <View style={leftStyle} />
       {children && (
         <View style={{ paddingHorizontal: 10 }} onLayout={childWrapperOnLayoutHandler}>
