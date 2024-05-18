@@ -5,7 +5,7 @@ import { BoxProps } from './BoxTypes';
 
 export const Box = React.forwardRef<View, BoxProps>(({ children, style, sx, ...props }, ref) => {
   return (
-    <View ref={ref} style={[sx && generateElementStyles(sx), style]} {...props}>
+    <View ref={ref} style={[style, sx && generateElementStyles(sx)]} {...props}>
       {children}
     </View>
   );

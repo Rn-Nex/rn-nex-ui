@@ -16,7 +16,7 @@ const rippleDefaultStyles: ViewStyle = {
   borderRadius: RIPPLE_RADIUS,
   overflow: 'hidden',
   position: 'absolute',
-  backgroundColor: 'rgba(0, 0, 0, 0.075)',
+  backgroundColor: 'rgba(0, 0, 0, 0.147)',
 };
 
 export const Ripple = React.forwardRef<RippleInterface, RippleProps>(
