@@ -1,20 +1,56 @@
 import { ViewStyle } from 'react-native';
-import { ListItemTextStylesProps } from './ListTypes';
+import { ListItemContainerStylesProps, ListItemStylesProps, ListItemTextStylesProps, ListStylesProps } from './ListTypes';
+import { colors } from '../../libraries';
 
-export const listStyles = (): ViewStyle => {
-  const styles: ViewStyle = {
+export const listStyles = ({ disablePadding }: ListStylesProps): ViewStyle => {
+  let styles: ViewStyle = {
     width: '100%',
-    paddingVertical: 3,
   };
 
+  if (!disablePadding) {
+    return {
+      ...styles,
+      paddingVertical: 3,
+    };
+  }
   return styles;
 };
 
-export const listItemStyles = (): ViewStyle => {
+export const headerContainerStyles = (): ViewStyle => {
+  const styles: ViewStyle = {
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+  };
+  return styles;
+};
+
+export const listItemStyles = ({ endAdornment }: ListItemStylesProps): ViewStyle => {
   const styles: ViewStyle = {
     padding: 1,
     display: 'flex',
     flexDirection: 'row',
+    minWidth: endAdornment ? '80%' : '100%',
+    minHeight: 50,
+  };
+  return styles;
+};
+
+export const listItemContainerStyles = ({ selected }: ListItemContainerStylesProps): ViewStyle => {
+  const styles: ViewStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: selected ? colors.disabled.main : 'transparent',
+  };
+  return styles;
+};
+
+export const endAdornmentStyles = (): ViewStyle => {
+  const styles: ViewStyle = {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   };
   return styles;
 };
@@ -31,17 +67,25 @@ export const listItemIconStyles = (): ViewStyle => {
   return styles;
 };
 
-export const listItemTextStyles = ({ disablePadding }: ListItemTextStylesProps): ViewStyle => {
+export const listItemTextStyles = ({ disablePadding, alignItems }: ListItemTextStylesProps): ViewStyle => {
   let styles: ViewStyle = {
     flex: 1,
     display: 'flex',
     justifyContent: 'center',
+    alignItems:
+      alignItems === 'start'
+        ? 'flex-start'
+        : alignItems === 'middle'
+        ? 'center'
+        : alignItems === 'end'
+        ? 'flex-end'
+        : 'flex-start',
   };
 
   if (!disablePadding) {
     return {
       ...styles,
-      paddingHorizontal: 23,
+      paddingHorizontal: 15,
       paddingVertical: 5,
     };
   }

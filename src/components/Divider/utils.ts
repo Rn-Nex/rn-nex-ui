@@ -45,7 +45,7 @@ export const generateDividerStyles = ({
   const baseStyles: ViewStyle = {
     width: isHorizontal ? DEFAULT_WIDTH : DEFAULT_HEIGHT,
     height: isHorizontal ? DEFAULT_HEIGHT : DEFAULT_WIDTH,
-    backgroundColor: colors.white.dark,
+    backgroundColor: colors.disabled.main,
   };
 
   if (!hasChild || !childWrapperLayoutRect || !dividerRootLayoutRect) {
