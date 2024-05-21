@@ -3,7 +3,7 @@ import { Animated, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { AnimatedText, Text } from '../Typography';
 import { InputLabelProps } from './InputTypes';
 import { PLACEHOLDER_OUTLINE_LEFT_POSITION, TEXT_FONT_DEFAULT_HEIGHT } from './constants';
-import { getLabelTransformStyle } from './utils';
+import { labelTransformStyle } from './utils';
 
 export const InputLabel = function ({
   placeholder,
@@ -26,7 +26,7 @@ export const InputLabel = function ({
   return (
     <Animated.View
       style={[
-        getLabelTransformStyle({
+        labelTransformStyle({
           textHeight,
           translateYAnimatedPosition,
           labeled,

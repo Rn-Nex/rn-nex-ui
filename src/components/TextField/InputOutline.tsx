@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { OutlineProps } from './InputTypes';
-import { generateOutlineStyles, getInputOutlineVariationStyles } from './utils';
+import { outlineStyles, inputOutlineVariationStyles } from './utils';
 
 export const Outline = React.forwardRef<View, OutlineProps>(
   ({ error, style, isFocused, activeColor, errorColor, variant = 'outlined', ...props }, ref) => {
@@ -10,8 +10,8 @@ export const Outline = React.forwardRef<View, OutlineProps>(
         ref={ref}
         {...props}
         style={[
-          getInputOutlineVariationStyles(variant),
-          generateOutlineStyles({
+          inputOutlineVariationStyles(variant),
+          outlineStyles({
             error,
             errorColor,
             isFocused,

@@ -19,7 +19,7 @@ import {
   PLACEHOLDER_OUTLINE_LEFT_POSITION,
   TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
 } from './constants';
-import { getTextInputStyles } from './utils';
+import { textInputStyles } from './utils';
 
 export const TextField = ({
   outlineStyles,
@@ -83,8 +83,8 @@ export const TextField = ({
     return TRANSLATE_Y_ANIMATED_DEFAULT_POSITION;
   };
 
-  const textInputStyles = useMemo(
-    () => getTextInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }),
+  const textStyles = useMemo(
+    () => textInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }),
     [variant, endAdornment, startAdornment],
   );
 
@@ -143,7 +143,7 @@ export const TextField = ({
         onBlur={onBlur}
         onFocus={onFocus}
         onLayout={onLayout}
-        style={[textInputStyles, inputStyles]}
+        style={[textStyles, inputStyles]}
         {...props}
       />
       {endAdornment && (

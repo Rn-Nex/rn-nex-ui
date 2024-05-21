@@ -66,7 +66,7 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
 /**
  * Interface representing font variations for text.
  */
-export interface TextFontVariation extends Pick<TextStyle, 'fontSize'> {}
+export interface TextFontVariation extends Pick<TextStyle, 'fontSize' | 'fontWeight'> {}
 
 /**
  * Interface representing gutter styles for text.

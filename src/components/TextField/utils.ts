@@ -1,6 +1,6 @@
 import { StyleProp, ViewStyle } from 'react-native';
 import { colors } from '../../libraries';
-import { GenerateOutlineStyles, GetLabelTransformStyleProps, GetTextInputStylesProps, TextFiledVariation } from './InputTypes';
+import { OutlineStyles, LabelTransformStyleProps, TextInputStylesProps, TextFiledVariation } from './InputTypes';
 import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 
 const outlineDefaultStyles: ViewStyle = {
@@ -20,7 +20,7 @@ const baseInputDefaultStyles: ViewStyle = {
   backgroundColor: 'transparent',
 };
 
-export const getInputOutlineVariationStyles = (variation: TextFiledVariation): StyleProp<ViewStyle> => {
+export const inputOutlineVariationStyles = (variation: TextFiledVariation): StyleProp<ViewStyle> => {
   if (variation === 'outlined') return outlineDefaultStyles;
   else if (variation === 'filled')
     return {
@@ -44,7 +44,7 @@ export const getInputOutlineVariationStyles = (variation: TextFiledVariation): S
   return outlineDefaultStyles;
 };
 
-export const getTextInputStyles = ({ variant, endAdornment, startAdornment }: GetTextInputStylesProps): StyleProp<ViewStyle> => {
+export const textInputStyles = ({ variant, endAdornment, startAdornment }: TextInputStylesProps): StyleProp<ViewStyle> => {
   const adornmentStyles: StyleProp<ViewStyle> = {
     width: '100%',
   };
@@ -58,14 +58,14 @@ export const getTextInputStyles = ({ variant, endAdornment, startAdornment }: Ge
   return baseInputDefaultStyles;
 };
 
-export const getLabelTransformStyle = ({
+export const labelTransformStyle = ({
   textHeight,
   labeled,
   variant,
   placeholderLeftPosition,
   textInputLayoutRect,
   translateYAnimatedPosition = TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
-}: GetLabelTransformStyleProps): StyleProp<ViewStyle> => {
+}: LabelTransformStyleProps): StyleProp<ViewStyle> => {
   const getOutputRange = (variant?: TextFiledVariation) => {
     let outputRange: number[] = [];
 
@@ -108,12 +108,7 @@ export const getLabelTransformStyle = ({
   };
 };
 
-export const generateOutlineStyles = ({
-  error,
-  errorColor,
-  isFocused,
-  activeColor,
-}: GenerateOutlineStyles): StyleProp<ViewStyle> => {
+export const outlineStyles = ({ error, errorColor, isFocused, activeColor }: OutlineStyles): StyleProp<ViewStyle> => {
   let styles: ViewStyle = {
     borderColor: colors.white.dark,
     display: 'flex',

@@ -45,7 +45,7 @@ export interface PortalProps extends ModalProps {
   /**
    * Unique identifier for the portal.
    */
-  key: string;
+  portalKey: string;
   /**
    * Props for the container around the modal content.
    */

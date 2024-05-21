@@ -111,7 +111,7 @@ export interface OutlineProps
 /**
  * Represents the properties required to get label transformation styles.
  */
-export interface GetLabelTransformStyleProps
+export interface LabelTransformStyleProps
   extends Pick<
     InputLabelProps,
     'labeled' | 'translateYAnimatedPosition' | 'variant' | 'placeholderLeftPosition' | 'textInputLayoutRect'
@@ -125,12 +125,12 @@ export interface GetLabelTransformStyleProps
 /**
  * Represents the properties required to generate outline styles.
  */
-export interface GenerateOutlineStyles extends Pick<OutlineProps, 'error' | 'errorColor' | 'isFocused' | 'activeColor'> {}
+export interface OutlineStyles extends Pick<OutlineProps, 'error' | 'errorColor' | 'isFocused' | 'activeColor'> {}
 
 /**
  * Represents the properties required to get text input styles.
  */
-export interface GetTextInputStylesProps {
+export interface TextInputStylesProps {
   /**
    * The variation type of the text field.
    */

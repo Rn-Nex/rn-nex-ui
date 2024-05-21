@@ -7,7 +7,6 @@ export const containedButtonDefaultStyles: ViewStyle = {
   padding: spacing.lg,
   elevation: 5,
   alignItems: 'center',
-  marginTop: 20,
   borderRadius: 8,
   overflow: 'hidden',
 };
