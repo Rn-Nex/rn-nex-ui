@@ -1,7 +1,6 @@
-import { ViewStyle, StyleSheet } from 'react-native';
+import { ViewStyle } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { GenerateChipStylesProps } from './ChipTypes';
-import { colors } from '../../libraries';
 import { ADORNMENT_WRAPPER_SPACE } from './constants';
 
 export const generateChipAdornmentStyles = (): ViewStyle => {
@@ -30,7 +29,7 @@ export const generateChipElementWrapperStyles = (): ViewStyle => {
   return styles;
 };
 
-export const generateChipStyles = ({ variant, disabled, withAdornment, color }: GenerateChipStylesProps) => {
+export const generateChipStyles = ({ variant, disabled, withAdornment, color, theme }: GenerateChipStylesProps) => {
   let styles: ViewStyle = {
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -42,7 +41,7 @@ export const generateChipStyles = ({ variant, disabled, withAdornment, color }: 
     styles = {
       ...styles,
       borderWidth: 1,
-      borderColor: colors.silver.dark,
+      borderColor: theme.colors.grey[500],
     };
   } else {
     styles = {
@@ -60,19 +59,19 @@ export const generateChipStyles = ({ variant, disabled, withAdornment, color }: 
   }
 
   if (color === 'primary') {
-    styles.backgroundColor = colors.primary.light;
+    styles.backgroundColor = theme.colors.primary[500];
   } else if (color === 'secondary') {
-    styles.backgroundColor = colors.secondary.light;
+    styles.backgroundColor = theme.colors.secondary[500];
   } else if (color === 'error') {
-    styles.backgroundColor = colors.error.light;
+    styles.backgroundColor = theme.colors.red[500];
   } else if (color === 'warning') {
-    styles.backgroundColor = colors.yellow.dark;
+    styles.backgroundColor = theme.colors.yellow[400];
   } else if (color === 'info') {
-    styles.backgroundColor = colors.info.light;
+    styles.backgroundColor = theme.colors.lightBlue[500];
   } else if (color === 'success') {
-    styles.backgroundColor = colors.green.dark;
+    styles.backgroundColor = theme.colors.green[500];
   } else {
-    styles.backgroundColor = colors.gray.dark;
+    styles.backgroundColor = theme.colors.grey[400];
   }
 
   if (withAdornment) {

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Animated, LayoutRectangle, View } from 'react-native';
-import { TextProps } from '../Typography/TextTypes';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/BoxTypes';
+import { TextProps } from '../Typography/TextTypes';
 
 /**
  * Defines the available variations for the badge.
@@ -78,6 +79,7 @@ export interface BadgeContainerProps extends Pick<BadgeProps, 'overlap'>, BoxPro
  * Props used for generating badge styles.
  */
 export interface GenerateBadgeStylesProps extends Pick<BadgeProps, 'variation' | 'variant' | 'anchorOrigin'> {
+  theme: ThemeType;
   /**
    * Rectangle representing the layout of the root element.
    */
@@ -90,3 +92,6 @@ export interface GenerateBadgeStylesProps extends Pick<BadgeProps, 'variation' |
 
 export interface PlaceBadgeBasedPosition extends Pick<GenerateBadgeStylesProps, 'rootElementRect' | 'anchorOrigin' | 'variant'> {}
 export interface GenerateBadgeContainerStylesProps extends Pick<BadgeContainerProps, 'overlap'> {}
+export interface BadgeContentDefaultStylesProps {
+  theme: ThemeType;
+}

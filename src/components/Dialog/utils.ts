@@ -1,5 +1,5 @@
 import { ViewStyle } from 'react-native';
-import { colors } from '../../libraries';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 
 export const dialogStyles = (): ViewStyle => {
   const styles: ViewStyle = {
@@ -12,14 +12,14 @@ export const dialogStyles = (): ViewStyle => {
   return styles;
 };
 
-export const dialogContainerStyles = (): ViewStyle => {
+export const dialogContainerStyles = (theme: ThemeType): ViewStyle => {
   const styles: ViewStyle = {
-    backgroundColor: colors.tertiary.dark,
+    backgroundColor: theme.colors.grey[600],
     maxWidth: '90%',
     paddingBottom: 8,
     borderRadius: 5,
     elevation: 5,
-    shadowColor: colors.black.light,
+    shadowColor: theme.colors.grey[500],
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,

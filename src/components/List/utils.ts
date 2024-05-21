@@ -1,6 +1,5 @@
 import { ViewStyle } from 'react-native';
 import { ListItemContainerStylesProps, ListItemStylesProps, ListItemTextStylesProps, ListStylesProps } from './ListTypes';
-import { colors } from '../../libraries';
 
 export const listStyles = ({ disablePadding }: ListStylesProps): ViewStyle => {
   let styles: ViewStyle = {
@@ -36,11 +35,11 @@ export const listItemStyles = ({ endAdornment }: ListItemStylesProps): ViewStyle
   return styles;
 };
 
-export const listItemContainerStyles = ({ selected }: ListItemContainerStylesProps): ViewStyle => {
+export const listItemContainerStyles = ({ selected, theme }: ListItemContainerStylesProps): ViewStyle => {
   const styles: ViewStyle = {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: selected ? colors.disabled.main : 'transparent',
+    backgroundColor: selected ? theme.colors.grey[500] : 'transparent',
   };
   return styles;
 };

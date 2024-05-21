@@ -1,29 +1,29 @@
-import { font } from '../../libraries';
 import { StylePalette } from '../../libraries/style/styleTypes';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 import { TextFontVariation, TextGutter, TextVariation } from './TextTypes';
 
-export const textFontVariation = function (variation: TextVariation): TextFontVariation {
+export const textFontVariation = function (variation: TextVariation, theme: ThemeType): TextFontVariation {
   switch (variation) {
     case 'body1':
-      return { fontSize: font['text-2xl'] };
+      return { fontSize: theme.font['text-2xl'] };
     case 'body2':
-      return { fontSize: font['text-3xl'] };
+      return { fontSize: theme.font['text-3xl'] };
     case 'caption':
-      return { fontSize: font['text-4xl'] };
+      return { fontSize: theme.font['text-4xl'] };
     case 'h1':
-      return { fontSize: font['text-xl'] };
+      return { fontSize: theme.font['text-xl'] };
     case 'h2':
-      return { fontSize: font['text-lg'] };
+      return { fontSize: theme.font['text-lg'] };
     case 'h3':
-      return { fontSize: font['text-md'] };
+      return { fontSize: theme.font['text-md'] };
     case 'h4':
-      return { fontSize: font['text-sm'] };
+      return { fontSize: theme.font['text-sm'] };
     case 'h5':
-      return { fontSize: font['text-xs'] };
+      return { fontSize: theme.font['text-xs'] };
     case 'h6':
-      return { fontSize: font['text-xxs'] };
+      return { fontSize: theme.font['text-xxs'] };
     default:
-      return { fontSize: font['text-sm'] };
+      return { fontSize: theme.font['text-sm'] };
   }
 };
 

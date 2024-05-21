@@ -5,6 +5,7 @@ import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
 import { ChipProps } from './ChipTypes';
 import { generateChipAdornmentStyles, generateChipElementWrapperStyles, generateChipStyles } from './utils';
+import { useTheme } from '../../libraries';
 
 export const Chip = React.forwardRef<TouchableWithoutFeedback, ChipProps>(
   (
@@ -26,9 +27,11 @@ export const Chip = React.forwardRef<TouchableWithoutFeedback, ChipProps>(
     },
     ref,
   ) => {
+    const { theme } = useTheme();
+
     const chipStyles = useMemo(
-      () => generateChipStyles({ variant, disabled, withAdornment: !!startAdornment || !!endAdornment, color }),
-      [variant, disabled, startAdornment, endAdornment, color],
+      () => generateChipStyles({ variant, disabled, withAdornment: !!startAdornment || !!endAdornment, color, theme }),
+      [variant, disabled, startAdornment, endAdornment, color, theme],
     );
 
     const startAdornmentElement = startAdornment && (

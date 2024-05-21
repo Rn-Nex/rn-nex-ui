@@ -1,17 +1,7 @@
 import { StyleProp, ViewStyle } from 'react-native';
-import { colors } from '../../libraries';
 import { OutlineStyles, LabelTransformStyleProps, TextInputStylesProps, TextFiledVariation } from './InputTypes';
 import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
-
-const outlineDefaultStyles: ViewStyle = {
-  width: '100%',
-  borderRadius: 6,
-  borderWidth: INPUT_DEFAULT_BORDER_WIDTH,
-  borderColor: colors.white.dark,
-  paddingHorizontal: 14,
-  position: 'relative',
-  backgroundColor: 'transparent',
-};
+import { ThemeType } from '../../libraries/themes/v1/theme';
 
 const baseInputDefaultStyles: ViewStyle = {
   height: INPUT_DEFAULT_HEIGHT,
@@ -20,14 +10,24 @@ const baseInputDefaultStyles: ViewStyle = {
   backgroundColor: 'transparent',
 };
 
-export const inputOutlineVariationStyles = (variation: TextFiledVariation): StyleProp<ViewStyle> => {
+export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme: ThemeType): StyleProp<ViewStyle> => {
+  const outlineDefaultStyles: ViewStyle = {
+    width: '100%',
+    borderRadius: 6,
+    borderWidth: INPUT_DEFAULT_BORDER_WIDTH,
+    borderColor: theme.colors.white[500],
+    paddingHorizontal: 14,
+    position: 'relative',
+    backgroundColor: 'transparent',
+  };
+
   if (variation === 'outlined') return outlineDefaultStyles;
   else if (variation === 'filled')
     return {
       ...outlineDefaultStyles,
       borderWidth: 0,
       borderColor: 'transparent',
-      backgroundColor: colors.disabled.light,
+      backgroundColor: theme.colors.grey[500],
       borderBottomRightRadius: 0,
       borderBottomLeftRadius: 0,
       borderBottomWidth: INPUT_DEFAULT_BORDER_WIDTH,
@@ -59,6 +59,7 @@ export const textInputStyles = ({ variant, endAdornment, startAdornment }: TextI
 };
 
 export const labelTransformStyle = ({
+  theme,
   textHeight,
   labeled,
   variant,
@@ -84,7 +85,7 @@ export const labelTransformStyle = ({
     position: 'absolute',
     zIndex: 10,
     left: placeholderLeftPosition || 0,
-    backgroundColor: variant === 'outlined' ? colors.white.main : 'transparent',
+    backgroundColor: variant === 'outlined' ? theme.colors.white[200] : 'transparent',
     paddingHorizontal: 8,
     top: '50%',
     transform: [
@@ -108,18 +109,18 @@ export const labelTransformStyle = ({
   };
 };
 
-export const outlineStyles = ({ error, errorColor, isFocused, activeColor }: OutlineStyles): StyleProp<ViewStyle> => {
+export const outlineStyles = ({ error, errorColor, isFocused, activeColor, theme }: OutlineStyles): StyleProp<ViewStyle> => {
   let styles: ViewStyle = {
-    borderColor: colors.white.dark,
+    borderColor: theme.colors.white[200],
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
   };
 
   if (error) {
-    styles = { ...styles, borderColor: errorColor ? errorColor : colors.error.light };
+    styles = { ...styles, borderColor: errorColor ? errorColor : theme.colors.red[500] };
   } else if (isFocused) {
-    styles = { ...styles, borderColor: activeColor ? activeColor : colors.blue.dark };
+    styles = { ...styles, borderColor: activeColor ? activeColor : theme.colors.lightBlue[500] };
   }
 
   return styles;

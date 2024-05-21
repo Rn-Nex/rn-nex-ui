@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 import { RipplePosition, RippleProps } from '../Ripple/RippleTypes';
 
 export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof TouchableWithoutFeedback> {
@@ -100,5 +101,6 @@ export interface IconButtonProps extends BaseButtonProps {
 
 export type ButtonVariationsType = ButtonVariations | IconButtonVariations;
 export interface GetButtonStylesProps extends Omit<ButtonProps, 'sx' | 'children' | 'ripple'> {
+  theme: ThemeType;
   variation?: ButtonVariationsType;
 }

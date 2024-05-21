@@ -1,5 +1,4 @@
 import { ViewStyle } from 'react-native';
-import { colors } from '../../libraries';
 import { DividerRootContainerProps, GenerateDividerStylesProps } from './DividerTypes';
 import {
   DEFAULT_HEIGHT,
@@ -30,6 +29,7 @@ export const generateRootContainerStyles = ({ variant, orientation }: DividerRoo
 };
 
 export const generateDividerStyles = ({
+  theme,
   dividerType,
   variant,
   childWrapperLayoutRect,
@@ -45,7 +45,7 @@ export const generateDividerStyles = ({
   const baseStyles: ViewStyle = {
     width: isHorizontal ? DEFAULT_WIDTH : DEFAULT_HEIGHT,
     height: isHorizontal ? DEFAULT_HEIGHT : DEFAULT_WIDTH,
-    backgroundColor: colors.disabled.main,
+    backgroundColor: theme.colors.grey[500],
   };
 
   if (!hasChild || !childWrapperLayoutRect || !dividerRootLayoutRect) {

@@ -1,40 +1,56 @@
 import { ViewStyle } from 'react-native';
-import { colors, spacing } from '../../libraries';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 import { ButtonColorTypes, ButtonVariationsType, GetButtonStylesProps } from './ButtonTypes';
 
-export const containedButtonDefaultStyles: ViewStyle = {
-  backgroundColor: colors.primary.light,
-  padding: spacing.lg,
-  elevation: 5,
-  alignItems: 'center',
-  borderRadius: 8,
-  overflow: 'hidden',
+export const containedButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
+  const baseStyles: ViewStyle = {
+    backgroundColor: theme.colors.primary[400],
+    padding: theme.spacing.lg,
+    elevation: 5,
+    alignItems: 'center',
+    borderRadius: 8,
+    overflow: 'hidden',
+  };
+
+  return baseStyles;
 };
 
-export const textButtonDefaultStyles: ViewStyle = {
-  ...containedButtonDefaultStyles,
-  backgroundColor: 'transparent',
+export const textButtonDefaultStyles = (): ViewStyle => {
+  const baseStyles: ViewStyle = {
+    ...containedButtonDefaultStyles,
+    backgroundColor: 'transparent',
+  };
+
+  return baseStyles;
 };
 
-export const outlinedButtonDefaultStyles: ViewStyle = {
-  ...textButtonDefaultStyles,
-  borderWidth: 1,
-  borderColor: colors.primary.light,
+export const outlinedButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
+  const baseStyles: ViewStyle = {
+    ...textButtonDefaultStyles,
+    borderWidth: 1,
+    borderColor: theme.colors.primary[400],
+  };
+
+  return baseStyles;
 };
 
 export const disabledStyles: ViewStyle = {
   opacity: 0.7,
 };
 
-export const iconButtonDefaultStyles: ViewStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexDirection: 'row',
-  width: spacing.xl,
-  height: spacing.xl,
-  borderRadius: 100,
-  overflow: 'hidden',
+export const iconButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
+  const baseStyles: ViewStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    width: theme.spacing.xl,
+    height: theme.spacing.xl,
+    borderRadius: 100,
+    overflow: 'hidden',
+  };
+
+  return baseStyles;
 };
 
 export const squareIconButtonStyles: ViewStyle = {
@@ -42,35 +58,38 @@ export const squareIconButtonStyles: ViewStyle = {
   borderRadius: 5,
 };
 
-export const buttonVariationStyles: Record<ButtonVariationsType, ViewStyle> = {
-  outlined: outlinedButtonDefaultStyles,
-  contained: containedButtonDefaultStyles,
-  text: textButtonDefaultStyles,
-  roundedIconButton: iconButtonDefaultStyles,
-  squareIconButton: squareIconButtonStyles,
+export const buttonVariationStyles = (theme: ThemeType, variation: ButtonVariationsType) => {
+  const variations: Record<ButtonVariationsType, ViewStyle> = {
+    outlined: outlinedButtonDefaultStyles(theme),
+    contained: containedButtonDefaultStyles(theme),
+    text: textButtonDefaultStyles(),
+    roundedIconButton: iconButtonDefaultStyles(theme),
+    squareIconButton: squareIconButtonStyles,
+  };
+  return variations[variation];
 };
 
-function getButtonBackgroundColor(color: ButtonColorTypes): Pick<ViewStyle, 'backgroundColor'> {
+function getButtonBackgroundColor(color: ButtonColorTypes, theme: ThemeType): Pick<ViewStyle, 'backgroundColor'> {
   switch (color) {
     case 'primary':
-      return { backgroundColor: colors.primary.light };
+      return { backgroundColor: theme.colors.primary[400] };
     case 'secondary':
-      return { backgroundColor: colors.secondary.light };
+      return { backgroundColor: theme.colors.secondary[400] };
     case 'success':
-      return { backgroundColor: colors.success.light };
+      return { backgroundColor: theme.colors.green[400] };
     case 'error':
-      return { backgroundColor: colors.error.light };
+      return { backgroundColor: theme.colors.red[500] };
     case 'info':
-      return { backgroundColor: colors.info.light };
+      return { backgroundColor: theme.colors.lightBlue[500] };
     case 'warning':
-      return { backgroundColor: colors.yellow.light };
+      return { backgroundColor: theme.colors.yellow[400] };
     default:
       return { backgroundColor: 'transparent' };
   }
 }
 
 export const getButtonStyles = (args: GetButtonStylesProps): ViewStyle => {
-  let style = buttonVariationStyles[args?.variation || 'contained'];
+  let style = buttonVariationStyles(args.theme, args?.variation || 'contained');
 
   if (args?.fullWidth) {
     style.width = '100%';
@@ -81,7 +100,7 @@ export const getButtonStyles = (args: GetButtonStylesProps): ViewStyle => {
   }
 
   if (args?.buttonColor) {
-    style = { ...style, ...getButtonBackgroundColor(args.buttonColor) };
+    style = { ...style, ...getButtonBackgroundColor(args.buttonColor, args.theme) };
   }
 
   if (args?.disabled) {

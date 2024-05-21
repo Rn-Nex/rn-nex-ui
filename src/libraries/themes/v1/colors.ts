@@ -218,12 +218,23 @@ const initialLightTheme = {
     800: '#0277BD',
     900: '#01579B',
   },
+  white: {
+    50: '#FAFAFA',
+    100: '#F5F5F5',
+    200: '#EEEEEE',
+    300: '#E0E0E0',
+    400: '#BDBDBD',
+    500: '#9E9E9E',
+    600: '#757575',
+    700: '#616161',
+    800: '#424242',
+    900: '#212121',
+  },
 };
 
 const createDarkColorTheme = (key: keyof typeof initialLightTheme) => {
   const colors = initialLightTheme[key] as ColorShades;
   const darkColors: any = {};
-
   const shades = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
   const reverseShades = [...shades].reverse();
 
@@ -255,6 +266,7 @@ const initialDarkTheme: Theme = {
   teal: createDarkColorTheme('teal'),
   cyan: createDarkColorTheme('cyan'),
   lightBlue: createDarkColorTheme('lightBlue'),
+  white: createDarkColorTheme('white'),
 };
 
 export { initialLightTheme, initialDarkTheme };

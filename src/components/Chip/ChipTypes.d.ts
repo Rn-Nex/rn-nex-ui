@@ -11,6 +11,7 @@ import {
 import { BaseButtonProps } from '../Button/ButtonTypes';
 import { TextProps } from '../Typography/TextTypes';
 import { BoxProps } from '../Box/BoxTypes';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 
 /**
  * Defines the variant of the chip.
@@ -72,6 +73,7 @@ export interface ChipProps extends Omit<BaseButtonProps, 'children' | 'sx'> {
   color?: ChipVariations;
 }
 export interface GenerateChipStylesProps extends Pick<ChipProps, 'variant' | 'disabled' | 'color'> {
+  theme: ThemeType;
   /**
    * Indicates if the chip has an adornment (start or end).
    */

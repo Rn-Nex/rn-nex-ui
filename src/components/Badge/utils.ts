@@ -1,12 +1,19 @@
 import { TextStyle, ViewStyle } from 'react-native';
-import { colors } from '../../libraries';
-import { GenerateBadgeContainerStylesProps, GenerateBadgeStylesProps, PlaceBadgeBasedPosition } from './BadgeTypes';
+import {
+  BadgeContentDefaultStylesProps,
+  GenerateBadgeContainerStylesProps,
+  GenerateBadgeStylesProps,
+  PlaceBadgeBasedPosition,
+} from './BadgeTypes';
 import { BADGE_DEFAULT_RADIUS } from './constants';
 
-export const BadgeContentDefaultStyles: TextStyle = {
-  color: colors.white.main,
-  fontWeight: '400',
-  fontSize: 11,
+export const badgeContentDefaultStyles = ({ theme }: BadgeContentDefaultStylesProps): TextStyle => {
+  const baseStyles: TextStyle = {
+    color: theme.colors.white[100],
+    fontWeight: '400',
+    fontSize: 11,
+  };
+  return baseStyles;
 };
 
 export const placeBadgeBasedPosition = ({ anchorOrigin, rootElementRect, variant }: PlaceBadgeBasedPosition): ViewStyle => {
@@ -46,7 +53,7 @@ export const generateBadgeContainerStyles = ({ overlap }: GenerateBadgeContainer
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 30,
+    minWidth: 30,
     borderRadius: isCircles ? 100 : isRectangular ? 5 : 0,
   };
 
@@ -54,6 +61,7 @@ export const generateBadgeContainerStyles = ({ overlap }: GenerateBadgeContainer
 };
 
 export const generateBadgeStyles = ({
+  theme,
   rootElementRect,
   variation,
   badgeVisibility,
@@ -72,7 +80,7 @@ export const generateBadgeStyles = ({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 5,
-    shadowColor: colors.black.light,
+    shadowColor: theme.colors.grey[500],
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
@@ -86,19 +94,19 @@ export const generateBadgeStyles = ({
   };
 
   if (variation === 'primary') {
-    styles.backgroundColor = colors.primary.light;
+    styles.backgroundColor = theme.colors.primary[300];
   } else if (variation === 'secondary') {
-    styles.backgroundColor = colors.secondary.light;
+    styles.backgroundColor = theme.colors.secondary[300];
   } else if (variation === 'error') {
-    styles.backgroundColor = colors.error.light;
+    styles.backgroundColor = theme.colors.red[500];
   } else if (variation === 'warning') {
-    styles.backgroundColor = colors.yellow.dark;
+    styles.backgroundColor = theme.colors.yellow[500];
   } else if (variation === 'info') {
-    styles.backgroundColor = colors.info.light;
+    styles.backgroundColor = theme.colors.lightBlue[500];
   } else if (variation === 'success') {
-    styles.backgroundColor = colors.green.dark;
+    styles.backgroundColor = theme.colors.green[500];
   } else {
-    styles.backgroundColor = colors.green.dark;
+    styles.backgroundColor = theme.colors.green[800];
   }
 
   styles = {

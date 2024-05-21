@@ -4,6 +4,7 @@ import { BaseStyles } from '../../libraries/style/styleTypes';
 import { TextProps } from '../Typography/TextTypes';
 import { BaseButtonProps } from '../Button/ButtonTypes';
 import { BoxProps } from '../Box/BoxTypes';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 
 /**
  * Interface for the List component properties, extending the properties of a View component
@@ -136,7 +137,9 @@ export interface ListItemStylesProps extends Pick<ListItemProps, 'endAdornment'>
  * Interface for styles related to the ListItem container, focusing on the selected property
  * This interface defines styles specific to the ListItem container.
  */
-export interface ListItemContainerStylesProps extends Pick<ListItemProps, 'selected'> {}
+export interface ListItemContainerStylesProps extends Pick<ListItemProps, 'selected'> {
+  theme: ThemeType;
+}
 
 /**
  * Interface for styles related to the List component, focusing on the disablePadding property

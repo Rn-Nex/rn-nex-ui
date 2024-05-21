@@ -4,7 +4,8 @@ import { AnimatedView, Box } from '../Box';
 import { Text } from '../Typography';
 import { BadgeContainerProps, BadgeProps } from './BadgeTypes';
 import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE } from './constants';
-import { BadgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './utils';
+import { badgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './utils';
+import { useTheme } from '../../libraries';
 
 const BadgeContainer = React.forwardRef<View, BadgeContainerProps>(({ children, style, overlap, ...props }, ref) => {
   return (
@@ -33,6 +34,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
     },
     ref,
   ) => {
+    const { theme } = useTheme();
     const [badgeContainerLayoutRect, setBadgeContainerLayoutRect] = useState<LayoutRectangle>();
     const badgeVisibility = useRef(new Animated.Value(0)).current;
     const maxValueLimit = max || BADGE_MAX_DEFAULT_VALUE;
@@ -45,9 +47,10 @@ export const Badge = React.forwardRef<View, BadgeProps>(
           badgeVisibility,
           variant,
           anchorOrigin,
+          theme,
         });
       }
-    }, [badgeContainerLayoutRect, variation, badgeVisibility, variant, anchorOrigin]);
+    }, [badgeContainerLayoutRect, variation, badgeVisibility, variant, anchorOrigin, theme]);
 
     const badgeContainerLayoutHandler = useCallback((event: LayoutChangeEvent) => {
       const { layout } = event.nativeEvent;
@@ -62,14 +65,14 @@ export const Badge = React.forwardRef<View, BadgeProps>(
 
         if (isNaN(badgeNumber)) {
           return (
-            <Text style={BadgeContentDefaultStyles} {...badgeContentProps}>
+            <Text style={[badgeContentDefaultStyles({ theme })]} {...badgeContentProps}>
               {content}
             </Text>
           );
         }
 
         return (
-          <Text style={BadgeContentDefaultStyles} {...badgeContentProps}>
+          <Text style={[badgeContentDefaultStyles({ theme })]} {...badgeContentProps}>
             {badgeNumber >= maxValueLimit ? maxValueLimit - 1 + '+' : badgeNumber}
           </Text>
         );

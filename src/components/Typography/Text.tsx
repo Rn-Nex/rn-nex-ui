@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { Text as RnText } from 'react-native';
-import { colors } from '../../libraries';
 import { generateElementStyles } from '../../utils';
 import { TextProps } from './TextTypes';
 import { gutter, maxLength as maxLengthUtile, textFontVariation } from './utils';
+import { useTheme } from '../../libraries';
 
 export const Text = React.forwardRef<RnText, TextProps>(
   (
@@ -23,13 +23,15 @@ export const Text = React.forwardRef<RnText, TextProps>(
     },
     ref,
   ) => {
+    const { theme } = useTheme();
+
     const textStyles = useMemo(() => {
       const styles = [];
-      if (variation) styles.push(textFontVariation(variation));
+      if (variation) styles.push(textFontVariation(variation, theme));
       if (gutterBottom) styles.push(gutter('marginBottom', 10));
-      if (isActive) styles.push({ color: activeColor || colors.blue.dark });
-      if (!disabled) styles.push({ color: colors.disabled.dark });
-      if (error) styles.push({ color: errorColor || colors.error.light });
+      if (isActive) styles.push({ color: activeColor || theme.colors.secondary[200] });
+      if (!disabled) styles.push({ color: theme.colors.blueGrey[300] });
+      if (error) styles.push({ color: errorColor || theme.colors.red[600] });
       if (sx) styles.push(generateElementStyles(sx));
       if (style) styles.push(style);
 

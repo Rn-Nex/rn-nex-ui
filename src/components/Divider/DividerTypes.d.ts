@@ -1,5 +1,6 @@
 import React from 'react';
 import { LayoutRectangle, View, ViewProps } from 'react-native';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 
 /**
  * Variants for the divider, specifying its appearance.
@@ -50,6 +51,8 @@ export interface DividerRootContainerProps extends ViewProps, Pick<DividerProps,
  * Props for generating the styles of the Divider.
  */
 export interface GenerateDividerStylesProps extends Pick<DividerProps, 'variant' | 'textAlign' | 'orientation'> {
+  theme: ThemeType;
+
   /**
    * Specifies the type of the divider, either 'left' or 'right'.
    */

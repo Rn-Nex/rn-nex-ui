@@ -4,12 +4,14 @@ import { ListItemProps } from './ListTypes';
 import { endAdornmentStyles, listItemContainerStyles, listItemStyles } from './utils';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
+import { useTheme } from '../../libraries';
 
 export const ListItem = React.forwardRef<TouchableWithoutFeedback, ListItemProps>(
   ({ children, style, endAdornment, endAdornmentContainerStyles, listContainerStyles, selected, ...props }, ref) => {
+    const { theme } = useTheme();
     const styles = useMemo(() => listItemStyles({ endAdornment }), [endAdornment]);
     const endStyles = useMemo(() => endAdornmentStyles(), [endAdornment]);
-    const containerStyles = useMemo(() => listItemContainerStyles({ selected }), [selected]);
+    const containerStyles = useMemo(() => listItemContainerStyles({ selected, theme }), [selected, theme]);
 
     return (
       <Box sx={listContainerStyles?.sx} style={[containerStyles, listContainerStyles?.style]}>

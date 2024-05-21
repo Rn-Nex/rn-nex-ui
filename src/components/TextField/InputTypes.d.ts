@@ -3,6 +3,7 @@ import { Animated, ColorValue, LayoutRectangle, StyleProp, TextInputProps, View,
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { BoxProps } from '../Box/BoxTypes';
 import { TextProps } from '../Typography/TextTypes';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 
 /**
  * Represents the variation options for a text field.
@@ -116,6 +117,7 @@ export interface LabelTransformStyleProps
     InputLabelProps,
     'labeled' | 'translateYAnimatedPosition' | 'variant' | 'placeholderLeftPosition' | 'textInputLayoutRect'
   > {
+  theme: ThemeType;
   /**
    * Height of the text input.
    */
@@ -125,7 +127,9 @@ export interface LabelTransformStyleProps
 /**
  * Represents the properties required to generate outline styles.
  */
-export interface OutlineStyles extends Pick<OutlineProps, 'error' | 'errorColor' | 'isFocused' | 'activeColor'> {}
+export interface OutlineStyles extends Pick<OutlineProps, 'error' | 'errorColor' | 'isFocused' | 'activeColor'> {
+  theme: ThemeType;
+}
 
 /**
  * Represents the properties required to get text input styles.

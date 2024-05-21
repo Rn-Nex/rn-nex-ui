@@ -1,12 +1,12 @@
 import { ColorValue } from 'react-native';
-import { colors } from '../../libraries';
 import { ElementBorderColorStyles } from '../../libraries/style/styleTypes';
 import { CardVariations } from './CardTypes';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 
-export const cardVariation = (variation: CardVariations) => {
+export const cardVariation = (variation: CardVariations, theme: ThemeType) => {
   const styles: { [key in keyof ElementBorderColorStyles]: ColorValue } = {};
   if (variation === 'outlined') {
-    styles.borderColor = colors.gray.dark;
+    styles.borderColor = theme.colors.grey[500];
   }
 
   return styles;
