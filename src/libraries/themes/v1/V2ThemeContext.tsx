@@ -1,29 +1,45 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { initialDarkTheme, initialLightTheme } from './colors';
 import { font, fontWeight, latterSpacing, lineHeight, spacing } from './sizes';
-import { ThemeInterface, ThemeProviderProps } from './theme';
+import { ThemMode, ThemeInterface, ThemeProviderProps } from './theme';
 
-export const DefaultTheme = {
-  theme: {
-    colors: initialLightTheme,
-    font: font,
-    spacing: spacing,
-    latterSpacing: latterSpacing,
-    lineHeight: lineHeight,
-    fontWeight: fontWeight,
-  },
+export const themeSpaces = {
+  font: font,
+  spacing: spacing,
+  latterSpacing: latterSpacing,
+  lineHeight: lineHeight,
+  fontWeight: fontWeight,
 };
 
-export const ThemeContext = React.createContext<ThemeInterface>(DefaultTheme);
-export const useTheme = <T extends {}>(): T & ThemeInterface => React.useContext(ThemeContext) as T & ThemeInterface;
+export const defaultLightTheme = {
+  colors: initialLightTheme,
+  ...themeSpaces,
+};
 
-export const ThemeProvider = ({ children, theme, mode = 'light' }: ThemeProviderProps) => {
+export const defaultDarkTheme = {
+  colors: initialDarkTheme,
+  ...themeSpaces,
+};
+
+const context = {
+  theme: defaultLightTheme,
+  changeTheme: (_: ThemMode) => {},
+};
+
+export const ThemeContext = React.createContext(context);
+export const useTheme = <T extends {}>() => React.useContext(ThemeContext) as ThemeInterface<T>;
+
+export const ThemeProvider = <T extends {}>({ children, lightTheme, darkTheme, mode = 'light' }: ThemeProviderProps<T>) => {
+  const [themeMode, setThemeMode] = useState<string>(mode);
+
   const initialTheme = useMemo(() => {
-    if (mode === 'dark') {
-      return { theme: { ...DefaultTheme.theme, colors: initialDarkTheme } };
+    if (themeMode === 'dark') {
+      return darkTheme || defaultDarkTheme;
     }
-    return DefaultTheme;
-  }, [mode, theme]);
+    return lightTheme || defaultLightTheme;
+  }, [themeMode, lightTheme, darkTheme]);
 
-  return <ThemeContext.Provider value={initialTheme}>{children}</ThemeContext.Provider>;
+  const changeTheme = (mode: ThemMode) => setThemeMode(mode);
+
+  return <ThemeContext.Provider value={{ theme: initialTheme!, changeTheme }}>{children}</ThemeContext.Provider>;
 };

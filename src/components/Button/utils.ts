@@ -4,7 +4,7 @@ import { ButtonColorTypes, ButtonVariationsType, GetButtonStylesProps } from './
 
 export const containedButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
   const baseStyles: ViewStyle = {
-    backgroundColor: theme.colors.primary[400],
+    backgroundColor: theme.colors.secondary[500],
     padding: theme.spacing.lg,
     elevation: 5,
     alignItems: 'center',

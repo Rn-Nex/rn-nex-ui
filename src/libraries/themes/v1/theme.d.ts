@@ -36,16 +36,18 @@ export type ThemeType = {
   };
 };
 
-export interface ThemeInterface {
-  theme: ThemeType;
+export interface ThemeInterface<T> {
+  theme: ThemeType & T;
+  changeTheme: (mode: ThemMode) => void;
 }
 
 export interface ThemeContextType {
   theme: ThemeInterface;
 }
 
-export interface ThemeProviderProps {
+export interface ThemeProviderProps<T extends {}> {
   children: React.ReactNode;
-  theme?: ThemeType;
+  lightTheme?: ThemeType & T;
+  darkTheme?: ThemeType & T;
   mode?: ThemMode;
 }
