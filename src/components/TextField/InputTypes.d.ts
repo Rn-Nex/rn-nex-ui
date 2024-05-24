@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, ColorValue, LayoutRectangle, StyleProp, TextInputProps, View, ViewStyle } from 'react-native';
+import { Animated, ColorValue, LayoutRectangle, StyleProp, TextInputProps, View, ViewProps, ViewStyle } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { BoxProps } from '../Box/BoxTypes';
 import { TextProps } from '../Typography/TextTypes';
@@ -42,6 +42,10 @@ export interface BaseInputProps extends TextInputProps {
 export interface InputLabelProps
   extends Pick<BaseInputProps, 'placeholder' | 'activeColor' | 'errorColor' | 'variant' | 'editable'>,
     Omit<TextProps, 'children'> {
+  /**
+   * Animated view container styles.
+   */
+  labelContainerStyles?: ViewStyle;
   /**
    * Animated value for controlling label animation.
    */

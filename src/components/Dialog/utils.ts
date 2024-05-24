@@ -1,4 +1,4 @@
-import { ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 
 export const dialogStyles = (): ViewStyle => {
@@ -7,31 +7,35 @@ export const dialogStyles = (): ViewStyle => {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   };
   return styles;
 };
 
 export const dialogContainerStyles = (theme: ThemeType): ViewStyle => {
   const styles: ViewStyle = {
-    backgroundColor: theme.colors.grey[600],
+    backgroundColor: theme.colors.grey[800],
     maxWidth: '90%',
     paddingBottom: 8,
     borderRadius: 5,
     elevation: 5,
-    shadowColor: theme.colors.grey[500],
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
   };
   return styles;
 };
 
-export const dialogTitleStyles = (): ViewStyle => {
-  const styles: ViewStyle = {
+export const dialogTitleStyles = (theme: ThemeType): TextStyle => {
+  const styles: TextStyle = {
     padding: 15,
+    color: theme.colors.grey[100],
   };
   return styles;
+};
+
+export const DialogContentTextStyles = (theme: ThemeType): TextStyle => {
+  const baseStyles: TextStyle = {
+    color: theme.colors.grey[100],
+  };
+  return baseStyles;
 };
 
 export const dialogContentStyles = (): ViewStyle => {

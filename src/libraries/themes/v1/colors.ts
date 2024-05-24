@@ -219,7 +219,7 @@ const initialLightTheme = {
     900: '#01579B',
   },
   white: {
-    50: '#FAFAFA',
+    50: '#ffffff',
     100: '#F5F5F5',
     200: '#EEEEEE',
     300: '#E0E0E0',

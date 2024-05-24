@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { OutlineStyles, LabelTransformStyleProps, TextInputStylesProps, TextFiledVariation } from './InputTypes';
 import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 import { ThemeType } from '../../libraries/themes/v1/theme';
@@ -15,7 +15,7 @@ export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme
     width: '100%',
     borderRadius: 6,
     borderWidth: INPUT_DEFAULT_BORDER_WIDTH,
-    borderColor: theme.colors.white[500],
+    borderColor: theme.colors.grey[500],
     paddingHorizontal: 14,
     position: 'relative',
     backgroundColor: 'transparent',
@@ -27,7 +27,7 @@ export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme
       ...outlineDefaultStyles,
       borderWidth: 0,
       borderColor: 'transparent',
-      backgroundColor: theme.colors.grey[500],
+      backgroundColor: theme.colors.grey[600],
       borderBottomRightRadius: 0,
       borderBottomLeftRadius: 0,
       borderBottomWidth: INPUT_DEFAULT_BORDER_WIDTH,
@@ -84,8 +84,8 @@ export const labelTransformStyle = ({
   return {
     position: 'absolute',
     zIndex: 10,
+    backgroundColor: theme.colors.white[50],
     left: placeholderLeftPosition || 0,
-    backgroundColor: variant === 'outlined' ? theme.colors.white[200] : 'transparent',
     paddingHorizontal: 8,
     top: '50%',
     transform: [
@@ -111,7 +111,7 @@ export const labelTransformStyle = ({
 
 export const outlineStyles = ({ error, errorColor, isFocused, activeColor, theme }: OutlineStyles): StyleProp<ViewStyle> => {
   let styles: ViewStyle = {
-    borderColor: theme.colors.white[200],
+    borderColor: theme.colors.grey[600],
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -124,4 +124,18 @@ export const outlineStyles = ({ error, errorColor, isFocused, activeColor, theme
   }
 
   return styles;
+};
+
+export const labelTextStyles = (theme: ThemeType): TextStyle => {
+  const baseStyles: TextStyle = {
+    color: theme.colors.grey[800],
+  };
+  return baseStyles;
+};
+
+export const baseInputStyles = (theme: ThemeType): TextStyle => {
+  const baseStyles: TextStyle = {
+    color: theme.colors.grey[200],
+  };
+  return baseStyles;
 };
