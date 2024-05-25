@@ -11,3 +11,4 @@ export * from './Divider';
 export * from './List';
 export * from './Portal';
 export * from './Dialog';
+export * from './Snackbar';

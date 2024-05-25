@@ -7,7 +7,6 @@ export const dialogStyles = (): ViewStyle => {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
   };
   return styles;
 };
