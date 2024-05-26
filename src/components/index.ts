@@ -12,3 +12,4 @@ export * from './List';
 export * from './Portal';
 export * from './Dialog';
 export * from './Snackbar';
+export * from './Menu';

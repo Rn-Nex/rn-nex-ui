@@ -4,7 +4,7 @@ import { ModalContainer } from './ModalContainer';
 import { usePortal } from './PortalProvider';
 import { PortalProps } from './PortalTypes';
 
-const Portal: React.FC<PortalProps> = ({ children, portalKey: key, visible, modalContainerProps, ...props }) => {
+const Portal: React.FC<PortalProps> = ({ children, portalKey: key, visible, modalContainerProps, onClose, ...props }) => {
   const { addPortal, removePortal } = usePortal();
 
   useEffect(() => {
@@ -13,7 +13,16 @@ const Portal: React.FC<PortalProps> = ({ children, portalKey: key, visible, moda
         key,
         component: (
           <Modal transparent animationType="slide" visible={visible} {...props}>
-            <ModalContainer {...modalContainerProps}>{children}</ModalContainer>
+            <ModalContainer
+              onClose={() => {
+                removePortal(key);
+                if (onClose) {
+                  onClose();
+                }
+              }}
+              {...modalContainerProps}>
+              {children}
+            </ModalContainer>
           </Modal>
         ),
       });

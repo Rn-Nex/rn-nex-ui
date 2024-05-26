@@ -32,7 +32,12 @@ export interface PortalContextProps {
 /**
  * Props for the container that wraps the modal content Extends BoxProps for styling flexibility.
  */
-export interface ModalContainerProps extends BoxProps {}
+export interface ModalContainerProps extends BoxProps {
+  /**
+   * function which is used to hide the modal.
+   */
+  onClose?: () => void;
+}
 
 /**
  * Props for the Portal component that manages portal creation and visibility.
@@ -50,6 +55,10 @@ export interface PortalProps extends ModalProps {
    * Props for the container around the modal content.
    */
   modalContainerProps?: ModalContainerProps;
+  /**
+   * function which is used to hide the modal
+   */
+  onClose?: () => void;
 }
 
 /**
