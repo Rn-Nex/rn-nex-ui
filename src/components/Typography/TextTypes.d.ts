@@ -61,6 +61,11 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
    * Specifies if the text component is disabled.
    */
   disabled?: boolean;
+
+  /**
+   * mode used for text light and dark variation color
+   */
+  mode?: 'light' | 'dark';
 }
 
 /**

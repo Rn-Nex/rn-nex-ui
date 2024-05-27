@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useRef } from 'react';
+import { Animated } from 'react-native';
 import { useTheme } from '../../libraries';
 import { generateElementStyles } from '../../utils';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
 import { PaginationItemProps } from './PaginationTypes';
 import { paginationItemStyles } from './utils';
-import { Animated } from 'react-native';
 
 export const ANIMATION_DURATION = 200;
 
@@ -52,7 +52,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
       }}
       {...props}
       style={[styles, { backgroundColor: backgroundColorInterpolation as any }, sx && generateElementStyles(sx), style]}>
-      <Text>{page}</Text>
+      <Text mode={active ? 'light' : 'dark'}>{page}</Text>
     </BaseButton>
   );
 };

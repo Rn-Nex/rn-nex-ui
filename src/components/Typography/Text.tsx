@@ -19,6 +19,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
       style,
       sx,
       disabled = true,
+      mode = 'light',
       ...props
     },
     ref,
@@ -46,7 +47,10 @@ export const Text = React.forwardRef<RnText, TextProps>(
     }, [children, maxLength]);
 
     return (
-      <RnText ref={ref} style={[textStyles, { color: theme.colors.white[50] }]} {...props}>
+      <RnText
+        ref={ref}
+        style={[textStyles, { color: mode === 'light' ? theme.colors.white[50] : theme.colors.white[700] }]}
+        {...props}>
         {renderedChildren}
       </RnText>
     );

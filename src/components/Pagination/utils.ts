@@ -3,11 +3,12 @@ import { PaginationItemStylesProps } from './PaginationTypes';
 
 export const paginationStyles = (): ViewStyle => {
   const baseStyles: ViewStyle = {
-    backgroundColor: 'red',
     padding: 5,
-    minWidth: 350,
+    paddingHorizontal: 10,
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     gap: 5,
   };
   return baseStyles;
