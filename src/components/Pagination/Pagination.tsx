@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { GestureResponderEvent, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { GestureResponderEvent, TouchableWithoutFeedback, View } from 'react-native';
 import { Box } from '../Box';
 import { Text } from '../Typography';
 import { PaginationItem } from './PaginationItem';
@@ -9,7 +9,21 @@ import { paginationStyles } from './utils';
 const MAX_PAGINATION_ITEM_VISIBLE = 5;
 
 export const Pagination = React.forwardRef<View, PaginationProps>(
-  ({ onPageChange, dotContainerProps, dotStylesProps, paginationItemProps, style, count = 1, ...props }, ref) => {
+  (
+    {
+      onPageChange,
+      dotContainerProps,
+      dotStylesProps,
+      paginationItemProps,
+      style,
+      disabled,
+      activeCount: active = 1,
+      renderItem,
+      count = 1,
+      ...props
+    },
+    ref,
+  ) => {
     const [activeCount, setActiveCount] = useState<number>(1);
 
     const items = useMemo(() => Array.from({ length: count }, (_, index) => index + 1), [count]);
@@ -65,24 +79,32 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
       return paginationItems;
     };
 
+    useEffect(() => {
+      setActiveCount(active);
+    }, [active]);
+
     return (
       <Box ref={ref} style={[styles, style]} {...props}>
+        {disabled ? <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 100 }} /> : null}
         {renderPaginationItems().map((item, index) => {
           if (item === 'start-dots' || item === 'end-dots') {
             return (
               <Box key={`pagination_dots_${index}`} {...dotContainerProps}>
-                <Text mode="dark" variation="h2" style={[{ marginHorizontal: 5 }, dotStylesProps]}>
+                <Text mode="dark" variation="h2" style={[{ marginHorizontal: 5, opacity: disabled ? 0.4 : 1 }, dotStylesProps]}>
                   ···
                 </Text>
               </Box>
             );
           }
-          return (
+          return renderItem ? (
+            <TouchableWithoutFeedback onPress={event => pageChangeHandler(event, item)}>{renderItem}</TouchableWithoutFeedback>
+          ) : (
             <PaginationItem
               key={`pagination_${item}_${index}`}
               onPress={event => pageChangeHandler(event, item)}
               page={item}
               active={activeCount === item}
+              disabled={disabled}
               {...paginationItemProps}
             />
           );

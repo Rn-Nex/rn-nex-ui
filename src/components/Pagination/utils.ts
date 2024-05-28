@@ -14,7 +14,14 @@ export const paginationStyles = (): ViewStyle => {
   return baseStyles;
 };
 
-export const paginationItemStyles = ({ color, isActive, theme, shape, variant }: PaginationItemStylesProps): ViewStyle => {
+export const paginationItemStyles = ({
+  color,
+  isActive,
+  theme,
+  shape,
+  variant,
+  disabled,
+}: PaginationItemStylesProps): ViewStyle => {
   const backgroundCl =
     color === 'standard'
       ? theme.colors.lightBlue[800]
@@ -41,6 +48,7 @@ export const paginationItemStyles = ({ color, isActive, theme, shape, variant }:
     borderColor: variant === 'outlined' ? theme.colors.grey[300] : 'transparent',
     borderRadius: shape === 'circular' ? 100 : 5,
     overflow: 'hidden',
+    opacity: disabled ? 0.4 : 1,
     backgroundColor: backgroundColorInterpolation as any,
   };
   return baseStyles;

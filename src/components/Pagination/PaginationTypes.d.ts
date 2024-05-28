@@ -3,6 +3,7 @@ import { ThemeType } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/BoxTypes';
 import { BaseButtonProps } from '../Button/ButtonTypes';
 import { TextProps } from '../Typography/TextTypes';
+import React from 'react';
 
 type PaginationItemColor = 'primary' | 'secondary' | 'standard' | 'error';
 type PaginationShape = 'circular' | 'rounded';
@@ -41,13 +42,17 @@ export interface PaginationItemProps extends Omit<BaseButtonProps, 'children'> {
    * pagination item variations
    */
   variant?: PaginationVariant;
+  /**
+   * If true, the component is disabled.
+   */
+  disabled?: boolean;
 }
 
 /**
  * Styles props for a single pagination item.
  * It extends from PaginationItemProps to reuse its properties for styling purposes.
  */
-export interface PaginationItemStylesProps extends Pick<PaginationItemProps, 'color' | 'shape' | 'variant'> {
+export interface PaginationItemStylesProps extends Pick<PaginationItemProps, 'color' | 'shape' | 'variant' | 'disabled'> {
   isActive: Animated.Value;
   theme: ThemeType;
 }
@@ -83,5 +88,20 @@ export interface PaginationProps extends BoxProps {
    * Additional props to be passed to each pagination item.
    * It omits the 'page' property since each item will have its own page value.
    */
-  paginationItemProps?: Omit<PaginationItemProps, 'page'>;
+  paginationItemProps?: Omit<PaginationItemProps, 'page', 'disabled'>;
+
+  /**
+   * If true, the component is disabled.
+   */
+  disabled?: boolean;
+
+  /**
+   * active state of the component
+   */
+  activeCount?: number;
+
+  /**
+   * custom pagination item.
+   */
+  renderItem?: React.ReactNode;
 }
