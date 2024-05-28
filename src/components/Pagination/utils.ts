@@ -14,15 +14,34 @@ export const paginationStyles = (): ViewStyle => {
   return baseStyles;
 };
 
-export const paginationItemStyles = ({}: PaginationItemStylesProps): ViewStyle => {
+export const paginationItemStyles = ({ color, isActive, theme, shape, variant }: PaginationItemStylesProps): ViewStyle => {
+  const backgroundCl =
+    color === 'standard'
+      ? theme.colors.lightBlue[800]
+      : color === 'primary'
+      ? theme.colors.primary[800]
+      : color === 'secondary'
+      ? theme.colors.secondary[300]
+      : color === 'error'
+      ? theme.colors.red[500]
+      : 'transparent';
+
+  const backgroundColorInterpolation = isActive.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['transparent', backgroundCl],
+  });
+
   const baseStyles: ViewStyle = {
     minWidth: 30,
     minHeight: 30,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 100,
+    borderWidth: variant === 'outlined' ? 1 : 0,
+    borderColor: variant === 'outlined' ? theme.colors.grey[300] : 'transparent',
+    borderRadius: shape === 'circular' ? 100 : 5,
     overflow: 'hidden',
+    backgroundColor: backgroundColorInterpolation as any,
   };
   return baseStyles;
 };

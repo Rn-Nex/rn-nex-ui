@@ -9,7 +9,7 @@ import { paginationStyles } from './utils';
 const MAX_PAGINATION_ITEM_VISIBLE = 5;
 
 export const Pagination = React.forwardRef<View, PaginationProps>(
-  ({ count, onPageChange, dotContainerProps, dotStylesProps, paginationItemProps, style, ...props }, ref) => {
+  ({ onPageChange, dotContainerProps, dotStylesProps, paginationItemProps, style, count = 1, ...props }, ref) => {
     const [activeCount, setActiveCount] = useState<number>(1);
 
     const items = useMemo(() => Array.from({ length: count }, (_, index) => index + 1), [count]);

@@ -4,6 +4,10 @@ import { BoxProps } from '../Box/BoxTypes';
 import { BaseButtonProps } from '../Button/ButtonTypes';
 import { TextProps } from '../Typography/TextTypes';
 
+type PaginationItemColor = 'primary' | 'secondary' | 'standard' | 'error';
+type PaginationShape = 'circular' | 'rounded';
+type PaginationVariant = 'outlined' | 'text';
+
 /**
  * Props for a single pagination item.
  */
@@ -24,13 +28,29 @@ export interface PaginationItemProps extends Omit<BaseButtonProps, 'children'> {
    * Background color for the ripple effect when the pagination item is pressed.
    */
   rippleBackgroundColor?: ColorValue;
+
+  /**
+   * The active color
+   */
+  color?: PaginationItemColor;
+  /**
+   * pagination item shape
+   */
+  shape?: PaginationShape;
+  /**
+   * pagination item variations
+   */
+  variant?: PaginationVariant;
 }
 
 /**
  * Styles props for a single pagination item.
  * It extends from PaginationItemProps to reuse its properties for styling purposes.
  */
-export interface PaginationItemStylesProps extends Pick<PaginationItemProps> {}
+export interface PaginationItemStylesProps extends Pick<PaginationItemProps, 'color' | 'shape' | 'variant'> {
+  isActive: Animated.Value;
+  theme: ThemeType;
+}
 
 /**
  * Props for the Pagination component.

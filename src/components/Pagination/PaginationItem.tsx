@@ -14,13 +14,14 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
   sx,
   page,
   active,
+  color = 'standard',
+  shape = 'circular',
+  variant = 'text',
   rippleBackgroundColor = '#fefefe2f',
   ...props
 }) => {
   const isActive = useRef(new Animated.Value(0)).current;
   const { theme } = useTheme();
-
-  const styles = useMemo(() => paginationItemStyles({}), []);
 
   useEffect(() => {
     if (active) {
@@ -38,10 +39,10 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
     }
   }, [active]);
 
-  const backgroundColorInterpolation = isActive.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['transparent', theme.colors.lightBlue[800]],
-  });
+  const styles = useMemo(
+    () => paginationItemStyles({ color, isActive, theme, shape, variant }),
+    [color, isActive, theme, shape, variant],
+  );
 
   return (
     <BaseButton
@@ -51,7 +52,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
         },
       }}
       {...props}
-      style={[styles, { backgroundColor: backgroundColorInterpolation as any }, sx && generateElementStyles(sx), style]}>
+      style={[styles, sx && generateElementStyles(sx), style]}>
       <Text mode={active ? 'light' : 'dark'}>{page}</Text>
     </BaseButton>
   );
