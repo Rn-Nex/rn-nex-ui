@@ -34,7 +34,6 @@ export const Text = React.forwardRef<RnText, TextProps>(
       if (!disabled) styles.push({ color: theme.colors.blueGrey[300] });
       if (error) styles.push({ color: errorColor || theme.colors.red[600] });
       if (sx) styles.push(generateElementStyles(sx));
-      if (style) styles.push(style);
 
       return styles;
     }, [variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, style]);
@@ -49,7 +48,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
     return (
       <RnText
         ref={ref}
-        style={[textStyles, { color: mode === 'light' ? theme.colors.white[50] : theme.colors.white[700] }]}
+        style={[textStyles, { color: mode === 'light' ? theme.colors.white[50] : theme.colors.white[700] }, style]}
         {...props}>
         {renderedChildren}
       </RnText>

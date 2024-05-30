@@ -29,7 +29,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       variant,
       anchorOrigin,
       badgeContainerProps,
-      overlap,
+      overlap = 'rectangular',
       ...props
     },
     ref,

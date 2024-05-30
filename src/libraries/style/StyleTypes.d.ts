@@ -121,9 +121,6 @@ export type ElementTextStyleProps = {
   dLine?: TextStyle['textDecorationLine'];
   dStyle?: TextStyle['textDecorationStyle'];
   dColor?: TextStyle['textDecorationColor'];
-  sColor?: TextStyle['shadowColor'];
-  sOffset?: TextStyle['shadowOffset'];
-  sRadius?: TextStyle['shadowRadius'];
   transform?: TextStyle['textTransform'];
   select?: TextStyle['userSelect'];
 };
@@ -154,6 +151,10 @@ export type ElementViewStyles = {
   e?: ViewStyle['elevation'];
   pEvents?: ViewStyle['pointerEvents'];
   c?: ViewStyle['cursor'];
+  sColor?: ViewStyle['shadowColor'];
+  sOffset?: ViewStyle['shadowOffset'];
+  sOpacity?: ViewStyle['shadowOpacity'];
+  sRadius?: ViewStyle['shadowRadius'];
 };
 
 /**

@@ -1,13 +1,5 @@
-import { AnimatableNumericValue, DimensionValue, Image, ImageStyle, ImageProps as RnImageProps } from 'react-native';
-import {
-  ElementBorderRadiusMap,
-  ElementRadius,
-  ELementDimensionMap,
-  ElementMargin,
-  ElementPadding,
-  ElementDimension,
-  ElementFlexStyleProps,
-} from '../../libraries/style/styleTypes';
+import { DimensionValue, Image, ImageProps as RnImageProps } from 'react-native';
+import { BaseStyles } from '../../libraries/style/styleTypes';
 
 /**
  * Define the type for the variant of the image.
@@ -30,5 +22,5 @@ export interface ImageProps extends React.ComponentType<Image>, RnImageProps, Im
    * Size of the image.
    */
   size?: DimensionValue;
-  sx?: ELementDimensionMap<ElementPadding | ElementMargin | ElementDimension> & ElementBorderRadiusMap & ElementFlexStyleProps;
+  sx?: BaseStyles;
 }

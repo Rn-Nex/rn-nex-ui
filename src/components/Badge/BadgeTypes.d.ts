@@ -1,8 +1,7 @@
 import React from 'react';
-import { Animated, LayoutRectangle, View } from 'react-native';
+import { Animated, LayoutRectangle, TextProps, View } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/BoxTypes';
-import { TextProps } from '../Typography/TextTypes';
 
 /**
  * Defines the available variations for the badge.

@@ -70,6 +70,7 @@ export const styles: Record<
   dStyle: 'textDecorationStyle',
   dColor: 'textDecorationColor',
   sColor: 'shadowColor',
+  sOpacity: 'shadowOpacity',
   sOffset: 'shadowOffset',
   sRadius: 'shadowRadius',
   transform: 'textTransform',
