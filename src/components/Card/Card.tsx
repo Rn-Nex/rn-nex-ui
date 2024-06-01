@@ -12,13 +12,12 @@ export const Card = React.forwardRef<View, CardProps>(({ children, variation, st
     () =>
       generateElementStyles({
         ...sx,
-        ...cardVariation(variation, theme),
       }),
-    [sx, variation, theme],
+    [sx, theme],
   );
 
   return (
-    <View ref={ref} style={[variation && cardStyle, style]} {...props}>
+    <View ref={ref} style={[variation && cardVariation(variation, theme), cardStyle, style]} {...props}>
       {children}
     </View>
   );

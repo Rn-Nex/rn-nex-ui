@@ -97,4 +97,7 @@ export const styles: Record<
   e: 'elevation',
   pEvents: 'pointerEvents',
   c: 'cursor',
+  bColor: 'borderColor',
+  bWidth: 'borderWidth',
+  overflow: 'overflow',
 };

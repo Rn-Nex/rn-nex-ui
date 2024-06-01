@@ -18,6 +18,7 @@ export const dialogContainerStyles = (theme: ThemeType): ViewStyle => {
     paddingBottom: 8,
     borderRadius: 5,
     elevation: 5,
+    zIndex: 100,
   };
   return styles;
 };

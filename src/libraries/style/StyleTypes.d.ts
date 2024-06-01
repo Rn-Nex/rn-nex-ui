@@ -155,6 +155,9 @@ export type ElementViewStyles = {
   sOffset?: ViewStyle['shadowOffset'];
   sOpacity?: ViewStyle['shadowOpacity'];
   sRadius?: ViewStyle['shadowRadius'];
+  bColor?: ViewStyle['borderColor'];
+  bWidth?: ViewStyle['borderWidth'];
+  overflow?: ViewStyle['overflow'];
 };
 
 /**

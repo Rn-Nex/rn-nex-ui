@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
-import { DividerProps, DividerRootContainerProps } from './DividerTypes';
-import { generateRootContainerStyles, generateDividerStyles } from './utils';
 import { useTheme } from '../../libraries';
+import { DividerProps, DividerRootContainerProps } from './DividerTypes';
+import { generateDividerStyles, generateRootContainerStyles } from './utils';
 
 const DividerRootContainer: React.FC<DividerRootContainerProps> = ({ children, variant, style, orientation, ...props }) => {
   const dividerStyles = useMemo(() => generateRootContainerStyles({ variant, orientation }), [variant, orientation]);
@@ -28,7 +28,12 @@ export const Divider: React.FC<DividerProps> = ({
 
   const childWrapperOnLayoutHandler = useCallback((event: LayoutChangeEvent) => {
     const { layout } = event.nativeEvent;
-    setChildWrapperLayoutRect(layout);
+    setChildWrapperLayoutRect(prev => {
+      if (!prev || prev.width !== layout.width || prev.height !== layout.height) {
+        return layout;
+      }
+      return prev;
+    });
   }, []);
 
   const dividerRootOnLayoutHandler = useCallback(
@@ -54,7 +59,7 @@ export const Divider: React.FC<DividerProps> = ({
         orientation,
         theme,
       }),
-    [variant, children, childWrapperLayoutRect, dividerRootLayoutRect, textAlign, orientation, theme],
+    [variant, !!children, !!childWrapperLayoutRect, !!dividerRootLayoutRect, textAlign, orientation, theme],
   );
 
   const rightStyle = useMemo(
@@ -69,7 +74,7 @@ export const Divider: React.FC<DividerProps> = ({
         orientation,
         theme,
       }),
-    [variant, children, childWrapperLayoutRect, dividerRootLayoutRect, textAlign, orientation, theme],
+    [variant, !!children, !!childWrapperLayoutRect, !!dividerRootLayoutRect, textAlign, orientation, theme],
   );
 
   return (

@@ -15,9 +15,9 @@ export const containedButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
   return baseStyles;
 };
 
-export const textButtonDefaultStyles = (): ViewStyle => {
+export const textButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
   const baseStyles: ViewStyle = {
-    ...containedButtonDefaultStyles,
+    ...containedButtonDefaultStyles(theme),
     backgroundColor: 'transparent',
   };
 
@@ -26,9 +26,9 @@ export const textButtonDefaultStyles = (): ViewStyle => {
 
 export const outlinedButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
   const baseStyles: ViewStyle = {
-    ...textButtonDefaultStyles,
+    ...textButtonDefaultStyles(theme),
     borderWidth: 1,
-    borderColor: theme.colors.primary[400],
+    borderColor: theme.colors.grey[400],
   };
 
   return baseStyles;
@@ -62,7 +62,7 @@ export const buttonVariationStyles = (theme: ThemeType, variation: ButtonVariati
   const variations: Record<ButtonVariationsType, ViewStyle> = {
     outlined: outlinedButtonDefaultStyles(theme),
     contained: containedButtonDefaultStyles(theme),
-    text: textButtonDefaultStyles(),
+    text: textButtonDefaultStyles(theme),
     roundedIconButton: iconButtonDefaultStyles(theme),
     squareIconButton: squareIconButtonStyles,
   };

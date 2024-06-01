@@ -1,5 +1,12 @@
 import { StyleProp, TextStyle, ViewStyle } from 'react-native';
-import { OutlineStyles, LabelTransformStyleProps, TextInputStylesProps, TextFiledVariation } from './InputTypes';
+import {
+  OutlineStyles,
+  LabelTransformStyleProps,
+  TextInputStylesProps,
+  TextFiledVariation,
+  LabelTextStylesProps,
+  BaseInputStylesProps,
+} from './InputTypes';
 import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 
@@ -27,7 +34,7 @@ export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme
       ...outlineDefaultStyles,
       borderWidth: 0,
       borderColor: 'transparent',
-      backgroundColor: theme.colors.grey[600],
+      backgroundColor: theme.colors.grey[500],
       borderBottomRightRadius: 0,
       borderBottomLeftRadius: 0,
       borderBottomWidth: INPUT_DEFAULT_BORDER_WIDTH,
@@ -84,7 +91,7 @@ export const labelTransformStyle = ({
   return {
     position: 'absolute',
     zIndex: 10,
-    backgroundColor: theme.colors.white[50],
+    backgroundColor: variant === 'outlined' ? theme.colors.white[50] : 'transparent',
     left: placeholderLeftPosition || 0,
     paddingHorizontal: 8,
     top: '50%',
@@ -126,16 +133,18 @@ export const outlineStyles = ({ error, errorColor, isFocused, activeColor, theme
   return styles;
 };
 
-export const labelTextStyles = (theme: ThemeType): TextStyle => {
+export const labelTextStyles = ({ theme, variant }: LabelTextStylesProps): TextStyle => {
   const baseStyles: TextStyle = {
-    color: theme.colors.grey[800],
+    color: variant === 'outlined' ? theme.colors.grey[800] : theme.colors.white[50],
   };
   return baseStyles;
 };
 
-export const baseInputStyles = (theme: ThemeType): TextStyle => {
+export const baseInputStyles = ({ theme, variant }: BaseInputStylesProps): TextStyle => {
   const baseStyles: TextStyle = {
-    color: theme.colors.grey[200],
+    color: variant === 'outlined' ? theme.colors.grey[800] : theme.colors.grey[200],
+    minHeight: 30,
+    width: '100%',
   };
   return baseStyles;
 };

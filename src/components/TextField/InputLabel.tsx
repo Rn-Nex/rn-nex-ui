@@ -9,7 +9,7 @@ import { labelTextStyles, labelTransformStyle } from './utils';
 export const InputLabel = function ({
   placeholder,
   labeled,
-  variant,
+  variant = 'outlined',
   editable,
   translateYAnimatedPosition,
   placeholderLeftPosition,
@@ -36,7 +36,7 @@ export const InputLabel = function ({
     [theme, textHeight, translateYAnimatedPosition, labeled, variant, textInputLayoutRect, placeholderLeftPosition],
   );
 
-  const labelStyles = useMemo(() => labelTextStyles(theme), [theme]);
+  const labelStyles = useMemo(() => labelTextStyles({ theme, variant }), [theme, variant]);
 
   const onTextLayoutHandler = (event: LayoutChangeEvent) => {
     const { layout } = event.nativeEvent;

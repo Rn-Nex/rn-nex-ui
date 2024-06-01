@@ -114,7 +114,6 @@ export const TextField = ({
       errorColor={errorColor}
       style={[outlineStyles, sx && generateElementStyles(sx), style]}
       isFocused={isFocused}
-      editable={editable}
       error={error}>
       {textInputLayoutRectangle?.width && textInputLayoutRectangle?.height ? (
         <InputLabel
@@ -144,6 +143,7 @@ export const TextField = ({
         onFocus={onFocus}
         onLayout={onLayout}
         style={[textStyles, inputStyles]}
+        variant={variant}
         {...props}
       />
       {endAdornment && (

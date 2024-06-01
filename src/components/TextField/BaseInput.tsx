@@ -4,9 +4,8 @@ import { BaseInputProps } from './InputTypes';
 import { baseInputStyles } from './utils';
 import { useTheme } from '../../libraries';
 
-export const BaseInput = React.forwardRef<TextInput, BaseInputProps>(({ style, ...props }, ref) => {
+export const BaseInput = React.forwardRef<TextInput, BaseInputProps>(({ style, variant, ...props }, ref) => {
   const { theme } = useTheme();
-  const styles = useMemo(() => baseInputStyles(theme), []);
-
+  const styles = useMemo(() => baseInputStyles({ theme, variant }), [variant]);
   return <TextInput ref={ref} style={[styles, style]} {...props} />;
 });

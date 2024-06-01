@@ -152,3 +152,11 @@ export interface TextInputStylesProps {
    */
   startAdornment?: boolean;
 }
+
+export interface LabelTextStylesProps extends Pick<TextInputStylesProps, 'variant'> {
+  theme: ThemeType;
+}
+
+export interface BaseInputStylesProps extends Pick<BaseInputProps, 'variant'> {
+  theme: ThemeType;
+}
