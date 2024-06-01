@@ -1,19 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, StyleSheet, UIManager, View, findNodeHandle } from 'react-native';
-import {
-  Avatar,
-  Button,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-  MenuList,
-  PortalProvider,
-  Text,
-} from '../../../../nex-ui/src';
-import { MeasureElementRect } from '../../../src/types';
+import { Avatar, Button, ListItemIcon, ListItemText, Menu, MenuItem, MenuList, PortalProvider, Text } from '../../src';
+import { MeasureElementRect } from '../../src/types';
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const [showMenu, setShowMenu] = useState(false);
   const buttonRef = useRef(null);
   const [r, setR] = useState<MeasureElementRect | null>(null);
@@ -93,5 +83,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
 });
-
-export default App;

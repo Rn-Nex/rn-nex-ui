@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutRectangle, View, ViewProps } from 'react-native';
+import { LayoutRectangle, StyleProp, View, ViewProps, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 
 /**
@@ -40,6 +40,15 @@ export interface DividerProps extends React.ComponentPropsWithoutRef<typeof View
    * Specifies the orientation of the divider.
    */
   orientation?: DividerOrientation;
+  /**
+   * custom style for the divider border elements.
+   */
+  dividerBorderStyles?: StyleProp<ViewStyle>;
+  /**
+   * specifies styles for the divider border element
+   */
+  leftDividerBorderStyle?: StyleProp<ViewStyle>;
+  rightDividerBorderStyle?: StyleProp;
 }
 
 /**

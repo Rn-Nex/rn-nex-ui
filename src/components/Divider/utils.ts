@@ -14,6 +14,7 @@ export const generateRootContainerStyles = ({ variant, orientation }: DividerRoo
     alignItems: 'center',
     flexDirection: orientation === 'vertical' ? 'column' : 'row',
     justifyContent: 'center',
+    overflow: 'hidden',
   };
 
   if (variant === 'middle') {
@@ -46,6 +47,7 @@ export const generateDividerStyles = ({
     width: isHorizontal ? DEFAULT_WIDTH : DEFAULT_HEIGHT,
     height: isHorizontal ? DEFAULT_HEIGHT : DEFAULT_WIDTH,
     backgroundColor: theme.colors.grey[700],
+    opacity: 0,
   };
 
   if (!hasChild || !childWrapperLayoutRect || !dividerRootLayoutRect) {
@@ -54,9 +56,10 @@ export const generateDividerStyles = ({
         ...baseStyles,
         width: isHorizontal ? MIDDLE_WIDTH : DEFAULT_HEIGHT,
         height: isHorizontal ? DEFAULT_HEIGHT : MIDDLE_WIDTH,
+        opacity: 1,
       };
     }
-    return baseStyles;
+    return { ...baseStyles, opacity: 1 };
   }
 
   const rootDividerWidth = dividerRootLayoutRect.width;
@@ -99,17 +102,20 @@ export const generateDividerStyles = ({
     return {
       ...baseStyles,
       ...calculateDimensions(isLeftDivider),
+      opacity: 1,
     };
   } else if (textAlign === 'right') {
     return {
       ...baseStyles,
       ...calculateDimensions(isRightDivider),
+      opacity: 1,
     };
   }
 
   return {
     ...baseStyles,
     width: isHorizontal ? calculatedWidth : DEFAULT_HEIGHT,
+    opacity: 1,
     height: isHorizontal
       ? DEFAULT_HEIGHT
       : variant === 'fullWidth'

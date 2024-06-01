@@ -16,6 +16,9 @@ const DividerRootContainer: React.FC<DividerRootContainerProps> = ({ children, v
 
 export const Divider: React.FC<DividerProps> = ({
   children,
+  dividerBorderStyles,
+  leftDividerBorderStyle,
+  rightDividerBorderStyle,
   onLayout: dividerOnLayoutHandler,
   orientation = 'horizontal',
   textAlign = 'center',
@@ -79,13 +82,13 @@ export const Divider: React.FC<DividerProps> = ({
 
   return (
     <DividerRootContainer orientation={orientation} onLayout={dividerRootOnLayoutHandler} variant={variant} {...props}>
-      <View style={leftStyle} />
+      <View style={[leftStyle, leftDividerBorderStyle, dividerBorderStyles]} />
       {children && (
         <View style={{ paddingHorizontal: 10 }} onLayout={childWrapperOnLayoutHandler}>
           {children}
         </View>
       )}
-      <View style={rightStyle} />
+      <View style={[rightStyle, rightDividerBorderStyle, dividerBorderStyles]} />
     </DividerRootContainer>
   );
 };
