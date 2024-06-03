@@ -116,7 +116,14 @@ export const labelTransformStyle = ({
   };
 };
 
-export const outlineStyles = ({ error, errorColor, isFocused, activeColor, theme }: OutlineStyles): StyleProp<ViewStyle> => {
+export const outlineStyles = ({
+  error,
+  errorColor,
+  isFocused,
+  activeColor,
+  theme,
+  editable,
+}: OutlineStyles): StyleProp<ViewStyle> => {
   let styles: ViewStyle = {
     borderColor: theme.colors.grey[600],
     display: 'flex',
@@ -124,10 +131,16 @@ export const outlineStyles = ({ error, errorColor, isFocused, activeColor, theme
     alignItems: 'center',
   };
 
+  console.log(editable);
+
   if (error) {
     styles = { ...styles, borderColor: errorColor ? errorColor : theme.colors.red[500] };
   } else if (isFocused) {
     styles = { ...styles, borderColor: activeColor ? activeColor : theme.colors.lightBlue[500] };
+  }
+
+  if (!editable) {
+    styles = { ...styles, opacity: 0.6 };
   }
 
   return styles;

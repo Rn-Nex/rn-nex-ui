@@ -18,8 +18,8 @@ export const Text = React.forwardRef<RnText, TextProps>(
       activeColor,
       style,
       sx,
-      disabled = true,
-      mode = 'light',
+      disabled = false,
+      mode = 'dark',
       ...props
     },
     ref,
@@ -30,13 +30,14 @@ export const Text = React.forwardRef<RnText, TextProps>(
       const styles = [];
       if (variation) styles.push(textFontVariation(variation, theme));
       if (gutterBottom) styles.push(gutter('marginBottom', 10));
+      if (mode === 'light') styles.push({ color: theme.colors.white[50] });
       if (isActive) styles.push({ color: activeColor || theme.colors.secondary[200] });
-      if (!disabled) styles.push({ color: theme.colors.blueGrey[300] });
+      if (disabled) styles.push({ opacity: 0.3 });
       if (error) styles.push({ color: errorColor || theme.colors.red[600] });
       if (sx) styles.push(generateElementStyles(sx));
 
       return styles;
-    }, [variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, style]);
+    }, [variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, style, mode]);
 
     const renderedChildren = useMemo(() => {
       if (typeof children === 'string' && maxLength) {
@@ -46,10 +47,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
     }, [children, maxLength]);
 
     return (
-      <RnText
-        ref={ref}
-        style={[textStyles, { color: mode === 'light' ? theme.colors.white[50] : theme.colors.white[700] }, style]}
-        {...props}>
+      <RnText ref={ref} style={[textStyles, style]} {...props}>
         {renderedChildren}
       </RnText>
     );

@@ -97,7 +97,9 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
             );
           }
           return renderItem ? (
-            <TouchableWithoutFeedback onPress={event => pageChangeHandler(event, item)}>{renderItem}</TouchableWithoutFeedback>
+            <TouchableWithoutFeedback key={`pagination_dots_${index}`} onPress={event => pageChangeHandler(event, item)}>
+              {renderItem}
+            </TouchableWithoutFeedback>
           ) : (
             <PaginationItem
               key={`pagination_${item}_${index}`}

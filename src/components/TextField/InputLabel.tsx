@@ -47,7 +47,7 @@ export const InputLabel = function ({
     <Animated.View style={[styles, labelContainerStyles]}>
       <AnimatedText onLayout={onTextLayoutHandler}>
         {textLayoutRect ? (
-          <Text variation="h3" disabled={!editable} style={[labelStyles, style]} {...props}>
+          <Text variation="h3" disabled={editable} style={[labelStyles, style]} {...props}>
             {placeholder}
           </Text>
         ) : null}

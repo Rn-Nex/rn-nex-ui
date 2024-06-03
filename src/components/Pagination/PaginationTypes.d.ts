@@ -17,7 +17,7 @@ export interface PaginationItemProps extends Omit<BaseButtonProps, 'children'> {
    * The page number or a special string value like 'start-dots' or 'end-dots'.
    * This determines what will be displayed on the pagination item.
    */
-  page: number | string;
+  page?: number | string;
 
   /**
    * Indicates if the pagination item is the currently active page.
@@ -88,7 +88,7 @@ export interface PaginationProps extends BoxProps {
    * Additional props to be passed to each pagination item.
    * It omits the 'page' property since each item will have its own page value.
    */
-  paginationItemProps?: Omit<PaginationItemProps, 'page', 'disabled'>;
+  paginationItemProps?: PaginationItemProps;
 
   /**
    * If true, the component is disabled.

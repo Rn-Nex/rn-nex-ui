@@ -131,7 +131,7 @@ export interface LabelTransformStyleProps
 /**
  * Represents the properties required to generate outline styles.
  */
-export interface OutlineStyles extends Pick<OutlineProps, 'error' | 'errorColor' | 'isFocused' | 'activeColor'> {
+export interface OutlineStyles extends Pick<OutlineProps, 'error' | 'errorColor' | 'isFocused' | 'activeColor' | 'editable'> {
   theme: ThemeType;
 }
 

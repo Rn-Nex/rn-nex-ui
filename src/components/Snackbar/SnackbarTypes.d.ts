@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextProps } from 'react-native';
+import { StyleProp, TextProps, ViewStyle } from 'react-native';
 
 /**
  * Props for the Snackbar component.

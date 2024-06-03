@@ -109,6 +109,7 @@ export const TextField = ({
 
   return (
     <Outline
+      editable={editable}
       variant={variant}
       activeColor={activeColor}
       errorColor={errorColor}
@@ -117,7 +118,7 @@ export const TextField = ({
       error={error}>
       {textInputLayoutRectangle?.width && textInputLayoutRectangle?.height ? (
         <InputLabel
-          disabled={editable}
+          disabled={!editable}
           variant={variant}
           isActive={isFocused}
           activeColor={activeColor}
