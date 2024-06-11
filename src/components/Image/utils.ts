@@ -5,7 +5,7 @@ import {
   IMAGE_ROUNDED_MD_RADIUS,
   IMAGE_ROUNDED_RADIUS,
   IMAGE_ROUNDED_SM_RADIUS,
-  IMAGE_ROUNDED_XL_RADIUS_RADIUS,
+  IMAGE_ROUNDED_XL_RADIUS,
   IMAGE_SQUARE_RADIUS,
 } from './constants';
 import { ImageVariant } from './ImageTypes';
@@ -24,7 +24,7 @@ export const generateImageRadiusStyles = (variation: ImageVariant) => {
   } else if (variation === 'rounded-lg') {
     styles['borderRadius'] = IMAGE_ROUNDED_LG_RADIUS;
   } else if (variation === 'rounded-xl') {
-    styles['borderRadius'] = IMAGE_ROUNDED_XL_RADIUS_RADIUS;
+    styles['borderRadius'] = IMAGE_ROUNDED_XL_RADIUS;
   }
 
   return generateStyle({ propertyName: 'borderRadius', value: styles['borderRadius'] });
