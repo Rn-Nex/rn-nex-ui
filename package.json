@@ -2,7 +2,6 @@
   "name": "nex-ui",
   "description": "nex-ui is a sleek and intuitive UI library designed to streamline your React Native development process. With a focus on simplicity and elegance, nex-ui offers a comprehensive suite of components and utilities to effortlessly create polished mobile applications. Whether you're a seasoned developer or just starting out, nex-ui empowers you to build stunning user interfaces with ease. Elevate your React Native projects to a state of Zen-like tranquility with nex-ui",
   "version": "0.0.1",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dheeraj1429/nex-ui.git"
