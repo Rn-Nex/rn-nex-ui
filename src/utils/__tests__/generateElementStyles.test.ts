@@ -202,9 +202,6 @@ describe('generateElementStyles with text styles', () => {
       dLine: 'underline',
       dStyle: 'double',
       dColor: 'red',
-      sColor: 'black',
-      sOffset: { width: 10, height: 10 },
-      sRadius: 10,
       transform: 'uppercase',
       select: 'contain',
     };
@@ -222,9 +219,6 @@ describe('generateElementStyles with text styles', () => {
       textDecorationLine: 'underline',
       textDecorationStyle: 'double',
       textDecorationColor: 'red',
-      shadowColor: 'black',
-      shadowOffset: { width: 10, height: 10 },
-      shadowRadius: 10,
       textTransform: 'uppercase',
       userSelect: 'contain',
     };
