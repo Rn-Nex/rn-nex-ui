@@ -4,7 +4,7 @@ import { ModalContainer } from './ModalContainer';
 import { usePortal } from './PortalProvider';
 import { PortalProps } from './PortalTypes';
 
-const Portal: React.FC<PortalProps> = ({ children, portalKey: key, visible, modalContainerProps, onClose, ...props }) => {
+export const Portal: React.FC<PortalProps> = ({ children, portalKey: key, visible, modalContainerProps, onClose, ...props }) => {
   const { addPortal, removePortal } = usePortal();
 
   useEffect(() => {
@@ -37,5 +37,3 @@ const Portal: React.FC<PortalProps> = ({ children, portalKey: key, visible, moda
 
   return null;
 };
-
-export default Portal;

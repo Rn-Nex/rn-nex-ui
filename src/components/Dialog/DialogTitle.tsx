@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Text as RnText } from 'react-native';
 import { DialogTitleProps } from './DialogTypes';
-import { Text } from '../Typography';
+import { Text } from '../Typography/index.ts';
 import { dialogTitleStyles } from './utils.ts';
 import { useTheme } from '../../libraries/index.ts';
 
