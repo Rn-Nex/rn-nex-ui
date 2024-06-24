@@ -6,7 +6,7 @@ import { InputLabelProps } from './InputTypes';
 import { PLACEHOLDER_OUTLINE_LEFT_POSITION, TEXT_FONT_DEFAULT_HEIGHT } from './constants';
 import { labelTextStyles, labelTransformStyle } from './utils';
 
-export const InputLabel = function ({
+export const InputLabel: React.FC<InputLabelProps> = function ({
   placeholder,
   labeled,
   variant = 'outlined',
@@ -17,7 +17,7 @@ export const InputLabel = function ({
   labelContainerStyles,
   style,
   ...props
-}: InputLabelProps) {
+}) {
   const { theme } = useTheme();
   const [textLayoutRect, setTextLayoutRect] = useState<LayoutRectangle>();
   const textHeight = textLayoutRect?.height ? textLayoutRect.height : TEXT_FONT_DEFAULT_HEIGHT;

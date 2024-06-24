@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { AnimatedView } from '../Box';
-import Portal from '../Portal/Portal';
+import { Portal } from '../Portal';
 import { MenuProps } from './MenuTypes';
 import { FADE_ANIMATION_DURATION, SCALE_ANIMATION_DURATION } from './constants';
 import { dialogContainerStyles, menuStyles } from './utils';

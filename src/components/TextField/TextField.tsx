@@ -21,7 +21,7 @@ import {
 } from './constants';
 import { textInputStyles } from './utils';
 
-export const TextField = ({
+export const TextField: React.FC<TextFieldProps> = ({
   outlineStyles,
   value,
   style,
@@ -44,7 +44,7 @@ export const TextField = ({
   placeholder = 'Outlined',
   variant = 'outlined',
   ...props
-}: TextFieldProps) => {
+}) => {
   const inputLabeledAnimatedValue = useRef(new Animated.Value(0)).current;
   const [textInputLayoutRectangle, setTextInputLayoutRectangle] = useState<LayoutRectangle>();
   const [isFocused, setIsFocused] = useState<boolean>(false);

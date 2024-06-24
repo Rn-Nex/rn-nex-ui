@@ -15,7 +15,7 @@ The `ActivityIndicator` component accepts all props from the React Native `Activ
 
 ```tsx
 import React from 'react';
-import { Box, ActivityIndicator } from 'rn-nex-ui/src';
+import { Box, ActivityIndicator } from 'rn-nex-ui';
 
 export const Ex1: React.FC = () => {
   return (
@@ -56,7 +56,7 @@ The `Avatar` component accepts all props from the React Native `Image` component
 
 ```tsx
 import React from 'react';
-import { Avatar, Box } from 'rn-nex-ui/src';
+import { Avatar, Box } from 'rn-nex-ui';
 
 export const Ex1: React.FC = () => {
   return (
@@ -71,7 +71,7 @@ export const Ex1: React.FC = () => {
 
 ```tsx
 import React from 'react';
-import { Avatar, Box } from 'rn-nex-ui/src';
+import { Avatar, Box } from 'rn-nex-ui';
 
 export const Ex2: React.FC = () => {
   return (
@@ -107,7 +107,7 @@ The `Badge` component accepts all props from the React Native `View` component, 
 
 ```tsx
 import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
+import { Badge, Box, useTheme } from 'rn-nex-ui';
 
 export const Ex1: React.FC = () => {
   const { theme } = useTheme();
@@ -126,7 +126,7 @@ export const Ex1: React.FC = () => {
 
 ```tsx
 import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
+import { Badge, Box, useTheme } from 'rn-nex-ui';
 
 export const Ex2: React.FC = () => {
   const { theme } = useTheme();
@@ -145,7 +145,7 @@ export const Ex2: React.FC = () => {
 
 ```tsx
 import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
+import { Badge, Box, useTheme } from 'rn-nex-ui';
 
 export const Ex3: React.FC = () => {
   const { theme } = useTheme();
@@ -164,7 +164,7 @@ export const Ex3: React.FC = () => {
 
 ```tsx
 import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
+import { Badge, Box, useTheme } from 'rn-nex-ui';
 
 export const Ex4: React.FC = () => {
   const { theme } = useTheme();
@@ -183,7 +183,7 @@ export const Ex4: React.FC = () => {
 
 ```tsx
 import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
+import { Badge, Box, useTheme } from 'rn-nex-ui';
 
 export const Ex5: React.FC = () => {
   const { theme } = useTheme();
@@ -202,7 +202,7 @@ export const Ex5: React.FC = () => {
 
 ```tsx
 import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
+import { Badge, Box, useTheme } from 'rn-nex-ui';
 
 export const Ex6: React.FC = () => {
   const { theme } = useTheme();
@@ -221,7 +221,7 @@ export const Ex6: React.FC = () => {
 
 ```tsx
 import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
+import { Badge, Box, useTheme } from 'rn-nex-ui';
 
 export const Ex7: React.FC = () => {
   const { theme } = useTheme();
@@ -240,7 +240,7 @@ export const Ex7: React.FC = () => {
 
 ```tsx
 import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
+import { Badge, Box, useTheme } from 'rn-nex-ui';
 
 export const Ex9: React.FC = () => {
   const { theme } = useTheme();
@@ -367,7 +367,7 @@ The `Box` component is a versatile container element that allows for easy layout
 
 ```tsx
 import React from 'react';
-import { Box, Text, useTheme } from 'rn-nex-ui/src';
+import { Box, Text, useTheme } from 'rn-nex-ui';
 
 export const Ex1: React.FC = () => {
   return (
@@ -737,7 +737,7 @@ The `CardActionProps` interface extends from `BaseButtonProps` and defines the p
 
 ```tsx
 import React from 'react';
-import { Avatar, Box, Card, CardHeader, CardMedia, CardContent, Text, useTheme } from 'rn-nex-ui/src';
+import { Avatar, Box, Card, CardHeader, CardMedia, CardContent, Text, useTheme } from 'rn-nex-ui';
 
 export const Ex1: React.FC = () => {
   const { theme } = useTheme();
@@ -977,7 +977,7 @@ Below are examples demonstrating the usage of the `Chip` component:
 
 ```tsx
 import React from 'react';
-import { Box, Chip } from 'rn-nex-ui/src';
+import { Box, Chip } from 'rn-nex-ui';
 
 const ChipExamples: React.FC = () => {
   return (
@@ -1976,7 +1976,7 @@ These interfaces and types provide flexibility and customization options when us
 ```tsx
 import React, { useRef, useState } from 'react';
 import { ScrollView, StyleSheet, UIManager, View, findNodeHandle } from 'react-native';
-import { Avatar, Button, ListItemIcon, ListItemText, Menu, MenuItem, MenuList, PortalProvider, Text } from 'rn-nex-ui/src';
+import { Avatar, Button, ListItemIcon, ListItemText, Menu, MenuItem, MenuList, PortalProvider, Text } from 'rn-nex-ui';
 
 export const App: React.FC = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -2895,7 +2895,7 @@ const initialLightTheme = {
 
 ```tsx
 import React from 'react';
-import { Box, ThemeProvider, defaultDarkTheme, defaultLightTheme } from 'rn-nex-ui/src';
+import { Box, ThemeProvider, defaultDarkTheme, defaultLightTheme } from 'rn-nex-ui';
 
 const App: React.FC = () => {
   return (
@@ -2989,7 +2989,7 @@ Props for the `PortalProvider` component that manages portal state.
 ```tsx
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Portal } from 'rn-nex-ui/src';
+import { Portal } from 'rn-nex-ui';
 
 const PortalExample1: React.FC = () => {
   const [portalVisible, setPortalVisible] = useState(false);
@@ -3048,7 +3048,7 @@ export default PortalExample1;
 ```tsx
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Portal, Button } from 'rn-nex-ui/src';
+import { Portal, Button } from 'rn-nex-ui';
 
 const PortalExample2: React.FC = () => {
   const [portalVisible, setPortalVisible] = useState(false);

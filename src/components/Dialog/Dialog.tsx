@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTheme } from '../../libraries';
 import { Box } from '../Box';
-import Portal from '../Portal/Portal';
+import { Portal } from '../Portal';
 import { DialogProps } from './DialogTypes';
 import { dialogContainerStyles, dialogStyles } from './utils';
 
