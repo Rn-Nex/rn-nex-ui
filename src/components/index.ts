@@ -14,3 +14,4 @@ export * from './Dialog';
 export * from './Snackbar';
 export * from './Menu';
 export * from './Pagination';
+export * from './Image';

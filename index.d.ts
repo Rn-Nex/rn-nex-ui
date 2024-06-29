@@ -7,7 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 import { AnimatedViewProps } from './src';
-import { BoxProps } from './src/components/Box/BoxTypes';
+import { BoxProps, ContainerProps } from './src/components/Box/BoxTypes';
 import { ActivityIndicatorProps } from './src/components/ActivityIndicator/ActivityIndicatorTypes';
 import { AvatarProps } from './src/components/Avatar/AvatarTypes';
 import { BadgeProps } from './src/components/Badge/BadgeTypes';
@@ -67,4 +67,5 @@ declare module 'rn-nex-ui' {
   export const AnimatedText: React.forwardRef<Text, AnimatedTextProps>;
   export const FormHelperText: React.forwardRef<RnText, TextProps>;
   export const Text: React.forwardRef<RnText, TextProps>;
+  export const Container: React.forwardRef<View, ContainerProps>;
 }
