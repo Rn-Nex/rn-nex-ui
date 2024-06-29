@@ -38,6 +38,113 @@ export const Ex2: React.FC = () => {
 };
 ```
 
+# ImageList Component
+
+The `ImageList` component is designed to display a list of images with customizable styling options. It extends the properties of the React Native `ScrollView` component. Additional subcomponents, `ImageListItem` and `ImageListItemBar`, provide further customization options for individual items within the list.
+
+### ImageListProps
+
+Interface for properties that can be passed to the `ImageList` component, extending the React Native `ScrollView` component.
+
+- **`...`** - (Inherits all props from `ScrollView`)
+
+### ImageListItemProps
+
+Interface for properties that can be passed to an individual item (`ImageListItem`) within the `ImageList`.
+
+- **`sx?: BaseStyles`** - Custom styles for the image list item.
+- **`items?: number`** - Number of items to display.
+
+### ImageListItemBarProps
+
+Interface for properties that can be passed to the `ImageListItemBar` component, which provides additional information for an `ImageListItem`.
+
+- **`listContentWrapperStyles?: ViewStyle`** - Custom styles for the list content wrapper.
+- **`title?: string`** - Title text to display.
+- **`titleProps?: Omit<TextProps, 'children'>`** - Props for the title text component.
+- **`subtitle?: string`** - Subtitle text to display.
+- **`subtitleProps?: Omit<TextProps, 'children'>`** - Props for the subtitle text component.
+- **`endAdornment?: React.ReactNode`** - Node to display at the end of the list item bar (e.g., an icon or button).
+- **`endAdornmentContainerStyles?: Pick<BoxProps, 'style' | 'sx'>`** - Styles for the container of the end adornment.
+
+## Examples
+
+```tsx
+import React from 'react';
+import { Avatar, Box, Image, ImageList, ImageListItem, ImageListItemBar } from 'rn-nex-ui';
+
+export const App: React.FC = () => {
+  return (
+    <Box>
+      <ImageList
+        style={{
+          width: '100%',
+          marginTop: 100,
+          height: '80%',
+        }}>
+        {itemData.map(item => (
+          <ImageListItem items={2} key={item.img}>
+            <Image
+              source={{
+                uri: `${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`,
+              }}
+              sx={{ w: '100%' }}
+              height={140}
+            />
+            <ImageListItemBar
+              subtitle={item.author}
+              title={item.title}
+              endAdornment={
+                <Avatar
+                  source={{
+                    uri: 'https://imgs.search.brave.com/IA-a4lUg47kM0FW6vtr7Lz_eIaEWKTc1EHlAv1FFPVg/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9idXJz/dC5zaG9waWZ5Y2Ru/LmNvbS9waG90b3Mv/YS1kcm9wLW9mLXBp/bmstYW5kLXllbGxv/dy1wYWludC1pbi13/YXRlci5qcGc_d2lk/dGg9MTAwMCZmb3Jt/YXQ9cGpwZyZleGlm/PTAmaXB0Yz0w',
+                  }}
+                  size={30}
+                  variation="rounded"
+                />
+              }
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
+    </Box>
+  );
+};
+
+const itemData = [
+  {
+    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+    title: 'Breakfast',
+    author: '@bkristastucchio',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+    title: 'Burger',
+    author: '@rollelflex_graphy726',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+    title: 'Camera',
+    author: '@helloimnik',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
+    title: 'Coffee',
+    author: '@nolanissac',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
+    title: 'Hats',
+    author: '@hjrc33',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
+    title: 'Honey',
+    author: '@arwinneil',
+  },
+];
+```
+
 # Avatar Component
 
 The `Avatar` component is a versatile component that displays an image with various styling options. It extends the properties of the React Native `Image` component and includes additional styling options for variations and size.
@@ -602,6 +709,13 @@ export const Ex10: React.FC = () => {
   );
 };
 ```
+
+# GenerateContainerStylesProps Interface
+
+Props interface for generating styles for the `Container` component.
+
+- **`maxWidth?: ContainerMaxWidth`** - The maximum width of the `Container` to generate styles for.
+- **`disableGutters?: boolean`** - Whether to disable gutters when generating styles for the `Container`.
 
 # Button Component
 

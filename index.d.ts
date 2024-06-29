@@ -17,7 +17,7 @@ import { ChipProps } from './src/components/Chip/ChipTypes';
 import { DialogActionsProps, DialogProps } from './src/components/Dialog/DialogTypes';
 import { AnimatedTextProps, TextProps } from './src/components/Typography/TextTypes';
 import { DividerProps } from './src/components/Divider/DividerTypes';
-import { ImageProps } from './src/components/Image/ImageTypes';
+import { ImageListItemBarProps, ImageListItemProps, ImageListProps, ImageProps } from './src/components/Image/ImageTypes';
 import { ListItemIconProps, ListItemProps, ListItemTextProps, ListProps } from './src/components/List/ListTypes';
 import { MenuItemProps, MenuListProps, MenuProps } from './src/components/Menu/MenuTypes';
 import { PaginationItemProps, PaginationProps } from './src/components/Pagination/PaginationTypes';
@@ -68,4 +68,7 @@ declare module 'rn-nex-ui' {
   export const FormHelperText: React.forwardRef<RnText, TextProps>;
   export const Text: React.forwardRef<RnText, TextProps>;
   export const Container: React.forwardRef<View, ContainerProps>;
+  export const ImageList: React.FC<ImageListProps>;
+  export const ImageListItem: React.forwardRef<View, ImageListItemProps>;
+  export const ImageListItemBar: React.FC<ImageListItemBarProps>;
 }
