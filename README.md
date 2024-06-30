@@ -42,7 +42,7 @@ export const Ex2: React.FC = () => {
 
 The `ImageList` component is designed to display a list of images with customizable styling options. It extends the properties of the React Native `ScrollView` component. Additional subcomponents, `ImageListItem` and `ImageListItemBar`, provide further customization options for individual items within the list.
 
-![ImageList component preview](https://drive.google.com/file/d/1ehR-kHCzQC041Jc7hB_WEik9K8BoGjfg/view?usp=sharing)
+![ImageList Component preview](https://lh3.googleusercontent.com/d/1ehR-kHCzQC041Jc7hB_WEik9K8BoGjfg=s900?authuser=1)
 
 ### ImageListProps
 
@@ -194,6 +194,8 @@ export const Ex2: React.FC = () => {
 # Badge Component
 
 The `Badge` component is a flexible component for displaying badges with various styles, variants, and positioning options. It extends the properties of the React Native `View` component and includes additional options for customization.
+
+![Badge Component preview](https://lh3.googleusercontent.com/d/1DCvRLlj8Y-nYgRtUImn-K9MNQc_iFSGG=s900?authuser=1)
 
 ## Props
 
@@ -723,6 +725,8 @@ Props interface for generating styles for the `Container` component.
 
 The `Button` component provides an interactive element that users can tap to trigger an action in your React Native application.
 
+![Button Component preview](https://lh3.googleusercontent.com/d/1q9WElmSIyepetXY79OekATu-MqJ4bl9d=s900?authuser=1)
+
 ## Props
 
 - `disabled` (boolean, default: false): Determines whether the button is disabled. When set to true, the button becomes non-interactive.
@@ -813,6 +817,8 @@ The `Button` component provides an interactive element that users can tap to tri
 # Card Component
 
 The `Card` component is used to display content in a visually appealing card format in your React Native application.
+
+![Card Component preview](https://lh3.googleusercontent.com/d/1UyffmQi52deAsvTl9NZ55aBOUwQw8cZK=s900?authuser=1)
 
 ## Interfaces
 
@@ -1064,6 +1070,8 @@ export const Ex5: React.FC = () => {
 
 The `Chip` component is used to represent small blocks of information or actions in a compact manner.
 
+![Chip Component preview](https://lh3.googleusercontent.com/d/1SMnxN1og64DI7pZaCJwDjpYJFJOZ42PC=s900?authuser=1)
+
 ## Interfaces
 
 ### `ChipProps`
@@ -1205,6 +1213,9 @@ const ChipExamples: React.FC = () => {
 # Dialog Component
 
 The `Dialog` component is used to display a popup dialog with customizable content and actions.
+
+![Dialog Component preview](https://lh3.googleusercontent.com/d/17L22Dy-Sgf5aBTHAiJfJKx1EnE-pH_88=s900?authuser=1)
+![Dialog Component preview](https://lh3.googleusercontent.com/d/10kxW38g1WQPPzBhT7wAaLVM7nAfhNoc7=s900?authuser=1)
 
 ## Interfaces
 
@@ -1578,6 +1589,8 @@ export const Ex6: React.FC = () => {
 
 The `Divider` component is used to create a visual divider between sections of content.
 
+![Divider Component preview](https://lh3.googleusercontent.com/d/1Pad94ojs9TRWMG2CMTfX0XjCypY30rFR=s900?authuser=1)
+
 ## Interfaces and Types
 
 ### `DividerVariants`
@@ -1833,6 +1846,8 @@ export const Ex2: React.FC = () => {
 
 The `List` component is used to display a list of items, often used in navigation or content organization.
 
+![List Component preview](https://lh3.googleusercontent.com/d/1WEQqlvttSL74Bpo3VCDW_v27AYlXRwjs=s900?authuser=1)
+
 ## Interfaces and Types
 
 ### `ListProps`
@@ -2019,6 +2034,8 @@ export const Ex4 = () => {
 
 The `Menu` component is used to display a menu of options or actions, often triggered by user interaction.
 
+![Menu Component preview](https://lh3.googleusercontent.com/d/1yICKn_BUugor3j04q16K7iSl0zOyqYbj=s900?authuser=1)
+
 ## Interfaces and Types
 
 ### `MenuItemProps`
@@ -2167,6 +2184,8 @@ const styles = StyleSheet.create({
 # Pagination Component
 
 The `Pagination` component is used to display a set of pagination items for navigating through a list of items or pages.
+
+![Pagination Component preview](https://lh3.googleusercontent.com/d/1_eGjrw5VGvD47u9QZ43wqNh_1SIbFduo=s900?authuser=1)
 
 ## Interfaces and Types
 
@@ -2441,6 +2460,8 @@ const styles = StyleSheet.create({
 # TextInput Component
 
 The `TextInput` component is used to create customizable text input fields with various features and styles.
+
+![TextInput Component preview](https://lh3.googleusercontent.com/d/1w3Bhp0cvjGYs6kqu9Him3akaQkiU2GUX=s900?authuser=1)
 
 ## Props
 

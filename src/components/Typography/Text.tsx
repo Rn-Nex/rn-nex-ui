@@ -19,7 +19,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
       style,
       sx,
       disabled = false,
-      mode = 'dark',
+      mode = 'light',
       ...props
     },
     ref,
