@@ -42,6 +42,8 @@ export const Ex2: React.FC = () => {
 
 The `ImageList` component is designed to display a list of images with customizable styling options. It extends the properties of the React Native `ScrollView` component. Additional subcomponents, `ImageListItem` and `ImageListItemBar`, provide further customization options for individual items within the list.
 
+![ImageList component preview](https://drive.google.com/file/d/1ehR-kHCzQC041Jc7hB_WEik9K8BoGjfg/view?usp=sharing)
+
 ### ImageListProps
 
 Interface for properties that can be passed to the `ImageList` component, extending the React Native `ScrollView` component.
