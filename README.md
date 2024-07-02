@@ -1,3 +1,32 @@
+RN NEX Ui
+
+###
+
+A sophisticated UI library crafted to enhance your React Native development workflow. Designed for simplicity and elegance, nex-ui provides a rich collection of components and utilities to effortlessly create polished mobile applications.
+
+## Table of Contents
+
+- [ActivityIndicator](#activityindicator-Component)
+- [ImageList](#imagelist-component)
+- [Avatar](#avatar-component)
+- [Badge](#badge-component)
+- [BaseStyles](#basestyles-interface)
+- [Box](#box-component)
+- [Button](#button-component)
+- [Card](#card-component)
+- [Chip](#chip-component)
+- [Dialog](#dialog-component)
+- [Divider](#divider-component)
+- [List](#list-component)
+- [Menu](#menu-component)
+- [Pagination](#pagination-component)
+- [Snackbar](#snackbar-component)
+- [Text](#text-component)
+- [TextInput](#textinput-component)
+- [ThemeProvider](#themeprovider)
+- [Portal](#portal-component)
+- [Thank You](#thank-you)
+
 # ActivityIndicator Component
 
 The `ActivityIndicator` component displays a loading indicator in your React Native application.
