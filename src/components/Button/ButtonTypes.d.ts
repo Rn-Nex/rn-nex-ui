@@ -34,6 +34,16 @@ export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof Touc
    * Additional styles for the button container.
    */
   sx?: BaseStyles;
+
+  /**
+   * stop scale animation when the button is clicked
+   */
+  disableScaleAnimation?: boolean;
+
+  /**
+   * button scale animation when the button is clicked
+   */
+  scaleAnimationValue?: number;
 }
 
 /**
