@@ -8,6 +8,7 @@ A sophisticated UI library crafted to enhance your React Native development work
 
 - [ActivityIndicator](#activityindicator-Component)
 - [ImageList](#imagelist-component)
+- [Accordion](#accordion-component)
 - [Avatar](#avatar-component)
 - [Badge](#badge-component)
 - [BaseStyles](#basestyles-interface)
@@ -153,27 +154,76 @@ const itemData = [
     title: 'Burger',
     author: '@rollelflex_graphy726',
   },
-  {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-    title: 'Camera',
-    author: '@helloimnik',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-    title: 'Coffee',
-    author: '@nolanissac',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
-    author: '@hjrc33',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
-    author: '@arwinneil',
-  },
 ];
+```
+
+# Accordion Component
+
+The `AccordionSummary` component is a customizable component for displaying collapsible content in a React Native application. It offers various properties to control the appearance and behavior of the accordion.
+
+![Accordion Component preview](https://lh3.googleusercontent.com/d/1wMAtEXg56KYx-iG-eA7A_Qr3EAb4qRAQ=s900?authuser=1)
+
+## Props
+
+The `AccordionSummary` component accepts all props from the React Native `TouchableWithoutFeedback` component, in addition to the following props:
+
+- **`expandIcon?: React.ReactNode`** - Icon displayed to indicate expansion state.
+- **`summaryChildWrapperStyles?: StyleProp<ViewStyle>`** - Styles for the wrapper around summary child elements.
+- **`expandIconWrapperStyles?: StyleProp<ViewStyle>`** - Styles for the wrapper around the expand icon.
+- **`rotateAnimationDuration?: number`** - Duration of the rotation animation for the expand icon.
+- **`heightValueAnimationDuration?: number`** - Duration of the height value animation.
+- **`accordionDetailsOpacityDuration?: number`** - Duration of the accordion summary animated view.
+- **`rotateAnimationRange?: [string, string]`** - Range of rotation animation values.
+- **`accordionDetails?: React.ReactNode`** - Content to display in the expanded accordion details.
+- **`accordionWrapperStyles?: StyleProp<ViewStyle>`** - Styles for the wrapper around the entire accordion component.
+- **`defaultExpanded?: boolean`** - Determines if the accordion is expanded or collapsed.
+- **`topBorder?: boolean`** - Show the accordion top border.
+- **`bottomBorder?: boolean`** - Show the accordion bottom border.
+- **`onExpand?: () => void`** - Callback function when the accordion is collapsed or expanded.
+- **`startAdornment?: React.ReactNode`** - A React node to be displayed at the start of the accordion.
+- **`startAdornmentContainerStyle?: StyleProp<ViewStyle>`** - Style for the start adornment container.
+- **`contentKey?: string`** - Prop to identify when the content of `accordionDetails` changes.
+
+The `Accordion` component accepts all props from the `Box` component, in addition to the following props:
+
+- **`square?: boolean`** - Determines if the accordion has square corners.
+- **`disable?: boolean`** - Disables the accordion.
+
+The `AccordionDetails` component accepts all props from the React Native `View` component, in addition to the following props:
+
+- **`disable?: boolean`** - Disables the accordion details.
+
+## Example
+
+```tsx
+<Accordion square>
+  <AccordionSummary
+    bottomBorder
+    expandIcon={<Text mode="dark">d</Text>}
+    accordionDetails={
+      <AccordionDetails>
+        <Text mode="dark" variation="h5">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam expedita, aut aspernatur odio fugiat harum temporibus
+          inventore asperiores eaque sunt.
+        </Text>
+      </AccordionDetails>
+    }>
+    <Text mode="dark">Accordion 1</Text>
+  </AccordionSummary>
+  <AccordionSummary
+    topBorder
+    expandIcon={<Text mode="dark">d</Text>}
+    accordionDetails={
+      <AccordionDetails>
+        <Text mode="dark" variation="h5">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam expedita, aut aspernatur odio fugiat harum temporibus
+          inventore asperiores eaque sunt.
+        </Text>
+      </AccordionDetails>
+    }>
+    <Text mode="dark">Accordion 2</Text>
+  </AccordionSummary>
+</Accordion>
 ```
 
 # Avatar Component
@@ -274,128 +324,6 @@ export const Ex2: React.FC = () => {
   return (
     <Box sx={{ f: 1, d: 'flex', items: 'center', content: 'center' }}>
       <Badge badgeContent={100} max={1000}>
-        <Box sx={{ w: 200, h: 50, bg: theme.colors.grey[400], r: 10 }} />
-      </Badge>
-    </Box>
-  );
-};
-```
-
-### Example 3
-
-```tsx
-import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
-
-export const Ex3: React.FC = () => {
-  const { theme } = useTheme();
-
-  return (
-    <Box sx={{ f: 1, d: 'flex', items: 'center', content: 'center' }}>
-      <Badge badgeContent={100} max={1000} variant="dot">
-        <Box sx={{ w: 200, h: 50, bg: theme.colors.grey[400], r: 10 }} />
-      </Badge>
-    </Box>
-  );
-};
-```
-
-### Example 4
-
-```tsx
-import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
-
-export const Ex4: React.FC = () => {
-  const { theme } = useTheme();
-
-  return (
-    <Box sx={{ f: 1, d: 'flex', items: 'center', content: 'center' }}>
-      <Badge badgeContent={100} max={1000} variant="dot" invisible>
-        <Box sx={{ w: 200, h: 50, bg: theme.colors.grey[400], r: 10 }} />
-      </Badge>
-    </Box>
-  );
-};
-```
-
-### Example 5
-
-```tsx
-import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
-
-export const Ex5: React.FC = () => {
-  const { theme } = useTheme();
-
-  return (
-    <Box sx={{ f: 1, d: 'flex', items: 'center', content: 'center' }}>
-      <Badge badgeContent={100} max={1000} invisible={false} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
-        <Box sx={{ w: 200, h: 50, bg: theme.colors.grey[400], r: 10 }} />
-      </Badge>
-    </Box>
-  );
-};
-```
-
-### Example 6
-
-```tsx
-import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
-
-export const Ex6: React.FC = () => {
-  const { theme } = useTheme();
-
-  return (
-    <Box sx={{ f: 1, d: 'flex', items: 'center', content: 'center' }}>
-      <Badge badgeContent={100} max={1000} invisible={false} anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
-        <Box sx={{ w: 200, h: 50, bg: theme.colors.grey[400], r: 10 }} />
-      </Badge>
-    </Box>
-  );
-};
-```
-
-### Example 7
-
-```tsx
-import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
-
-export const Ex7: React.FC = () => {
-  const { theme } = useTheme();
-
-  return (
-    <Box sx={{ f: 1, d: 'flex', items: 'center', content: 'center' }}>
-      <Badge badgeContent={100} max={1000} invisible={false} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-        <Box sx={{ w: 200, h: 50, bg: theme.colors.grey[400], r: 10 }} />
-      </Badge>
-    </Box>
-  );
-};
-```
-
-### Example 8
-
-```tsx
-import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
-
-export const Ex9: React.FC = () => {
-  const { theme } = useTheme();
-
-  return (
-    <Box sx={{ f: 1, d: 'flex', items: 'center', content: 'center' }}>
-      <Badge
-        badgeContent={100}
-        max={1000}
-        invisible={false}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        badgeContentProps={{
-          style: { fontWeight: 500, fontSize: 10, color: 'red' },
-          onLayout: (event: LayoutChangeEvent) => console.log(event),
-        }}>
         <Box sx={{ w: 200, h: 50, bg: theme.colors.grey[400], r: 10 }} />
       </Badge>
     </Box>

@@ -31,6 +31,7 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
       accordionWrapperStyles,
       topBorder,
       bottomBorder,
+      contentKey,
       onExpand,
       startAdornment,
       startAdornmentContainerStyle,
@@ -69,7 +70,7 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
     }, [topBorder, bottomBorder]);
 
     useEffect(() => {
-      const animations = [];
+      const animations: Animated.CompositeAnimation[] = [];
 
       animations.push(
         Animated.timing(rotationValue, {
@@ -129,6 +130,10 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
         setMeasuredHeight(height);
       }
     };
+
+    useEffect(() => {
+      setMeasuredHeight(null);
+    }, [contentKey]);
 
     return (
       <View>

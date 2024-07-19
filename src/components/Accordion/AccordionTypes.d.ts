@@ -79,4 +79,9 @@ export interface AccordionSummaryProps extends React.ComponentPropsWithRef<typeo
    * Style for the start adornment container.
    */
   startAdornmentContainerStyle?: StyleProp<ViewStyle>;
+
+  /**
+   * Track Content Changes: prop to identify when the content of accordionDetails changes.
+   */
+  contentKey?: string;
 }
