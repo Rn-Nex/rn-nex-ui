@@ -69,4 +69,14 @@ export interface AccordionSummaryProps extends React.ComponentPropsWithRef<typeo
    * When the accordion is collapsed or expend the function is called
    */
   onExpand?: () => void;
+
+  /**
+   * A React node to be displayed at the start of the accordion.
+   */
+  startAdornment?: React.ReactNode;
+
+  /**
+   * Style for the start adornment container.
+   */
+  startAdornmentContainerStyle?: StyleProp<ViewStyle>;
 }

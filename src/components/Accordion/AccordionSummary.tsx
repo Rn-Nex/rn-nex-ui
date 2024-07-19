@@ -4,13 +4,20 @@ import {
   Easing,
   GestureResponderEvent,
   LayoutChangeEvent,
-  StyleSheet,
   TouchableWithoutFeedback,
   View,
   ViewStyle,
 } from 'react-native';
 import { useTheme } from '../../libraries';
+import { accordionSummaryStyles } from './Accordion.style';
 import { AccordionSummaryProps } from './AccordionTypes';
+import {
+  ACCORDION_DETAILS_DEFAULT_EXPANDED,
+  ACCORDION_DETAILS_OPACITY_DURATION,
+  HEIGHT_VALUE_ANIMATION_DURATION,
+  ROTATE_ANIMATION_DURATION,
+  ROTATE_ANIMATION_RANGE,
+} from './constants';
 
 export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, AccordionSummaryProps>(
   (
@@ -25,12 +32,14 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
       topBorder,
       bottomBorder,
       onExpand,
+      startAdornment,
+      startAdornmentContainerStyle,
       onPress: accordionSummaryOnPressHandler,
-      accordionDetailsOpacityDuration = 200,
-      defaultExpanded = false,
-      rotateAnimationDuration = 150,
-      heightValueAnimationDuration = 200,
-      rotateAnimationRange = ['0deg', '180deg'],
+      accordionDetailsOpacityDuration = ACCORDION_DETAILS_OPACITY_DURATION,
+      defaultExpanded = ACCORDION_DETAILS_DEFAULT_EXPANDED,
+      rotateAnimationDuration = ROTATE_ANIMATION_DURATION,
+      heightValueAnimationDuration = HEIGHT_VALUE_ANIMATION_DURATION,
+      rotateAnimationRange = ROTATE_ANIMATION_RANGE,
       ...props
     },
     ref,
@@ -124,11 +133,18 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
     return (
       <View>
         <TouchableWithoutFeedback onPress={onPress} {...props} ref={ref}>
-          <View style={[styles.accordionSummaryWrapperContainer, summaryWrapperStyles, style]}>
-            <View style={[styles.accordionSummaryChildWrapper, summaryChildWrapperStyles]}>{children}</View>
+          <View style={[accordionSummaryStyles.accordionSummaryWrapperContainer, summaryWrapperStyles, style]}>
+            <View style={[accordionSummaryStyles.accordionSummaryChildWrapper, summaryChildWrapperStyles]}>
+              {startAdornment && (
+                <View style={[accordionSummaryStyles.startAdornmentContainer, startAdornmentContainerStyle]}>
+                  {startAdornment}
+                </View>
+              )}
+              {children}
+            </View>
             <Animated.View
               style={[
-                styles.accordionSummaryExpandIconWrapper,
+                accordionSummaryStyles.accordionSummaryExpandIconWrapper,
                 { transform: [{ rotate: rotateInterpolate }] },
                 expandIconWrapperStyles,
               ]}>
@@ -139,12 +155,12 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
         <Animated.View style={{ height: heightValue, opacity: accordionDetailsOpacityValue, overflow: 'hidden' }}>
           <View
             ref={accordionContentRef}
-            style={[styles.accordionDetailsWrapper, { height: measuredHeight }, accordionWrapperStyles]}>
+            style={[accordionSummaryStyles.accordionDetailsWrapper, { height: measuredHeight }, accordionWrapperStyles]}>
             {accordionDetails}
           </View>
         </Animated.View>
         {measuredHeight === null && (
-          <View style={styles.hiddenView} onLayout={onContentLayout}>
+          <View style={accordionSummaryStyles.hiddenView} onLayout={onContentLayout}>
             {accordionDetails}
           </View>
         )}
@@ -154,32 +170,3 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
 );
 
 AccordionSummary.displayName = 'AccordionSummary';
-
-const styles = StyleSheet.create({
-  accordionSummaryWrapperContainer: {
-    padding: 13,
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-  accordionSummaryChildWrapper: {
-    width: '90%',
-  },
-  accordionSummaryExpandIconWrapper: {
-    width: '10%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  accordionDetailsWrapper: {
-    width: '100%',
-  },
-  hiddenView: {
-    position: 'absolute',
-    opacity: 0,
-    zIndex: -1,
-  },
-});
