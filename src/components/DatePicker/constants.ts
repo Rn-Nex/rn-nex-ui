@@ -1,0 +1,2 @@
+export const WRAPPER_DEFAULT_HEIGHT = 100;
+export const WRAPPER_BOTTOM_OFFSET = 50;

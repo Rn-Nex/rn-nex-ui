@@ -131,8 +131,6 @@ export const outlineStyles = ({
     alignItems: 'center',
   };
 
-  console.log(editable);
-
   if (error) {
     styles = { ...styles, borderColor: errorColor ? errorColor : theme.colors.red[500] };
   } else if (isFocused) {
