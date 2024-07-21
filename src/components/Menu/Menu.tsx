@@ -68,14 +68,7 @@ export const Menu: React.FC<MenuProps> = ({
       {...props}>
       <AnimatedView
         onLayout={animatedViewOnLayoutHandler}
-        style={[
-          dialogContainer,
-          {
-            opacity,
-            transform: [{ scale }],
-          },
-          menuContainerStyles,
-        ]}>
+        style={[dialogContainer, { opacity, transform: [{ scale }] }, menuContainerStyles]}>
         {children}
       </AnimatedView>
     </Portal>

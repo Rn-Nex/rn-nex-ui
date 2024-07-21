@@ -47,3 +47,29 @@ export const getElemTopPosition = ({
 };
 
 export const screenHeight = Dimensions.get('window').height;
+
+export const getDaysInMonth = (month: number, year: number) => {
+  return new Date(year, month + 1, 0).getDate();
+};
+
+export const groupDaysByWeek = (days: number[], startDay: number, endDay: number): number[][] => {
+  const weeks: number[][] = [];
+  const daysInWeek = 7;
+  const leadingZeros = Array(startDay).fill(0);
+  const trailingZeros = Array(daysInWeek - ((endDay + 1) % daysInWeek)).fill(0);
+  const allDays = [...leadingZeros, ...days, ...trailingZeros];
+
+  for (let i = 0; i < allDays.length; i += daysInWeek) {
+    weeks.push(allDays.slice(i, i + daysInWeek));
+  }
+
+  return weeks;
+};
+
+export const getStartDayOfMonth = (month: number, year: number): number => {
+  return new Date(year, month, 1).getDay();
+};
+
+export const getEndDayOfMonth = (month: number, year: number): number => {
+  return new Date(year, month, getDaysInMonth(month, year)).getDay();
+};

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, LayoutChangeEvent, LayoutRectangle, View, ViewStyle } from 'react-native';
+import { Animated, LayoutChangeEvent, LayoutRectangle, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import { MeasureElementRect } from '../../types';
 import { AnimatedView } from '../Box';
 import { IconButton } from '../Button';
@@ -8,6 +8,7 @@ import { TextField } from '../TextField';
 import { Text } from '../Typography';
 import { DateCalendar } from './DateCalendar';
 import { styles } from './DatePicker.styles';
+import { DatePickerProvider } from './DatePickerContext';
 import { DatePickerProps } from './DatePickerTypes';
 import { datePickerAnimatedViewStyles } from './utils';
 
@@ -30,7 +31,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   const datePickerAnimatedStyles: ViewStyle = useMemo(
     () => datePickerAnimatedViewStyles({ datePickerRectMeasurePos, animatedRect }),
-    [showDatePicker],
+    [showDatePicker, datePickerRectMeasurePos],
   );
 
   const showDatePickerHandler = () => {
@@ -101,9 +102,13 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         visible={showDatePicker}
         onClose={showDatePickerHandler}
         {...portalProps}>
-        <AnimatedView onLayout={animatedViewOnLayoutHandler} style={[datePickerAnimatedStyles, { transform: [{ scale }] }]}>
-          <DateCalendar />
-        </AnimatedView>
+        <DatePickerProvider>
+          <AnimatedView onLayout={animatedViewOnLayoutHandler} style={[datePickerAnimatedStyles, { transform: [{ scale }] }]}>
+            <TouchableWithoutFeedback>
+              <DateCalendar />
+            </TouchableWithoutFeedback>
+          </AnimatedView>
+        </DatePickerProvider>
       </Portal>
     </View>
   );

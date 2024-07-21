@@ -11,15 +11,8 @@ export const themeSpaces = {
   fontWeight: fontWeight,
 };
 
-export const defaultLightTheme = {
-  colors: initialLightTheme,
-  ...themeSpaces,
-};
-
-export const defaultDarkTheme = {
-  colors: initialDarkTheme,
-  ...themeSpaces,
-};
+export const defaultLightTheme = { colors: initialLightTheme, ...themeSpaces };
+export const defaultDarkTheme = { colors: initialDarkTheme, ...themeSpaces };
 
 const context = {
   theme: defaultLightTheme,
