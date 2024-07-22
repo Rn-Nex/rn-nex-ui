@@ -5,6 +5,7 @@ import { MeasureElementRect } from '../../types';
 import { PortalProps } from '../Portal/PortalTypes';
 import { TextFieldProps } from '../TextField/InputTypes';
 import { TextProps } from '../Typography/TextTypes';
+import { IconButtonProps } from '../Button/ButtonTypes';
 
 /**
  * Props for the DateCalendar component.
@@ -84,6 +85,31 @@ export interface YearPickerProps extends React.ComponentPropsWithRef<typeof View
   dropDownIconRotationDuration?: [string, string];
 }
 
+/**
+ * DayItemProps interface extends the properties of IconButtonProps to provide
+ * additional customization for day items displayed within a calendar component.
+ * This interface is used to define the properties that can be passed to a
+ * single day item in the calendar.
+ */
+export interface DayItemProps extends IconButtonProps {
+  /**
+   * The item to be displayed in the day item component. This can be a number
+   * representing the day of the month or a string (e.g., for week day headings).
+   *
+   * @type {number | string}
+   */
+  item: number | string;
+
+  /**
+   * Additional properties to customize the Text component used for displaying
+   * the day label. This allows for further styling and configuration of the text
+   * within the day item.
+   *
+   * @optional
+   */
+  weekDaysLabelProps?: TextProps;
+}
+
 export interface DaysProps extends React.ComponentPropsWithRef<typeof View> {
   daysRowProps?: DaysRowProps;
 }
@@ -100,4 +126,11 @@ export interface DatePickerAnimatedViewStylesProps {
 
 export interface DateCalendarWrapperStylesArgs {
   theme: ThemeType;
+}
+
+export interface DaysItemArgs {
+  item: number | string;
+  theme: ThemeType;
+  currentDay: number | string;
+  activeDay?: number | string | null;
 }

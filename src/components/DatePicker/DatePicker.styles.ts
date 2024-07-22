@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle } from 'react-native';
-import { DateCalendarWrapperStylesArgs } from './DatePickerTypes';
+import { DateCalendarWrapperStylesArgs, DaysItemArgs } from './DatePickerTypes';
 
 export const styles = StyleSheet.create({
   datePickerWrapperContainer: {
@@ -60,6 +60,15 @@ export const dateCalendarWrapperStyles = ({ theme }: DateCalendarWrapperStylesAr
     borderRadius: 2,
     height: 300,
     overflow: 'hidden',
+  };
+  return styles;
+};
+
+export const daysItem = ({ theme, currentDay, item, activeDay }: DaysItemArgs): ViewStyle => {
+  let styles: ViewStyle = {
+    borderWidth: 1,
+    borderColor: currentDay == item ? theme.colors.grey[400] : 'transparent',
+    backgroundColor: activeDay == item ? theme.colors.secondary[500] : 'transparent',
   };
   return styles;
 };

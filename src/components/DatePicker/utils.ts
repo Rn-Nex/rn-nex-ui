@@ -1,5 +1,5 @@
 import { ViewStyle } from 'react-native';
-import { WRAPPER_BOTTOM_OFFSET, WRAPPER_DEFAULT_HEIGHT } from './constants';
+import { WRAPPER_BOTTOM_OFFSET, WRAPPER_DEFAULT_HEIGHT, MONTH_NAMES } from './constants';
 import { getElemTopPosition, screenHeight } from '../../utils';
 import { DatePickerAnimatedViewStylesProps } from './DatePickerTypes';
 
@@ -31,3 +31,5 @@ export const datePickerAnimatedViewStyles = ({
   styles.paddingHorizontal = 10;
   return styles;
 };
+
+export const getMonthName = (monthIndex: number): string => MONTH_NAMES[monthIndex];

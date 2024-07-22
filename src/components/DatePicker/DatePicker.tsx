@@ -3,16 +3,24 @@ import { Animated, LayoutChangeEvent, LayoutRectangle, TouchableWithoutFeedback,
 import { MeasureElementRect } from '../../types';
 import { AnimatedView } from '../Box';
 import { IconButton } from '../Button';
-import { Portal } from '../Portal';
+import { Portal, PortalProvider } from '../Portal';
 import { TextField } from '../TextField';
 import { Text } from '../Typography';
 import { DateCalendar } from './DateCalendar';
 import { styles } from './DatePicker.styles';
-import { DatePickerProvider } from './DatePickerContext';
+import { DatePickerProvider, useDatePickerContext } from './DatePickerContext';
 import { DatePickerProps } from './DatePickerTypes';
 import { datePickerAnimatedViewStyles } from './utils';
 
-export const DatePicker: React.FC<DatePickerProps> = ({
+export const DatePicker: React.FC<DatePickerProps> = props => {
+  return (
+    <DatePickerProvider>
+      <DatePickerWithInputAndCalendar {...props} />
+    </DatePickerProvider>
+  );
+};
+
+export const DatePickerWithInputAndCalendar: React.FC<DatePickerProps> = ({
   style,
   label,
   textFiledProps,
@@ -23,9 +31,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   ...props
 }) => {
   const datePickerRef = useRef<View>(null);
-  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [datePickerRectMeasurePos, setDatePickerRectMeasurePos] = useState<MeasureElementRect | null>(null);
   const [animatedRect, setAnimatedRect] = useState<LayoutRectangle>();
+  const { showDatePicker, setShowDatePicker } = useDatePickerContext();
+
   const scale = useRef(new Animated.Value(0.8)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -96,20 +105,20 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         }
         {...textFiledProps}
       />
-      <Portal
-        portalKey="DatePicker"
-        animationType="fade"
-        visible={showDatePicker}
-        onClose={showDatePickerHandler}
-        {...portalProps}>
-        <DatePickerProvider>
+      <PortalProvider>
+        <Portal
+          portalKey="DatePicker"
+          animationType="fade"
+          visible={showDatePicker}
+          onClose={showDatePickerHandler}
+          {...portalProps}>
           <AnimatedView onLayout={animatedViewOnLayoutHandler} style={[datePickerAnimatedStyles, { transform: [{ scale }] }]}>
             <TouchableWithoutFeedback>
               <DateCalendar />
             </TouchableWithoutFeedback>
           </AnimatedView>
-        </DatePickerProvider>
-      </Portal>
+        </Portal>
+      </PortalProvider>
     </View>
   );
 };

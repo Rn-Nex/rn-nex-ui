@@ -1,20 +1,25 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useCallback, useMemo } from 'react';
+import { TouchableWithoutFeedback, View } from 'react-native';
+import { useTheme } from '../../libraries';
 import { getDaysInMonth, getEndDayOfMonth, getStartDayOfMonth, groupDaysByWeek } from '../../utils';
 import { IconButton } from '../Button';
 import { Text } from '../Typography';
-import { styles } from './DatePicker.styles';
-import { DaysProps, DaysRowProps } from './DatePickerTypes';
+import { daysItem, styles } from './DatePicker.styles';
+import { useDatePickerContext } from './DatePickerContext';
+import { DayItemProps, DaysProps, DaysRowProps } from './DatePickerTypes';
 
 export const Days = React.forwardRef<View, DaysProps>(({ style, daysRowProps, ...props }, ref) => {
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
-  const daysInMonth = getDaysInMonth(currentMonth, currentYear);
-  const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-  const startDayOfMonth = getStartDayOfMonth(currentMonth, currentYear);
-  const endDayOfMonth = getEndDayOfMonth(currentMonth, currentYear);
-  const weeksArray = groupDaysByWeek(daysArray, startDayOfMonth, endDayOfMonth);
+  const currentDate = useMemo(() => new Date(), []);
+  const currentMonth = useMemo(() => currentDate.getMonth(), [currentDate]);
+  const currentYear = useMemo(() => currentDate.getFullYear(), [currentDate]);
+  const daysInMonth = useMemo(() => getDaysInMonth(currentMonth, currentYear), [currentMonth, currentYear]);
+  const daysArray = useMemo(() => Array.from({ length: daysInMonth }, (_, i) => i + 1), [daysInMonth]);
+  const startDayOfMonth = useMemo(() => getStartDayOfMonth(currentMonth, currentYear), [currentMonth, currentYear]);
+  const endDayOfMonth = useMemo(() => getEndDayOfMonth(currentMonth, currentYear), [currentMonth, currentYear]);
+  const weeksArray = useMemo(
+    () => groupDaysByWeek(daysArray, startDayOfMonth, endDayOfMonth),
+    [daysArray, startDayOfMonth, endDayOfMonth],
+  );
 
   return (
     <View style={[styles.daysWrapperContainer, style]} {...props} ref={ref}>
@@ -40,13 +45,7 @@ export const DaysRow = React.forwardRef<View, DaysRowProps>(
       } else {
         return (
           <View style={[styles.weekDay]} key={'weekDays_' + item + index}>
-            <IconButton onPress={() => console.log('PRESSED')}>
-              {Number(item) ? (
-                <Text mode="dark" variation="h5" {...weekDaysLabelProps}>
-                  {item}
-                </Text>
-              ) : null}
-            </IconButton>
+            <DayItem item={item} weekDaysLabelProps={weekDaysLabelProps} />
           </View>
         );
       }
@@ -56,6 +55,33 @@ export const DaysRow = React.forwardRef<View, DaysRowProps>(
       <View style={[styles.daysRowWrapperContainer, style]} {...props} ref={ref}>
         {weekDays.map((item, index) => renderWeekDays({ item, index }))}
       </View>
+    );
+  },
+);
+
+export const DayItem = React.forwardRef<TouchableWithoutFeedback, DayItemProps>(
+  ({ item, weekDaysLabelProps, style, ...props }, ref) => {
+    const currentDate = useMemo(() => new Date(), []);
+    const currentDay = useMemo(() => currentDate.getDate(), [currentDate]);
+    const { theme } = useTheme();
+    const { activeDay, setActiveDay } = useDatePickerContext();
+
+    const activeDayHandler = useCallback((item: number | string) => {
+      setActiveDay(item);
+    }, []);
+
+    return (
+      <IconButton
+        onPress={() => activeDayHandler(item)}
+        style={[daysItem({ theme, item, currentDay, activeDay }), style]}
+        {...props}
+        ref={ref}>
+        {Number(item) ? (
+          <Text mode="dark" variation="h5" {...weekDaysLabelProps}>
+            {item}
+          </Text>
+        ) : null}
+      </IconButton>
     );
   },
 );

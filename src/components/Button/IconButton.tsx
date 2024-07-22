@@ -12,7 +12,7 @@ export const IconButton = React.forwardRef<TouchableWithoutFeedback, IconButtonP
     const styles = useMemo(() => getButtonStyles({ variation, disabled, theme }), [variation, disabled, theme]);
 
     return (
-      <BaseButton rippleEdge="center" {...props} ref={ref} style={[styles, sx && generateElementStyles(sx), style]}>
+      <BaseButton rippleEdge="center" ref={ref} style={[styles, sx && generateElementStyles(sx), style]} {...props}>
         {children}
       </BaseButton>
     );

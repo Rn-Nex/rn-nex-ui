@@ -28,7 +28,7 @@ export const YearPicker = ({
   ...props
 }: YearPickerProps) => {
   const rotationValue = useRef(new Animated.Value(0)).current;
-  const { showYearPicker, setShowYearPicker, currentYear } = useDatePickerContext();
+  const { showYearPicker, setShowYearPicker, currentYear, activeMonthName } = useDatePickerContext();
 
   const yearPickerHandler = () => {
     setShowYearPicker(!showYearPicker);
@@ -57,7 +57,7 @@ export const YearPicker = ({
     <View style={[styles.yearPickerHeaderContainer, style]} {...props}>
       <View style={[styles.yearPickerHeaderLabelWrapperContainer]}>
         <Text mode="dark" {...textLabelProps}>
-          Month {currentYear}
+          {activeMonthName} {currentYear}
         </Text>
         <IconButton onPress={yearPickerHandler}>
           <AnimatedView style={[{ transform: [{ rotate: rotateInterpolate }] }]}>
