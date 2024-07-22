@@ -37,7 +37,7 @@ export const DaysRow = React.forwardRef<View, DaysRowProps>(
       if (weekDaysType === 'heading') {
         return (
           <View style={[styles.weekDay]} key={'heading_' + item + index}>
-            <Text mode="dark" variation="h6" {...weekDaysLabelProps}>
+            <Text variation="h6" {...weekDaysLabelProps}>
               {item}
             </Text>
           </View>
@@ -64,10 +64,11 @@ export const DayItem = React.forwardRef<TouchableWithoutFeedback, DayItemProps>(
     const currentDate = useMemo(() => new Date(), []);
     const currentDay = useMemo(() => currentDate.getDate(), [currentDate]);
     const { theme } = useTheme();
-    const { activeDay, setActiveDay } = useDatePickerContext();
+    const { activeDay, setActiveDay, setShowDatePicker } = useDatePickerContext();
 
     const activeDayHandler = useCallback((item: number | string) => {
       setActiveDay(item);
+      setShowDatePicker(false);
     }, []);
 
     return (
@@ -77,7 +78,7 @@ export const DayItem = React.forwardRef<TouchableWithoutFeedback, DayItemProps>(
         {...props}
         ref={ref}>
         {Number(item) ? (
-          <Text mode="dark" variation="h5" {...weekDaysLabelProps}>
+          <Text variation="h5" {...weekDaysLabelProps}>
             {item}
           </Text>
         ) : null}

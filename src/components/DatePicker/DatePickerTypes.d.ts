@@ -1,11 +1,11 @@
 import React from 'react';
-import { LayoutRectangle, View } from 'react-native';
+import { View } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
-import { MeasureElementRect } from '../../types';
+import { IconButtonProps } from '../Button/ButtonTypes';
+import { ChipProps } from '../Chip/ChipTypes';
 import { PortalProps } from '../Portal/PortalTypes';
 import { TextFieldProps } from '../TextField/InputTypes';
 import { TextProps } from '../Typography/TextTypes';
-import { IconButtonProps } from '../Button/ButtonTypes';
 
 /**
  * Props for the DateCalendar component.
@@ -110,27 +110,70 @@ export interface DayItemProps extends IconButtonProps {
   weekDaysLabelProps?: TextProps;
 }
 
+export interface YearsProps extends React.ComponentPropsWithRef<typeof View> {
+  /**
+   * Props to customize the Chip component within the Years component.
+   */
+  chipProps?: ChipProps;
+}
+
 export interface DaysProps extends React.ComponentPropsWithRef<typeof View> {
+  /**
+   * Props to customize the DaysRow component within the Days component.
+   */
   daysRowProps?: DaysRowProps;
 }
 export interface DaysRowProps extends React.ComponentPropsWithRef<typeof View> {
+  /**
+   * Array of week days, which can be either strings or numbers
+   */
   weekDays?: string[] | number[];
+  /**
+   * Props to customize the Text component that labels the week days.
+   */
   weekDaysLabelProps?: TextProps;
+  /**
+   * Type of the week days display, can either be 'heading' for week day names or 'days' for numerical days.
+   */
   weekDaysType?: 'heading' | 'days';
 }
 
-export interface DatePickerAnimatedViewStylesProps {
-  datePickerRectMeasurePos?: MeasureElementRect | null;
-  animatedRect?: LayoutRectangle;
-}
+export interface DatePickerAnimatedViewStylesProps {}
 
 export interface DateCalendarWrapperStylesArgs {
   theme: ThemeType;
 }
 
 export interface DaysItemArgs {
+  /**
+   * The day item, which can be either a number (e.g., 1-31) or a string (e.g., 'Monday').
+   */
   item: number | string;
+  /**
+   * Theme object containing styling information.
+   */
   theme: ThemeType;
+  /**
+   * The currently selected day, which can be either a number or a string.
+   */
   currentDay: number | string;
+  /**
+   * The actively highlighted day, which can be either a number, a string, or null if no day is active.
+   */
   activeDay?: number | string | null;
+}
+
+export interface ChipItemArgs {
+  /**
+   * Theme object containing styling information.
+   */
+  theme: ThemeType;
+  /**
+   * The currently selected year, which can be either a number or a string.
+   */
+  currentYear: number | string;
+  /**
+   * The year represented by this chip item, which can be either a number or a string.
+   */
+  year: number | string;
 }

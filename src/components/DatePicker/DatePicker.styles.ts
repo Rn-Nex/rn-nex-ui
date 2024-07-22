@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle } from 'react-native';
-import { DateCalendarWrapperStylesArgs, DaysItemArgs } from './DatePickerTypes';
+import { ChipItemArgs, DateCalendarWrapperStylesArgs, DaysItemArgs } from './DatePickerTypes';
 
 export const styles = StyleSheet.create({
   datePickerWrapperContainer: {
@@ -51,13 +51,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
+  yearsWrapperContainer: {
+    flex: 1,
+    width: '100%',
+  },
 });
 
 export const dateCalendarWrapperStyles = ({ theme }: DateCalendarWrapperStylesArgs): ViewStyle => {
   const styles: ViewStyle = {
-    backgroundColor: theme.colors.grey[50],
+    backgroundColor: theme.colors.grey[800],
     padding: 5,
-    borderRadius: 2,
+    borderRadius: 5,
     height: 300,
     overflow: 'hidden',
   };
@@ -67,8 +71,16 @@ export const dateCalendarWrapperStyles = ({ theme }: DateCalendarWrapperStylesAr
 export const daysItem = ({ theme, currentDay, item, activeDay }: DaysItemArgs): ViewStyle => {
   let styles: ViewStyle = {
     borderWidth: 1,
-    borderColor: currentDay == item ? theme.colors.grey[400] : 'transparent',
+    borderColor: currentDay == item && activeDay !== item ? theme.colors.grey[400] : 'transparent',
     backgroundColor: activeDay == item ? theme.colors.secondary[500] : 'transparent',
+  };
+  return styles;
+};
+
+export const chipItem = ({ theme, currentYear, year }: ChipItemArgs): ViewStyle => {
+  const styles: ViewStyle = {
+    margin: 2,
+    backgroundColor: currentYear == year ? theme.colors.secondary[500] : 'transparent',
   };
   return styles;
 };

@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, LayoutChangeEvent, LayoutRectangle, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
-import { MeasureElementRect } from '../../types';
+import React, { useEffect, useRef } from 'react';
+import { Animated, LayoutChangeEvent, TouchableWithoutFeedback, View } from 'react-native';
 import { AnimatedView } from '../Box';
 import { IconButton } from '../Button';
 import { Portal, PortalProvider } from '../Portal';
@@ -10,7 +9,17 @@ import { DateCalendar } from './DateCalendar';
 import { styles } from './DatePicker.styles';
 import { DatePickerProvider, useDatePickerContext } from './DatePickerContext';
 import { DatePickerProps } from './DatePickerTypes';
-import { datePickerAnimatedViewStyles } from './utils';
+import { ModalContainerProps } from '../Portal/PortalTypes';
+
+const modalContainerProps: ModalContainerProps = {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+  },
+};
 
 export const DatePicker: React.FC<DatePickerProps> = props => {
   return (
@@ -31,32 +40,16 @@ export const DatePickerWithInputAndCalendar: React.FC<DatePickerProps> = ({
   ...props
 }) => {
   const datePickerRef = useRef<View>(null);
-  const [datePickerRectMeasurePos, setDatePickerRectMeasurePos] = useState<MeasureElementRect | null>(null);
-  const [animatedRect, setAnimatedRect] = useState<LayoutRectangle>();
-  const { showDatePicker, setShowDatePicker } = useDatePickerContext();
-
+  const { showDatePicker, setShowDatePicker, setDateCalendarRect } = useDatePickerContext();
   const scale = useRef(new Animated.Value(0.8)).current;
   const opacity = useRef(new Animated.Value(0)).current;
-
-  const datePickerAnimatedStyles: ViewStyle = useMemo(
-    () => datePickerAnimatedViewStyles({ datePickerRectMeasurePos, animatedRect }),
-    [showDatePicker, datePickerRectMeasurePos],
-  );
 
   const showDatePickerHandler = () => {
     setShowDatePicker(!showDatePicker);
   };
 
-  const measurePositionHandler = () => {
-    if (datePickerRef?.current) {
-      datePickerRef.current.measure((x: number, y: number, width: number, height: number, pageX: number, pageY: number) => {
-        setDatePickerRectMeasurePos({ x, y, width, height, pageX, pageY });
-      });
-    }
-  };
-
   const animatedViewOnLayoutHandler = (event: LayoutChangeEvent) => {
-    setAnimatedRect(event.nativeEvent.layout);
+    setDateCalendarRect(event.nativeEvent.layout);
   };
 
   useEffect(() => {
@@ -95,11 +88,7 @@ export const DatePickerWithInputAndCalendar: React.FC<DatePickerProps> = ({
         variant="outlined"
         placeholder={label ?? 'Date picker'}
         endAdornment={
-          <IconButton
-            onPress={() => {
-              showDatePickerHandler();
-              measurePositionHandler();
-            }}>
+          <IconButton onPress={showDatePickerHandler}>
             <Text mode="dark">D</Text>
           </IconButton>
         }
@@ -111,8 +100,9 @@ export const DatePickerWithInputAndCalendar: React.FC<DatePickerProps> = ({
           animationType="fade"
           visible={showDatePicker}
           onClose={showDatePickerHandler}
+          modalContainerProps={modalContainerProps}
           {...portalProps}>
-          <AnimatedView onLayout={animatedViewOnLayoutHandler} style={[datePickerAnimatedStyles, { transform: [{ scale }] }]}>
+          <AnimatedView onLayout={animatedViewOnLayoutHandler} style={[{ transform: [{ scale }] }]}>
             <TouchableWithoutFeedback>
               <DateCalendar />
             </TouchableWithoutFeedback>

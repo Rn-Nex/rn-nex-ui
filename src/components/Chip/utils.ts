@@ -46,11 +46,11 @@ export const generateChipStyles = ({ variant, disabled, withAdornment, color, th
   } else {
     styles = {
       ...styles,
-      elevation: 5,
-      shadowColor: Colors.black.light,
-      shadowOffset: { width: -2, height: 4 },
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
+      // elevation: 5,
+      // shadowColor: Colors.black.light,
+      // shadowOffset: { width: -2, height: 4 },
+      // shadowOpacity: 0.2,
+      // shadowRadius: 3,
     };
   }
 

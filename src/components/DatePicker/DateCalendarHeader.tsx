@@ -12,8 +12,8 @@ export const DateCalendarHeader = ({ style, previousIcons, nextIcons, yearPicker
     <View style={[styles.dateCalendarHeaderWrapperContainer, style]} {...props}>
       <YearPicker {...yearPickerProps} />
       <View style={[styles.yearPickerOptionsWrapperContainer]}>
-        <IconButton>{previousIcons ?? <Text mode="dark">P</Text>}</IconButton>
-        <IconButton>{nextIcons ?? <Text mode="dark">N</Text>}</IconButton>
+        <IconButton>{previousIcons ?? <Text>P</Text>}</IconButton>
+        <IconButton>{nextIcons ?? <Text>N</Text>}</IconButton>
       </View>
     </View>
   );
@@ -56,13 +56,11 @@ export const YearPicker = ({
   return (
     <View style={[styles.yearPickerHeaderContainer, style]} {...props}>
       <View style={[styles.yearPickerHeaderLabelWrapperContainer]}>
-        <Text mode="dark" {...textLabelProps}>
+        <Text {...textLabelProps}>
           {activeMonthName} {currentYear}
         </Text>
         <IconButton onPress={yearPickerHandler}>
-          <AnimatedView style={[{ transform: [{ rotate: rotateInterpolate }] }]}>
-            {dropDownIcon ?? <Text mode="dark">D</Text>}
-          </AnimatedView>
+          <AnimatedView style={[{ transform: [{ rotate: rotateInterpolate }] }]}>{dropDownIcon ?? <Text>D</Text>}</AnimatedView>
         </IconButton>
       </View>
     </View>

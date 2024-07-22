@@ -59,7 +59,7 @@ export const Chip = React.forwardRef<TouchableWithoutFeedback, ChipProps>(
     }
 
     return (
-      <BaseButton ref={ref} disabled={disabled} disableRipple={disableRipple} style={chipStyles} {...props}>
+      <BaseButton ref={ref} disabled={disabled} disableRipple={disableRipple} style={[chipStyles, style]} {...props}>
         <Box style={generateChipElementWrapperStyles()}>
           {startAdornmentElement}
           <Text variation="h4" {...labelContainerProps}>

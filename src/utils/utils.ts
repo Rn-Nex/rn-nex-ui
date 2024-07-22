@@ -86,3 +86,11 @@ export const getStartDayOfMonth = (month: number, year: number): number => {
 export const getEndDayOfMonth = (month: number, year: number): number => {
   return new Date(year, month, getDaysInMonth(month, year)).getDay();
 };
+
+export const getYears = (): number[] => {
+  const years = [];
+  for (let i = 1900; i <= 2099; i++) {
+    years.push(i);
+  }
+  return years;
+};
