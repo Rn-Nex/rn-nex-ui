@@ -68,12 +68,23 @@ export const dateCalendarWrapperStyles = ({ theme }: DateCalendarWrapperStylesAr
   return styles;
 };
 
-export const daysItem = ({ theme, currentDay, item, activeDay }: DaysItemArgs): ViewStyle => {
+export const daysItem = ({ theme, currentDay, item, currentMonth, displayDateMonth }: DaysItemArgs): ViewStyle => {
   let styles: ViewStyle = {
     borderWidth: 1,
-    borderColor: currentDay == item && activeDay !== item ? theme.colors.grey[400] : 'transparent',
-    backgroundColor: activeDay == item ? theme.colors.secondary[500] : 'transparent',
   };
+
+  if (currentDay == item && currentMonth === displayDateMonth) {
+    styles.borderColor = theme.colors.grey[400];
+  } else {
+    styles.borderColor = 'transparent';
+  }
+
+  // if (activeDay === item) {
+  //   styles.backgroundColor = theme.colors.secondary[500];
+  // } else {
+  //   styles.backgroundColor = 'transparent';
+  // }
+
   return styles;
 };
 

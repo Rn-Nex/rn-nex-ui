@@ -48,43 +48,35 @@ export const getElemTopPosition = ({
 
 export const screenHeight = Dimensions.get('window').height;
 
-export const getDaysInMonth = (month: number, year: number) => {
-  return new Date(year, month + 1, 0).getDate();
-};
-
 /**
- * Groups an array of days into weeks, starting with a specific day and filling in leading/trailing zeros.
+ * Returns an array of weeks for the month and year of the provided date,
+ * each represented as an array of 7 days, with leading and trailing zeros as needed.
  *
- * @param days - The array of days to group into weeks.
- * @param startDay - The day of the week the month starts on (0 for Sunday, 1 for Monday, ..., 6 for Saturday).
- * @param endDay - The day of the week the month ends on (0 for Sunday, 1 for Monday, ..., 6 for Saturday).
+ * @param date - The date from which to extract the month and year.
  * @returns An array of weeks, each represented as an array of 7 days, with leading and trailing zeros as needed.
  */
-export const groupDaysByWeek = (days: number[], startDay: number, endDay: number): number[][] => {
+export const getWeeksForDate = (date: Date): number[][] => {
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const startDay = new Date(year, month, 1).getDay();
+  const endDay = new Date(year, month, daysInMonth).getDay();
+
+  const totalDays = startDay + daysInMonth + (6 - endDay);
   const weeks: number[][] = [];
-  const daysInWeek = 7;
+  let week: number[] = new Array(7).fill(0);
 
-  // Creates an array of leading zeros based on the start day of the month
-  const leadingZeros = Array(startDay).fill(0);
-  // Creates an array of trailing zeros to complete the last week
-  const trailingZeros = Array(daysInWeek - ((endDay + 1) % daysInWeek)).fill(0);
-  // Combines leading zeros, the days of the month, and trailing zeros into one array
-  const allDays = [...leadingZeros, ...days, ...trailingZeros];
+  for (let i = 0; i < totalDays; i++) {
+    const day = i - startDay + 1;
+    week[i % 7] = day > 0 && day <= daysInMonth ? day : 0;
 
-  // Groups the combined days into weeks of 7 days each
-  for (let i = 0; i < allDays.length; i += daysInWeek) {
-    weeks.push(allDays.slice(i, i + daysInWeek));
+    if ((i + 1) % 7 === 0) {
+      weeks.push(week);
+      week = new Array(7).fill(0);
+    }
   }
 
   return weeks;
-};
-
-export const getStartDayOfMonth = (month: number, year: number): number => {
-  return new Date(year, month, 1).getDay();
-};
-
-export const getEndDayOfMonth = (month: number, year: number): number => {
-  return new Date(year, month, getDaysInMonth(month, year)).getDay();
 };
 
 export const getYears = (): number[] => {

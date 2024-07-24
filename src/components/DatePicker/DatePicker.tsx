@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, LayoutChangeEvent, TouchableWithoutFeedback, View } from 'react-native';
+import { Animated, TouchableWithoutFeedback, View } from 'react-native';
 import { AnimatedView } from '../Box';
 import { IconButton } from '../Button';
 import { Portal, PortalProvider } from '../Portal';
+import { ModalContainerProps } from '../Portal/PortalTypes';
 import { TextField } from '../TextField';
 import { Text } from '../Typography';
 import { DateCalendar } from './DateCalendar';
 import { styles } from './DatePicker.styles';
 import { DatePickerProvider, useDatePickerContext } from './DatePickerContext';
 import { DatePickerProps } from './DatePickerTypes';
-import { ModalContainerProps } from '../Portal/PortalTypes';
 
 const modalContainerProps: ModalContainerProps = {
   style: {
@@ -34,22 +34,20 @@ export const DatePickerWithInputAndCalendar: React.FC<DatePickerProps> = ({
   label,
   textFiledProps,
   portalProps,
+  onChange,
+  selectedDate,
   fadeAnimationDuration,
   scaleAnimationDuration,
   children,
   ...props
 }) => {
   const datePickerRef = useRef<View>(null);
-  const { showDatePicker, setShowDatePicker, setDateCalendarRect } = useDatePickerContext();
+  const { showDatePicker, setShowDatePicker, setSelectedDate } = useDatePickerContext();
   const scale = useRef(new Animated.Value(0.8)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
   const showDatePickerHandler = () => {
     setShowDatePicker(!showDatePicker);
-  };
-
-  const animatedViewOnLayoutHandler = (event: LayoutChangeEvent) => {
-    setDateCalendarRect(event.nativeEvent.layout);
   };
 
   useEffect(() => {
@@ -82,6 +80,12 @@ export const DatePickerWithInputAndCalendar: React.FC<DatePickerProps> = ({
     }
   }, [showDatePicker]);
 
+  useEffect(() => {
+    if (selectedDate) {
+      setSelectedDate(selectedDate);
+    }
+  }, [selectedDate]);
+
   return (
     <View style={[styles.datePickerWrapperContainer, style]} ref={datePickerRef} {...props}>
       <TextField
@@ -102,9 +106,9 @@ export const DatePickerWithInputAndCalendar: React.FC<DatePickerProps> = ({
           onClose={showDatePickerHandler}
           modalContainerProps={modalContainerProps}
           {...portalProps}>
-          <AnimatedView onLayout={animatedViewOnLayoutHandler} style={[{ transform: [{ scale }] }]}>
+          <AnimatedView style={[{ transform: [{ scale }] }]}>
             <TouchableWithoutFeedback>
-              <DateCalendar />
+              <DateCalendar onChange={onChange} />
             </TouchableWithoutFeedback>
           </AnimatedView>
         </Portal>

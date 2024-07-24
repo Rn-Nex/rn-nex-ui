@@ -1,11 +1,14 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { IconButtonProps } from '../Button/ButtonTypes';
-import { ChipProps } from '../Chip/ChipTypes';
 import { PortalProps } from '../Portal/PortalTypes';
 import { TextFieldProps } from '../TextField/InputTypes';
 import { TextProps } from '../Typography/TextTypes';
+
+export interface DatePickerRootProps {
+  onChange?: (date: Date) => void;
+}
 
 /**
  * Props for the DateCalendar component.
@@ -13,7 +16,7 @@ import { TextProps } from '../Typography/TextTypes';
  *
  * @see {@link https://reactnative.dev/docs/view}
  */
-export interface DateCalendarProps extends React.ComponentPropsWithRef<typeof View> {
+export interface DateCalendarProps extends React.ComponentPropsWithRef<typeof View>, DatePickerRootProps {
   dateCalendarHeaderProps?: DateCalendarHeaderProps;
 }
 
@@ -21,7 +24,7 @@ export interface DateCalendarProps extends React.ComponentPropsWithRef<typeof Vi
  * Props for the DatePicker component.
  * Extends the properties of the View component from React Native.
  */
-export interface DatePickerProps extends React.ComponentPropsWithRef<typeof View> {
+export interface DatePickerProps extends React.ComponentPropsWithRef<typeof View>, DatePickerRootProps {
   /**
    * label for the date picker, which will be displayed as a heading or title.
    */
@@ -44,6 +47,8 @@ export interface DatePickerProps extends React.ComponentPropsWithRef<typeof View
    * Scale animation duration for the date picker calendar animation
    */
   scaleAnimationDuration?: number;
+
+  selectedDate?: Date | null;
 }
 
 export interface DateCalendarHeaderProps extends React.ComponentPropsWithRef<typeof View> {
@@ -91,7 +96,7 @@ export interface YearPickerProps extends React.ComponentPropsWithRef<typeof View
  * This interface is used to define the properties that can be passed to a
  * single day item in the calendar.
  */
-export interface DayItemProps extends IconButtonProps {
+export interface DayItemProps extends IconButtonProps, DatePickerRootProps {
   /**
    * The item to be displayed in the day item component. This can be a number
    * representing the day of the month or a string (e.g., for week day headings).
@@ -114,16 +119,16 @@ export interface YearsProps extends React.ComponentPropsWithRef<typeof View> {
   /**
    * Props to customize the Chip component within the Years component.
    */
-  chipProps?: ChipProps;
+  chipStyles?: ViewStyle;
 }
 
-export interface DaysProps extends React.ComponentPropsWithRef<typeof View> {
+export interface DaysProps extends React.ComponentPropsWithRef<typeof View>, DatePickerRootProps, DatePickerRootProps {
   /**
    * Props to customize the DaysRow component within the Days component.
    */
   daysRowProps?: DaysRowProps;
 }
-export interface DaysRowProps extends React.ComponentPropsWithRef<typeof View> {
+export interface DaysRowProps extends React.ComponentPropsWithRef<typeof View>, DatePickerRootProps {
   /**
    * Array of week days, which can be either strings or numbers
    */
@@ -158,9 +163,13 @@ export interface DaysItemArgs {
    */
   currentDay: number | string;
   /**
-   * The actively highlighted day, which can be either a number, a string, or null if no day is active.
+   * display date month which is displayed inside the calendar
    */
-  activeDay?: number | string | null;
+  displayDateMonth?: number | string;
+  /**
+   * current month
+   */
+  currentMonth?: number | string;
 }
 
 export interface ChipItemArgs {
