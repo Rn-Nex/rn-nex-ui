@@ -1,8 +1,10 @@
+import { TextStyle } from 'react-native';
 import { StylePalette } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
-import { TextFontVariation, TextGutter, TextVariation } from './TextTypes';
+import { TextGutter, TextStylesArgs, TextVariation } from './TextTypes';
+import { generateElementStyles } from '../../utils';
 
-export const textFontVariation = function (variation: TextVariation, theme: ThemeType): TextFontVariation {
+export const textFontVariation = function (variation: TextVariation, theme: ThemeType) {
   switch (variation) {
     case 'body1':
       return { fontSize: theme.font['text-2xl'] };
@@ -33,4 +35,61 @@ export const gutter = <T extends keyof TextGutter, U extends StylePalette[T]>(pr
 
 export const maxLength = function (text: string, maxLength: number): string {
   return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};
+
+export const generateTextStyles = ({
+  theme,
+  variation,
+  gutterBottom,
+  isActive,
+  activeColor,
+  disabled,
+  error,
+  errorColor,
+  mode: textThemeMode,
+  sx,
+}: TextStylesArgs): TextStyle => {
+  let styles: TextStyle = {};
+
+  const {
+    colors: { mode },
+  } = theme;
+
+  if (mode === 'light' && !textThemeMode) {
+    styles = { ...styles, color: 'black' };
+  } else if (mode === 'dark' && !textThemeMode) {
+    styles = { ...styles, color: 'white' };
+  }
+
+  if (textThemeMode === 'light') {
+    styles = { ...styles, color: 'white' };
+  } else if (textThemeMode === 'dark') {
+    styles = { ...styles, color: 'black' };
+  }
+
+  if (variation) {
+    styles = { ...styles, ...textFontVariation(variation, theme) };
+  }
+
+  if (gutterBottom) {
+    styles = { ...styles, ...gutter('marginBottom', 10) };
+  }
+
+  if (isActive) {
+    styles = { ...styles, color: activeColor || theme.colors.secondary[200] };
+  }
+
+  if (disabled) {
+    styles = { ...styles, opacity: 0.3 };
+  }
+
+  if (error) {
+    styles = { ...styles, color: errorColor || theme.colors.red[600] };
+  }
+
+  if (sx) {
+    styles = { ...styles, ...generateElementStyles(sx) };
+  }
+
+  return styles;
 };

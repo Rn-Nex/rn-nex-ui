@@ -199,29 +199,29 @@ The `AccordionDetails` component accepts all props from the React Native `View` 
 <Accordion square>
   <AccordionSummary
     bottomBorder
-    expandIcon={<Text mode="dark">d</Text>}
+    expandIcon={<Text>d</Text>}
     accordionDetails={
       <AccordionDetails>
-        <Text mode="dark" variation="h5">
+        <Text variation="h5">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam expedita, aut aspernatur odio fugiat harum temporibus
           inventore asperiores eaque sunt.
         </Text>
       </AccordionDetails>
     }>
-    <Text mode="dark">Accordion 1</Text>
+    <Text>Accordion 1</Text>
   </AccordionSummary>
   <AccordionSummary
     topBorder
-    expandIcon={<Text mode="dark">d</Text>}
+    expandIcon={<Text>d</Text>}
     accordionDetails={
       <AccordionDetails>
-        <Text mode="dark" variation="h5">
+        <Text variation="h5">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam expedita, aut aspernatur odio fugiat harum temporibus
           inventore asperiores eaque sunt.
         </Text>
       </AccordionDetails>
     }>
-    <Text mode="dark">Accordion 2</Text>
+    <Text>Accordion 2</Text>
   </AccordionSummary>
 </Accordion>
 ```
@@ -2344,13 +2344,6 @@ Interface for the properties that can be passed to a text component.
 - `disabled?: boolean`: Specifies if the text component is disabled.
 - `mode?: 'light' | 'dark'`: Mode used for text light and dark variation color.
 
-### `TextFontVariation`
-
-Interface representing font variations for text.
-
-- `fontSize?: number`: Font size of the text.
-- `fontWeight?: TextStyle['fontWeight']`: Font weight of the text.
-
 ### `TextGutter`
 
 Interface representing gutter styles for text.
@@ -2994,7 +2987,6 @@ import { Box, ThemeProvider, defaultDarkTheme, defaultLightTheme } from 'rn-nex-
 const App: React.FC = () => {
   return (
     <ThemeProvider
-      mode="dark"
       lightTheme={{
         ...defaultLightTheme,
         colors: {

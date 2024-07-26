@@ -54,7 +54,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
       }}
       {...props}
       style={[styles, sx && generateElementStyles(sx), style]}>
-      <Text mode={active ? 'light' : 'dark'}>{page}</Text>
+      <Text>{page}</Text>
     </BaseButton>
   );
 };

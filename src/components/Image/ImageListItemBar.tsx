@@ -61,12 +61,12 @@ export const ImageListItemBar: React.FC<ImageListItemBarProps> = ({
     <Box style={[style, imageListBarStyle]} {...props}>
       <Box style={{ width: endAdornment ? '80%' : '100%', ...listContentWrapperStyles }}>
         {title && (
-          <Text variation="h4" mode="light" {...titleProps}>
+          <Text variation="h4" {...titleProps}>
             {title}
           </Text>
         )}
         {subtitle && (
-          <Text variation="h5" mode="light" {...subtitleProps}>
+          <Text variation="h5" {...subtitleProps}>
             {subtitle}
           </Text>
         )}

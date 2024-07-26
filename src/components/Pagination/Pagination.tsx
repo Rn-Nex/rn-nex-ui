@@ -90,7 +90,7 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
           if (item === 'start-dots' || item === 'end-dots') {
             return (
               <Box key={`pagination_dots_${index}`} {...dotContainerProps}>
-                <Text mode="dark" variation="h2" style={[{ marginHorizontal: 5, opacity: disabled ? 0.4 : 1 }, dotStylesProps]}>
+                <Text variation="h2" style={[{ marginHorizontal: 5, opacity: disabled ? 0.4 : 1 }, dotStylesProps]}>
                   ···
                 </Text>
               </Box>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Animated, ColorValue, Text, TextStyle } from 'react-native';
 import { BaseStyles, ElementTextStyleProps, SpacingStyle } from '../../libraries/style/styleTypes';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 /**
  * Defines the possible variations for text components.
  * These variations include different typographic styles such as headings, body text, buttons, etc.
@@ -63,15 +64,10 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
   disabled?: boolean;
 
   /**
-   * mode used for text light and dark variation color
+   * mode is used to determine if the text component is light or dark.
    */
   mode?: 'light' | 'dark';
 }
-
-/**
- * Interface representing font variations for text.
- */
-export interface TextFontVariation extends Pick<TextStyle, 'fontSize' | 'fontWeight'> {}
 
 /**
  * Interface representing gutter styles for text.
@@ -82,3 +78,11 @@ export interface TextGutter extends SpacingStyle {}
  * Interface for animated text component properties.
  */
 export interface AnimatedTextProps extends React.ComponentPropsWithRef<typeof Animated.Text> {}
+
+export interface TextStylesArgs
+  extends Pick<
+    TextProps,
+    'variation' | 'gutterBottom' | 'isActive' | 'disabled' | 'error' | 'sx' | 'activeColor' | 'errorColor' | 'mode'
+  > {
+  theme: ThemeType;
+}
