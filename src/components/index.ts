@@ -16,3 +16,4 @@ export * from './Menu';
 export * from './Pagination';
 export * from './Image';
 export * from './Accordion';
+export * from './Switch';

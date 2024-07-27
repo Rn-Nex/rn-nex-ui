@@ -10,6 +10,7 @@ A sophisticated UI library crafted to enhance your React Native development work
 - [ImageList](#imagelist-component)
 - [Accordion](#accordion-component)
 - [Avatar](#avatar-component)
+- [Switch](#switch-component)
 - [Badge](#badge-component)
 - [BaseStyles](#basestyles-interface)
 - [Box](#box-component)
@@ -237,6 +238,92 @@ export const Ex1: React.FC = () => {
     </Box>
   );
 };
+```
+
+# Switch Component
+
+The `Switch` component is a customizable toggle switch for React Native applications. It allows users to toggle between "on" and "off" states with smooth animations and customizable styles.
+
+## Props
+
+### `initialToggleState`
+
+- **Type:** `boolean`
+- **Default:** `false`
+- **Description:** Indicates the initial toggle state of the switch. If `true`, the switch will be in the "on" position initially.
+
+### `onToggle`
+
+- **Type:** `(state: boolean) => void`
+- **Description:** Callback function that is called when the switch is toggled. The function receives the new toggle state as a boolean.
+
+### `toggleDuration`
+
+- **Type:** `number`
+- **Default:** `200`
+- **Description:** Duration of the toggle animation in milliseconds. Controls how long the animation takes to transition from one state to another.
+
+### `thumbStyles`
+
+- **Type:** `ViewStyle`
+- **Description:** Custom styles for the thumb (the movable part) of the switch. Accepts a style object to customize the appearance of the thumb.
+
+### `style`
+
+- **Type:** `ViewStyle`
+- **Description:** Custom styles for the switch container. Accepts a style object to customize the appearance of the switch container.
+
+### `sx`
+
+- **Type:** `BaseStyles`
+- **Description:** Additional styles that can be applied to the switch component. This property allows for the inclusion of any base styles, making the component more flexible.
+
+## Example Usage
+
+```jsx
+import React, { useState } from 'react';
+import { Switch } from './Switch'; // Adjust the import path as needed
+import { View, Text, StyleSheet } from 'react-native';
+
+const Example = () => {
+  const [isOn, setIsOn] = useState(false);
+
+  const handleToggle = newState => {
+    setIsOn(newState);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text>{`Switch is ${isOn ? 'On' : 'Off'}`}</Text>
+      <Switch
+        initialToggleState={isOn}
+        onToggle={handleToggle}
+        toggleDuration={300}
+        thumbStyles={styles.thumb}
+        style={styles.switch}
+        sx={styles.additionalStyles}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  switch: {
+    marginTop: 20,
+  },
+  thumb: {
+    backgroundColor: 'blue',
+  },
+  additionalStyles: {
+    borderColor: 'gray',
+    borderWidth: 1,
+  },
+});
 ```
 
 # Badge Component
