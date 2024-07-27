@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { initialDarkTheme, initialLightTheme } from './colors';
 import { font, fontWeight, latterSpacing, lineHeight, spacing } from './sizes';
 import { ThemMode, ThemeInterface, ThemeProviderProps } from './theme';
@@ -21,15 +21,9 @@ export const defaultDarkTheme = {
   ...themeSpaces,
 };
 
-const context = {
-  theme: defaultLightTheme,
-  changeTheme: (_: ThemMode) => {},
-};
+export const ThemeContext = React.createContext<ThemeInterface<any> | undefined>(undefined);
 
-export const ThemeContext = React.createContext(context);
-export const useTheme = <T extends {}>() => React.useContext(ThemeContext) as ThemeInterface<T>;
-
-export const ThemeProvider = <T extends {}>({ children, lightTheme, darkTheme, mode = 'light' }: ThemeProviderProps<T>) => {
+export const ThemeProvider = <T extends Object>({ children, lightTheme, darkTheme, mode = 'light' }: ThemeProviderProps<T>) => {
   const [themeMode, setThemeMode] = useState<string>(mode);
 
   const initialTheme = useMemo(() => {
@@ -37,9 +31,17 @@ export const ThemeProvider = <T extends {}>({ children, lightTheme, darkTheme, m
       return darkTheme || defaultDarkTheme;
     }
     return lightTheme || defaultLightTheme;
-  }, [themeMode, lightTheme, darkTheme]);
+  }, [themeMode, lightTheme, darkTheme, mode]);
 
-  const changeTheme = (mode: ThemMode) => setThemeMode(mode);
+  const changeTheme = useCallback((mode: ThemMode) => setThemeMode(mode), []);
 
-  return <ThemeContext.Provider value={{ theme: initialTheme!, changeTheme }}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={{ theme: initialTheme, changeTheme }}>{children}</ThemeContext.Provider>;
+};
+
+export const useTheme = <T extends {}>(): ThemeInterface<T> => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error('useDatePickerContext must be used within a DatePickerProvider');
+  }
+  return context;
 };
