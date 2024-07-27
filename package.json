@@ -1,7 +1,7 @@
 {
   "name": "rn-nex-ui",
   "description": "rn-nex-ui is a sophisticated UI library crafted to enhance your React Native development workflow. Designed for simplicity and elegance, nex-ui provides a rich collection of components and utilities to effortlessly create polished mobile applications. Whether you're a seasoned developer or new to React Native, nex-ui empowers you to build stunning user interfaces with ease. Elevate your projects to new levels of sophistication and tranquility with rn-nex-ui.",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "private": false,
   "repository": {
     "type": "git",

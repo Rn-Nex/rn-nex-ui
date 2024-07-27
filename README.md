@@ -244,6 +244,8 @@ export const Ex1: React.FC = () => {
 
 The `Switch` component is a customizable toggle switch for React Native applications. It allows users to toggle between "on" and "off" states with smooth animations and customizable styles.
 
+![Switch Component preview](https://lh3.googleusercontent.com/d/14FyNhDX706lRVpLXkNr6jppmP9Ym5sal=s900?authuser=1)
+
 ## Props
 
 ### `initialToggleState`

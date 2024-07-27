@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Animated, StyleSheet, TouchableWithoutFeedback, View, LayoutChangeEvent, ViewStyle } from 'react-native';
+import { Animated, StyleSheet, TouchableWithoutFeedback, View, LayoutChangeEvent, ViewStyle, ColorValue } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { generateElementStyles } from '../../utils';
+import { useTheme } from '../../libraries';
 
 interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof TouchableWithoutFeedback>, 'onPress' | 'style'> {
   /**
@@ -21,6 +22,22 @@ interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof Touchab
    * Controls how long the animation takes to transition from one state to another. Defaults to 200ms.
    */
   toggleDuration?: number;
+
+  /**
+   * Duration of the toggle wrapper animation in milliseconds.
+   * Controls how long the animation takes to transition from one state to another. Defaults to 200ms.
+   */
+  toggleWrapperBgDuration?: number;
+
+  /**
+   * Active background color of the switch component
+   */
+  wrapperDefaultBgColor?: string;
+
+  /**
+   * Default background color of the switch component
+   */
+  wrapperActiveBgColor?: string;
 
   /**
    * Custom styles for the thumb (the movable part) of the switch.
@@ -44,32 +61,51 @@ interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof Touchab
 export const Switch: React.FC<SwitchProps> = ({
   initialToggleState = false,
   onToggle,
+  wrapperActiveBgColor,
+  wrapperDefaultBgColor,
+  toggleWrapperBgDuration = 200,
   toggleDuration = 220,
   thumbStyles,
   style,
   sx,
   ...props
 }) => {
-  const [isToggled, setIsToggled] = useState(initialToggleState);
+  const [isToggled, setIsToggled] = useState(false);
   const animatedValue = useRef(new Animated.Value(initialToggleState ? 1 : 0)).current;
+  const switchWrapperBgAnimatedValue = useRef(new Animated.Value(0)).current;
   const [containerWidth, setContainerWidth] = useState(0);
   const [thumbWidth, setThumbWidth] = useState(0);
 
+  const { theme } = useTheme();
+
   useEffect(() => {
-    animatedValue.setValue(isToggled ? 1 : 0);
+    if (initialToggleState) {
+      setIsToggled(true);
+    } else {
+      setIsToggled(false);
+    }
+  }, [initialToggleState]);
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(animatedValue, {
+        toValue: isToggled ? 1 : 0,
+        duration: toggleDuration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(switchWrapperBgAnimatedValue, {
+        toValue: isToggled ? 1 : 0,
+        duration: toggleWrapperBgDuration,
+        useNativeDriver: false,
+      }),
+    ]).start();
   }, [isToggled]);
 
   const toggleSwitch = () => {
-    Animated.timing(animatedValue, {
-      toValue: isToggled ? 0 : 1,
-      duration: toggleDuration,
-      useNativeDriver: false,
-    }).start(() => {
-      setIsToggled(!isToggled);
-      if (onToggle) {
-        onToggle(!isToggled);
-      }
-    });
+    setIsToggled(!isToggled);
+    if (onToggle) {
+      onToggle(!isToggled);
+    }
   };
 
   const handleContainerLayout = (event: LayoutChangeEvent) => {
@@ -80,7 +116,7 @@ export const Switch: React.FC<SwitchProps> = ({
     setThumbWidth(event.nativeEvent.layout.width);
   };
 
-  const switchStyles = {
+  const switchStyles: ViewStyle = {
     transform: [
       {
         translateX: animatedValue.interpolate({
@@ -91,11 +127,23 @@ export const Switch: React.FC<SwitchProps> = ({
     ],
   };
 
+  const backgroundColorInterpolation = switchWrapperBgAnimatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [wrapperDefaultBgColor ?? theme.colors.grey[300], wrapperActiveBgColor ?? theme.colors.secondary[500]],
+  });
+
   return (
     <TouchableWithoutFeedback onPress={toggleSwitch} {...props}>
-      <View style={[styles.switchContainer, style, sx && generateElementStyles(sx)]} onLayout={handleContainerLayout}>
+      <Animated.View
+        style={[
+          styles.switchContainer,
+          { backgroundColor: backgroundColorInterpolation },
+          style,
+          sx && generateElementStyles(sx),
+        ]}
+        onLayout={handleContainerLayout}>
         <Animated.View style={[styles.thumb, switchStyles, thumbStyles]} onLayout={handleThumbLayout} />
-      </View>
+      </Animated.View>
     </TouchableWithoutFeedback>
   );
 };
@@ -105,7 +153,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 30,
     borderRadius: 15,
-    backgroundColor: '#E4E4E4',
     padding: 2,
     justifyContent: 'center',
   },

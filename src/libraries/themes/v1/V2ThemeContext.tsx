@@ -41,7 +41,7 @@ export const ThemeProvider = <T extends Object>({ children, lightTheme, darkThem
 export const useTheme = <T extends {}>(): ThemeInterface<T> => {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error('useDatePickerContext must be used within a DatePickerProvider');
+    throw new Error('Theme context must be used within a ThemeProvider');
   }
   return context;
 };
