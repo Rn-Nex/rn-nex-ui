@@ -147,6 +147,7 @@ export const Switch: React.FC<SwitchProps> = ({
     </TouchableWithoutFeedback>
   );
 };
+Switch.displayName = 'Switch';
 
 const styles = StyleSheet.create({
   switchContainer: {

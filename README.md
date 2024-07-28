@@ -7,6 +7,7 @@ A sophisticated UI library crafted to enhance your React Native development work
 ## Table of Contents
 
 - [ActivityIndicator](#activityindicator-Component)
+- [CheckBox](#checkbox-component)
 - [ImageList](#imagelist-component)
 - [Accordion](#accordion-component)
 - [Avatar](#avatar-component)
@@ -143,6 +144,74 @@ const itemData = [
   },
 ];
 ```
+
+# CheckBox Component
+
+The `CheckBox` component is a customizable checkbox for React Native applications. It allows users to create checkboxes with various states, including checked, unchecked, and indeterminate, along with customizable styles and adornments.
+
+![CheckBox Component preview](https://lh3.googleusercontent.com/d/16qcdMaqdzy5CmHHDzFhcWqss5UrfmIg-=s900?authuser=1)
+
+## Props
+
+### `checkedImage`
+
+- **Type:** `React.ReactNode`
+- **Description:** Image to display when the checkbox is checked. This can be any React node, such as an icon or an image.
+
+### `unCheckedImage`
+
+- **Type:** `React.ReactNode`
+- **Description:** Image to display when the checkbox is unchecked. This can be any React node, such as an icon or an image.
+
+### `isChecked`
+
+- **Type:** `boolean`
+- **Description:** Boolean value indicating whether the checkbox is checked. This is a required prop.
+
+### `isIndeterminate`
+
+- **Type:** `boolean`
+- **Description:** Boolean value indicating whether the checkbox is in an indeterminate state. This state is used to represent a mixed selection, often used in hierarchical checkboxes.
+
+### `checkBoxColor`
+
+- **Type:** `string`
+- **Description:** Color of the checkbox border when it is not checked. Accepts any valid color string.
+
+### `disabled`
+
+- **Type:** `boolean`
+- **Description:** Boolean value indicating whether the checkbox is disabled. When true, the checkbox is not interactive and visually appears disabled.
+
+### `indeterminateImage`
+
+- **Type:** `React.ReactNode`
+- **Description:** Image to display when the checkbox is in an indeterminate state. This can be any React node, such as an icon or an image.
+
+### `checkBoxWrapperStyles`
+
+- **Type:** `ViewStyle`
+- **Description:** Style object to apply to the wrapper view of the checkbox. Accepts any valid `ViewStyle` properties.
+
+### `startAdornment`
+
+- **Type:** `React.ReactNode`
+- **Description:** React node to display at the start (left side) of the checkbox. Commonly used for adding icons or labels.
+
+### `startAdornmentContainerProps`
+
+- **Type:** `Omit<BoxProps, 'children'>`
+- **Description:** Props to apply to the container of the `startAdornment`. This omits the 'children' prop from `BoxProps` to avoid conflicts.
+
+### `endAdornment`
+
+- **Type:** `React.ReactNode`
+- **Description:** React node to display at the end (right side) of the checkbox. Commonly used for adding icons or labels.
+
+### `endAdornmentContainerProps`
+
+- **Type:** `Omit<BoxProps, 'children'>`
+- **Description:** Props to apply to the container of the `endAdornment`. This omits the 'children' prop from `BoxProps` to avoid conflicts.
 
 # Accordion Component
 
