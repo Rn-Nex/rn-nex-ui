@@ -1,8 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Animated, StyleSheet, TouchableWithoutFeedback, View, LayoutChangeEvent, ViewStyle, ColorValue } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { generateElementStyles } from '../../utils';
 import { useTheme } from '../../libraries';
+import { getSwitchSizes, getSwitchVariant } from './utils';
+import { ThemeType } from '../../libraries/themes/v1/theme';
+
+/**
+ * Define a union type for the possible color variations of a switch component,
+ * including 'primary', 'secondary', 'success', 'error', 'info', or 'warning'.
+ */
+export type SwitchVariantTypes = 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+
+/**
+ * Define a union type for the possible size of a switch component
+ */
+export type SwitchSize = 'small' | 'medium' | 'large';
 
 interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof TouchableWithoutFeedback>, 'onPress' | 'style'> {
   /**
@@ -56,18 +69,35 @@ interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof Touchab
    * This property allows for the inclusion of any base styles, making the component more flexible.
    */
   sx?: BaseStyles;
+
+  /**
+   * including 'primary', 'secondary', 'success', 'error', 'info', or 'warning'.
+   */
+  variant?: SwitchVariantTypes;
+
+  /**
+   * including 'small', 'medium', 'large',
+   */
+  size?: SwitchSize;
 }
 
+export interface GetSwitchVariantArgs extends Pick<SwitchProps, 'variant'> {
+  theme: ThemeType;
+}
+export interface GetSwitchSizesArgs extends Pick<SwitchProps, 'size'> {}
+
 export const Switch: React.FC<SwitchProps> = ({
-  initialToggleState = false,
   onToggle,
   wrapperActiveBgColor,
   wrapperDefaultBgColor,
-  toggleWrapperBgDuration = 200,
-  toggleDuration = 220,
   thumbStyles,
   style,
   sx,
+  variant = 'primary',
+  size = 'medium',
+  initialToggleState = false,
+  toggleWrapperBgDuration = 200,
+  toggleDuration = 220,
   ...props
 }) => {
   const [isToggled, setIsToggled] = useState(false);
@@ -103,7 +133,7 @@ export const Switch: React.FC<SwitchProps> = ({
 
   const toggleSwitch = () => {
     setIsToggled(!isToggled);
-    if (onToggle) {
+    if (onToggle && typeof onToggle === 'function') {
       onToggle(!isToggled);
     }
   };
@@ -127,9 +157,12 @@ export const Switch: React.FC<SwitchProps> = ({
     ],
   };
 
+  const colorVariation = useMemo(() => getSwitchVariant({ variant, theme }), [variant, theme]);
+  const switchSizeVariation = useMemo(() => getSwitchSizes({ size }), [size]);
+
   const backgroundColorInterpolation = switchWrapperBgAnimatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [wrapperDefaultBgColor ?? theme.colors.grey[300], wrapperActiveBgColor ?? theme.colors.secondary[500]],
+    outputRange: [wrapperDefaultBgColor ?? theme.colors.grey[300], wrapperActiveBgColor ? wrapperActiveBgColor : colorVariation],
   });
 
   return (
@@ -137,12 +170,16 @@ export const Switch: React.FC<SwitchProps> = ({
       <Animated.View
         style={[
           styles.switchContainer,
+          switchSizeVariation.thumbContainerStyles,
           { backgroundColor: backgroundColorInterpolation },
           style,
           sx && generateElementStyles(sx),
         ]}
         onLayout={handleContainerLayout}>
-        <Animated.View style={[styles.thumb, switchStyles, thumbStyles]} onLayout={handleThumbLayout} />
+        <Animated.View
+          style={[styles.thumb, switchSizeVariation.thumbStyles, switchStyles, thumbStyles]}
+          onLayout={handleThumbLayout}
+        />
       </Animated.View>
     </TouchableWithoutFeedback>
   );
@@ -151,15 +188,11 @@ Switch.displayName = 'Switch';
 
 const styles = StyleSheet.create({
   switchContainer: {
-    width: 50,
-    height: 30,
     borderRadius: 15,
     padding: 2,
     justifyContent: 'center',
   },
   thumb: {
-    width: 26,
-    height: 26,
     borderRadius: 13,
     backgroundColor: '#FFF',
   },
