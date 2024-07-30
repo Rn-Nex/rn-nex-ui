@@ -19,3 +19,4 @@ export * from './Accordion';
 export * from './Switch';
 export * from './CheckBox';
 export * from './Stepper';
+export * from './Transitions'
