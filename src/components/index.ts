@@ -18,3 +18,4 @@ export * from './Image';
 export * from './Accordion';
 export * from './Switch';
 export * from './CheckBox';
+export * from './Stepper';

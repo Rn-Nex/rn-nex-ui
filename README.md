@@ -7,8 +7,9 @@ A sophisticated UI library crafted to enhance your React Native development work
 ## Table of Contents
 
 - [ActivityIndicator](#activityindicator-Component)
-- [CheckBox](#checkbox-component)
 - [ImageList](#imagelist-component)
+- [CheckBox](#checkbox-component)
+- [QuantityStepper](#quantitystepper-component)
 - [Accordion](#accordion-component)
 - [Avatar](#avatar-component)
 - [Switch](#switch-component)
@@ -212,6 +213,74 @@ The `CheckBox` component is a customizable checkbox for React Native application
 
 - **Type:** `Omit<BoxProps, 'children'>`
 - **Description:** Props to apply to the container of the `endAdornment`. This omits the 'children' prop from `BoxProps` to avoid conflicts.
+
+# QuantityStepper Component
+
+The `QuantityStepper` component is a customizable stepper for React Native applications. It allows users to increment or decrement a numeric value with configurable styles, callbacks, and constraints.
+
+![QuantityStepper Component preview](https://lh3.googleusercontent.com/d/1rXqdQ7gzx1zzvtNuiSbMFmrCKpKbparT=s900?authuser=1)
+
+## Props
+
+### `value`
+
+- **Type:** `number`
+- **Description:** The current value of the quantity stepper. It should represent the number that is being incremented or decremented.
+
+### `labelProps`
+
+- **Type:** `Omit<TextProps, 'children'>`
+- **Description:** Props to be passed to the label text component, excluding the 'children' prop. This can be used to style and configure the label that displays the current value.
+
+### `labelWrapperProps`
+
+- **Type:** `Omit<ViewProps, 'children'>`
+- **Description:** Props to be passed to the label wrapper view component, excluding the 'children' prop. This can be used to style and configure the container of the label.
+
+### `onIncrement`
+
+- **Type:** `(event: GestureResponderEvent) => void`
+- **Description:** Callback function that is called when the increment button is pressed. Receives the gesture event as a parameter.
+
+### `onDecrement`
+
+- **Type:** `(event: GestureResponderEvent) => void`
+- **Description:** Callback function that is called when the decrement button is pressed. Receives the gesture event as a parameter.
+
+### `incrementButtonStyle`
+
+- **Type:** `ViewStyle`
+- **Description:** Style to be applied to the increment button view. This can be used to customize the appearance of the increment button.
+
+### `decrementButtonStyle`
+
+- **Type:** `ViewStyle`
+- **Description:** Style to be applied to the decrement button view. This can be used to customize the appearance of the decrement button.
+
+### `disabledIncrement`
+
+- **Type:** `boolean`
+- **Description:** Determines whether the increment button is disabled. If true, the increment button will be non-interactive.
+
+### `disabledDecrement`
+
+- **Type:** `boolean`
+- **Description:** Determines whether the decrement button is disabled. If true, the decrement button will be non-interactive.
+
+### `maxIncrement`
+
+- **Type:** `number`
+- **Description:** Specifies the maximum limit for the value when incrementing. If provided, the value cannot exceed this limit when the increment button is pressed.
+
+### `minDecrement`
+
+- **Type:** `number`
+- **Description:** Specifies the minimum limit for the value when decrementing. If provided, the value cannot go below this limit when the decrement button is pressed.
+
+### `buttonType`
+
+- **Type:** `'square' | 'round'`
+- **Description:** Different options for button styles.
 
 # Accordion Component
 
