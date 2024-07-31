@@ -1,28 +1,50 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
 import { BackInProps } from './TransitionsTypes';
 
-const getInitialValue = (type: BackInProps['type'], initialValue?: number) => {
-  return initialValue !== undefined ? initialValue : type === 'down' || type === 'up' ? 1000 : 1000;
-};
-
-const getTransformStyle = (type: BackInProps['type'], translate: Animated.Value) => {
-  return type === 'down' || type === 'up' ? { translateY: translate } : { translateX: translate };
-};
+const INITIAL_DEFAULT_POSITION = 1000;
+const DEFAULT_DURATION = 1000;
+const DEFAULT_DELAY = 0;
 
 export const BackIn: React.FC<BackInProps> = ({
   style,
   children,
-  duration = 1000,
-  delay = 0,
+  duration = DEFAULT_DURATION,
+  delay = DEFAULT_DELAY,
   type,
   applyTransition = false,
   initialValue,
   ...props
 }) => {
+  const getInitialValue = useCallback(
+    (type: BackInProps['type'], initialValue?: number) => {
+      if (initialValue) {
+        if (type === 'down' || type === 'right') {
+          return -initialValue;
+        } else {
+          return initialValue;
+        }
+      } else {
+        if (type === 'down' || type === 'right') {
+          return -INITIAL_DEFAULT_POSITION;
+        } else {
+          return INITIAL_DEFAULT_POSITION;
+        }
+      }
+    },
+    [type, initialValue],
+  );
+
   const initial = getInitialValue(type, initialValue);
   const translate = useRef(new Animated.Value(initial)).current;
   const opacity = useRef(new Animated.Value(0)).current;
+
+  const getTransformStyle = useCallback(
+    (type: BackInProps['type'], translate: Animated.Value) => {
+      return type === 'down' || type === 'up' ? { translateY: translate } : { translateX: translate };
+    },
+    [type],
+  );
 
   useEffect(() => {
     if (applyTransition) {
@@ -54,15 +76,7 @@ export const BackIn: React.FC<BackInProps> = ({
   const transformStyle = getTransformStyle(type, translate);
 
   return (
-    <Animated.View
-      style={[
-        {
-          transform: [transformStyle],
-          opacity,
-        },
-        style,
-      ]}
-      {...props}>
+    <Animated.View style={[{ transform: [transformStyle], opacity }, style]} {...props}>
       {children}
     </Animated.View>
   );

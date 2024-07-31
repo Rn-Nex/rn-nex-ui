@@ -37,8 +37,9 @@ export interface FlashProps extends BaseTransitionProps {}
 export interface PulseProps extends BaseTransitionProps {
   scale?: number;
 }
-export interface ShakeXProps extends BaseTransitionProps {}
-export interface ShakeYProps extends BaseTransitionProps {}
+export interface ShakeProps extends BaseTransitionProps {
+  type?: 'x' | 'y';
+}
 export interface TadaProps extends BaseTransitionProps {}
 export interface HeartBeatProps extends BaseTransitionProps {}
 export interface BackInProps extends BaseTransitionProps {

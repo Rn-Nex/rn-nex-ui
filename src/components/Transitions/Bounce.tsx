@@ -9,6 +9,7 @@ export const Bounce: React.FC<BounceProps> = ({
   delay = 0,
   height = 30,
   applyTransition = false,
+  repeatCount = 1,
   ...props
 }) => {
   const translateY = useRef(new Animated.Value(0)).current;
@@ -31,7 +32,7 @@ export const Bounce: React.FC<BounceProps> = ({
         }),
       ]);
 
-      bounceAnimation.start();
+      Animated.loop(bounceAnimation, { iterations: repeatCount }).start();
     }
   }, [translateY, duration, delay, height, applyTransition]);
 

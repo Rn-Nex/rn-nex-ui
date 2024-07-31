@@ -1,22 +1,23 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import { ShakeYProps } from './TransitionsTypes';
+import { ShakeProps } from './TransitionsTypes';
 
 const defaultConfigForShakeAnimation = {
   easing: Easing.linear,
   useNativeDriver: true,
 };
 
-export const ShakeY: React.FC<ShakeYProps> = ({
+export const Shake: React.FC<ShakeProps> = ({
   style,
   children,
+  type = 'x',
   duration = 1000,
   delay = 0,
   repeatCount = 1,
   applyTransition = false,
   ...props
 }) => {
-  const translateY = useRef(new Animated.Value(0)).current;
+  const translate = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (applyTransition) {
@@ -24,47 +25,47 @@ export const ShakeY: React.FC<ShakeYProps> = ({
         Animated.delay(delay),
         Animated.loop(
           Animated.sequence([
-            Animated.timing(translateY, {
+            Animated.timing(translate, {
               toValue: 10,
               duration: duration * 0.1,
               ...defaultConfigForShakeAnimation,
             }),
-            Animated.timing(translateY, {
+            Animated.timing(translate, {
               toValue: -10,
               duration: duration * 0.1,
               ...defaultConfigForShakeAnimation,
             }),
-            Animated.timing(translateY, {
+            Animated.timing(translate, {
               toValue: 10,
               duration: duration * 0.1,
               ...defaultConfigForShakeAnimation,
             }),
-            Animated.timing(translateY, {
+            Animated.timing(translate, {
               toValue: -10,
               duration: duration * 0.1,
               ...defaultConfigForShakeAnimation,
             }),
-            Animated.timing(translateY, {
+            Animated.timing(translate, {
               toValue: 10,
               duration: duration * 0.1,
               ...defaultConfigForShakeAnimation,
             }),
-            Animated.timing(translateY, {
+            Animated.timing(translate, {
               toValue: -10,
               duration: duration * 0.1,
               ...defaultConfigForShakeAnimation,
             }),
-            Animated.timing(translateY, {
+            Animated.timing(translate, {
               toValue: 5,
               duration: duration * 0.1,
               ...defaultConfigForShakeAnimation,
             }),
-            Animated.timing(translateY, {
+            Animated.timing(translate, {
               toValue: -5,
               duration: duration * 0.1,
               ...defaultConfigForShakeAnimation,
             }),
-            Animated.timing(translateY, {
+            Animated.timing(translate, {
               toValue: 0,
               duration: duration * 0.1,
               ...defaultConfigForShakeAnimation,
@@ -79,10 +80,12 @@ export const ShakeY: React.FC<ShakeYProps> = ({
 
       shakeAnimation.start();
     }
-  }, [translateY, duration, delay, repeatCount, applyTransition]);
+  }, [translate, duration, delay, repeatCount, applyTransition]);
 
   return (
-    <Animated.View style={[{ transform: [{ translateY }] }, style]} {...props}>
+    <Animated.View
+      style={[{ transform: [type == 'x' ? { translateX: translate } : { translateY: translate }] }, style]}
+      {...props}>
       {children}
     </Animated.View>
   );
