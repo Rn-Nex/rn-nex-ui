@@ -1,88 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing } from 'react-native';
+import { Animated } from 'react-native';
 import { WobbleProps } from './TransitionsTypes';
-
-const defaultConfigForWobbleAnimation = {
-  easing: Easing.linear,
-  useNativeDriver: true,
-};
-
-const createWobbleAnimation = (translateX: Animated.Value, rotate: Animated.Value, duration: number) => {
-  return Animated.sequence([
-    Animated.parallel([
-      Animated.timing(translateX, {
-        toValue: -25,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-      Animated.timing(rotate, {
-        toValue: -5,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-    ]),
-    Animated.parallel([
-      Animated.timing(translateX, {
-        toValue: 20,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-      Animated.timing(rotate, {
-        toValue: 3,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-    ]),
-    Animated.parallel([
-      Animated.timing(translateX, {
-        toValue: -15,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-      Animated.timing(rotate, {
-        toValue: -3,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-    ]),
-    Animated.parallel([
-      Animated.timing(translateX, {
-        toValue: 10,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-      Animated.timing(rotate, {
-        toValue: 2,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-    ]),
-    Animated.parallel([
-      Animated.timing(translateX, {
-        toValue: -5,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-      Animated.timing(rotate, {
-        toValue: -1,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-    ]),
-    Animated.parallel([
-      Animated.timing(translateX, {
-        toValue: 0,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-      Animated.timing(rotate, {
-        toValue: 0,
-        duration: duration * 0.1,
-        ...defaultConfigForWobbleAnimation,
-      }),
-    ]),
-  ]);
-};
+import { createWobbleAnimation } from './utils';
 
 export const Wobble: React.FC<WobbleProps> = ({
   style,
@@ -116,14 +35,7 @@ export const Wobble: React.FC<WobbleProps> = ({
   });
 
   return (
-    <Animated.View
-      style={[
-        {
-          transform: [{ translateX }, { rotate: rotateInterpolation }],
-        },
-        style,
-      ]}
-      {...props}>
+    <Animated.View style={[{ transform: [{ translateX }, { rotate: rotateInterpolation }] }, style]} {...props}>
       {children}
     </Animated.View>
   );

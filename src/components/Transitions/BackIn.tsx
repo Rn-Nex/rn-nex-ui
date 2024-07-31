@@ -1,37 +1,21 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
+import { BACK_IN_DEFAULT_DELAY, BACK_IN_DEFAULT_DURATION } from './constants';
 import { BackInProps } from './TransitionsTypes';
-
-const INITIAL_DEFAULT_POSITION = 1000;
-const DEFAULT_DURATION = 1000;
-const DEFAULT_DELAY = 0;
+import { getBackInInitialValue } from './utils';
 
 export const BackIn: React.FC<BackInProps> = ({
   style,
   children,
-  duration = DEFAULT_DURATION,
-  delay = DEFAULT_DELAY,
+  duration = BACK_IN_DEFAULT_DURATION,
+  delay = BACK_IN_DEFAULT_DELAY,
   type,
   applyTransition = false,
   initialValue,
   ...props
 }) => {
   const getInitialValue = useCallback(
-    (type: BackInProps['type'], initialValue?: number) => {
-      if (initialValue) {
-        if (type === 'down' || type === 'right') {
-          return -initialValue;
-        } else {
-          return initialValue;
-        }
-      } else {
-        if (type === 'down' || type === 'right') {
-          return -INITIAL_DEFAULT_POSITION;
-        } else {
-          return INITIAL_DEFAULT_POSITION;
-        }
-      }
-    },
+    (type: BackInProps['type'], initialValue?: number) => getBackInInitialValue(type, initialValue),
     [type, initialValue],
   );
 

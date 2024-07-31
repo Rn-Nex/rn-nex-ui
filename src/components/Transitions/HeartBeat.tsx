@@ -1,35 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import { HeartBeatProps } from './TransitionsTypes';
-
-const defaultConfigForHeartBeatAnimation = {
-  useNativeDriver: true,
-};
-
-const createHeartBeatAnimation = (scale: Animated.Value, duration: number) => {
-  return Animated.sequence([
-    Animated.timing(scale, {
-      toValue: 1.3,
-      duration: duration * 0.14,
-      ...defaultConfigForHeartBeatAnimation,
-    }),
-    Animated.timing(scale, {
-      toValue: 1,
-      duration: duration * 0.14,
-      ...defaultConfigForHeartBeatAnimation,
-    }),
-    Animated.timing(scale, {
-      toValue: 1.3,
-      duration: duration * 0.14,
-      ...defaultConfigForHeartBeatAnimation,
-    }),
-    Animated.timing(scale, {
-      toValue: 1,
-      duration: duration * 0.14,
-      ...defaultConfigForHeartBeatAnimation,
-    }),
-  ]);
-};
+import { createHeartBeatAnimation } from './utils';
 
 export const HeartBeat: React.FC<HeartBeatProps> = ({
   style,
@@ -57,14 +29,7 @@ export const HeartBeat: React.FC<HeartBeatProps> = ({
   }, [scale, duration, delay, repeatCount, applyTransition]);
 
   return (
-    <Animated.View
-      style={[
-        {
-          transform: [{ scale }],
-        },
-        style,
-      ]}
-      {...props}>
+    <Animated.View style={[{ transform: [{ scale }] }, style]} {...props}>
       {children}
     </Animated.View>
   );
