@@ -52,3 +52,23 @@ export interface BackInProps extends BaseTransitionProps {
    */
   initialValue?: number;
 }
+export interface FadingProps extends Omit<BaseTransitionProps, 'repeatCount'> {
+  /**
+   * Type of the fading animation
+   */
+  type:
+    | 'fadeIn'
+    | 'fadeInDown'
+    | 'fadeInDownBig'
+    | 'fadeInLeft'
+    | 'fadeInLeftBig'
+    | 'fadeInRight'
+    | 'fadeInRightBig'
+    | 'fadeInUp'
+    | 'fadeInUpBig'
+    | 'fadeInTopLeft'
+    | 'fadeInTopRight'
+    | 'fadeOut'
+    | 'fadeOutDown'
+    | 'fadeOutUp';
+}
