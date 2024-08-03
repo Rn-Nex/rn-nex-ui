@@ -75,7 +75,7 @@ export const IconInput: React.FC<IconInputProps> = React.forwardRef<View, IconIn
         ...inputWrapperProps?.sx,
       };
       return styles;
-    }, [inputWrapperProps?.sx]);
+    }, [inputWrapperProps?.sx, theme]);
 
     return (
       <Box sx={defaultInputStyles} {...inputWrapperProps} ref={ref}>

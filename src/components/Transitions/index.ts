@@ -8,3 +8,5 @@ export * from './Wobble';
 export * from './HeartBeat';
 export * from './BackIn';
 export * from './Fading';
+export * from './Flip';
+export * from './Slide';

@@ -6,6 +6,6 @@ import { useTheme } from '../../libraries';
 
 export const BaseInput = React.forwardRef<TextInput, BaseInputProps>(({ style, variant, ...props }, ref) => {
   const { theme } = useTheme();
-  const styles = useMemo(() => baseInputStyles({ theme, variant }), [variant]);
+  const styles = useMemo(() => baseInputStyles({ theme, variant }), [variant, theme]);
   return <TextInput ref={ref} style={[styles, style]} {...props} />;
 });

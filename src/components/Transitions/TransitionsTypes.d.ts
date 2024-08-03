@@ -60,7 +60,7 @@ export interface BounceProps extends BaseTransitionProps {
  * Properties for the Fade animation component.
  * Inherits from BaseTransitionProps and applies fading animation parameters.
  */
-export interface FadeProps extends BaseTransitionProps {}
+export interface FadeProps extends Omit<BaseTransitionProps, 'repeatCount'> {}
 
 /**
  * Properties for the Flash animation component.
@@ -104,8 +104,8 @@ export interface HeartBeatProps extends BaseTransitionProps {}
  * `type` specifies the direction of the backIn animation.
  * `initialValue` sets the starting value for the animation.
  */
-export interface BackInProps extends BaseTransitionProps {
-  type: 'down' | 'left' | 'right' | 'up';
+export interface BackInProps extends Omit<BaseTransitionProps, 'repeatCount'> {
+  type?: 'down' | 'left' | 'right' | 'up';
   initialValue?: number;
 }
 
@@ -115,7 +115,7 @@ export interface BackInProps extends BaseTransitionProps {
  * `type` specifies the exact type of fade animation to be applied.
  */
 export interface FadingProps extends Omit<BaseTransitionProps, 'repeatCount'> {
-  type:
+  type?:
     | 'fadeIn'
     | 'fadeInDown'
     | 'fadeInDownBig'
@@ -130,4 +130,14 @@ export interface FadingProps extends Omit<BaseTransitionProps, 'repeatCount'> {
     | 'fadeOut'
     | 'fadeOutDown'
     | 'fadeOutUp';
+}
+
+export interface FlipProps extends BaseTransitionProps {
+  type?: 'flip' | 'flipInX' | 'flipInY' | 'flipOutX' | 'flipOutY';
+}
+
+interface SlideProps extends BaseTransitionProps {
+  type: 'slideInDown' | 'slideInLeft' | 'slideInRight' | 'slideInUp';
+  fromValue?: number;
+  toValue?: number;
 }

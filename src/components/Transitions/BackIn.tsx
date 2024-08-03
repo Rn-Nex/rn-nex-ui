@@ -9,7 +9,7 @@ export const BackIn: React.FC<BackInProps> = ({
   children,
   duration = BACK_IN_DEFAULT_DURATION,
   delay = BACK_IN_DEFAULT_DELAY,
-  type,
+  type = 'down',
   applyTransition = false,
   initialValue,
   ...props
