@@ -67,7 +67,7 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
       }
 
       return styles;
-    }, [topBorder, bottomBorder]);
+    }, [topBorder, bottomBorder, theme]);
 
     useEffect(() => {
       const animations: Animated.CompositeAnimation[] = [];

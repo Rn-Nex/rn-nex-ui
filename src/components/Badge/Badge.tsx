@@ -1,11 +1,11 @@
 import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
+import { useTheme } from '../../libraries';
 import { AnimatedView, Box } from '../Box';
 import { Text } from '../Typography';
 import { BadgeContainerProps, BadgeProps } from './BadgeTypes';
 import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE } from './constants';
 import { badgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './utils';
-import { useTheme } from '../../libraries';
 
 const BadgeContainer = React.forwardRef<View, BadgeContainerProps>(({ children, style, overlap, ...props }, ref) => {
   return (
@@ -21,7 +21,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       children,
       style,
       badgeContent,
-      variation,
+      variation = 'secondary',
       invisible,
       badgeAnimationDuration,
       badgeContentProps,
@@ -65,14 +65,14 @@ export const Badge = React.forwardRef<View, BadgeProps>(
 
         if (isNaN(badgeNumber)) {
           return (
-            <Text style={[badgeContentDefaultStyles({ theme })]} {...badgeContentProps}>
+            <Text style={[badgeContentDefaultStyles({ variation })]} {...badgeContentProps}>
               {content}
             </Text>
           );
         }
 
         return (
-          <Text style={[badgeContentDefaultStyles({ theme })]} {...badgeContentProps}>
+          <Text style={[badgeContentDefaultStyles({ variation })]} {...badgeContentProps}>
             {badgeNumber >= maxValueLimit ? maxValueLimit - 1 + '+' : badgeNumber}
           </Text>
         );

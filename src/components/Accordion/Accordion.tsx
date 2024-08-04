@@ -21,7 +21,7 @@ export const Accordion = React.forwardRef<View, AccordionProps>(
         borderRadius: square ? 0 : 8,
       };
       return style;
-    }, [disable, square]);
+    }, [disable, square, theme]);
 
     const overLayStyle = useMemo(() => {
       const styles: ViewStyle = {

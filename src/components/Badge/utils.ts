@@ -7,9 +7,9 @@ import {
 } from './BadgeTypes';
 import { BADGE_DEFAULT_RADIUS } from './constants';
 
-export const badgeContentDefaultStyles = ({ theme }: BadgeContentDefaultStylesProps): TextStyle => {
+export const badgeContentDefaultStyles = ({ variation }: BadgeContentDefaultStylesProps): TextStyle => {
   const baseStyles: TextStyle = {
-    color: theme.colors.white[100],
+    color: variation === 'warning' ? 'black' : 'white',
     fontWeight: '400',
     fontSize: 11,
   };

@@ -92,5 +92,5 @@ export interface GenerateBadgeStylesProps extends Pick<BadgeProps, 'variation' |
 export interface PlaceBadgeBasedPosition extends Pick<GenerateBadgeStylesProps, 'rootElementRect' | 'anchorOrigin' | 'variant'> {}
 export interface GenerateBadgeContainerStylesProps extends Pick<BadgeContainerProps, 'overlap'> {}
 export interface BadgeContentDefaultStylesProps {
-  theme: ThemeType;
+  variation?: BadgeVariations;
 }
