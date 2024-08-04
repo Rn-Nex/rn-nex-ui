@@ -67,7 +67,7 @@ export const getFadingInitialTransform = (type: FadingProps['type']): FadingInit
 };
 
 export const getFadingFinalTransform = (type: FadingProps['type']) => {
-  if (type.startsWith('fadeIn')) {
+  if (type?.startsWith('fadeIn')) {
     return { translateX: 0, translateY: 0, opacity: 1 };
   } else {
     switch (type) {
