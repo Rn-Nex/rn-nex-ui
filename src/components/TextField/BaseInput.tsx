@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { TextInput } from 'react-native';
-import { BaseInputProps } from './InputTypes';
-import { baseInputStyles } from './utils';
 import { useTheme } from '../../libraries';
+import { BaseInputProps } from './InputTypes';
+import { baseInputStyles } from './TextField.style';
 
 export const BaseInput = React.forwardRef<TextInput, BaseInputProps>(({ style, variant, ...props }, ref) => {
   const { theme } = useTheme();

@@ -19,7 +19,7 @@ import {
   PLACEHOLDER_OUTLINE_LEFT_POSITION,
   TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
 } from './constants';
-import { textInputStyles } from './utils';
+import { textInputStyles } from './TextField.style';
 
 export const TextField: React.FC<TextFieldProps> = ({
   outlineStyles,
@@ -75,13 +75,13 @@ export const TextField: React.FC<TextFieldProps> = ({
     setIsFocused(false);
   };
 
-  const getLabelTranslatePos = (): number => {
+  const getLabelTranslatePos = useCallback(() => {
     if (textInputLayoutRectangle?.width && textInputLayoutRectangle?.width) {
       if (variant === 'outlined') return (textInputLayoutRectangle.height / 2) * -1;
-      else if (variant === 'filled') return ((textInputLayoutRectangle.height - 20) / 2) * -1;
+      else if (variant === 'filled') return ((textInputLayoutRectangle.height - 19) / 2) * -1;
     }
     return TRANSLATE_Y_ANIMATED_DEFAULT_POSITION;
-  };
+  }, [textInputLayoutRectangle]);
 
   const textStyles = useMemo(
     () => textInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }),
@@ -116,22 +116,19 @@ export const TextField: React.FC<TextFieldProps> = ({
       style={[outlineStyles, sx && generateElementStyles(sx), style]}
       isFocused={isFocused}
       error={error}>
-      {textInputLayoutRectangle?.width && textInputLayoutRectangle?.height ? (
-        <InputLabel
-          disabled={!editable}
-          variant={variant}
-          isActive={isFocused}
-          activeColor={activeColor}
-          errorColor={errorColor}
-          placeholder={placeholder}
-          labeled={inputLabeledAnimatedValue}
-          translateYAnimatedPosition={getLabelTranslatePos()}
-          placeholderLeftPosition={placeHolderLeftPos}
-          error={error}
-          textInputLayoutRect={textInputLayoutRectangle}
-          {...inputLabelProps}
-        />
-      ) : null}
+      <InputLabel
+        disabled={!editable}
+        variant={variant}
+        isActive={isFocused}
+        activeColor={activeColor}
+        errorColor={errorColor}
+        placeholder={placeholder}
+        labeled={inputLabeledAnimatedValue}
+        translateYAnimatedPosition={getLabelTranslatePos()}
+        placeholderLeftPosition={placeHolderLeftPos}
+        error={error}
+        {...inputLabelProps}
+      />
       {startAdornment && (
         <Box style={{ marginRight: 8 }} {...startAdornmentContainerProps}>
           {startAdornment}

@@ -1,20 +1,80 @@
 import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import {
-  OutlineStyles,
-  LabelTransformStyleProps,
-  TextInputStylesProps,
-  TextFiledVariation,
-  LabelTextStylesProps,
   BaseInputStylesProps,
+  LabelTextStylesProps,
+  LabelTransformStyleProps,
+  OutlineStyles,
+  TextFiledVariation,
+  TextInputStylesProps,
 } from './InputTypes';
-import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 import { ThemeType } from '../../libraries/themes/v1/theme';
+import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 
 const baseInputDefaultStyles: ViewStyle = {
   height: INPUT_DEFAULT_HEIGHT,
   position: 'relative',
   zIndex: 12,
   backgroundColor: 'transparent',
+};
+
+export const textInputStyles = ({ variant, endAdornment, startAdornment }: TextInputStylesProps): StyleProp<ViewStyle> => {
+  const adornmentStyles: StyleProp<ViewStyle> = {
+    width: '100%',
+  };
+
+  if (endAdornment || startAdornment) {
+    adornmentStyles.width = '90%';
+  }
+
+  if (variant === 'outlined' || variant === 'filled') return { ...baseInputDefaultStyles, ...adornmentStyles };
+  else if (variant === 'standard') return { ...baseInputDefaultStyles, ...adornmentStyles, marginBottom: -10 };
+  return baseInputDefaultStyles;
+};
+
+export const labelTextStyles = ({ theme, variant }: LabelTextStylesProps): TextStyle => {
+  const baseStyles: TextStyle = {
+    color: variant === 'outlined' ? theme.colors.grey[800] : theme.colors.white[50],
+  };
+  return baseStyles;
+};
+
+export const baseInputStyles = ({ theme, variant }: BaseInputStylesProps): TextStyle => {
+  const baseStyles: TextStyle = {
+    color: variant === 'outlined' ? theme.colors.grey[800] : theme.colors.grey[200],
+    minHeight: 30,
+    width: '100%',
+  };
+  return baseStyles;
+};
+
+export const outlineStyles = ({
+  error,
+  errorColor,
+  isFocused,
+  activeColor,
+  theme,
+  editable,
+  variant,
+}: OutlineStyles): StyleProp<ViewStyle> => {
+  let styles: ViewStyle = {
+    borderWidth: variant === 'outlined' ? 0.6 : 0,
+    borderColor: theme.colors.grey[400],
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  };
+
+  if (error) {
+    styles = { ...styles, borderColor: errorColor ? errorColor : theme.colors.red[500] };
+  } else if (isFocused) {
+    styles = { ...styles, borderColor: activeColor ? activeColor : theme.colors.lightBlue[500] };
+  }
+
+  if (!editable) {
+    styles = { ...styles, opacity: 0.6 };
+  }
+
+  return styles;
 };
 
 export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme: ThemeType): StyleProp<ViewStyle> => {
@@ -51,27 +111,12 @@ export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme
   return outlineDefaultStyles;
 };
 
-export const textInputStyles = ({ variant, endAdornment, startAdornment }: TextInputStylesProps): StyleProp<ViewStyle> => {
-  const adornmentStyles: StyleProp<ViewStyle> = {
-    width: '100%',
-  };
-
-  if (endAdornment || startAdornment) {
-    adornmentStyles.width = '90%';
-  }
-
-  if (variant === 'outlined' || variant === 'filled') return { ...baseInputDefaultStyles, ...adornmentStyles };
-  else if (variant === 'standard') return { ...baseInputDefaultStyles, ...adornmentStyles, marginBottom: -10 };
-  return baseInputDefaultStyles;
-};
-
 export const labelTransformStyle = ({
   theme,
   textHeight,
   labeled,
   variant,
   placeholderLeftPosition,
-  textInputLayoutRect,
   translateYAnimatedPosition = TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
 }: LabelTransformStyleProps): StyleProp<ViewStyle> => {
   const getOutputRange = (variant?: TextFiledVariation) => {
@@ -79,10 +124,6 @@ export const labelTransformStyle = ({
 
     if (variant === 'filled' || variant === 'outlined') {
       outputRange = [-(textHeight / 2), translateYAnimatedPosition + -(textHeight / 2)];
-    } else if (textInputLayoutRect) {
-      outputRange = [-(textHeight / 2) + textInputLayoutRect.height / 2 - 20, translateYAnimatedPosition];
-    } else {
-      outputRange = [-(textHeight / 2) + INPUT_DEFAULT_HEIGHT / 2 - 20, translateYAnimatedPosition];
     }
 
     return outputRange;
@@ -114,48 +155,4 @@ export const labelTransformStyle = ({
       },
     ],
   };
-};
-
-export const outlineStyles = ({
-  error,
-  errorColor,
-  isFocused,
-  activeColor,
-  theme,
-  editable,
-}: OutlineStyles): StyleProp<ViewStyle> => {
-  let styles: ViewStyle = {
-    borderColor: theme.colors.grey[600],
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  };
-
-  if (error) {
-    styles = { ...styles, borderColor: errorColor ? errorColor : theme.colors.red[500] };
-  } else if (isFocused) {
-    styles = { ...styles, borderColor: activeColor ? activeColor : theme.colors.lightBlue[500] };
-  }
-
-  if (!editable) {
-    styles = { ...styles, opacity: 0.6 };
-  }
-
-  return styles;
-};
-
-export const labelTextStyles = ({ theme, variant }: LabelTextStylesProps): TextStyle => {
-  const baseStyles: TextStyle = {
-    color: variant === 'outlined' ? theme.colors.grey[800] : theme.colors.white[50],
-  };
-  return baseStyles;
-};
-
-export const baseInputStyles = ({ theme, variant }: BaseInputStylesProps): TextStyle => {
-  const baseStyles: TextStyle = {
-    color: variant === 'outlined' ? theme.colors.grey[800] : theme.colors.grey[200],
-    minHeight: 30,
-    width: '100%',
-  };
-  return baseStyles;
 };

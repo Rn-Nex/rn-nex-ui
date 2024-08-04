@@ -3,8 +3,8 @@ import { Animated, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { useTheme } from '../../libraries';
 import { AnimatedText, Text } from '../Typography';
 import { InputLabelProps } from './InputTypes';
+import { labelTextStyles, labelTransformStyle } from './TextField.style';
 import { PLACEHOLDER_OUTLINE_LEFT_POSITION, TEXT_FONT_DEFAULT_HEIGHT } from './constants';
-import { labelTextStyles, labelTransformStyle } from './utils';
 
 export const InputLabel: React.FC<InputLabelProps> = function ({
   placeholder,
@@ -13,7 +13,6 @@ export const InputLabel: React.FC<InputLabelProps> = function ({
   editable,
   translateYAnimatedPosition,
   placeholderLeftPosition,
-  textInputLayoutRect,
   labelContainerStyles,
   style,
   ...props
@@ -30,10 +29,9 @@ export const InputLabel: React.FC<InputLabelProps> = function ({
         translateYAnimatedPosition,
         labeled,
         variant,
-        textInputLayoutRect,
         placeholderLeftPosition: placeholderLeftPosition || PLACEHOLDER_OUTLINE_LEFT_POSITION,
       }),
-    [theme, textHeight, translateYAnimatedPosition, labeled, variant, textInputLayoutRect, placeholderLeftPosition],
+    [theme, textHeight, translateYAnimatedPosition, labeled, variant, placeholderLeftPosition],
   );
 
   const labelStyles = useMemo(() => labelTextStyles({ theme, variant }), [theme, variant]);
@@ -47,7 +45,7 @@ export const InputLabel: React.FC<InputLabelProps> = function ({
     <Animated.View style={[styles, labelContainerStyles]}>
       <AnimatedText onLayout={onTextLayoutHandler}>
         {textLayoutRect ? (
-          <Text variation="h3" disabled={editable} style={[labelStyles, style]} {...props}>
+          <Text variation="h4" disabled={editable} style={[labelStyles, style]} {...props}>
             {placeholder}
           </Text>
         ) : null}

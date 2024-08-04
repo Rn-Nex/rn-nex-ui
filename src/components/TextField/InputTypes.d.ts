@@ -58,10 +58,6 @@ export interface InputLabelProps
    * Position of the placeholder when the label is active.
    */
   placeholderLeftPosition?: number;
-  /**
-   * The layout rectangle of the text input.
-   */
-  textInputLayoutRect?: LayoutRectangle;
 }
 
 /**
@@ -117,10 +113,7 @@ export interface OutlineProps
  * Represents the properties required to get label transformation styles.
  */
 export interface LabelTransformStyleProps
-  extends Pick<
-    InputLabelProps,
-    'labeled' | 'translateYAnimatedPosition' | 'variant' | 'placeholderLeftPosition' | 'textInputLayoutRect'
-  > {
+  extends Pick<InputLabelProps, 'labeled' | 'translateYAnimatedPosition' | 'variant' | 'placeholderLeftPosition'> {
   theme: ThemeType;
   /**
    * Height of the text input.
@@ -131,7 +124,8 @@ export interface LabelTransformStyleProps
 /**
  * Represents the properties required to generate outline styles.
  */
-export interface OutlineStyles extends Pick<OutlineProps, 'error' | 'errorColor' | 'isFocused' | 'activeColor' | 'editable'> {
+export interface OutlineStyles
+  extends Pick<OutlineProps, 'error' | 'errorColor' | 'isFocused' | 'activeColor' | 'editable' | 'variant'> {
   theme: ThemeType;
 }
 
