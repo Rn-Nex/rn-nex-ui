@@ -24,11 +24,11 @@ export const paginationItemStyles = ({
 }: PaginationItemStylesProps): ViewStyle => {
   const backgroundCl =
     color === 'standard'
-      ? theme.colors.lightBlue[800]
+      ? theme.colors.lightBlue[500]
       : color === 'primary'
-      ? theme.colors.primary[800]
+      ? theme.colors.primary[500]
       : color === 'secondary'
-      ? theme.colors.secondary[300]
+      ? theme.colors.secondary[500]
       : color === 'error'
       ? theme.colors.red[500]
       : 'transparent';
@@ -44,8 +44,8 @@ export const paginationItemStyles = ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: variant === 'outlined' ? 1 : 0,
-    borderColor: variant === 'outlined' ? theme.colors.grey[300] : 'transparent',
+    borderWidth: variant === 'outlined' ? 0.8 : 0,
+    borderColor: variant === 'outlined' ? theme.colors.grey[200] : 'transparent',
     borderRadius: shape === 'circular' ? 100 : 5,
     overflow: 'hidden',
     opacity: disabled ? 0.4 : 1,

@@ -4,7 +4,7 @@ import { AnimatedView } from '../Box';
 import { Portal } from '../Portal';
 import { MenuProps } from './MenuTypes';
 import { FADE_ANIMATION_DURATION, SCALE_ANIMATION_DURATION } from './constants';
-import { dialogContainerStyles, menuStyles } from './utils';
+import { dialogContainerStyles, menuStyles } from './Menu.style';
 
 export const Menu: React.FC<MenuProps> = ({
   rootElementRect,

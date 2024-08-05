@@ -5,7 +5,7 @@ import { generateElementStyles } from '../../utils';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
 import { PaginationItemProps } from './PaginationTypes';
-import { paginationItemStyles } from './utils';
+import { paginationItemStyles } from './Pagination.style';
 
 export const ANIMATION_DURATION = 200;
 
@@ -29,13 +29,13 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
       Animated.timing(isActive, {
         toValue: 1,
         duration: ANIMATION_DURATION,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start();
     } else {
       Animated.timing(isActive, {
         toValue: 0,
         duration: ANIMATION_DURATION,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start();
     }
   }, [active]);

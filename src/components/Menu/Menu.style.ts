@@ -38,12 +38,14 @@ export const dialogContainerStyles = ({ rootElementRect, wrapperComponentRect }:
 
 export const menuListStyles = ({ theme }: MenuListStylesProps): ViewStyle => {
   const baseStyles: ViewStyle = {
-    backgroundColor: theme.colors.grey[700],
+    backgroundColor: theme.colors.grey[200],
+    borderWidth: 0.8,
+    borderColor: theme.colors.grey[300],
     paddingTop: 5,
     paddingBottom: 5,
     borderRadius: 5,
     elevation: 5,
-    shadowColor: theme.colors.grey[500],
+    shadowColor: theme.colors.grey[300],
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,

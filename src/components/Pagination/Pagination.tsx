@@ -4,7 +4,7 @@ import { Box } from '../Box';
 import { Text } from '../Typography';
 import { PaginationItem } from './PaginationItem';
 import { PaginationProps } from './PaginationTypes';
-import { paginationStyles } from './utils';
+import { paginationStyles } from './Pagination.style';
 
 const MAX_PAGINATION_ITEM_VISIBLE = 5;
 

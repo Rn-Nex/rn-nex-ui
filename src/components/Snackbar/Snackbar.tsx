@@ -123,7 +123,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
 const styles = StyleSheet.create({
   snackbar: {
     position: 'absolute',
-    padding: 10,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

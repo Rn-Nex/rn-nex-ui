@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import { ListItemProps } from './ListTypes';
-import { endAdornmentStyles, listItemContainerStyles, listItemStyles } from './utils';
+import { endAdornmentStyles, listItemContainerStyles, listItemStyles } from './List.style';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
 import { useTheme } from '../../libraries';

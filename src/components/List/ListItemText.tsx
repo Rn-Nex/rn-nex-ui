@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { ListItemTextProps } from './ListTypes';
-import { listItemTextStyles } from './utils';
+import { listItemTextStyles } from './List.style';
 import { Box } from '../Box';
 import { Text } from '../Typography';
 

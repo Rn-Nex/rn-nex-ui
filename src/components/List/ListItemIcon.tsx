@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { ListItemIconProps } from './ListTypes';
-import { listItemIconStyles } from './utils';
+import { listItemIconStyles } from './List.style';
 import { Box } from '../Box';
 
 export const ListItemIcon = React.forwardRef<View, ListItemIconProps>(({ sx, style, ...props }, ref) => {

@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Box } from '../Box';
 import { Text } from '../Typography';
 import { ListProps } from './ListTypes';
-import { headerContainerStyles, listStyles } from './utils';
+import { headerContainerStyles, listStyles } from './List.style';
 
 export const List = React.forwardRef<View, ListProps>(
   ({ sx, style, subheader, children, subheaderProps, subheaderContainerStyles, disablePadding, ...props }, ref) => {

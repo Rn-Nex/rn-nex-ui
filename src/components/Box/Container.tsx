@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, ViewStyle } from 'react-native';
 import { ContainerProps } from './BoxTypes';
-import { generateContainerStyles } from './utils';
+import { generateContainerStyles } from './Box.style';
 import { generateElementStyles } from '../../utils';
 
 export const Container = React.forwardRef<View, ContainerProps>(({ sx, style, maxWidth, disableGutters, ...props }, ref) => {

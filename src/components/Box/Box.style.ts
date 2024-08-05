@@ -5,6 +5,7 @@ import { LG_MAX_WIDTH, MD_MAX_WIDTH, SM_MAX_WIDTH, XS_MAX_WIDTH, xl_MAX_WIDTH } 
 export const generateContainerStyles = ({ maxWidth, disableGutters }: GenerateContainerStylesProps) => {
   const baseStyles: ViewStyle = {
     padding: disableGutters ? 0 : 10,
+    margin: 'auto',
   };
 
   if (maxWidth === 'xs') {
