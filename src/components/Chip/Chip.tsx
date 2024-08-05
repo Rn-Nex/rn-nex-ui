@@ -4,7 +4,7 @@ import { AnimatedView, Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
 import { ChipProps } from './ChipTypes';
-import { generateChipAdornmentStyles, generateChipElementWrapperStyles, generateChipStyles } from './utils';
+import { generateChipAdornmentStyles, generateChipElementWrapperStyles, generateChipStyles } from './Chip.style';
 import { useTheme } from '../../libraries';
 
 export const Chip = React.forwardRef<TouchableWithoutFeedback, ChipProps>(

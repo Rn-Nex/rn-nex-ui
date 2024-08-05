@@ -79,11 +79,6 @@ export const generateBadgeStyles = ({
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 5,
-    shadowColor: theme.colors.grey[500],
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
     flexDirection: 'row',
     position: 'absolute',
   };

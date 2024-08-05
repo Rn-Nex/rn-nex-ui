@@ -1,5 +1,4 @@
 import { ViewStyle } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { GenerateChipStylesProps } from './ChipTypes';
 import { ADORNMENT_WRAPPER_SPACE } from './constants';
 
@@ -42,15 +41,6 @@ export const generateChipStyles = ({ variant, disabled, withAdornment, color, th
       ...styles,
       borderWidth: 1,
       borderColor: theme.colors.grey[500],
-    };
-  } else {
-    styles = {
-      ...styles,
-      elevation: 5,
-      shadowColor: Colors.black.light,
-      shadowOffset: { width: -2, height: 4 },
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
     };
   }
 
