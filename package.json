@@ -1,0 +1,59 @@
+{
+  "name": "rn-nex-ui",
+  "description": "rn-nex-ui is a sophisticated UI library crafted to enhance your React Native development workflow. Designed for simplicity and elegance, nex-ui provides a rich collection of components and utilities to effortlessly create polished mobile applications. Whether you're a seasoned developer or new to React Native, nex-ui empowers you to build stunning user interfaces with ease. Elevate your projects to new levels of sophistication and tranquility with rn-nex-ui.",
+  "version": "0.0.19",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rn-Nex/rn-nex-ui/tree/master"
+  },
+  "author": "RN-NEX-UI Team",
+  "license": "MIT",
+  "main": "index.js",
+  "bugs": {
+    "url": "https://github.com/Rn-Nex/rn-nex-ui/issues"
+  },
+  "homepage": "https://github.com/Rn-Nex/rn-nex-ui/tree/master#readme",
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "ui-components",
+    "typescript",
+    "component-library",
+    "mobile",
+    "user-interface",
+    "modern-design"
+  ],
+  "devDependencies": {
+    "@babel/runtime": "^7.20.0",
+    "@react-native/babel-preset": "0.74.81",
+    "@react-native/eslint-config": "0.74.81",
+    "@react-native/metro-config": "0.74.81",
+    "@react-native/typescript-config": "0.74.81",
+    "@testing-library/react-native": "^12.5.0",
+    "@types/jest": "^29.5.12",
+    "@types/react": "^18.2.6",
+    "@types/react-native-material-ripple": "^0.9.6",
+    "@types/react-test-renderer": "^18.0.0",
+    "babel-jest": "^29.6.3",
+    "eslint": "^8.19.0",
+    "jest": "^29.6.3",
+    "prettier": "2.8.8",
+    "react-native-builder-bob": "^0.23.2",
+    "react-test-renderer": "18.2.0",
+    "typescript": "5.0.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

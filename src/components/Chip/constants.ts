@@ -1,0 +1,1 @@
+export const ADORNMENT_WRAPPER_SPACE = 20;
