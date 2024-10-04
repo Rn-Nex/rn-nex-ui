@@ -3,8 +3,6 @@
 .DS_Store
 *.notes
 jest.config.js
-**/*.test.tsx
-**/*.test.ts
 
 # Xcode
 #
