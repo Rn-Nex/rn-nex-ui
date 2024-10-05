@@ -10,9 +10,12 @@ export const containerStyles = StyleSheet.create({
 
 export const generateContainerStyles = ({ maxWidth, disableGutters }: GenerateContainerStylesProps) => {
   const baseStyles: ViewStyle = {
-    padding: disableGutters ? 0 : 10,
     margin: 'auto',
   };
+
+  if (!disableGutters) {
+    baseStyles.padding = 10;
+  }
 
   if (maxWidth === 'xs') {
     baseStyles.width = XS_MAX_WIDTH;

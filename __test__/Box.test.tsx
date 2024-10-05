@@ -6,7 +6,7 @@ import { BaseStyles } from '../src/libraries/style/styleTypes';
 
 describe('Box Component', () => {
   const ref = React.createRef<View>();
-  const mockTestId = 'boxMockTestId';
+  const mockTestId = 'mock_box';
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -47,16 +47,16 @@ describe('Box Component', () => {
   it('should apply the custom styles when style prop is passed', () => {
     const styles: ViewStyle = { backgroundColor: 'red', borderRadius: 10, margin: 10, padding: 20 };
     const { getByTestId } = render(<Box testID={mockTestId} style={styles} />);
-    const boxTestInstance = getByTestId(mockTestId);
-    expect(boxTestInstance.props.style).toContain(styles);
+    const box = getByTestId(mockTestId);
+    expect(box.props.style).toContain(styles);
   });
 
   it('should apply the sx styles when sx prop is passed', () => {
     const sx: BaseStyles = { bg: 'red', r: 10, m: 10, p: 20 };
     const { getByTestId } = render(<Box testID={mockTestId} sx={sx} />);
-    const boxTestInstance = getByTestId(mockTestId);
+    const box = getByTestId(mockTestId);
     const generatedStyles: ViewStyle = { backgroundColor: 'red', borderRadius: 10, margin: 10, padding: 20 };
-    expect(boxTestInstance.props.style).toEqual(expect.arrayContaining([expect.objectContaining(generatedStyles)]));
+    expect(box.props.style).toEqual(expect.arrayContaining([expect.objectContaining(generatedStyles)]));
   });
 
   it('should combine the sx and styles props correctly', () => {
@@ -64,14 +64,14 @@ describe('Box Component', () => {
     const mockStyles: ViewStyle = { backgroundColor: 'pink', borderRadius: 30 };
 
     const { getByTestId } = render(<Box testID={mockTestId} sx={mockSx} style={mockStyles} />);
-    const boxtestInstance = getByTestId(mockTestId);
+    const box = getByTestId(mockTestId);
 
     const expectedStyles: StyleProp<ViewStyle> = [
       { backgroundColor: 'red', borderRadius: 10, margin: 10, padding: 20 },
       { backgroundColor: 'pink', borderRadius: 30 },
     ];
 
-    expect(boxtestInstance.props.style).toEqual(expectedStyles);
+    expect(box.props.style).toEqual(expectedStyles);
   });
 
   it('renders children correctly', () => {
@@ -98,7 +98,7 @@ describe('Box Component', () => {
 
   it('should position child elements correctly', () => {
     const { getByTestId } = render(<Box testID={mockTestId} style={{ flexDirection: 'row', display: 'flex' }} />);
-    const boxTestInstance = getByTestId(mockTestId);
-    expect(boxTestInstance.props.style).toEqual(expect.arrayContaining([{ flexDirection: 'row', display: 'flex' }]));
+    const box = getByTestId(mockTestId);
+    expect(box.props.style).toEqual(expect.arrayContaining([{ flexDirection: 'row', display: 'flex' }]));
   });
 });

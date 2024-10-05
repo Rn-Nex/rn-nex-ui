@@ -6,7 +6,9 @@ import { ContainerProps } from './Box.types';
 import { BOX_GENERATED_CLASSNAMES } from './constants';
 
 export const Container = React.forwardRef<View, ContainerProps>(
-  ({ sx, style, maxWidth, disableGutters, children, containerStyles: containerWrapperStyles, ...props }, ref) => {
+  ({ sx, style, maxWidth, disableGutters, children, containerStyles: containerWrapperStyles, testID, ...props }, ref) => {
+    const containerWrapperTestId = testID ? `${testID}_outer` : undefined;
+
     const containerGeneratedStyles = useMemo(() => {
       return StyleSheet.create({
         [BOX_GENERATED_CLASSNAMES.RN_NIX_CONTAINER_INNER_SX_CLASS]: {
@@ -17,8 +19,14 @@ export const Container = React.forwardRef<View, ContainerProps>(
     }, [sx, maxWidth, disableGutters]);
 
     return (
-      <View style={[containerStyles[BOX_GENERATED_CLASSNAMES.RN_NIX_CONTAINER_SX_CLASS], containerWrapperStyles]} ref={ref}>
-        <View style={[containerGeneratedStyles[BOX_GENERATED_CLASSNAMES.RN_NIX_CONTAINER_INNER_SX_CLASS], style]} {...props}>
+      <View
+        style={[containerStyles[BOX_GENERATED_CLASSNAMES.RN_NIX_CONTAINER_SX_CLASS], containerWrapperStyles]}
+        testID={containerWrapperTestId}
+        ref={ref}>
+        <View
+          style={[containerGeneratedStyles[BOX_GENERATED_CLASSNAMES.RN_NIX_CONTAINER_INNER_SX_CLASS], style]}
+          testID={testID}
+          {...props}>
           {children}
         </View>
       </View>
