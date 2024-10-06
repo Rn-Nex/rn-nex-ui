@@ -21,7 +21,6 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       children,
       style,
       badgeContent,
-      variation = 'secondary',
       invisible,
       badgeAnimationDuration,
       badgeContentProps,
@@ -29,6 +28,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       variant,
       anchorOrigin,
       badgeContainerProps,
+      variation = 'secondary',
       overlap = 'rectangular',
       ...props
     },

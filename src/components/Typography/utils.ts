@@ -55,13 +55,9 @@ export const generateTextStyles = ({
     colors: { mode },
   } = theme;
 
-  if (mode === 'light' && !textThemeMode) {
-    styles = { ...styles, color: 'black' };
-  } else if (mode === 'dark' && !textThemeMode) {
+  if (mode === 'dark' && !textThemeMode) {
     styles = { ...styles, color: 'white' };
-  }
-
-  if (textThemeMode === 'light') {
+  } else if (textThemeMode === 'light') {
     styles = { ...styles, color: 'white' };
   } else if (textThemeMode === 'dark') {
     styles = { ...styles, color: 'black' };

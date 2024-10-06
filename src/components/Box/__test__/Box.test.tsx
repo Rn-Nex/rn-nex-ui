@@ -1,8 +1,10 @@
 import { render } from '@testing-library/react-native';
 import React from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import { Box, Text, ThemeProvider } from '../src';
-import { BaseStyles } from '../src/libraries/style/styleTypes';
+import { Box } from '../Box';
+import { BaseStyles } from '../../../libraries/style/styleTypes';
+import { ThemeProvider } from '../../../libraries';
+import { Text } from '../../Typography';
 
 describe('Box Component', () => {
   const ref = React.createRef<View>();

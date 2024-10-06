@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react-native';
 import React from 'react';
 import { StyleProp, Text, View, ViewStyle } from 'react-native';
-import { Container } from '../src/components';
-import { LG_MAX_WIDTH, MD_MAX_WIDTH, SM_MAX_WIDTH, XS_MAX_WIDTH } from '../src/components/Box/constants';
+import { Container } from '../Container';
+import { LG_MAX_WIDTH, MD_MAX_WIDTH, SM_MAX_WIDTH, XS_MAX_WIDTH } from '../constants';
 
 describe('Container Component', () => {
   const mockRef = React.createRef<View>();
