@@ -1,17 +1,8 @@
 import React from 'react';
-import { StyleProp, TouchableWithoutFeedback, TouchableWithoutFeedbackProps, ViewStyle } from 'react-native';
-import { RippleProps } from '../Ripple/Ripple.types';
-import {
-  ELementDimensionMap,
-  ElementBorderRadiusMap,
-  ElementDimension,
-  ElementMargin,
-  ElementPadding,
-} from '../../libraries/style/styleTypes';
+import { StyleProp, TouchableWithoutFeedbackProps, ViewStyle } from 'react-native';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 import { BaseButtonProps } from '../Button/Button.types';
 import { TextProps } from '../Typography/Text.types';
-import { BoxProps } from '../Box/Box.types';
-import { ThemeType } from '../../libraries/themes/v1/theme';
 
 /**
  * Defines the variant of the chip.
@@ -21,7 +12,7 @@ export type ChipVariant = 'outlined' | 'filled';
  * Defines the color variations available for the chip.
  */
 export type ChipVariations = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
-export interface ChipProps extends Omit<BaseButtonProps, 'children' | 'sx'> {
+export interface ChipProps extends Omit<BaseButtonProps, 'children' | 'sx'>, Omit<TouchableWithoutFeedbackProps, 'ref'> {
   /**
    * The label text to display inside the chip.
    */

@@ -1,7 +1,7 @@
-export enum BOX_GENERATED_CLASSNAMES {
-  RN_NIX_BOX_SX_CLASS = 'Rn-box-generated-sx-class',
-  RN_NIX_CONTAINER_SX_CLASS = 'Rn-container-generated-sx-class',
-  RN_NIX_CONTAINER_INNER_SX_CLASS = 'Rn-container-generated-inner-sx-class',
+export enum BOX_CLASSNAMES {
+  RN_NIX_BOX_SX_CLASS = 'nix-box-generated-sx-class',
+  RN_NIX_CONTAINER_SX_CLASS = 'nix-container-generated-sx-class',
+  RN_NIX_CONTAINER_INNER_SX_CLASS = 'nix-container-generated-inner-sx-class',
 }
 
 export const XS_MAX_WIDTH = '40%';

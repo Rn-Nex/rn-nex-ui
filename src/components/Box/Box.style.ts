@@ -1,9 +1,9 @@
 import { StyleSheet, ViewStyle } from 'react-native';
 import { GenerateContainerStylesProps } from './Box.types';
-import { BOX_GENERATED_CLASSNAMES, LG_MAX_WIDTH, MD_MAX_WIDTH, SM_MAX_WIDTH, XS_MAX_WIDTH, xl_MAX_WIDTH } from './constants';
+import { BOX_CLASSNAMES, LG_MAX_WIDTH, MD_MAX_WIDTH, SM_MAX_WIDTH, XS_MAX_WIDTH, xl_MAX_WIDTH } from './constants';
 
 export const containerStyles = StyleSheet.create({
-  [BOX_GENERATED_CLASSNAMES.RN_NIX_CONTAINER_SX_CLASS]: {
+  [BOX_CLASSNAMES.RN_NIX_CONTAINER_SX_CLASS]: {
     width: '100%',
   },
 });
