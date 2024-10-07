@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, TouchableWithoutFeedbackProps, ViewStyle } from 'react-native';
+import { StyleProp, TouchableWithoutFeedbackProps, ViewProps, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { BaseButtonProps } from '../Button/Button.types';
 import { TextProps } from '../Typography/Text.types';
@@ -62,6 +62,20 @@ export interface ChipProps extends Omit<BaseButtonProps, 'children' | 'sx'>, Omi
    * The color variation of the chip.
    */
   color?: ChipVariations;
+
+  /**
+   * Styles for the chip wrapper container.
+   * Accepts a `StyleProp<ViewStyle>` which allows you to define various layout
+   * and appearance properties such as padding, margin, backgroundColor, etc.
+   */
+  chipWrapperContainerStyles?: StyleProp<ViewStyle>;
+
+  /**
+   * Additional properties for the chip wrapper container, excluding `children`.
+   * This allows you to pass any valid `ViewProps` to the container such as
+   * accessibility properties or event handlers (e.g., `onLayout`).
+   */
+  chipWrapperContainerProps?: Omit<ViewProps, 'children'>;
 }
 export interface GenerateChipStylesProps extends Pick<ChipProps, 'variant' | 'disabled' | 'color'> {
   theme: ThemeType;

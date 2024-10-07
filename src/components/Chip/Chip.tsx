@@ -22,6 +22,9 @@ export const Chip: React.FC<ChipProps> = ({
   disableRipple,
   style,
   color,
+  chipWrapperContainerStyles,
+  chipWrapperContainerProps,
+  testID,
   ...props
 }) => {
   const { theme } = useTheme();
@@ -57,8 +60,10 @@ export const Chip: React.FC<ChipProps> = ({
   // }
 
   return (
-    <BaseButton disabled={disabled} disableRipple={disableRipple} style={[chipStyles, style]} {...props}>
-      <Box style={[styles[CHIP_CLASSNAMES.RN_NIX_CHIP_ELEMENT_WRAPPER_CLASS]]}>
+    <BaseButton disabled={disabled} disableRipple={disableRipple} style={[chipStyles, style]} testID={testID} {...props}>
+      <Box
+        style={[styles[CHIP_CLASSNAMES.RN_NIX_CHIP_ELEMENT_WRAPPER_CLASS], chipWrapperContainerStyles]}
+        {...chipWrapperContainerProps}>
         {startAdornmentElement}
         <Text variation="h4" {...labelContainerProps}>
           {label}

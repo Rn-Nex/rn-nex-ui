@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import { ThemeProvider, grey } from '../../../libraries';
 import { Chip } from '../Chip';
@@ -7,6 +7,7 @@ import { StyleProp, Text, ViewStyle } from 'react-native';
 describe('Chip Component', () => {
   const chipMockTestId = 'chip_test_id';
   const chipMockLabel = 'label';
+  const mockEvent = { nativeEvent: {} };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -111,8 +112,28 @@ describe('Chip Component', () => {
       transform: [{ scale: 1 }],
     };
 
-    console.log(chipElement.props.style);
-
     expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
+  });
+
+  it('should call the event when passed the onPress prop', () => {
+    const mockOnPress = jest.fn();
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Chip testID={chipMockTestId} label={chipMockLabel} onPress={mockOnPress} />
+      </ThemeProvider>,
+    );
+    fireEvent.press(getByTestId(chipMockTestId), mockEvent);
+    expect(mockOnPress).toHaveBeenCalled();
+  });
+
+  it('should disable the onPress props when passed the disabled prop', () => {
+    const mockOnPress = jest.fn();
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Chip testID={chipMockTestId} label={chipMockLabel} onPress={mockOnPress} disabled />
+      </ThemeProvider>,
+    );
+    fireEvent.press(getByTestId(chipMockTestId), mockEvent);
+    expect(mockOnPress).not.toHaveBeenCalled();
   });
 });
