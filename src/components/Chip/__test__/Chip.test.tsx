@@ -1,13 +1,24 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
-import { ThemeProvider, grey } from '../../../libraries';
+import { StyleProp, Text, TextStyle, ViewStyle } from 'react-native';
+import { ThemeProvider, green, grey, lightBlue, primary, red, secondary, yellow } from '../../../libraries';
 import { Chip } from '../Chip';
-import { StyleProp, Text, ViewStyle } from 'react-native';
 
 describe('Chip Component', () => {
   const chipMockTestId = 'chip_test_id';
+  const chipWrapperMockTestId = 'chip_wrapper_test_id';
+  const chipLabelTestId = 'chip_label_test_id';
   const chipMockLabel = 'label';
   const mockEvent = { nativeEvent: {} };
+
+  const chipBaseStyles: StyleProp<ViewStyle> = {
+    borderRadius: 20,
+    opacity: 0.5,
+    overflow: 'hidden',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    transform: [{ scale: 1 }],
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -68,13 +79,7 @@ describe('Chip Component', () => {
     const chipElement = getByTestId(chipMockTestId);
     const expectedStyles: StyleProp<ViewStyle> = {
       borderColor: grey[400],
-      borderRadius: 20,
-      borderWidth: 1,
-      opacity: 0.5,
-      overflow: 'hidden',
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      transform: [{ scale: 1 }],
+      ...chipBaseStyles,
     };
 
     expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
@@ -94,7 +99,7 @@ describe('Chip Component', () => {
     expect(chipElement.props.style).toEqual(expect.objectContaining({ backgroundColor: customColor }));
   });
 
-  it('should apply the chip variant', () => {
+  it('should apply the chip (filled) variant', () => {
     const { getByTestId } = render(
       <ThemeProvider>
         <Chip testID={chipMockTestId} label={chipMockLabel} variant="filled" disabled />
@@ -104,12 +109,103 @@ describe('Chip Component', () => {
     const chipElement = getByTestId(chipMockTestId);
     const expectedStyles: StyleProp<ViewStyle> = {
       backgroundColor: grey[400],
-      borderRadius: 20,
-      opacity: 0.5,
-      overflow: 'hidden',
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      transform: [{ scale: 1 }],
+      ...chipBaseStyles,
+    };
+
+    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
+  });
+
+  it('should apply the chip color (error) variant', () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Chip testID={chipMockTestId} label={chipMockLabel} color="error" variant="filled" disabled />
+      </ThemeProvider>,
+    );
+
+    const chipElement = getByTestId(chipMockTestId);
+    const expectedStyles: StyleProp<ViewStyle> = {
+      backgroundColor: red[500],
+      ...chipBaseStyles,
+    };
+
+    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
+  });
+
+  it('should apply the chip color (info) variant', () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Chip testID={chipMockTestId} label={chipMockLabel} color="info" variant="filled" disabled />
+      </ThemeProvider>,
+    );
+
+    const chipElement = getByTestId(chipMockTestId);
+    const expectedStyles: StyleProp<ViewStyle> = {
+      backgroundColor: lightBlue[500],
+      ...chipBaseStyles,
+    };
+
+    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
+  });
+
+  it('should apply the chip color (primary) variant', () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Chip testID={chipMockTestId} label={chipMockLabel} color="primary" variant="filled" disabled />
+      </ThemeProvider>,
+    );
+
+    const chipElement = getByTestId(chipMockTestId);
+    const expectedStyles: StyleProp<ViewStyle> = {
+      backgroundColor: primary[500],
+      ...chipBaseStyles,
+    };
+
+    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
+  });
+
+  it('should apply the chip color (secondary) variant', () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Chip testID={chipMockTestId} label={chipMockLabel} color="secondary" variant="filled" disabled />
+      </ThemeProvider>,
+    );
+
+    const chipElement = getByTestId(chipMockTestId);
+    const expectedStyles: StyleProp<ViewStyle> = {
+      backgroundColor: secondary[500],
+      ...chipBaseStyles,
+    };
+
+    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
+  });
+
+  it('should apply the chip color (success) variant', () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Chip testID={chipMockTestId} label={chipMockLabel} color="success" variant="filled" disabled />
+      </ThemeProvider>,
+    );
+
+    const chipElement = getByTestId(chipMockTestId);
+    const expectedStyles: StyleProp<ViewStyle> = {
+      backgroundColor: green[500],
+      ...chipBaseStyles,
+    };
+
+    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
+  });
+
+  it('should apply the chip color (warning) variant', () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Chip testID={chipMockTestId} label={chipMockLabel} color="warning" variant="filled" disabled />
+      </ThemeProvider>,
+    );
+
+    const chipElement = getByTestId(chipMockTestId);
+    const expectedStyles: StyleProp<ViewStyle> = {
+      backgroundColor: yellow[400],
+      ...chipBaseStyles,
     };
 
     expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
@@ -135,5 +231,32 @@ describe('Chip Component', () => {
     );
     fireEvent.press(getByTestId(chipMockTestId), mockEvent);
     expect(mockOnPress).not.toHaveBeenCalled();
+  });
+
+  it('should apply the custom styles on chip wrapper', () => {
+    const styles: ViewStyle = { backgroundColor: 'red' };
+
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Chip chipWrapperContainerProps={{ style: styles, testID: chipWrapperMockTestId }} />
+      </ThemeProvider>,
+    );
+
+    const chipWrapper = getByTestId(chipWrapperMockTestId);
+    expect(chipWrapper).toBeTruthy();
+
+    expect(chipWrapper.props.style).toEqual(expect.arrayContaining([styles]));
+  });
+
+  it('should apply the custom text styles', () => {
+    const styles: TextStyle = { color: 'red' };
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Chip labelContainerProps={{ style: styles, testID: chipLabelTestId }} />
+      </ThemeProvider>,
+    );
+
+    const label = getByTestId(chipLabelTestId);
+    expect(label.props.style).toEqual(expect.arrayContaining([styles]));
   });
 });

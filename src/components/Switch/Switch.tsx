@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { Animated, StyleSheet, TouchableWithoutFeedback, View, LayoutChangeEvent, ViewStyle, ColorValue } from 'react-native';
-import { BaseStyles } from '../../libraries/style/styleTypes';
-import { generateElementStyles } from '../../utils';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, LayoutChangeEvent, StyleSheet, TouchableWithoutFeedback, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
-import { getSwitchSizes, getSwitchVariant } from './utils';
+import { BaseStyles } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
+import { generateElementStyles } from '../../utils';
+import { getSwitchSizes, getSwitchVariant } from './utils';
 
 /**
  * Define a union type for the possible color variations of a switch component,
@@ -79,6 +79,16 @@ interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof Touchab
    * including 'small', 'medium', 'large',
    */
   size?: SwitchSize;
+
+  /**
+   * testID for the switch container
+   */
+  containerTestID?: string;
+
+  /**
+   * testID for the switch thumb
+   */
+  thumbTestID?: string;
 }
 
 export interface GetSwitchVariantArgs extends Pick<SwitchProps, 'variant'> {
@@ -93,6 +103,8 @@ export const Switch: React.FC<SwitchProps> = ({
   thumbStyles,
   style,
   sx,
+  containerTestID,
+  thumbTestID,
   variant = 'primary',
   size = 'medium',
   initialToggleState = false,
@@ -175,10 +187,12 @@ export const Switch: React.FC<SwitchProps> = ({
           style,
           sx && generateElementStyles(sx),
         ]}
-        onLayout={handleContainerLayout}>
+        onLayout={handleContainerLayout}
+        testID={containerTestID}>
         <Animated.View
           style={[styles.thumb, switchSizeVariation.thumbStyles, switchStyles, thumbStyles]}
           onLayout={handleThumbLayout}
+          testID={thumbTestID}
         />
       </Animated.View>
     </TouchableWithoutFeedback>

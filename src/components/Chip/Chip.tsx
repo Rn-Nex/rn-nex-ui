@@ -46,19 +46,6 @@ export const Chip: React.FC<ChipProps> = ({
     </TouchableWithoutFeedback>
   );
 
-  // TODO: On press event is not supported yet.
-  // if (startAdornment || endAdornment) {
-  //   return (
-  //     <AnimatedView style={chipStyles}>
-  //       {startAdornmentElement}
-  //       <Text variation="h4" {...labelContainerProps}>
-  //         {label}
-  //       </Text>
-  //       {endAdornmentElement}
-  //     </AnimatedView>
-  //   );
-  // }
-
   return (
     <BaseButton disabled={disabled} disableRipple={disableRipple} style={[chipStyles, style]} testID={testID} {...props}>
       <Box
