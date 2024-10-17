@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { ScrollView, ViewStyle } from 'react-native';
-import { ImageListProps } from './ImageTypes';
+import { ImageListProps } from './Image.types';
 
 export const ImageList: React.FC<ImageListProps> = ({ style, children, contentContainerStyle, ...props }) => {
   const scrollViewStyles = useMemo(() => {

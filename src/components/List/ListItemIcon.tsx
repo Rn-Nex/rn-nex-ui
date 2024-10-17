@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import { ListItemIconProps } from './ListTypes';
+import { ListItemIconProps } from './List.types';
 import { listItemIconStyles } from './List.style';
 import { Box } from '../Box';
 

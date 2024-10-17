@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import { BoxProps } from '../Box/BoxTypes';
+import { BoxProps } from '../Box/Box.types';
 import { Box } from '../Box';
 import { dialogContentStyles } from './utils';
 

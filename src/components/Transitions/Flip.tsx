@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import { FlipProps } from './TransitionsTypes';
+import { FlipProps } from './Transitions.types';
 
 export const Flip: React.FC<FlipProps> = ({
   style,

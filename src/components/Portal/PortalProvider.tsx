@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Portal, PortalContextProps, PortalProviderProps } from './PortalTypes';
+import { Portal, PortalContextProps, PortalProviderProps } from './Portal.types';
 
 const PortalContext = createContext<PortalContextProps | undefined>(undefined);
 

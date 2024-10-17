@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import { PulseProps } from './TransitionsTypes';
+import { PulseProps } from './Transitions.types';
 
 export const Pulse: React.FC<PulseProps> = ({
   style,

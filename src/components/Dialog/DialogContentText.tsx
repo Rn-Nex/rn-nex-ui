@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Text as RnText } from 'react-native';
-import { TextProps } from '../Typography/TextTypes';
+import { TextProps } from '../Typography/Text.types';
 import { Text } from '../Typography';
 import { useTheme } from '../../libraries';
 import { DialogContentTextStyles } from './utils';

@@ -4,7 +4,7 @@ import {
   GenerateBadgeContainerStylesProps,
   GenerateBadgeStylesProps,
   PlaceBadgeBasedPosition,
-} from './BadgeTypes';
+} from './Badge.types';
 import { BADGE_DEFAULT_RADIUS } from './constants';
 
 export const badgeContentDefaultStyles = ({ variation }: BadgeContentDefaultStylesProps): TextStyle => {

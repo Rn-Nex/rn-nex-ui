@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
-import { TadaProps } from './TransitionsTypes';
+import { TadaProps } from './Transitions.types';
 import { createTadaAnimation } from './utils';
 
 export const Tada: React.FC<TadaProps> = ({

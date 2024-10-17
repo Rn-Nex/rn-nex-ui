@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
-import { SlideProps } from './TransitionsTypes';
+import { SlideProps } from './Transitions.types';
 
 export const Slide: React.FC<SlideProps> = ({
   style,

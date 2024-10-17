@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { Box } from '../Box';
 import { Text } from '../Typography';
-import { ListProps } from './ListTypes';
+import { ListProps } from './List.types';
 import { headerContainerStyles, listStyles } from './List.style';
 
 export const List = React.forwardRef<View, ListProps>(

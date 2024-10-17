@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import { ShakeProps } from './TransitionsTypes';
+import { ShakeProps } from './Transitions.types';
 
 const defaultConfigForShakeAnimation = {
   easing: Easing.linear,

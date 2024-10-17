@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import { FadingProps } from './TransitionsTypes';
+import { FadingProps } from './Transitions.types';
 import { getFadingFinalTransform, getFadingInitialTransform } from './utils';
 
 export const Fading: React.FC<FadingProps> = ({

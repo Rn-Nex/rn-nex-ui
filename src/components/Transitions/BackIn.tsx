@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
 import { BACK_IN_DEFAULT_DELAY, BACK_IN_DEFAULT_DURATION } from './constants';
-import { BackInProps } from './TransitionsTypes';
+import { BackInProps } from './Transitions.types';
 import { getBackInInitialValue } from './utils';
 
 export const BackIn: React.FC<BackInProps> = ({

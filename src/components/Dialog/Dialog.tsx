@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useTheme } from '../../libraries';
 import { Box } from '../Box';
 import { Portal } from '../Portal';
-import { DialogProps } from './DialogTypes';
+import { DialogProps } from './Dialog.types';
 import { dialogContainerStyles, dialogStyles } from './utils';
 
 export const Dialog: React.FC<DialogProps> = ({ modalContainerProps, children, dialogContainerProps, ...props }) => {

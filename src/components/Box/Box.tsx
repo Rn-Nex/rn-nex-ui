@@ -1,11 +1,16 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useMemo } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { generateElementStyles } from '../../utils';
-import { BoxProps } from './BoxTypes';
+import { BoxProps } from './Box.types';
+import { BOX_CLASSNAMES } from './constants';
 
 export const Box = React.forwardRef<View, BoxProps>(({ children, style, sx, ...props }, ref) => {
+  const generatedStyles = useMemo(() => {
+    return StyleSheet.create({ [BOX_CLASSNAMES.RN_NIX_BOX_SX_CLASS]: sx ? generateElementStyles(sx) : {} });
+  }, [sx]);
+
   return (
-    <View ref={ref} style={[sx && generateElementStyles(sx), style]} {...props}>
+    <View ref={ref} style={[generatedStyles[BOX_CLASSNAMES.RN_NIX_BOX_SX_CLASS], style]} {...props}>
       {children}
     </View>
   );

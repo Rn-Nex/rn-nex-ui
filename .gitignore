@@ -4,8 +4,9 @@
 *.notes
 /tests/
 /__tests__/
-*.test.js
-*.spec.js
+*.test.tsx
+*.test.ts
+*.snap
 
 # Xcode
 #

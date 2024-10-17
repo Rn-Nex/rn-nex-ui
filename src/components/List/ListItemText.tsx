@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import { ListItemTextProps } from './ListTypes';
+import { ListItemTextProps } from './List.types';
 import { listItemTextStyles } from './List.style';
 import { Box } from '../Box';
 import { Text } from '../Typography';

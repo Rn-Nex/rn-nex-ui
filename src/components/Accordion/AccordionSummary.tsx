@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../libraries';
 import { accordionSummaryStyles } from './Accordion.style';
-import { AccordionSummaryProps } from './AccordionTypes';
+import { AccordionSummaryProps } from './Accordion.types';
 import {
   ACCORDION_DETAILS_DEFAULT_EXPANDED,
   ACCORDION_DETAILS_OPACITY_DURATION,

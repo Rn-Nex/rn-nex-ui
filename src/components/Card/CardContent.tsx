@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { generateElementStyles } from '../../utils';
-import { CardContentProps } from './CardTypes';
+import { CardContentProps } from './Card.types';
 
 export const CardContent = React.forwardRef<View, CardContentProps>(({ children, style, sx, ...props }, ref) => {
   return (

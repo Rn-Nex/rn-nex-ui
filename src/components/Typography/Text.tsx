@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Text as RnText } from 'react-native';
 import { useTheme } from '../../libraries';
-import { TextProps } from './TextTypes';
+import { TextProps } from './Text.types';
 import { generateTextStyles, maxLength as maxLengthUtile } from './utils';
 
 export const Text = React.forwardRef<RnText, TextProps>(

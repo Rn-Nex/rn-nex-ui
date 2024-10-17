@@ -1,12 +1,21 @@
-import { ViewStyle } from 'react-native';
-import { GenerateContainerStylesProps } from './BoxTypes';
-import { LG_MAX_WIDTH, MD_MAX_WIDTH, SM_MAX_WIDTH, XS_MAX_WIDTH, xl_MAX_WIDTH } from './constants';
+import { StyleSheet, ViewStyle } from 'react-native';
+import { GenerateContainerStylesProps } from './Box.types';
+import { BOX_CLASSNAMES, LG_MAX_WIDTH, MD_MAX_WIDTH, SM_MAX_WIDTH, XS_MAX_WIDTH, xl_MAX_WIDTH } from './constants';
+
+export const containerStyles = StyleSheet.create({
+  [BOX_CLASSNAMES.RN_NIX_CONTAINER_SX_CLASS]: {
+    width: '100%',
+  },
+});
 
 export const generateContainerStyles = ({ maxWidth, disableGutters }: GenerateContainerStylesProps) => {
   const baseStyles: ViewStyle = {
-    padding: disableGutters ? 0 : 10,
     margin: 'auto',
   };
+
+  if (!disableGutters) {
+    baseStyles.padding = 10;
+  }
 
   if (maxWidth === 'xs') {
     baseStyles.width = XS_MAX_WIDTH;

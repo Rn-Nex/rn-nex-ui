@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ImageListItemBarProps } from './ImageTypes';
+import { ImageListItemBarProps } from './Image.types';
 import { ViewStyle } from 'react-native';
 import { generateElementStyles } from '../../utils';
 import { Box } from '../Box';

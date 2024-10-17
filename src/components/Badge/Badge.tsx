@@ -3,7 +3,7 @@ import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, View } from 'reac
 import { useTheme } from '../../libraries';
 import { AnimatedView, Box } from '../Box';
 import { Text } from '../Typography';
-import { BadgeContainerProps, BadgeProps } from './BadgeTypes';
+import { BadgeContainerProps, BadgeProps } from './Badge.types';
 import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE } from './constants';
 import { badgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './utils';
 
@@ -21,7 +21,6 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       children,
       style,
       badgeContent,
-      variation = 'secondary',
       invisible,
       badgeAnimationDuration,
       badgeContentProps,
@@ -29,6 +28,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       variant,
       anchorOrigin,
       badgeContainerProps,
+      variation = 'secondary',
       overlap = 'rectangular',
       ...props
     },

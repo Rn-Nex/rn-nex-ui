@@ -1,7 +1,7 @@
 import { TextStyle } from 'react-native';
 import { StylePalette } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
-import { TextGutter, TextStylesArgs, TextVariation } from './TextTypes';
+import { TextGutter, TextStylesArgs, TextVariation } from './Text.types';
 import { generateElementStyles } from '../../utils';
 
 export const textFontVariation = function (variation: TextVariation, theme: ThemeType) {
@@ -55,13 +55,9 @@ export const generateTextStyles = ({
     colors: { mode },
   } = theme;
 
-  if (mode === 'light' && !textThemeMode) {
-    styles = { ...styles, color: 'black' };
-  } else if (mode === 'dark' && !textThemeMode) {
+  if (mode === 'dark' && !textThemeMode) {
     styles = { ...styles, color: 'white' };
-  }
-
-  if (textThemeMode === 'light') {
+  } else if (textThemeMode === 'light') {
     styles = { ...styles, color: 'white' };
   } else if (textThemeMode === 'dark') {
     styles = { ...styles, color: 'black' };

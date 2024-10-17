@@ -3,7 +3,7 @@ import { TextInputProps, View } from 'react-native';
 import { useTheme } from '../../libraries';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { Box } from '../Box';
-import { BoxProps } from '../Box/BoxTypes';
+import { BoxProps } from '../Box/Box.types';
 import { BaseInput } from './BaseInput';
 
 /**

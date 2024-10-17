@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Box } from '../Box';
-import { DialogActionsProps } from './DialogTypes';
+import { DialogActionsProps } from './Dialog.types';
 import { dialogActionsStyles } from './utils';
 
 export const DialogActions = React.forwardRef<View, DialogActionsProps>(

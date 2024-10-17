@@ -1,9 +1,17 @@
-import { ViewStyle } from 'react-native';
-import { GenerateChipStylesProps } from './ChipTypes';
-import { ADORNMENT_WRAPPER_SPACE } from './constants';
+import { StyleSheet, ViewStyle } from 'react-native';
+import { ChipVariations, GenerateChipStylesProps } from './Chip.types';
+import { ADORNMENT_WRAPPER_SPACE, CHIP_CLASSNAMES } from './constants';
+import { ThemeType } from '../../libraries/themes/v1/theme';
 
-export const generateChipAdornmentStyles = (): ViewStyle => {
-  const styles: ViewStyle = {
+export const styles = StyleSheet.create({
+  [CHIP_CLASSNAMES.RN_NIX_CHIP_ELEMENT_WRAPPER_CLASS]: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 10,
+  },
+  [CHIP_CLASSNAMES.RN_NIX_CHIP_ADORNMENT_CLASS]: {
     minWidth: ADORNMENT_WRAPPER_SPACE,
     minHeight: ADORNMENT_WRAPPER_SPACE,
     display: 'flex',
@@ -11,21 +19,26 @@ export const generateChipAdornmentStyles = (): ViewStyle => {
     justifyContent: 'center',
     overflow: 'hidden',
     borderRadius: 100,
-  };
+  },
+});
 
-  return styles;
-};
-
-export const generateChipElementWrapperStyles = (): ViewStyle => {
-  const styles: ViewStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 10,
-  };
-
-  return styles;
+export const getColorVariant = (theme: ThemeType, variant: ChipVariations | undefined) => {
+  switch (variant) {
+    case 'primary':
+      return theme.colors.primary[500];
+    case 'secondary':
+      return theme.colors.secondary[500];
+    case 'error':
+      return theme.colors.red[500];
+    case 'warning':
+      return theme.colors.yellow[400];
+    case 'info':
+      return theme.colors.lightBlue[500];
+    case 'success':
+      return theme.colors.green[500];
+    default:
+      return theme.colors.grey[400];
+  }
 };
 
 export const generateChipStyles = ({ variant, disabled, withAdornment, color, theme }: GenerateChipStylesProps) => {
@@ -36,32 +49,8 @@ export const generateChipStyles = ({ variant, disabled, withAdornment, color, th
     overflow: 'hidden',
   };
 
-  if (variant === 'outlined') {
-    styles = {
-      ...styles,
-      borderWidth: 1,
-      borderColor: theme.colors.grey[500],
-    };
-  }
-
   if (disabled) {
     styles = { ...styles, opacity: 0.5 };
-  }
-
-  if (color === 'primary') {
-    styles.backgroundColor = theme.colors.primary[500];
-  } else if (color === 'secondary') {
-    styles.backgroundColor = theme.colors.secondary[500];
-  } else if (color === 'error') {
-    styles.backgroundColor = theme.colors.red[500];
-  } else if (color === 'warning') {
-    styles.backgroundColor = theme.colors.yellow[400];
-  } else if (color === 'info') {
-    styles.backgroundColor = theme.colors.lightBlue[500];
-  } else if (color === 'success') {
-    styles.backgroundColor = theme.colors.green[500];
-  } else {
-    styles.backgroundColor = theme.colors.grey[400];
   }
 
   if (withAdornment) {
@@ -72,6 +61,16 @@ export const generateChipStyles = ({ variant, disabled, withAdornment, color, th
       alignItems: 'center',
       gap: 10,
     };
+  }
+
+  if (variant === 'outlined') {
+    styles = {
+      ...styles,
+      borderWidth: 1,
+      borderColor: getColorVariant(theme, color),
+    };
+  } else {
+    styles.backgroundColor = getColorVariant(theme, color);
   }
 
   return styles;

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Image, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Box } from '../Box';
-import { CheckBoxProps } from './CheckBoxTypes';
+import { CheckBoxProps } from './CheckBox.types';
 
 const defaultIndeterminateImage = require('./check-box/indeterminate_check_box.png');
 const defaultCheckBoxImage = require('./check-box/check_box.png');

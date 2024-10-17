@@ -4,7 +4,7 @@ import {
   FADING_DEFAULT_INITIAL_LARGE_POSITION_VALUE,
   FADING_DEFAULT_INITIAL_SMALL_POSITION_VALUE,
 } from './constants';
-import { BackInProps, FadingProps } from './TransitionsTypes';
+import { BackInProps, FadingProps } from './Transitions.types';
 
 type FadingInitialTransform = {
   translateX: number;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
-import { HeartBeatProps } from './TransitionsTypes';
+import { HeartBeatProps } from './Transitions.types';
 import { createHeartBeatAnimation } from './utils';
 
 export const HeartBeat: React.FC<HeartBeatProps> = ({

@@ -1,7 +1,7 @@
 import React, { forwardRef, useMemo } from 'react';
 import { GestureResponderEvent, TouchableWithoutFeedback, View } from 'react-native';
 import { Box } from '../Box';
-import { ModalContainerProps } from './PortalTypes';
+import { ModalContainerProps } from './Portal.types';
 import { createModalBackgroundStyles } from './utils';
 
 export const ModalContainer = forwardRef<View, ModalContainerProps>(({ style, sx, onClose, children, ...props }, ref) => {

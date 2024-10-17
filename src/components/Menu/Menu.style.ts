@@ -1,5 +1,5 @@
 import { ViewStyle, Dimensions } from 'react-native';
-import { DialogContainerStylesProps, MenuItemContainerStylesProps, MenuItemStylesProps, MenuListStylesProps } from './MenuTypes';
+import { DialogContainerStylesProps, MenuItemContainerStylesProps, MenuItemStylesProps, MenuListStylesProps } from './Menu.types';
 
 const OFFSET = 10;
 const WRAPPER_DEFAULT_HEIGHT = 100;

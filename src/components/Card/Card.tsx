@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { generateElementStyles } from '../../utils';
-import { CardProps } from './CardTypes';
+import { CardProps } from './Card.types';
 import { cardVariation } from './utils';
 import { useTheme } from '../../libraries';
 

@@ -9,7 +9,7 @@ import {
   IMAGE_ROUNDED_XL_RADIUS,
   IMAGE_SQUARE_RADIUS,
 } from './constants';
-import { GenerateImageListItemStylesProps, ImageVariant } from './ImageTypes';
+import { GenerateImageListItemStylesProps, ImageVariant } from './Image.types';
 
 export const generateImageRadiusStyles = (variation: ImageVariant) => {
   let styles: ElementRadius = {};

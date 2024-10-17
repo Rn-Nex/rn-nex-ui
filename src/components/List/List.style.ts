@@ -1,5 +1,5 @@
 import { ViewStyle } from 'react-native';
-import { ListItemContainerStylesProps, ListItemStylesProps, ListItemTextStylesProps, ListStylesProps } from './ListTypes';
+import { ListItemContainerStylesProps, ListItemStylesProps, ListItemTextStylesProps, ListStylesProps } from './List.types';
 
 export const listStyles = ({ disablePadding }: ListStylesProps): ViewStyle => {
   let styles: ViewStyle = {
@@ -75,10 +75,10 @@ export const listItemTextStyles = ({ disablePadding, alignItems }: ListItemTextS
       alignItems === 'start'
         ? 'flex-start'
         : alignItems === 'middle'
-        ? 'center'
-        : alignItems === 'end'
-        ? 'flex-end'
-        : 'flex-start',
+          ? 'center'
+          : alignItems === 'end'
+            ? 'flex-end'
+            : 'flex-start',
   };
 
   if (!disablePadding) {

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Box } from '../Box';
 import { View } from 'react-native';
-import { MenuListProps } from './MenuTypes';
+import { MenuListProps } from './Menu.types';
 import { menuListStyles } from './Menu.style';
 import { useTheme } from '../../libraries';
 

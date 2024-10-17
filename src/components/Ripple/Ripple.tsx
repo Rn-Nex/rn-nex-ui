@@ -2,7 +2,7 @@ import React, { useImperativeHandle, useState } from 'react';
 import { Animated, Easing, LayoutRectangle, StyleSheet, View, ViewStyle } from 'react-native';
 import { generateUniqueId } from '../../utils';
 import { RIPPLE_DURATION, RIPPLE_RADIUS, RIPPLE_SIZE } from './constants';
-import { RippleInterface, RippleObject, RipplePosition, RippleProps, onRippleAnimationType } from './RippleTypes';
+import { RippleInterface, RippleObject, RipplePosition, RippleProps, onRippleAnimationType } from './Ripple.types';
 
 const rippleContainerDefaultStyles: ViewStyle = {
   ...StyleSheet.absoluteFillObject,
@@ -104,16 +104,12 @@ export const Ripple = React.forwardRef<RippleInterface, RippleProps>(
       );
     };
 
-    useImperativeHandle(
-      ref,
-      () => {
-        return {
-          startRipple,
-          createRippleFromPosition,
-        } as RippleInterface;
-      },
-      [],
-    );
+    useImperativeHandle(ref, () => {
+      return {
+        startRipple,
+        createRippleFromPosition,
+      } as RippleInterface;
+    }, []);
 
     return (
       <View ref={ref} style={[rippleContainerDefaultStyles, rippleContainerStyles]} {...props}>

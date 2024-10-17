@@ -6,7 +6,7 @@ import {
   OutlineStyles,
   TextFiledVariation,
   TextInputStylesProps,
-} from './InputTypes';
+} from './Input.types';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 

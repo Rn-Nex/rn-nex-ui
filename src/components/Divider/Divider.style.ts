@@ -1,5 +1,5 @@
 import { ViewStyle } from 'react-native';
-import { DividerRootContainerProps, GenerateDividerStylesProps } from './DividerTypes';
+import { DividerRootContainerProps, GenerateDividerStylesProps } from './Divider.types';
 import {
   DEFAULT_HEIGHT,
   DEFAULT_WIDTH,
@@ -89,8 +89,8 @@ export const generateDividerStyles = ({
     let height = isHorizontal
       ? DEFAULT_HEIGHT
       : isAligned
-      ? calculatedHeight / 2
-      : halfHeightOfRootDivider + calculatedHeight / 2 - halfHeightOfChildWrapper;
+        ? calculatedHeight / 2
+        : halfHeightOfRootDivider + calculatedHeight / 2 - halfHeightOfChildWrapper;
 
     return {
       width: isHorizontal ? width : DEFAULT_HEIGHT,
@@ -119,7 +119,7 @@ export const generateDividerStyles = ({
     height: isHorizontal
       ? DEFAULT_HEIGHT
       : variant === 'fullWidth'
-      ? calculatedHeight
-      : calculatedHeight + halfOfMiddleVariationHeight,
+        ? calculatedHeight
+        : calculatedHeight + halfOfMiddleVariationHeight,
   };
 };

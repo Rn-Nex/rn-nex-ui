@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
-import { SnackbarProps } from './SnackbarTypes';
+import { SnackbarProps } from './Snackbar.types';
 import { AnimatedView } from '../Box';
 
 export const Snackbar: React.FC<SnackbarProps> = ({

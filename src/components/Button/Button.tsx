@@ -3,11 +3,12 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { useTheme } from '../../libraries';
 import { generateElementStyles } from '../../utils';
 import { BaseButton } from './BaseButton';
-import { ButtonProps } from './ButtonTypes';
+import { ButtonProps } from './Button.types';
 import { getButtonStyles } from './utils';
+import { ActivityIndicator } from '../ActivityIndicator';
 
 export const Button = React.forwardRef<TouchableWithoutFeedback, ButtonProps>(
-  ({ children, style, sx, variation, disabled, fullWidth, disableElevation, buttonColor, ...props }, ref) => {
+  ({ children, style, sx, variation, disabled, fullWidth, disableElevation, buttonColor, loading, ...props }, ref) => {
     const { theme } = useTheme();
 
     const styles = useMemo(
@@ -24,8 +25,8 @@ export const Button = React.forwardRef<TouchableWithoutFeedback, ButtonProps>(
     );
 
     return (
-      <BaseButton ref={ref} {...props} style={[styles, sx && generateElementStyles(sx), style]}>
-        {children}
+      <BaseButton disabled={loading} ref={ref} {...props} style={[styles, sx && generateElementStyles(sx), style]}>
+        {loading ? <ActivityIndicator /> : children}
       </BaseButton>
     );
   },

@@ -1,6 +1,6 @@
 import { ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
-import { ButtonColorTypes, ButtonVariationsType, GetButtonStylesProps } from './ButtonTypes';
+import { ButtonColorTypes, ButtonVariationsType, GetButtonStylesProps } from './Button.types';
 
 export const containedButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
   const baseStyles: ViewStyle = {

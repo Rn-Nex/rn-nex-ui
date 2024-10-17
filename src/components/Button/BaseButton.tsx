@@ -3,8 +3,8 @@ import { Animated, GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, To
 import { generateElementStyles } from '../../utils';
 import { AnimatedView } from '../Box';
 import { Ripple } from '../Ripple';
-import { RippleInterface } from '../Ripple/RippleTypes';
-import { BaseButtonProps } from './ButtonTypes';
+import { RippleInterface } from '../Ripple/Ripple.types';
+import { BaseButtonProps } from './Button.types';
 
 export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonProps>(
   (

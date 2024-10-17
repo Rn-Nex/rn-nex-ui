@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
-import { WobbleProps } from './TransitionsTypes';
+import { WobbleProps } from './Transitions.types';
 import { createWobbleAnimation } from './utils';
 
 export const Wobble: React.FC<WobbleProps> = ({

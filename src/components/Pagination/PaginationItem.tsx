@@ -4,7 +4,7 @@ import { useTheme } from '../../libraries';
 import { generateElementStyles } from '../../utils';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
-import { PaginationItemProps } from './PaginationTypes';
+import { PaginationItemProps } from './Pagination.types';
 import { paginationItemStyles } from './Pagination.style';
 
 export const ANIMATION_DURATION = 200;

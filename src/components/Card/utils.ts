@@ -1,6 +1,6 @@
 import { ColorValue } from 'react-native';
 import { ElementBorderColorStyles } from '../../libraries/style/styleTypes';
-import { CardVariations } from './CardTypes';
+import { CardVariations } from './Card.types';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 
 export const cardVariation = (variation: CardVariations, theme: ThemeType) => {

@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { useTheme } from '../../libraries';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
-import { MenuItemProps } from './MenuTypes';
+import { MenuItemProps } from './Menu.types';
 import { endAdornmentStyles, menuItemContainerStyles, menuItemStyles } from './Menu.style';
 
 export const MenuItem = React.forwardRef<TouchableWithoutFeedback, MenuItemProps>(

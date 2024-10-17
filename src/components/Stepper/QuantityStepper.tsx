@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
 import { Text } from '../Typography';
 import { styles } from './styles';
-import { QuantityStepperProps } from './StepperTypes';
+import { QuantityStepperProps } from './Stepper.types';
 
 export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
   (
@@ -21,6 +21,8 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
       disabledDecrement = false,
       maxIncrement = 10,
       minDecrement = 0,
+      incrementIcon,
+      decrementIcon,
       ...props
     },
     ref,
@@ -58,7 +60,7 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
       <View {...props} style={[styles.stepperContainer, style]} ref={ref}>
         <TouchableWithoutFeedback onPress={onDecrement} disabled={disabledDecrement || value <= minDecrement ? true : false}>
           <View style={[styles.item, styles.stepperOptions, stepperOptionsStyles('DEC', buttonType), decrementButtonStyle]}>
-            <View style={[styles.horizontalLine, iconStyle]} />
+            {decrementIcon || <View style={[styles.horizontalLine, iconStyle]} />}
           </View>
         </TouchableWithoutFeedback>
         <View style={[styles.item]} {...labelWrapperProps}>
@@ -68,8 +70,12 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
         </View>
         <TouchableWithoutFeedback onPress={onIncrement} disabled={disabledIncrement || value >= maxIncrement}>
           <View style={[styles.item, styles.stepperOptions, stepperOptionsStyles('INC', buttonType), incrementButtonStyle]}>
-            <View style={[styles.horizontalLine, iconStyle]} />
-            <View style={[styles.verticalLine, iconStyle]} />
+            {incrementIcon || (
+              <React.Fragment>
+                <View style={[styles.horizontalLine, iconStyle]} />
+                <View style={[styles.verticalLine, iconStyle]} />
+              </React.Fragment>
+            )}
           </View>
         </TouchableWithoutFeedback>
       </View>

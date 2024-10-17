@@ -12,7 +12,7 @@ import { Box } from '../Box';
 import { BaseInput } from './BaseInput';
 import { InputLabel } from './InputLabel';
 import { Outline } from './InputOutline';
-import { TextFieldProps } from './InputTypes';
+import { TextFieldProps } from './Input.types';
 import {
   LABELED_ANIMATION_DURATION,
   PLACEHOLDER_FILED_INPUT_LEFT_POSITION,

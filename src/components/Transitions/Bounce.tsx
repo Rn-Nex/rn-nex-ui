@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import { BounceProps } from './TransitionsTypes';
+import { BounceProps } from './Transitions.types';
 
 export const Bounce: React.FC<BounceProps> = ({
   style,

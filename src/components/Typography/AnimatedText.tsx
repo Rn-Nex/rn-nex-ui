@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, Text } from 'react-native';
-import { AnimatedTextProps } from './TextTypes';
+import { AnimatedTextProps } from './Text.types';
 
 export const AnimatedText = React.forwardRef<Text, AnimatedTextProps>(({ children, style, ...props }, ref) => {
   return (

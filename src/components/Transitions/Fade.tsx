@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
-import { FadeProps } from './TransitionsTypes';
+import { FadeProps } from './Transitions.types';
 
 export const Fade: React.FC<FadeProps> = ({ style, children, duration = 300, delay = 0, applyTransition = false, ...props }) => {
   const opacity = useRef(new Animated.Value(0)).current;

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import { OutlineProps } from './InputTypes';
+import { OutlineProps } from './Input.types';
 import { useTheme } from '../../libraries';
 import { inputOutlineVariationStyles, outlineStyles } from './TextField.style';
 

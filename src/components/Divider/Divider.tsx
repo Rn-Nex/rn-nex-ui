@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 import { useTheme } from '../../libraries';
-import { DividerProps, DividerRootContainerProps } from './DividerTypes';
+import { DividerProps, DividerRootContainerProps } from './Divider.types';
 import { generateDividerStyles, generateRootContainerStyles } from './Divider.style';
 
 const DividerRootContainer: React.FC<DividerRootContainerProps> = ({ children, variant, style, orientation, ...props }) => {

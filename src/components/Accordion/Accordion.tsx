@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
 import { Box } from '../Box';
-import { BoxProps } from '../Box/BoxTypes';
+import { BoxProps } from '../Box/Box.types';
 
 export interface AccordionProps extends BoxProps {
   square?: boolean;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import { FlashProps } from './TransitionsTypes';
+import { FlashProps } from './Transitions.types';
 
 export const Flash: React.FC<FlashProps> = ({
   style,
