@@ -2,6 +2,10 @@
 #
 .DS_Store
 *.notes
+/tests/
+/__tests__/
+*.test.js
+*.spec.js
 
 # Xcode
 #
