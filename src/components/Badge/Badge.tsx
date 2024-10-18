@@ -1,5 +1,5 @@
-import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, StyleSheet, View } from 'react-native';
 import { useTheme } from '../../libraries';
 import { AnimatedView, Box } from '../Box';
 import { Text } from '../Typography';
@@ -9,7 +9,7 @@ import { badgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeS
 
 const BadgeContainer = React.forwardRef<View, BadgeContainerProps>(({ children, style, overlap, ...props }, ref) => {
   return (
-    <Box ref={ref} style={[generateBadgeContainerStyles({ overlap }), style]} {...props}>
+    <Box ref={ref} style={[styles.badgeContainer, generateBadgeContainerStyles({ overlap }), style]} {...props}>
       {children}
     </Box>
   );
@@ -65,14 +65,14 @@ export const Badge = React.forwardRef<View, BadgeProps>(
 
         if (isNaN(badgeNumber)) {
           return (
-            <Text style={[badgeContentDefaultStyles({ variation })]} {...badgeContentProps}>
+            <Text style={[styles.badgeContent, badgeContentDefaultStyles({ variation })]} {...badgeContentProps}>
               {content}
             </Text>
           );
         }
 
         return (
-          <Text style={[badgeContentDefaultStyles({ variation })]} {...badgeContentProps}>
+          <Text style={[styles.badgeContent, badgeContentDefaultStyles({ variation })]} {...badgeContentProps}>
             {badgeNumber >= maxValueLimit ? maxValueLimit - 1 + '+' : badgeNumber}
           </Text>
         );
@@ -90,18 +90,42 @@ export const Badge = React.forwardRef<View, BadgeProps>(
     }, [invisible, badgeContent]);
 
     return (
-      <Fragment>
+      <View>
         <BadgeContainer overlap={overlap} onLayout={badgeContainerLayoutHandler} {...badgeContainerProps}>
           {children}
         </BadgeContainer>
         {badgeContainerLayoutRect ? (
-          <AnimatedView ref={ref} style={[badgeStyles, style]} {...props}>
+          <AnimatedView ref={ref} style={[styles.badge, badgeStyles, style]} {...props}>
             {renderBadgeContent(badgeContent)}
           </AnimatedView>
         ) : null}
-      </Fragment>
+      </View>
     );
   },
 );
+
+const styles = StyleSheet.create({
+  badgeContent: {
+    fontWeight: '400',
+    fontSize: 11,
+  },
+  badgeContainer: {
+    padding: 6,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: 30,
+    alignSelf: 'center',
+  },
+  badge: {
+    paddingHorizontal: 5,
+    paddingVertical: 3,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    position: 'absolute',
+  },
+});
 
 Badge.displayName = 'Badge';

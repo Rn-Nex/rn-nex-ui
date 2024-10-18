@@ -6,7 +6,6 @@ import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
 import { generateChipStyles, styles } from './Chip.style';
 import { ChipProps } from './Chip.types';
-import { CHIP_CLASSNAMES } from './constants';
 
 export const Chip: React.FC<ChipProps> = ({
   label,
@@ -36,21 +35,24 @@ export const Chip: React.FC<ChipProps> = ({
 
   const startAdornmentElement = startAdornment && (
     <TouchableWithoutFeedback {...startAdornmentTouchableProps}>
-      <Box style={[styles[CHIP_CLASSNAMES.RN_NIX_CHIP_ADORNMENT_CLASS], startAdornmentContainerStyle]}>{startAdornment}</Box>
+      <Box style={[styles.chipInnerComponentWrapper, startAdornmentContainerStyle]}>{startAdornment}</Box>
     </TouchableWithoutFeedback>
   );
 
   const endAdornmentElement = endAdornment && (
     <TouchableWithoutFeedback {...endAdornmentTouchableProps}>
-      <Box style={[styles[CHIP_CLASSNAMES.RN_NIX_CHIP_ADORNMENT_CLASS], endAdornmentContainerStyle]}>{endAdornment}</Box>
+      <Box style={[styles.chipInnerComponentWrapper, endAdornmentContainerStyle]}>{endAdornment}</Box>
     </TouchableWithoutFeedback>
   );
 
   return (
-    <BaseButton disabled={disabled} disableRipple={disableRipple} style={[chipStyles, style]} testID={testID} {...props}>
-      <Box
-        style={[styles[CHIP_CLASSNAMES.RN_NIX_CHIP_ELEMENT_WRAPPER_CLASS], chipWrapperContainerStyles]}
-        {...chipWrapperContainerProps}>
+    <BaseButton
+      disabled={disabled}
+      disableRipple={disableRipple}
+      style={[styles.chip, chipStyles, style]}
+      testID={testID}
+      {...props}>
+      <Box style={[styles.chipWrapper, chipWrapperContainerStyles]} {...chipWrapperContainerProps}>
         {startAdornmentElement}
         <Text variation="h4" {...labelContainerProps}>
           {label}
