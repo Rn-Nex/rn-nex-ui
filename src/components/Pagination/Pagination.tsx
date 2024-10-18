@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { GestureResponderEvent, TouchableWithoutFeedback, View } from 'react-native';
 import { Box } from '../Box';
 import { Text } from '../Typography';
-import { PaginationItem } from './PaginationItem';
+import { styles } from './Pagination.style';
 import { PaginationProps } from './Pagination.types';
-import { paginationStyles } from './Pagination.style';
+import { PaginationItem } from './PaginationItem';
 
 const MAX_PAGINATION_ITEM_VISIBLE = 5;
 
@@ -27,7 +27,6 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
     const [activeCount, setActiveCount] = useState<number>(1);
 
     const items = useMemo(() => Array.from({ length: count }, (_, index) => index + 1), [count]);
-    const styles = useMemo(() => paginationStyles(), []);
 
     const pageChangeHandler = (event: GestureResponderEvent, page: number | string) => {
       setActiveCount(+page);
@@ -84,7 +83,7 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
     }, [active]);
 
     return (
-      <Box ref={ref} style={[styles, style]} {...props}>
+      <Box ref={ref} style={[styles.paginationContainer, style]} {...props}>
         {disabled ? <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 100 }} /> : null}
         {renderPaginationItems().map((item, index) => {
           if (item === 'start-dots' || item === 'end-dots') {

@@ -4,8 +4,8 @@ import { useTheme } from '../../libraries';
 import { generateElementStyles } from '../../utils';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
+import { paginationItemStyles, styles } from './Pagination.style';
 import { PaginationItemProps } from './Pagination.types';
-import { paginationItemStyles } from './Pagination.style';
 
 export const ANIMATION_DURATION = 200;
 
@@ -40,7 +40,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
     }
   }, [active]);
 
-  const styles = useMemo(
+  const paginationItemS = useMemo(
     () => paginationItemStyles({ color, isActive, theme, shape, variant, disabled }),
     [color, isActive, theme, shape, variant, disabled],
   );
@@ -53,7 +53,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
         },
       }}
       {...props}
-      style={[styles, sx && generateElementStyles(sx), style]}>
+      style={[styles.paginationItem, paginationItemS, sx && generateElementStyles(sx), style]}>
       <Text>{page}</Text>
     </BaseButton>
   );

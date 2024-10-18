@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { AnimatedView } from '../Box';
 import { Portal } from '../Portal';
-import { MenuProps } from './Menu.types';
 import { FADE_ANIMATION_DURATION, SCALE_ANIMATION_DURATION } from './constants';
-import { dialogContainerStyles, menuStyles } from './Menu.style';
+import { dialogContainerStyles, styles } from './Menu.style';
+import { MenuProps } from './Menu.types';
 
 export const Menu: React.FC<MenuProps> = ({
   rootElementRect,
@@ -64,7 +64,7 @@ export const Menu: React.FC<MenuProps> = ({
     <Portal
       animationType="none"
       visible={visible || focused}
-      modalContainerProps={{ ...modalContainerProps, style: [menuStyles(), modalContainerProps?.style] }}
+      modalContainerProps={{ ...modalContainerProps, style: [styles.menuModal, modalContainerProps?.style] }}
       {...props}>
       <AnimatedView
         onLayout={animatedViewOnLayoutHandler}

@@ -1,4 +1,4 @@
-import { ViewStyle, Dimensions } from 'react-native';
+import { ViewStyle, Dimensions, StyleSheet } from 'react-native';
 import { DialogContainerStylesProps, MenuItemContainerStylesProps, MenuItemStylesProps, MenuListStylesProps } from './Menu.types';
 
 const OFFSET = 10;
@@ -6,13 +6,34 @@ const WRAPPER_DEFAULT_HEIGHT = 100;
 const WRAPPER_BOTTOM_OFFSET = 50;
 const screenHeight = Dimensions.get('window').height;
 
-export const menuStyles = (): ViewStyle => {
-  const styles: ViewStyle = {
+export const styles = StyleSheet.create({
+  menuModal: {
     backgroundColor: 'transparent',
     flex: 1,
-  };
-  return styles;
-};
+  },
+  menuList: {
+    borderWidth: 0.8,
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius: 5,
+    elevation: 5,
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  menuItem: {
+    padding: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    minHeight: 40,
+  },
+  endAdornment: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export const dialogContainerStyles = ({ rootElementRect, wrapperComponentRect }: DialogContainerStylesProps): ViewStyle => {
   if (!rootElementRect) {
@@ -39,27 +60,15 @@ export const dialogContainerStyles = ({ rootElementRect, wrapperComponentRect }:
 export const menuListStyles = ({ theme }: MenuListStylesProps): ViewStyle => {
   const baseStyles: ViewStyle = {
     backgroundColor: theme.colors.grey[200],
-    borderWidth: 0.8,
     borderColor: theme.colors.grey[300],
-    paddingTop: 5,
-    paddingBottom: 5,
-    borderRadius: 5,
-    elevation: 5,
     shadowColor: theme.colors.grey[300],
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
   };
   return baseStyles;
 };
 
 export const menuItemStyles = ({ endAdornment }: MenuItemStylesProps): ViewStyle => {
   const styles: ViewStyle = {
-    padding: 1,
-    display: 'flex',
-    flexDirection: 'row',
     minWidth: endAdornment ? '80%' : '100%',
-    minHeight: 40,
   };
   return styles;
 };
@@ -70,16 +79,6 @@ export const menuItemContainerStyles = ({ selected, theme, disabled }: MenuItemC
     flexDirection: 'row',
     backgroundColor: selected ? theme.colors.grey[500] : 'transparent',
     opacity: disabled ? 0.5 : 1,
-  };
-  return styles;
-};
-
-export const endAdornmentStyles = (): ViewStyle => {
-  const styles: ViewStyle = {
-    flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   };
   return styles;
 };
