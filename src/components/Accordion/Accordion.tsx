@@ -3,6 +3,7 @@ import { View, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
 import { Box } from '../Box';
 import { BoxProps } from '../Box/Box.types';
+import { accordionStyles } from './Accordion.style';
 
 export interface AccordionProps extends BoxProps {
   square?: boolean;
@@ -23,21 +24,9 @@ export const Accordion = React.forwardRef<View, AccordionProps>(
       return style;
     }, [disable, square, theme]);
 
-    const overLayStyle = useMemo(() => {
-      const styles: ViewStyle = {
-        width: '100%',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        height: '100%',
-        zIndex: 100,
-      };
-      return styles;
-    }, []);
-
     return (
       <Box style={[accordionStyle, style]} {...props} ref={ref}>
-        {disable ? <View style={[overLayStyle]} /> : null}
+        {disable ? <View style={[accordionStyles.overLay]} /> : null}
         {children}
       </Box>
     );

@@ -10,8 +10,6 @@ import { BADGE_DEFAULT_RADIUS } from './constants';
 export const badgeContentDefaultStyles = ({ variation }: BadgeContentDefaultStylesProps): TextStyle => {
   const baseStyles: TextStyle = {
     color: variation === 'warning' ? 'black' : 'white',
-    fontWeight: '400',
-    fontSize: 11,
   };
   return baseStyles;
 };
@@ -49,11 +47,6 @@ export const generateBadgeContainerStyles = ({ overlap }: GenerateBadgeContainer
   const isRectangular = overlap === 'rectangular';
 
   const BadgeContainerDefaultStyles: ViewStyle = {
-    padding: 6,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: 30,
     borderRadius: isCircles ? 100 : isRectangular ? 5 : 0,
   };
 
@@ -73,15 +66,7 @@ export const generateBadgeStyles = ({
   }
 
   const isDotVariation = variant === 'dot';
-  let styles: ViewStyle = {
-    paddingHorizontal: 5,
-    paddingVertical: 3,
-    borderRadius: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    position: 'absolute',
-  };
+  let styles: ViewStyle = {};
 
   styles = {
     ...styles,

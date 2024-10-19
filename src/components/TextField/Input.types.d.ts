@@ -65,10 +65,6 @@ export interface InputLabelProps
  */
 export interface TextFieldProps extends BaseInputProps {
   /**
-   * Styles for the outline container.
-   */
-  outlineStyles?: StyleProp<ViewStyle>;
-  /**
    * Props for the input label component.
    */
   inputLabelProps?: InputLabelProps;

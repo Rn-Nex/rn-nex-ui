@@ -1,4 +1,6 @@
 import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { ThemeType } from '../../libraries/themes/v1/theme';
+import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 import {
   BaseInputStylesProps,
   LabelTextStylesProps,
@@ -7,8 +9,6 @@ import {
   TextFiledVariation,
   TextInputStylesProps,
 } from './Input.types';
-import { ThemeType } from '../../libraries/themes/v1/theme';
-import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
 
 const baseInputDefaultStyles: ViewStyle = {
   height: INPUT_DEFAULT_HEIGHT,
@@ -119,13 +119,8 @@ export const labelTransformStyle = ({
   placeholderLeftPosition,
   translateYAnimatedPosition = TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
 }: LabelTransformStyleProps): StyleProp<ViewStyle> => {
-  const getOutputRange = (variant?: TextFiledVariation) => {
-    let outputRange: number[] = [];
-
-    if (variant === 'filled' || variant === 'outlined') {
-      outputRange = [-(textHeight / 2), translateYAnimatedPosition + -(textHeight / 2)];
-    }
-
+  const getOutputRange = () => {
+    let outputRange = [-(textHeight / 2), translateYAnimatedPosition + -(textHeight / 2)];
     return outputRange;
   };
 
@@ -141,7 +136,7 @@ export const labelTransformStyle = ({
         translateY: labeled
           ? labeled.interpolate({
               inputRange: [0, 1],
-              outputRange: getOutputRange(variant),
+              outputRange: getOutputRange(),
             })
           : 0,
       },

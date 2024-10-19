@@ -1,8 +1,8 @@
-import { ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { PaginationItemStylesProps } from './Pagination.types';
 
-export const paginationStyles = (): ViewStyle => {
-  const baseStyles: ViewStyle = {
+export const styles = StyleSheet.create({
+  paginationContainer: {
     padding: 5,
     paddingHorizontal: 10,
     display: 'flex',
@@ -10,9 +10,16 @@ export const paginationStyles = (): ViewStyle => {
     justifyContent: 'center',
     alignItems: 'center',
     gap: 5,
-  };
-  return baseStyles;
-};
+  },
+  paginationItem: {
+    minWidth: 30,
+    minHeight: 30,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+});
 
 export const paginationItemStyles = ({
   color,
@@ -39,15 +46,9 @@ export const paginationItemStyles = ({
   });
 
   const baseStyles: ViewStyle = {
-    minWidth: 30,
-    minHeight: 30,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     borderWidth: variant === 'outlined' ? 0.8 : 0,
     borderColor: variant === 'outlined' ? theme.colors.grey[200] : 'transparent',
     borderRadius: shape === 'circular' ? 100 : 5,
-    overflow: 'hidden',
     opacity: disabled ? 0.4 : 1,
     backgroundColor: backgroundColorInterpolation as any,
   };

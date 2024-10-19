@@ -34,3 +34,14 @@ export const accordionSummaryStyles = StyleSheet.create({
     zIndex: -1,
   },
 });
+
+export const accordionStyles = StyleSheet.create({
+  overLay: {
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    zIndex: 100,
+  },
+});

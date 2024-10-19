@@ -1,17 +1,23 @@
 import { StyleSheet, ViewStyle } from 'react-native';
-import { ChipVariations, GenerateChipStylesProps } from './Chip.types';
-import { ADORNMENT_WRAPPER_SPACE, CHIP_CLASSNAMES } from './constants';
 import { ThemeType } from '../../libraries/themes/v1/theme';
+import { ChipVariations, GenerateChipStylesProps } from './Chip.types';
+import { ADORNMENT_WRAPPER_SPACE } from './constants';
 
 export const styles = StyleSheet.create({
-  [CHIP_CLASSNAMES.RN_NIX_CHIP_ELEMENT_WRAPPER_CLASS]: {
+  chip: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  chipWrapper: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     gap: 10,
   },
-  [CHIP_CLASSNAMES.RN_NIX_CHIP_ADORNMENT_CLASS]: {
+  chipInnerComponentWrapper: {
     minWidth: ADORNMENT_WRAPPER_SPACE,
     minHeight: ADORNMENT_WRAPPER_SPACE,
     display: 'flex',
@@ -42,12 +48,7 @@ export const getColorVariant = (theme: ThemeType, variant: ChipVariations | unde
 };
 
 export const generateChipStyles = ({ variant, disabled, withAdornment, color, theme }: GenerateChipStylesProps) => {
-  let styles: ViewStyle = {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 20,
-    overflow: 'hidden',
-  };
+  let styles: ViewStyle = {};
 
   if (disabled) {
     styles = { ...styles, opacity: 0.5 };
