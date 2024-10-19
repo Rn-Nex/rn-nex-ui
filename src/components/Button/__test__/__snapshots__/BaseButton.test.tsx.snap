@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Base button component should render child components correctly 1`] = `[Function]`;
+
+exports[`Base button component should render correctly 1`] = `[Function]`;
