@@ -4,3 +4,8 @@ coverage
 *.log
 .env
 examples/
+/tests/
+/__tests__/
+*.test.tsx
+*.test.ts
+*.snap
