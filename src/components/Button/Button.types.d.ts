@@ -3,6 +3,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { RipplePosition, RippleProps } from '../Ripple/Ripple.types';
+import { TextProps } from '../types';
 
 export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof TouchableWithoutFeedback> {
   /**
@@ -94,6 +95,8 @@ export interface ButtonProps extends BaseButtonProps {
    * show the loading indicator when the button is clicked
    */
   loading?: boolean;
+  label?: string;
+  labelProps?: Omit<TextProps, 'children'>;
 }
 
 /**

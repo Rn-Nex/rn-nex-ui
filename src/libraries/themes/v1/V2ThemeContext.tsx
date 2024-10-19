@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
+import { useColorScheme } from 'react-native';
 import { initialDarkTheme, initialLightTheme } from './colors';
 import { font, fontWeight, latterSpacing, lineHeight, spacing } from './sizes';
 import { ThemMode, ThemeInterface, ThemeProviderProps } from './theme';
@@ -25,13 +26,14 @@ export const ThemeContext = React.createContext<ThemeInterface<any> | undefined>
 
 export const ThemeProvider = <T extends Object>({ children, lightTheme, darkTheme, mode = 'light' }: ThemeProviderProps<T>) => {
   const [themeMode, setThemeMode] = useState<string>(mode);
+  const colorScheme = useColorScheme();
 
   const initialTheme = useMemo(() => {
-    if (themeMode === 'dark') {
+    if (themeMode === 'dark' || colorScheme === 'dark') {
       return darkTheme || defaultDarkTheme;
     }
     return lightTheme || defaultLightTheme;
-  }, [themeMode, lightTheme, darkTheme, mode]);
+  }, [themeMode, lightTheme, darkTheme, mode, colorScheme]);
 
   const changeTheme = useCallback((mode: ThemMode) => setThemeMode(mode), []);
 

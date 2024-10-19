@@ -18,6 +18,7 @@ import {
   ROTATE_ANIMATION_DURATION,
   ROTATE_ANIMATION_RANGE,
 } from './constants';
+import { Box } from '../Box';
 
 export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, AccordionSummaryProps>(
   (
@@ -35,6 +36,7 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
       onExpand,
       startAdornment,
       startAdornmentContainerStyle,
+      childrenWrapperStyles,
       onPress: accordionSummaryOnPressHandler,
       accordionDetailsOpacityDuration = ACCORDION_DETAILS_OPACITY_DURATION,
       defaultExpanded = ACCORDION_DETAILS_DEFAULT_EXPANDED,
@@ -145,7 +147,7 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
                   {startAdornment}
                 </View>
               )}
-              {children}
+              <Box style={[accordionSummaryStyles.accordionSummaryChildrenWrapper, childrenWrapperStyles]}>{children}</Box>
             </View>
             <Animated.View
               style={[

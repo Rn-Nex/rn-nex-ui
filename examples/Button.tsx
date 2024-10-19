@@ -41,6 +41,7 @@ export const App: React.FC = () => {
       <Button sx={{ r: 30, px: 20, py: 10, w: '100%' }} onPress={() => console.log('pressed')}>
         <Text>Custom button</Text>
       </Button>
+      <Button onPress={() => {}} buttonColor="secondary" label="Save" />
     </Box>
   );
 };

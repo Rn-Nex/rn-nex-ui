@@ -14,9 +14,14 @@ export const accordionSummaryStyles = StyleSheet.create({
     display: 'flex',
     alignContent: 'center',
     flexDirection: 'row',
+    alignItems: 'center',
   },
   startAdornmentContainer: {
-    width: '15%',
+    minWidth: '10%',
+    paddingHorizontal: 6,
+  },
+  accordionSummaryChildrenWrapper: {
+    flex: 1,
   },
   accordionSummaryExpandIconWrapper: {
     width: '10%',

@@ -25,7 +25,6 @@ export const Ex1: React.FC = () => {
     <PortalProvider key="un">
       <View
         style={{
-          flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
           paddingHorizontal: 10,
@@ -45,14 +44,12 @@ export const Ex1: React.FC = () => {
                 borderRadius: 0,
               }}
               variation="text"
-              onPress={() => setShowDialog(false)}>
-              <Text>Close</Text>
-            </Button>
+              label="Close"
+              onPress={() => setShowDialog(false)}
+            />
           </DialogActions>
         </Dialog>
-        <Button fullWidth onPress={() => setShowDialog(!showDialog)}>
-          <Text>Open</Text>
-        </Button>
+        <Button fullWidth onPress={() => setShowDialog(!showDialog)} label="Open" />
       </View>
     </PortalProvider>
   );
@@ -65,7 +62,6 @@ export const Ex2: React.FC = () => {
     <PortalProvider key="un">
       <View
         style={{
-          flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
           paddingHorizontal: 10,
@@ -87,14 +83,12 @@ export const Ex2: React.FC = () => {
                 borderRadius: 0,
               }}
               variation="text"
-              onPress={() => setShowDialog(false)}>
-              <Text>Close</Text>
-            </Button>
+              onPress={() => setShowDialog(false)}
+              label="Close"
+            />
           </DialogActions>
         </Dialog>
-        <Button fullWidth onPress={() => setShowDialog(!showDialog)}>
-          <Text>Open</Text>
-        </Button>
+        <Button fullWidth onPress={() => setShowDialog(!showDialog)} label="Open" />
       </View>
     </PortalProvider>
   );

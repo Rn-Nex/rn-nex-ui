@@ -5,7 +5,7 @@ export const Ex1: React.FC = () => {
   const { theme } = useTheme();
 
   return (
-    <Box sx={{ f: 1, d: 'flex', items: 'center', content: 'center', px: 10 }}>
+    <Box sx={{ d: 'flex', items: 'center', content: 'center', px: 10 }}>
       <Box sx={{ w: 350, bg: theme.colors.grey[800], r: 2, pb: 20 }}>
         <Box sx={{ p: 10 }}>
           <Text>This is first line</Text>
@@ -102,7 +102,6 @@ export const Ex2: React.FC = () => {
   return (
     <Box
       sx={{
-        f: 1,
         d: 'flex',
         items: 'center',
         content: 'center',
