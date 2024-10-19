@@ -20,3 +20,4 @@ export * from './Switch';
 export * from './TextField';
 export * from './Transitions';
 export * from './Typography';
+export * from './Stack';
