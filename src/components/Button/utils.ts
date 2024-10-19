@@ -44,18 +44,15 @@ export const iconButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    width: theme.spacing.xl,
-    height: theme.spacing.xl,
+    alignSelf: 'flex-start',
+    minWidth: theme.spacing.xl,
+    minHeight: theme.spacing.xl,
     borderRadius: 100,
+    padding: 5,
     overflow: 'hidden',
   };
 
   return baseStyles;
-};
-
-export const squareIconButtonStyles: ViewStyle = {
-  ...iconButtonDefaultStyles,
-  borderRadius: 5,
 };
 
 export const buttonVariationStyles = (theme: ThemeType, variation: ButtonVariationsType) => {
@@ -64,7 +61,10 @@ export const buttonVariationStyles = (theme: ThemeType, variation: ButtonVariati
     contained: containedButtonDefaultStyles(theme),
     text: textButtonDefaultStyles(theme),
     roundedIconButton: iconButtonDefaultStyles(theme),
-    squareIconButton: squareIconButtonStyles,
+    squareIconButton: {
+      ...iconButtonDefaultStyles(theme),
+      borderRadius: 5,
+    },
   };
   return variations[variation];
 };
