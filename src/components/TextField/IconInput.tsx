@@ -67,7 +67,7 @@ export const IconInput: React.FC<IconInputProps> = React.forwardRef<View, IconIn
         px: 10,
         py: 5,
         r: 6,
-        bColor: theme.colors.grey[400],
+        bColor: theme.colors.grey[300],
         bWidth: 1,
         d: 'flex',
         fDirection: 'row',
@@ -84,7 +84,12 @@ export const IconInput: React.FC<IconInputProps> = React.forwardRef<View, IconIn
             {startAdornment}
           </Box>
         )}
-        <BaseInput placeholder="Base input" style={[{ color: '#282828f', flex: 1 }, style]} {...props} />
+        <BaseInput
+          placeholder="Base input"
+          style={[{ color: theme.colors.white[900], flex: 1 }, style]}
+          placeholderTextColor={theme.colors.grey[600]}
+          {...props}
+        />
         {endAdornment && (
           <Box style={{ marginLeft: 8 }} {...endAdornmentContainerProps}>
             {endAdornment}
