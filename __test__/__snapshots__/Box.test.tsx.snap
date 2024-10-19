@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Box Component should match the snapshot 1`] = `[Function]`;
+
+exports[`Box Component should match the snapshot with custom styles 1`] = `[Function]`;
+
+exports[`Box Component should match the snapshot with sx styles 1`] = `[Function]`;

@@ -3,7 +3,7 @@ tests
 coverage
 *.log
 .env
-examples/
+/examples/
 /tests/
 /__tests__/
 *.test.tsx

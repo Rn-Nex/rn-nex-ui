@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import { Text } from 'react-native';
-import { BaseButton } from '../BaseButton';
+import { BaseButton } from '../src';
 
 describe('Base button component', () => {
   const mockTestId = 'base_button_mock_test_id';
