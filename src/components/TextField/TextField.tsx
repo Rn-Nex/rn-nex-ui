@@ -22,7 +22,6 @@ import {
 import { textInputStyles } from './TextField.style';
 
 export const TextField: React.FC<TextFieldProps> = ({
-  outlineStyles,
   value,
   style,
   sx,
@@ -113,7 +112,7 @@ export const TextField: React.FC<TextFieldProps> = ({
       variant={variant}
       activeColor={activeColor}
       errorColor={errorColor}
-      style={[outlineStyles, sx && generateElementStyles(sx), style]}
+      style={[sx && generateElementStyles(sx), style]}
       isFocused={isFocused}
       error={error}>
       <InputLabel
