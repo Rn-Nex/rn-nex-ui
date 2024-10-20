@@ -17,10 +17,11 @@ import {
 } from 'react-native';
 import { useTheme } from '../../libraries';
 import { MeasureElementRect } from '../../types';
+import { Box } from '../Box';
 import { ListItem, ListItemText } from '../List';
 import { Portal, PortalProvider } from '../Portal';
-import { IconInput, TextField } from '../TextField';
-import { ListItemTextProps, TextFiledVariation } from '../types';
+import { IconInput, IconInputProps, TextField } from '../TextField';
+import { BoxProps, ListItemTextProps, TextFiledVariation } from '../types';
 import { styles } from './DropDown.styles';
 
 /**
@@ -122,6 +123,26 @@ export interface DropDownListContainerProps<T extends DropDownData> extends View
    * Allow to select the multiple list items
    */
   multiselect?: boolean;
+
+  /**
+   * Optional boolean prop to enable or disable the search functionality
+   */
+  search?: boolean;
+
+  /**
+   * This will appear inside the search input field when it is empty.
+   */
+  searchPlaceholder?: string;
+
+  /**
+   * You can use this to customize the input, such as handling events, styles, or icons.
+   */
+  searchProps?: IconInputProps;
+
+  /**
+   * The 'children' prop is omitted to prevent accidental overrides of the search input itself.
+   */
+  searchContainerProps?: Omit<BoxProps, 'children'>;
 }
 
 /**
@@ -190,6 +211,10 @@ export const DropDown = <T extends DropDownData>({
   listItemTextProps,
   listItemStartAdornment,
   multiselectMessage,
+  search = false,
+  searchPlaceholder,
+  searchProps,
+  searchContainerProps,
   multiselect = false,
   disableTextPadding = false,
   displaySelectedAdornment = false,
@@ -306,6 +331,10 @@ export const DropDown = <T extends DropDownData>({
           listItemStartAdornment={listItemStartAdornment}
           multiselect={multiselect}
           onItemClicked={onItemClickedHandler}
+          search={search}
+          searchPlaceholder={searchPlaceholder}
+          searchProps={searchProps}
+          searchContainerProps={searchContainerProps}
           {...listContainerProps}
         />
       )}
@@ -332,21 +361,38 @@ const DropDownListContainer = <T extends DropDownData>({
   disableTextPadding,
   listItemStartAdornment,
   multiselect,
+  search,
+  searchPlaceholder,
+  searchProps,
+  searchContainerProps,
   maxHeight = 200,
   ...props
 }: DropDownListContainerProps<T>) => {
   const flatListRef = useRef<FlatList>(null);
   const { theme } = useTheme();
   const colorScheme = useColorScheme();
+  const [filteredData, setFilteredData] = useState<DropDownData[] | null>(null);
 
   const itemOnPressHandler = (item: DropDownData) => {
     if (!multiselect) {
       if (!!onClose && typeof onClose === 'function') {
         onClose();
+        setFilteredData(null);
       }
     }
     if (!!onItemClicked && typeof onItemClicked === 'function') {
       onItemClicked(item);
+    }
+  };
+
+  const searchHandler = (search: string) => {
+    if (search) {
+      const newData = (data as unknown as Array<DropDownData>).filter(item =>
+        item.title.toLowerCase().includes(search.toLowerCase()),
+      );
+      setFilteredData(newData);
+    } else {
+      setFilteredData(null);
     }
   };
 
@@ -427,10 +473,20 @@ const DropDownListContainer = <T extends DropDownData>({
             },
           ])}
           {...props}>
+          {search && (
+            <Box sx={{ px: 5, py: 4 }} {...searchContainerProps}>
+              <IconInput
+                onChangeText={searchHandler}
+                inputWrapperProps={{ style: { borderColor: theme.colors.grey[600], borderWidth: 0.7, height: 30 } }}
+                placeholder={searchPlaceholder || 'Search'}
+                {...searchProps}
+              />
+            </Box>
+          )}
           <FlatList
             ref={flatListRef}
             style={[styles.listContainerScrollView]}
-            data={data}
+            data={filteredData || data}
             renderItem={renderListItem}
             keyExtractor={item => item.id}
             collapsable={collapsable}
