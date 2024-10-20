@@ -19,7 +19,7 @@ const baseInputDefaultStyles: ViewStyle = {
 
 export const textInputStyles = ({ variant, endAdornment, startAdornment }: TextInputStylesProps): StyleProp<ViewStyle> => {
   const adornmentStyles: StyleProp<ViewStyle> = {
-    width: '100%',
+    flex: 1,
   };
 
   if (endAdornment || startAdornment) {
@@ -31,10 +31,13 @@ export const textInputStyles = ({ variant, endAdornment, startAdornment }: TextI
   return baseInputDefaultStyles;
 };
 
-export const labelTextStyles = ({ theme, variant }: LabelTextStylesProps): TextStyle => {
+export const labelTextStyles = ({ theme, variant, ignoreOpacityOnNonEditable }: LabelTextStylesProps): TextStyle => {
   const baseStyles: TextStyle = {
     color: variant === 'outlined' ? theme.colors.grey[800] : theme.colors.white[50],
   };
+
+  if (ignoreOpacityOnNonEditable) baseStyles.opacity = 1;
+
   return baseStyles;
 };
 
@@ -55,6 +58,7 @@ export const outlineStyles = ({
   theme,
   editable,
   variant,
+  ignoreOpacityOnNonEditable,
 }: OutlineStyles): StyleProp<ViewStyle> => {
   let styles: ViewStyle = {
     borderWidth: variant === 'outlined' ? 0.6 : 0,
@@ -71,7 +75,7 @@ export const outlineStyles = ({
   }
 
   if (!editable) {
-    styles = { ...styles, opacity: 0.6 };
+    styles = { ...styles, opacity: ignoreOpacityOnNonEditable ? 1 : 0.6 };
   }
 
   return styles;

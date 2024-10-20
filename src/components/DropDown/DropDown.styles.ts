@@ -1,21 +1,20 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    zIndex: 1000,
-  },
   listContainer: {
-    position: 'absolute',
-    top: 50,
-    left: 0,
     width: '100%',
     borderRadius: 5,
     overflow: 'hidden',
-    height: 0,
+    maxHeight: 300,
+    marginTop: 5,
   },
   listContainerScrollView: {
-    flex: 1,
     paddingVertical: 2,
+    flexGrow: 1,
+  },
+  dropDownModal: {
+    backgroundColor: 'transparent',
+    flex: 1,
+    paddingHorizontal: 10,
   },
 });

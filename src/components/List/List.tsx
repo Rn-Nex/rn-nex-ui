@@ -1,19 +1,20 @@
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Box } from '../Box';
 import { Text } from '../Typography';
+import { listStyles, styles } from './List.style';
 import { ListProps } from './List.types';
-import { headerContainerStyles, listStyles } from './List.style';
 
 export const List = React.forwardRef<View, ListProps>(
   ({ sx, style, subheader, children, subheaderProps, subheaderContainerStyles, disablePadding, ...props }, ref) => {
-    const styles = useMemo(() => listStyles({ disablePadding }), [disablePadding]);
-    const headerStyles = useMemo(() => headerContainerStyles(), []);
+    const listContainerStyles = useMemo(() => listStyles({ disablePadding }), [disablePadding]);
 
     return (
-      <Box sx={sx} style={[styles, style]} ref={ref} {...props}>
+      <Box sx={sx} style={[listContainerStyles, style]} ref={ref} {...props}>
         {subheader && (
-          <Box sx={subheaderContainerStyles?.sx} style={[headerStyles, subheaderContainerStyles?.style]}>
+          <Box
+            sx={subheaderContainerStyles?.sx}
+            style={StyleSheet.flatten([styles.headerContainer, subheaderContainerStyles?.style])}>
             <Text variation="h4" {...subheaderProps}>
               {subheader}
             </Text>

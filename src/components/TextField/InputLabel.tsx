@@ -9,12 +9,13 @@ import { PLACEHOLDER_OUTLINE_LEFT_POSITION, TEXT_FONT_DEFAULT_HEIGHT } from './c
 export const InputLabel: React.FC<InputLabelProps> = function ({
   placeholder,
   labeled,
-  variant = 'outlined',
   editable,
   translateYAnimatedPosition,
   placeholderLeftPosition,
   labelContainerStyles,
   style,
+  ignoreOpacityOnNonEditable,
+  variant = 'outlined',
   ...props
 }) {
   const { theme } = useTheme();
@@ -34,7 +35,10 @@ export const InputLabel: React.FC<InputLabelProps> = function ({
     [theme, textHeight, translateYAnimatedPosition, labeled, variant, placeholderLeftPosition],
   );
 
-  const labelStyles = useMemo(() => labelTextStyles({ theme, variant }), [theme, variant]);
+  const labelStyles = useMemo(
+    () => labelTextStyles({ theme, variant, ignoreOpacityOnNonEditable }),
+    [theme, variant, ignoreOpacityOnNonEditable],
+  );
 
   const onTextLayoutHandler = (event: LayoutChangeEvent) => {
     const { layout } = event.nativeEvent;

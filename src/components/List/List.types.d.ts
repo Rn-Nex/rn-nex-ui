@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ColorValue, View } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { TextProps } from '../Typography/Text.types';
 import { BaseButtonProps } from '../Button/Button.types';
@@ -67,10 +67,27 @@ export interface ListItemProps extends BaseButtonProps {
   endAdornmentContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
 
   /**
+   * Optional element to be displayed at the start of the ListItem.
+   * This property allows adding a custom element, such as an icon, at the end of the ListItem.
+   */
+  startAdornment?: React.ReactNode;
+
+  /**
+   * Optional styles for the container of the startAdornment.
+   * This can be used to apply additional styling to the container of the endAdornment.
+   */
+  startAdornmentContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
+
+  /**
    * Use to apply selected styling.
    * This property indicates if the ListItem is selected, allowing you to apply selected styles.
    */
   selected?: boolean;
+
+  /**
+   * Custom color for selected list element
+   */
+  selectedColor?: ColorValue;
 }
 
 /**
@@ -128,16 +145,10 @@ export interface ListItemTextProps extends Omit<ListProps, 'children'> {
 export interface ListItemTextStylesProps extends Pick<ListItemTextProps, 'disablePadding' | 'alignItems'> {}
 
 /**
- * Interface for styles related to ListItem component, focusing on the endAdornment property
- * This interface defines styles specific to the ListItem component.
- */
-export interface ListItemStylesProps extends Pick<ListItemProps, 'endAdornment'> {}
-
-/**
  * Interface for styles related to the ListItem container, focusing on the selected property
  * This interface defines styles specific to the ListItem container.
  */
-export interface ListItemContainerStylesProps extends Pick<ListItemProps, 'selected'> {
+export interface ListItemContainerStylesProps extends Pick<ListItemProps, 'selected' | 'selectedColor'> {
   theme: ThemeType;
 }
 
