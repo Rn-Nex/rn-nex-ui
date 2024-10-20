@@ -71,12 +71,12 @@ export interface DropDownListContainerProps<T extends DropDownData> extends View
   /**
    * Callback triggered when an item is clicked.
    * */
-  onItemClicked?: (event: GestureResponderEvent, item: DropDownData) => void;
+  onItemClicked?: (item: DropDownData) => void;
 
   /**
    * The currently selected dropdown item, if any.
    * */
-  selectedListItem?: DropDownData | null;
+  selectedListItems?: Array<DropDownData> | null;
 
   /**
    * Whether to show the selected item in the dropdown list.
@@ -117,6 +117,11 @@ export interface DropDownListContainerProps<T extends DropDownData> extends View
    * Remove padding from the list item text component.
    */
   disableTextPadding?: boolean;
+
+  /**
+   * Allow to select the multiple list items
+   */
+  multiselect?: boolean;
 }
 
 /**
@@ -125,7 +130,7 @@ export interface DropDownListContainerProps<T extends DropDownData> extends View
  */
 export interface DropDownProps<T extends DropDownData>
   extends React.ComponentPropsWithRef<typeof View>,
-    Omit<DropDownListContainerProps<T>, 'open' | 'inputLayoutRectangle' | 'dropDownContainerRect'> {
+    Omit<DropDownListContainerProps<T>, 'open' | 'inputLayoutRectangle' | 'dropDownContainerRect' | 'onItemClicked'> {
   /**
    * React node to be displayed at the start of the input field (e.g., an icon).
    * */
@@ -160,6 +165,13 @@ export interface DropDownProps<T extends DropDownData>
    * Callback triggered when a list item in the dropdown is clicked.
    * */
   onListItemClicked?: (event: GestureResponderEvent, item: DropDownData) => void;
+
+  multiselectMessage?: string;
+
+  /**
+   * Callback triggered when an item is clicked.
+   * */
+  onItemClicked?: (item: Array<DropDownData>) => void;
 }
 
 export const DropDown = <T extends DropDownData>({
@@ -172,11 +184,13 @@ export const DropDown = <T extends DropDownData>({
   collapsable,
   onDropDownClicked,
   onItemClicked,
-  selectedListItem,
+  selectedListItems,
   listItemEndAdornment,
   activeItemColor,
   listItemTextProps,
   listItemStartAdornment,
+  multiselectMessage,
+  multiselect = false,
   disableTextPadding = false,
   displaySelectedAdornment = false,
   listItemMinHeight = 40,
@@ -187,7 +201,7 @@ export const DropDown = <T extends DropDownData>({
 }: DropDownProps<T>) => {
   const containerRef = useRef<View>(null);
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<DropDownData | null>(null);
+  const [selectedItems, setSelectedItems] = useState<Array<DropDownData>>([]);
   const [inputRect, setInputRect] = useState<LayoutRectangle | null>(null);
   const [dropDownContainerRect, setDropDownContainerRect] = useState<MeasureElementRect | null>(null);
 
@@ -222,11 +236,12 @@ export const DropDown = <T extends DropDownData>({
     setInputRect(layout);
   };
 
-  const onItemClickedHandler = (event: GestureResponderEvent, item: DropDownData) => {
-    if (!!onItemClicked && typeof onItemClicked === 'function') {
-      onItemClicked(event, item);
+  const onItemClickedHandler = (item: DropDownData) => {
+    if (multiselect) {
+      setSelectedItems(prev => (prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]));
+    } else {
+      setSelectedItems([item]);
     }
-    setSelectedItem(item);
   };
 
   const renderInput = useCallback(() => {
@@ -236,35 +251,37 @@ export const DropDown = <T extends DropDownData>({
       endAdornment: inputEndAdornment,
       ignoreOpacityOnNonEditable: true,
       editable: false,
+      value: multiselect
+        ? `${multiselectMessage || 'Selected items'} ${selectedListItems?.length || selectedItems.length}`
+        : selectedItems?.[0]?.title,
     };
 
     switch (variation) {
       case 'filled':
-        return (
-          <TextField
-            onLayout={inputOnLayout}
-            pointerEvents="none"
-            variant="filled"
-            value={selectedItem?.title}
-            {...commonProps}
-          />
-        );
+        return <TextField onLayout={inputOnLayout} pointerEvents="none" variant="filled" {...commonProps} />;
       case 'outlined':
-        return (
-          <TextField
-            onLayout={inputOnLayout}
-            pointerEvents="none"
-            variant="outlined"
-            value={selectedItem?.title}
-            {...commonProps}
-          />
-        );
+        return <TextField onLayout={inputOnLayout} pointerEvents="none" variant="outlined" {...commonProps} />;
       case 'icon':
-        return <IconInput onLayout={inputOnLayout} pointerEvents="none" value={selectedItem?.title} {...commonProps} />;
+        return <IconInput onLayout={inputOnLayout} pointerEvents="none" {...commonProps} />;
       default:
         return null;
     }
-  }, [variation, placeholder, inputStartAdornment, inputEndAdornment, selectedItem]);
+  }, [
+    variation,
+    placeholder,
+    inputStartAdornment,
+    inputEndAdornment,
+    selectedItems,
+    multiselectMessage,
+    multiselect,
+    selectedListItems,
+  ]);
+
+  useEffect(() => {
+    if (!!onItemClicked && typeof onItemClicked === 'function') {
+      onItemClicked(selectedItems);
+    }
+  }, [selectedItems]);
 
   return (
     <View collapsable={false} style={[style]} {...props} ref={containerRef}>
@@ -278,8 +295,7 @@ export const DropDown = <T extends DropDownData>({
           onClose={dropDownCloseHandler}
           inputLayoutRectangle={inputRect}
           dropDownContainerRect={dropDownContainerRect}
-          onItemClicked={onItemClickedHandler}
-          selectedListItem={selectedListItem || selectedItem}
+          selectedListItems={selectedListItems || selectedItems}
           showSelectedItem={showSelectedItem}
           activeItemColor={activeItemColor}
           listItemTextProps={listItemTextProps}
@@ -288,6 +304,8 @@ export const DropDown = <T extends DropDownData>({
           displaySelectedAdornment={displaySelectedAdornment}
           disableTextPadding={disableTextPadding}
           listItemStartAdornment={listItemStartAdornment}
+          multiselect={multiselect}
+          onItemClicked={onItemClickedHandler}
           {...listContainerProps}
         />
       )}
@@ -304,7 +322,7 @@ const DropDownListContainer = <T extends DropDownData>({
   inputLayoutRectangle,
   dropDownContainerRect,
   onItemClicked,
-  selectedListItem,
+  selectedListItems,
   showSelectedItem,
   listItemEndAdornment,
   activeItemColor,
@@ -313,6 +331,7 @@ const DropDownListContainer = <T extends DropDownData>({
   displaySelectedAdornment,
   disableTextPadding,
   listItemStartAdornment,
+  multiselect,
   maxHeight = 200,
   ...props
 }: DropDownListContainerProps<T>) => {
@@ -320,25 +339,29 @@ const DropDownListContainer = <T extends DropDownData>({
   const { theme } = useTheme();
   const colorScheme = useColorScheme();
 
-  const itemOnPressHandler = (event: GestureResponderEvent, item: DropDownData) => {
-    if (!!onClose && typeof onClose === 'function') {
-      onClose();
+  const itemOnPressHandler = (item: DropDownData) => {
+    if (!multiselect) {
+      if (!!onClose && typeof onClose === 'function') {
+        onClose();
+      }
     }
     if (!!onItemClicked && typeof onItemClicked === 'function') {
-      onItemClicked(event, item);
+      onItemClicked(item);
     }
   };
 
   const renderListItem = useCallback(
     ({ item }: { item: DropDownData }) => {
-      const isSelected = showSelectedItem && selectedListItem?.id === item.id;
+      const isSelected = Boolean(
+        showSelectedItem && selectedListItems?.length && selectedListItems.some(selectedItem => selectedItem.id === item.id),
+      );
 
       return (
         <ListItem
           startAdornment={displaySelectedAdornment ? (isSelected ? listItemStartAdornment : null) : listItemStartAdornment}
           selectedColor={activeItemColor || theme.colors.secondary[500]}
           selected={isSelected}
-          onPress={event => itemOnPressHandler(event, item)}
+          onPress={() => itemOnPressHandler(item)}
           endAdornment={displaySelectedAdornment ? (isSelected ? listItemEndAdornment : null) : listItemEndAdornment}
           style={[{ minHeight: listItemMinHeight }]}>
           <ListItemText
@@ -356,7 +379,7 @@ const DropDownListContainer = <T extends DropDownData>({
       );
     },
     [
-      selectedListItem,
+      selectedListItems,
       showSelectedItem,
       listItemEndAdornment,
       theme,
@@ -366,6 +389,7 @@ const DropDownListContainer = <T extends DropDownData>({
       activeItemColor,
       disableTextPadding,
       listItemStartAdornment,
+      multiselect,
     ],
   );
 
@@ -378,11 +402,11 @@ const DropDownListContainer = <T extends DropDownData>({
   };
 
   useEffect(() => {
-    if (selectedListItem && data?.length && open) {
-      const index = (data as unknown as Array<DropDownData>).findIndex(item => item.id === selectedListItem.id);
+    if (selectedListItems && selectedListItems.length && data?.length && open) {
+      const index = (data as unknown as Array<DropDownData>).findIndex(item => item.id === selectedListItems?.[0].id);
       scrollToItem(index);
     }
-  }, [selectedListItem, data, open]);
+  }, [selectedListItems, data, open]);
 
   return (
     <PortalProvider>
