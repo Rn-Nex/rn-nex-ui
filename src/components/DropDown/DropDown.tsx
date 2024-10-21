@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Animated,
   ColorValue,
-  findNodeHandle,
   FlatList,
   FlatListProps,
   GestureResponderEvent,
@@ -10,7 +9,6 @@ import {
   LayoutRectangle,
   StyleSheet,
   TouchableOpacity,
-  UIManager,
   useColorScheme,
   View,
   ViewProps,
@@ -200,7 +198,6 @@ export const DropDown = <T extends DropDownData>({
   inputStartAdornment,
   listContainerProps,
   style,
-  maxHeight,
   data,
   collapsable,
   onDropDownClicked,
@@ -211,14 +208,15 @@ export const DropDown = <T extends DropDownData>({
   listItemTextProps,
   listItemStartAdornment,
   multiselectMessage,
-  search = false,
   searchPlaceholder,
   searchProps,
   searchContainerProps,
+  maxHeight = 200,
+  search = false,
   multiselect = false,
   disableTextPadding = false,
   displaySelectedAdornment = false,
-  listItemMinHeight = 40,
+  listItemMinHeight = 35,
   showSelectedItem = true,
   variation = 'outlined',
   placeholder = 'Drop down',
@@ -239,19 +237,16 @@ export const DropDown = <T extends DropDownData>({
       onDropDownClicked(event);
     }
     if (containerRef?.current) {
-      const handle = findNodeHandle(containerRef.current);
-      if (handle) {
-        UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
-          setDropDownContainerRect({
-            x,
-            y,
-            width,
-            height,
-            pageX,
-            pageY,
-          });
+      containerRef.current.measure((x, y, width, height, pageX, pageY) => {
+        setDropDownContainerRect({
+          x,
+          y,
+          width,
+          height,
+          pageX,
+          pageY,
         });
-      }
+      });
     }
     setOpen(!open);
   };
@@ -277,7 +272,7 @@ export const DropDown = <T extends DropDownData>({
       ignoreOpacityOnNonEditable: true,
       editable: false,
       value: multiselect
-        ? `${multiselectMessage || 'Selected items'} ${selectedListItems?.length || selectedItems.length}`
+        ? multiselectMessage || `Selected items ${selectedListItems?.length || selectedItems.length}`
         : selectedItems?.[0]?.title,
     };
 
@@ -365,7 +360,7 @@ const DropDownListContainer = <T extends DropDownData>({
   searchPlaceholder,
   searchProps,
   searchContainerProps,
-  maxHeight = 200,
+  maxHeight,
   ...props
 }: DropDownListContainerProps<T>) => {
   const flatListRef = useRef<FlatList>(null);
