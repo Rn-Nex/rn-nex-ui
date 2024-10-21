@@ -34,13 +34,21 @@ export interface BaseInputProps extends TextInputProps {
    * The variation type of the text field.
    */
   variant?: TextFiledVariation;
+
+  /**
+   * the opacity styles won't be applied when the input is non-editable
+   */
+  ignoreOpacityOnNonEditable?: boolean;
 }
 
 /**
  * Defines the props for an input label component.
  */
 export interface InputLabelProps
-  extends Pick<BaseInputProps, 'placeholder' | 'activeColor' | 'errorColor' | 'variant' | 'editable'>,
+  extends Pick<
+      BaseInputProps,
+      'placeholder' | 'activeColor' | 'errorColor' | 'variant' | 'editable' | 'ignoreOpacityOnNonEditable'
+    >,
     Omit<TextProps, 'children'> {
   /**
    * Animated view container styles.
@@ -103,7 +111,10 @@ export interface TextFieldProps extends BaseInputProps {
  */
 export interface OutlineProps
   extends React.ComponentPropsWithRef<typeof View>,
-    Pick<BaseInputProps, 'error' | 'activeColor' | 'isFocused' | 'errorColor' | 'variant' | 'editable'> {}
+    Pick<
+      BaseInputProps,
+      'error' | 'activeColor' | 'isFocused' | 'errorColor' | 'variant' | 'editable' | 'ignoreOpacityOnNonEditable'
+    > {}
 
 /**
  * Represents the properties required to get label transformation styles.
@@ -121,7 +132,10 @@ export interface LabelTransformStyleProps
  * Represents the properties required to generate outline styles.
  */
 export interface OutlineStyles
-  extends Pick<OutlineProps, 'error' | 'errorColor' | 'isFocused' | 'activeColor' | 'editable' | 'variant'> {
+  extends Pick<
+    OutlineProps,
+    'error' | 'errorColor' | 'isFocused' | 'activeColor' | 'editable' | 'variant' | 'ignoreOpacityOnNonEditable'
+  > {
   theme: ThemeType;
 }
 
@@ -143,7 +157,9 @@ export interface TextInputStylesProps {
   startAdornment?: boolean;
 }
 
-export interface LabelTextStylesProps extends Pick<TextInputStylesProps, 'variant'> {
+export interface LabelTextStylesProps
+  extends Pick<TextInputStylesProps, 'variant'>,
+    Pick<BaseInputProps, 'ignoreOpacityOnNonEditable'> {
   theme: ThemeType;
 }
 

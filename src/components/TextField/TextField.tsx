@@ -42,6 +42,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   editable = true,
   placeholder = 'Outlined',
   variant = 'outlined',
+  ignoreOpacityOnNonEditable = false,
   ...props
 }) => {
   const inputLabeledAnimatedValue = useRef(new Animated.Value(0)).current;
@@ -104,7 +105,7 @@ export const TextField: React.FC<TextFieldProps> = ({
         useNativeDriver: true,
       }).start();
     }
-  }, [isFocused, inputIsFocused]);
+  }, [isFocused, inputIsFocused, value, startAdornment, endAdornment]);
 
   return (
     <Outline
@@ -114,7 +115,8 @@ export const TextField: React.FC<TextFieldProps> = ({
       errorColor={errorColor}
       style={[sx && generateElementStyles(sx), style]}
       isFocused={isFocused}
-      error={error}>
+      error={error}
+      ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}>
       <InputLabel
         disabled={!editable}
         variant={variant}
@@ -126,6 +128,7 @@ export const TextField: React.FC<TextFieldProps> = ({
         translateYAnimatedPosition={getLabelTranslatePos()}
         placeholderLeftPosition={placeHolderLeftPos}
         error={error}
+        ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
         {...inputLabelProps}
       />
       {startAdornment && (

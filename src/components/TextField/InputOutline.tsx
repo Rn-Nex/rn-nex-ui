@@ -5,7 +5,10 @@ import { useTheme } from '../../libraries';
 import { inputOutlineVariationStyles, outlineStyles } from './TextField.style';
 
 export const Outline = React.forwardRef<View, OutlineProps>(
-  ({ error, style, isFocused, activeColor, errorColor, editable, variant = 'outlined', ...props }, ref) => {
+  (
+    { error, style, isFocused, activeColor, errorColor, editable, ignoreOpacityOnNonEditable, variant = 'outlined', ...props },
+    ref,
+  ) => {
     const { theme } = useTheme();
     const styles = useMemo(
       () =>
@@ -17,8 +20,9 @@ export const Outline = React.forwardRef<View, OutlineProps>(
           theme,
           editable,
           variant,
+          ignoreOpacityOnNonEditable,
         }),
-      [error, errorColor, isFocused, activeColor, theme, editable, variant],
+      [error, errorColor, isFocused, activeColor, theme, editable, variant, ignoreOpacityOnNonEditable],
     );
 
     return <View ref={ref} {...props} style={[inputOutlineVariationStyles(variant, theme), styles, style]} />;
