@@ -7,6 +7,7 @@ A sophisticated UI library crafted to enhance your React Native development work
 ## Table of Contents
 
 - [Dropdown](#dropdown-component)
+- [Stack](#stack-component)
 - [ActivityIndicator](#activityindicator-Component)
 - [Transition](#transition-animation-components)
 - [ImageList](#imagelist-component)
@@ -145,6 +146,24 @@ function App(): React.JSX.Element {
 
 export default App;
 ```
+
+# Stack Component
+
+The `Stack` component is a layout utility that arranges its children in a row or column with optional spacing.
+
+## Props
+
+The `Stack` component accepts all props from the `Box` component, in addition to the following custom props:
+
+- `spacing?: number` - Defines the spacing between children in the stack (default: `0`).
+- `direction?: 'column' | 'row'` - Defines the direction of the stack layout, either vertically (`column`) or horizontally (`row`) (default: `row`).
+- `display?: FlexStyle['display']` - Controls the display style, typically `flex`.
+- `justifyContent?: FlexStyle['justifyContent']` - Adjusts how children are aligned along the main axis (e.g., `flex-start`, `center`).
+- `alignItems?: FlexStyle['alignItems']` - Controls how children are aligned along the cross axis (e.g., `stretch`, `center`).
+- `flex?: FlexStyle['flex']` - Allows the stack to grow and shrink based on the available space.
+- `flexWrap?: FlexStyle['flexWrap']` - Controls whether the stack's children should wrap onto multiple lines.
+- `padding?: ViewStyle['padding']` - Sets the padding for the stack component.
+- `margin?: ViewStyle['margin']` - Sets the margin for the stack component.
 
 # ActivityIndicator Component
 
