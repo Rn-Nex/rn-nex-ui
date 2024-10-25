@@ -9,3 +9,7 @@ coverage
 *.test.tsx
 *.test.ts
 *.snap
+.editorconfig
+.eslintrc.js
+*.md
+*.config.js
