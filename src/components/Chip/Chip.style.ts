@@ -43,7 +43,7 @@ export const getColorVariant = (theme: ThemeType, variant: ChipVariations | unde
     case 'success':
       return theme.colors.green[500];
     default:
-      return theme.colors.grey[400];
+      return theme.colors.grey[700];
   }
 };
 

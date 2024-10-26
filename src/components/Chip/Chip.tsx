@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useTheme } from '../../libraries';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
@@ -23,6 +23,7 @@ export const Chip: React.FC<ChipProps> = ({
   color,
   chipWrapperContainerStyles,
   chipWrapperContainerProps,
+  square = false,
   testID,
   ...props
 }) => {
@@ -49,12 +50,16 @@ export const Chip: React.FC<ChipProps> = ({
     <BaseButton
       disabled={disabled}
       disableRipple={disableRipple}
-      style={[styles.chip, chipStyles, style]}
+      style={StyleSheet.flatten([styles.chip, chipStyles, style, { borderRadius: square ? 5 : 20 }])}
       testID={testID}
       {...props}>
-      <Box style={[styles.chipWrapper, chipWrapperContainerStyles]} {...chipWrapperContainerProps}>
+      <Box style={StyleSheet.flatten([styles.chipWrapper, chipWrapperContainerStyles])} {...chipWrapperContainerProps}>
         {startAdornmentElement}
-        <Text variation="h4" {...labelContainerProps}>
+        <Text
+          isActive
+          activeColor={variant === 'outlined' ? theme.colors.grey[900] : theme.colors.grey[50]}
+          variation="h4"
+          {...labelContainerProps}>
           {label}
         </Text>
         {endAdornmentElement}

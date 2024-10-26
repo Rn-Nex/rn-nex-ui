@@ -76,6 +76,8 @@ export interface ChipProps extends Omit<BaseButtonProps, 'children' | 'sx'>, Omi
    * accessibility properties or event handlers (e.g., `onLayout`).
    */
   chipWrapperContainerProps?: Omit<ViewProps, 'children'>;
+
+  square?: boolean;
 }
 export interface GenerateChipStylesProps extends Pick<ChipProps, 'variant' | 'disabled' | 'color'> {
   theme: ThemeType;
