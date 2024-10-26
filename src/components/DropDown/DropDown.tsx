@@ -495,3 +495,6 @@ const DropDownListContainer = <T extends DropDownData>({
     </PortalProvider>
   );
 };
+
+DropDown.displayName = 'Drop down';
+DropDownListContainer.displayName = 'DropDownListContainer';

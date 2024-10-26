@@ -1,141 +1,145 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
-import { SnackbarProps } from './Snackbar.types';
-import { AnimatedView } from '../Box';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  Animated,
+  DeviceEventEmitter,
+  GestureResponderEvent,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewProps,
+  ViewStyle,
+} from 'react-native';
+import { screenHeight } from '../../utils';
+import { Button } from '../Button';
+import { ButtonProps, TextProps } from '../types';
+import { Text } from '../Typography';
+import { SHOW_SNACK_BAR_MESSAGE } from './constants';
+import { styles } from './Snackbar.styles';
+import { Avatar } from '../Avatar';
+
+export interface SnackbarProperties {
+  message: string;
+  showActionButton?: boolean;
+  actionButtonLabel?: string;
+  actionButtonOnPress?: (event: GestureResponderEvent) => void;
+  actionButtonProps?: ButtonProps;
+  animationDuration?: number;
+  hideDuration?: number;
+  shouldHideWhenClickedOnActionButton?: boolean;
+  startAdornment?: React.ReactNode;
+  startAdornmentContainerStyles?: StyleProp<ViewStyle>;
+}
+export interface SnackbarProps extends ViewProps {
+  snackbarLabelContainerStyles?: StyleProp<ViewStyle>;
+  labelProps?: TextProps;
+  position?: 'top' | 'bottom';
+  autoHide?: boolean;
+}
 
 export const Snackbar: React.FC<SnackbarProps> = ({
-  message,
-  visible,
-  resumeHideDuration,
-  actionComponent,
   style,
-  messageStyle,
-  onHide,
-  startAdornment,
-  startAdornmentContainerStyle,
-  anchorOrigin = { horizontal: 'center', vertical: 'bottom' },
-  autoHideDuration = null,
-  animationDuration = 300,
-  backgroundColor = '#333',
-  textColor = '#fff',
-  elevation = 6,
-  borderRadius = 5,
+  snackbarLabelContainerStyles,
+  labelProps,
+  autoHide = false,
+  position = 'bottom',
+  ...props
 }) => {
-  const slideAnim = useRef(new Animated.Value(0)).current;
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isTop = position === 'top';
+  const [snackbarConfig, setSnackbarConfig] = useState<SnackbarProperties | null>(null);
+  const opacityValue = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(isTop ? -100 : screenHeight)).current;
 
-  useEffect(() => {
-    if (visible) {
-      Animated.timing(slideAnim, {
-        toValue: 1,
-        duration: animationDuration,
+  const hideAnimation = useCallback(() => {
+    Animated.parallel([
+      Animated.timing(opacityValue, {
+        toValue: 0,
+        duration: snackbarConfig?.animationDuration || 500,
         useNativeDriver: true,
-      }).start();
-
-      if (autoHideDuration !== null) {
-        timerRef.current = setTimeout(() => {
-          hideSnackbar();
-        }, autoHideDuration);
-      }
-
-      return () => {
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-        }
-      };
-    } else {
-      slideAnim.setValue(0);
-    }
-  }, [visible, slideAnim, animationDuration, autoHideDuration]);
-
-  const hideSnackbar = () => {
-    Animated.timing(slideAnim, {
-      toValue: 0,
-      duration: animationDuration,
-      useNativeDriver: true,
-    }).start(() => {
-      if (onHide) {
-        onHide();
+      }),
+      Animated.timing(translateY, {
+        toValue: isTop ? -100 : screenHeight,
+        duration: snackbarConfig?.animationDuration || 500,
+        useNativeDriver: true,
+      }),
+    ]).start(({ finished }) => {
+      if (finished) {
+        setSnackbarConfig(null);
       }
     });
-  };
+  }, [position]);
 
-  const handleInteraction = () => {
-    if (autoHideDuration !== null && resumeHideDuration !== undefined) {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
+  const startAnimation = useCallback(() => {
+    Animated.parallel([
+      Animated.timing(opacityValue, {
+        toValue: 1,
+        duration: snackbarConfig?.animationDuration || 500,
+        useNativeDriver: true,
+      }),
+      Animated.spring(translateY, {
+        toValue: isTop ? 50 : screenHeight - 100,
+        useNativeDriver: true,
+      }),
+    ]).start(({ finished }) => {
+      if (finished && autoHide) {
+        setTimeout(() => {
+          hideAnimation();
+        }, snackbarConfig?.hideDuration || 300);
       }
-      timerRef.current = setTimeout(() => {
-        hideSnackbar();
-      }, resumeHideDuration);
-    }
-  };
+    });
+  }, [position]);
 
-  const slideIn = {
-    transform: [
-      {
-        translateY: slideAnim.interpolate({
-          inputRange: [0, 1],
-          outputRange: [anchorOrigin.vertical === 'bottom' ? 100 : -100, 0],
-        }),
-      },
-    ],
-  };
+  useEffect(() => {
+    DeviceEventEmitter.addListener(SHOW_SNACK_BAR_MESSAGE, (config: SnackbarProperties) => {
+      setSnackbarConfig(config);
+      startAnimation();
+    });
 
-  const horizontalPosition = (() => {
-    switch (anchorOrigin.horizontal) {
-      case 'left':
-        return { left: 20 };
-      case 'right':
-        return { right: 20 };
-      case 'center':
-      default:
-        return { left: 20, right: 20 };
-    }
-  })();
+    return () => {
+      DeviceEventEmitter.removeAllListeners();
+    };
+  }, []);
+
+  const actionButtonOnPressHandler = useCallback(
+    (event: GestureResponderEvent) => {
+      if (snackbarConfig?.actionButtonOnPress && typeof snackbarConfig.actionButtonOnPress === 'function') {
+        snackbarConfig.actionButtonOnPress(event);
+        if (snackbarConfig?.shouldHideWhenClickedOnActionButton) {
+          hideAnimation();
+        }
+      }
+    },
+    [snackbarConfig],
+  );
+
+  if (!snackbarConfig?.message) return null;
 
   return (
-    <>
-      {visible && (
-        <AnimatedView
-          style={[
-            styles.snackbar,
-            slideIn,
-            {
-              backgroundColor,
-              elevation,
-              borderRadius,
-              [anchorOrigin.vertical]: 20,
-              ...horizontalPosition,
-            },
-            style,
-          ]}
-          onTouchStart={handleInteraction}>
-          {startAdornment && <View style={[styles.startAdornmentContainer, startAdornmentContainerStyle]}>{startAdornment}</View>}
-          <Text style={[styles.message, { color: textColor }, messageStyle]}>{message}</Text>
-          {actionComponent && <View style={styles.actionComponentContainer}>{actionComponent}</View>}
-        </AnimatedView>
-      )}
-    </>
+    <Animated.View
+      style={StyleSheet.flatten([styles.snackbarRootContainer, { opacity: opacityValue, transform: [{ translateY }] }, style])}
+      {...props}>
+      <View style={StyleSheet.flatten([styles.snackbar])}>
+        <View style={styles.snackbarLabelWrapper}>
+          {snackbarConfig?.startAdornment && <View style={[styles.adornment]}>{snackbarConfig.startAdornment}</View>}
+          <View style={StyleSheet.flatten([styles.snackbarLabelContainer, snackbarLabelContainerStyles])}>
+            {snackbarConfig?.message && (
+              <Text variation="h3" mode="light" {...labelProps}>
+                {snackbarConfig.message}
+              </Text>
+            )}
+          </View>
+        </View>
+        {snackbarConfig?.showActionButton && (
+          <View style={[styles.snackbarOptionContainer]}>
+            <Button
+              variation="text"
+              label={snackbarConfig?.actionButtonLabel || 'HIDE'}
+              onPress={actionButtonOnPressHandler}
+              labelProps={{ style: styles.buttonLabel }}
+              {...snackbarConfig?.actionButtonOnPress}
+            />
+          </View>
+        )}
+      </View>
+    </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  snackbar: {
-    position: 'absolute',
-    paddingHorizontal: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    maxWidth: '90%',
-  },
-  message: {
-    flexShrink: 1,
-  },
-  actionComponentContainer: {
-    marginLeft: 10,
-  },
-  startAdornmentContainer: {
-    marginRight: 10,
-  },
-});
