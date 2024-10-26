@@ -3,14 +3,8 @@ import { Animated, LayoutChangeEvent, StyleSheet, TouchableWithoutFeedback, View
 import { useTheme } from '../../libraries';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
-import { generateElementStyles } from '../../utils';
-import { getSwitchSizes, getSwitchVariant } from './utils';
-
-/**
- * Define a union type for the possible color variations of a switch component,
- * including 'primary', 'secondary', 'success', 'error', 'info', or 'warning'.
- */
-export type SwitchVariantTypes = 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+import { generateElementStyles, getVariant, VariantTypes } from '../../utils';
+import { getSwitchSizes } from './utils';
 
 /**
  * Define a union type for the possible size of a switch component
@@ -73,7 +67,7 @@ interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof Touchab
   /**
    * including 'primary', 'secondary', 'success', 'error', 'info', or 'warning'.
    */
-  variant?: SwitchVariantTypes;
+  variant?: VariantTypes;
 
   /**
    * including 'small', 'medium', 'large',
@@ -91,9 +85,6 @@ interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof Touchab
   thumbTestID?: string;
 }
 
-export interface GetSwitchVariantArgs extends Pick<SwitchProps, 'variant'> {
-  theme: ThemeType;
-}
 export interface GetSwitchSizesArgs extends Pick<SwitchProps, 'size'> {}
 
 export const Switch: React.FC<SwitchProps> = ({
@@ -169,7 +160,7 @@ export const Switch: React.FC<SwitchProps> = ({
     ],
   };
 
-  const colorVariation = useMemo(() => getSwitchVariant({ variant, theme }), [variant, theme]);
+  const colorVariation = useMemo(() => getVariant({ variant, theme }), [variant, theme]);
   const switchSizeVariation = useMemo(() => getSwitchSizes({ size }), [size]);
 
   const backgroundColorInterpolation = switchWrapperBgAnimatedValue.interpolate({
@@ -180,17 +171,17 @@ export const Switch: React.FC<SwitchProps> = ({
   return (
     <TouchableWithoutFeedback onPress={toggleSwitch} {...props}>
       <Animated.View
-        style={[
+        style={StyleSheet.flatten([
           styles.switchContainer,
           switchSizeVariation.thumbContainerStyles,
           { backgroundColor: backgroundColorInterpolation },
           style,
           sx && generateElementStyles(sx),
-        ]}
+        ])}
         onLayout={handleContainerLayout}
         testID={containerTestID}>
         <Animated.View
-          style={[styles.thumb, switchSizeVariation.thumbStyles, switchStyles, thumbStyles]}
+          style={StyleSheet.flatten([styles.thumb, switchSizeVariation.thumbStyles, switchStyles, thumbStyles])}
           onLayout={handleThumbLayout}
           testID={thumbTestID}
         />
