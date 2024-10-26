@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableWithoutFeedback, ViewStyle } from 'react-native';
 import { BoxProps } from '../Box/Box.types';
+import { VariantTypes } from '../../utils';
 
 export interface CheckBoxProps extends React.ComponentPropsWithoutRef<typeof TouchableWithoutFeedback> {
   /**
@@ -28,7 +29,7 @@ export interface CheckBoxProps extends React.ComponentPropsWithoutRef<typeof Tou
   isIndeterminate?: boolean;
 
   /**
-   * Color of the checkbox border when it is not checked.
+   * Color of the checkbox border.
    * Accepts any valid color string.
    */
   checkBoxColor?: string;
@@ -74,4 +75,6 @@ export interface CheckBoxProps extends React.ComponentPropsWithoutRef<typeof Tou
    * This omits the 'children' prop from BoxProps to avoid conflicts.
    */
   endAdornmentContainerProps?: Omit<BoxProps, 'children'>;
+
+  variant?: VariantTypes;
 }
