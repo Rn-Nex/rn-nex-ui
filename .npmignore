@@ -13,4 +13,4 @@ coverage
 .eslintrc.js
 *.md
 *.config.js
-/.github
+.github
