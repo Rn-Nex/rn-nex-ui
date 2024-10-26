@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 import { Image, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Box } from '../Box';
 import { CheckBoxProps } from './CheckBox.types';
+import { getVariant } from '../../utils';
+import { useTheme } from '../../libraries';
 
 const defaultIndeterminateImage = require('./check-box/indeterminate_check_box.png');
 const defaultCheckBoxImage = require('./check-box/check_box.png');
@@ -17,11 +19,15 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
   startAdornmentContainerProps,
   endAdornment,
   endAdornmentContainerProps,
+  variant,
+  checkBoxColor,
   isChecked = false,
   isIndeterminate = false,
   disabled = false,
   ...props
 }) => {
+  const { theme } = useTheme();
+
   const displayCheckedImage = useCallback(() => {
     let source;
     if (isIndeterminate) {
@@ -29,8 +35,13 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
     } else {
       source = isChecked ? defaultCheckBoxImage : defaultCheckBoxOutlineImage;
     }
-    return <Image source={source} />;
-  }, [isChecked, isIndeterminate]);
+    return (
+      <Image
+        source={source}
+        style={{ tintColor: checkBoxColor || isChecked ? getVariant({ variant, theme }) : theme.colors.grey[600] }}
+      />
+    );
+  }, [isChecked, isIndeterminate, variant, theme, checkBoxColor]);
 
   const renderImage = useCallback(() => {
     if (isIndeterminate) {
@@ -41,7 +52,7 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
     } else {
       return unCheckedImage ? unCheckedImage : displayCheckedImage();
     }
-  }, [isChecked, isIndeterminate]);
+  }, [isChecked, isIndeterminate, variant, theme, checkBoxColor]);
 
   return (
     <TouchableWithoutFeedback disabled={disabled} {...props}>

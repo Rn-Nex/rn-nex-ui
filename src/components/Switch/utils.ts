@@ -1,5 +1,5 @@
 import { ViewStyle } from 'react-native';
-import { GetSwitchSizesArgs, GetSwitchVariantArgs } from './Switch';
+import { GetSwitchSizesArgs } from './Switch';
 import {
   SWITCH_CONTAINER_HEIGHT_LARGE,
   SWITCH_CONTAINER_HEIGHT_MEDIUM,
@@ -14,16 +14,6 @@ import {
   SWITCH_THUMB_WIDTH_MEDIUM,
   SWITCH_THUMB_WIDTH_SMALL,
 } from './constants';
-
-export const getSwitchVariant = ({ variant, theme }: GetSwitchVariantArgs): string => {
-  if (variant === 'primary') return theme.colors.primary[500];
-  else if (variant === 'secondary') return theme.colors.secondary[500];
-  else if (variant === 'error') return theme.colors.red[500];
-  else if (variant === 'info') return theme.colors.lightBlue[500];
-  else if (variant === 'success') return theme.colors.green[500];
-  else if (variant === 'warning') return theme.colors.yellow[500];
-  return theme.colors.secondary[500];
-};
 
 export const getSwitchSizes = ({
   size,
