@@ -38,7 +38,7 @@ A sophisticated UI library crafted to enhance your React Native development work
 
 The `Dropdown` component provides a customizable dropdown menu that supports single and multiple item selection, optional search functionality, light and dark mode, and adornments for both the input and dropdown items.
 
-![Dropdown Component preview](https://lh3.googleusercontent.com/d/1UCcFVys7RWSJHd_xEgXQdOO-h02FOkbX=s900?authuser=1)
+![Dropdown Component preview](https://lh3.googleusercontent.com/d/1Ce_1U5e8sf8Dgkx2ZVfRvY_-BxNhte5_=s900?authuser=1)
 
 ## Props
 
