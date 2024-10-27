@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   adornment: {
-    paddingHorizontal: 14,
+    paddingLeft: 14,
   },
   snackbarLabelContainer: {
     flex: 1,
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonLabel: { color: green[500], fontWeight: 600 },
+  buttonLabel: { color: green[500], fontWeight: 600, fontSize: 14 },
   actionButton: { width: '100%', borderRadius: 0, height: '100%' },
   icon: {
     width: 20,

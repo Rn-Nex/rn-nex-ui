@@ -66,3 +66,7 @@ export const getVariant = ({ variant, theme }: GetVariantArgs): string => {
   else if (variant === 'warning') return theme.colors.yellow[500];
   return theme.colors.secondary[500];
 };
+
+export const maxLength = function (text: string, maxLength: number): string {
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};

@@ -13,15 +13,14 @@ import {
   ViewProps,
   ViewStyle,
 } from 'react-native';
-import { getVariant, screenHeight, VariantTypes } from '../../utils';
+import { grey, useTheme } from '../../libraries';
+import { getVariant, maxLength as maxLengthUtile, screenHeight, VariantTypes } from '../../utils';
 import { Button } from '../Button';
 import { ButtonProps, TextProps } from '../types';
 import { Text } from '../Typography';
 import { HIDE_SNACK_BAR_MESSAGE, SHOW_SNACK_BAR_MESSAGE, SNACK_BAR, SNACK_BAR_SCREEN_GAP } from './constants';
 import { styles } from './Snackbar.styles';
-import { grey, useTheme } from '../../libraries';
 
-// Define the types of Snackbar notifications available
 export type SnackbarType = 'error' | 'info' | 'success' | 'warning';
 
 /**
@@ -46,9 +45,6 @@ export interface SnackbarProperties {
    */
   actionButtonOnPress?: (event: GestureResponderEvent) => void;
 
-  /** Additional props for the action button. */
-  actionButtonProps?: ButtonProps;
-
   /** Duration of the Snackbar's entrance/exit animations in milliseconds. */
   animationDuration?: number;
 
@@ -72,7 +68,20 @@ export interface SnackbarProperties {
   /** Styles for the action button. */
   actionButtonStyles?: StyleProp<ViewStyle>;
 
+  /**
+   * Different variants of the snackbar component
+   */
   variant?: VariantTypes;
+
+  /**
+   * Optional property for hide the adornment element
+   */
+  hideAdornment?: boolean;
+
+  /**
+   * Max length of the snackbar component message. This will override the root config prop.
+   */
+  messageMaxLength?: number;
 }
 
 /**
@@ -108,6 +117,14 @@ export interface SnackbarProps extends ViewProps {
 
   /** Source URI for the warning image, if any. */
   warningImageSource?: string;
+
+  /** Additional props for the action button. */
+  actionButtonProps?: Omit<ButtonProps, 'children'>;
+
+  /**
+   * Max length of the snackbar component message
+   */
+  messageMaxLength?: number;
 }
 
 const defaultSuccessImage = require('./images/success.png');
@@ -124,6 +141,8 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   failureImageSource,
   InfoImageSource,
   warningImageSource,
+  actionButtonProps,
+  messageMaxLength,
   disableLabelContainerPadding = false,
   autoHide = false,
   position = 'bottom',
@@ -139,6 +158,9 @@ export const Snackbar: React.FC<SnackbarProps> = ({
 
   const [snackbarConfig, setSnackbarConfig] = useState<SnackbarProperties | null>(null);
   const [snackbarRootRectangle, setSnackbarRootRectangle] = useState<LayoutRectangle | null>(null);
+
+  const animationDuration = snackbarConfig?.animationDuration || 500;
+  const hideDuration = snackbarConfig?.hideDuration || SNACK_BAR.LENGTH_SHORT;
 
   useEffect(() => {
     positionRef.current = position;
@@ -168,12 +190,12 @@ export const Snackbar: React.FC<SnackbarProps> = ({
     Animated.parallel([
       Animated.timing(opacityValue, {
         toValue: 0,
-        duration: snackbarConfig?.animationDuration || 500,
+        duration: animationDuration,
         useNativeDriver: true,
       }),
       Animated.timing(translateY, {
         toValue: translateYToValue,
-        duration: snackbarConfig?.animationDuration || 500,
+        duration: animationDuration,
         useNativeDriver: true,
       }),
     ]).start(({ finished }) => {
@@ -192,7 +214,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
     Animated.parallel([
       Animated.timing(opacityValue, {
         toValue: 1,
-        duration: snackbarConfig?.animationDuration || 500,
+        duration: animationDuration,
         useNativeDriver: true,
       }),
       Animated.spring(translateY, {
@@ -203,7 +225,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       if (finished && autoHideRef.current) {
         setTimeout(() => {
           hideAnimation();
-        }, snackbarConfig?.hideDuration || SNACK_BAR.LENGTH_SHORT);
+        }, hideDuration);
       }
     });
   }, [snackbarConfig, opacityValue, positionRef, snackbarRootRectangle, translateY, screenHeight, autoHideRef]);
@@ -239,6 +261,8 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   );
 
   const renderAdornment = useCallback(() => {
+    if (snackbarConfig?.hideAdornment) return null;
+
     let source: ImageSourcePropType = defaultInfoImage;
 
     if (snackbarConfig?.type === 'error') {
@@ -255,6 +279,14 @@ export const Snackbar: React.FC<SnackbarProps> = ({
 
     return <View style={[styles.adornment]}>{child}</View>;
   }, [snackbarConfig, successImageSource, failureImageSource, InfoImageSource, warningImageSource]);
+
+  const renderMessage = useCallback(() => {
+    if (snackbarConfig?.messageMaxLength) {
+      return maxLengthUtile(snackbarConfig.message, snackbarConfig.messageMaxLength);
+    } else if (messageMaxLength && snackbarConfig?.message) {
+      return maxLengthUtile(snackbarConfig.message, messageMaxLength);
+    } else return snackbarConfig?.message;
+  }, [messageMaxLength, snackbarConfig]);
 
   if (!snackbarConfig?.message) null;
 
@@ -279,7 +311,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
             ])}>
             {snackbarConfig?.message && (
               <Text variation="h5" mode="light" {...labelProps}>
-                {snackbarConfig.message}
+                {renderMessage()}
               </Text>
             )}
           </View>
@@ -292,7 +324,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
               onPress={actionButtonOnPressHandler}
               labelProps={{ style: styles.buttonLabel }}
               style={StyleSheet.flatten([styles.actionButton, snackbarConfig?.actionButtonStyles])}
-              {...snackbarConfig?.actionButtonOnPress}>
+              {...actionButtonProps}>
               {snackbarConfig?.actionButtonItem}
             </Button>
           </View>
