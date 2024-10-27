@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { green, grey } from '../../libraries';
+import { green } from '../../libraries';
 
 export const styles = StyleSheet.create({
   snackbarRootContainer: {
@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    zIndex: 10000,
+    zIndex: 9999,
+    elevation: 1000,
   },
   snackbar: {
     width: '100%',
@@ -19,23 +20,35 @@ export const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: grey[900],
   },
   snackbarLabelWrapper: {
     flex: 1,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    height: '100%',
   },
   adornment: {
-    paddingLeft: 14,
+    paddingHorizontal: 14,
   },
   snackbarLabelContainer: {
     flex: 1,
     height: '100%',
     display: 'flex',
-    paddingHorizontal: 20,
+    justifyContent: 'center',
   },
-  snackbarOptionContainer: { flex: 0.4 },
+  snackbarOptionContainer: {
+    flex: 0.3,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   buttonLabel: { color: green[500], fontWeight: 600 },
+  actionButton: { width: '100%', borderRadius: 0, height: '100%' },
+  icon: {
+    width: 20,
+    height: 20,
+  },
 });

@@ -54,6 +54,8 @@ export const getElemTopPosition = ({
 };
 
 export const screenHeight = Dimensions.get('window').height;
+const { width } = Dimensions.get('window');
+export const isTablet = width >= 650;
 
 export const getVariant = ({ variant, theme }: GetVariantArgs): string => {
   if (variant === 'primary') return theme.colors.primary[500];

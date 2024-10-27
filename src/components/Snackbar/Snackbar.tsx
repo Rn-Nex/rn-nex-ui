@@ -3,53 +3,168 @@ import {
   Animated,
   DeviceEventEmitter,
   GestureResponderEvent,
+  Image,
+  ImageSourcePropType,
+  LayoutChangeEvent,
+  LayoutRectangle,
   StyleProp,
   StyleSheet,
   View,
   ViewProps,
   ViewStyle,
 } from 'react-native';
-import { screenHeight } from '../../utils';
+import { getVariant, screenHeight, VariantTypes } from '../../utils';
 import { Button } from '../Button';
 import { ButtonProps, TextProps } from '../types';
 import { Text } from '../Typography';
-import { SHOW_SNACK_BAR_MESSAGE } from './constants';
+import { HIDE_SNACK_BAR_MESSAGE, SHOW_SNACK_BAR_MESSAGE, SNACK_BAR, SNACK_BAR_SCREEN_GAP } from './constants';
 import { styles } from './Snackbar.styles';
-import { Avatar } from '../Avatar';
+import { grey, useTheme } from '../../libraries';
 
+// Define the types of Snackbar notifications available
+export type SnackbarType = 'error' | 'info' | 'success' | 'warning';
+
+/**
+ * Interface representing the properties for the Snackbar component.
+ */
 export interface SnackbarProperties {
+  /** The message to be displayed in the Snackbar. */
   message: string;
+
+  /** The type of Snackbar (e.g., error, info, success, warning). */
+  type: SnackbarType;
+
+  /** Whether to show an action button. */
   showActionButton?: boolean;
+
+  /** The label for the action button. */
   actionButtonLabel?: string;
+
+  /**
+   * Callback for when the action button is pressed.
+   * Receives the GestureResponderEvent as an argument.
+   */
   actionButtonOnPress?: (event: GestureResponderEvent) => void;
+
+  /** Additional props for the action button. */
   actionButtonProps?: ButtonProps;
+
+  /** Duration of the Snackbar's entrance/exit animations in milliseconds. */
   animationDuration?: number;
+
+  /** Duration in milliseconds after which the Snackbar will hide automatically. */
   hideDuration?: number;
+
+  /**
+   * Whether the Snackbar should hide when the action button is clicked.
+   */
   shouldHideWhenClickedOnActionButton?: boolean;
+
+  /** Optional start adornment (e.g., icon) to display in the Snackbar. */
   startAdornment?: React.ReactNode;
+
+  /** Styles for the container of the start adornment. */
   startAdornmentContainerStyles?: StyleProp<ViewStyle>;
+
+  /** Optional additional item for the action button. */
+  actionButtonItem?: React.ReactNode;
+
+  /** Styles for the action button. */
+  actionButtonStyles?: StyleProp<ViewStyle>;
+
+  variant?: VariantTypes;
 }
+
+/**
+ * Interface for the Snackbar component's props extending ViewProps.
+ */
 export interface SnackbarProps extends ViewProps {
+  /** Styles for the Snackbar label container. */
   snackbarLabelContainerStyles?: StyleProp<ViewStyle>;
-  labelProps?: TextProps;
+
+  /** Props for the label, excluding the 'children' property. */
+  labelProps?: Omit<TextProps, 'children'>;
+
+  /** Position of the Snackbar, can be 'top' or 'bottom'. */
   position?: 'top' | 'bottom';
+
+  /** Whether the Snackbar should hide automatically after a specified duration. */
   autoHide?: boolean;
+
+  /** Styles for the container of Snackbar options. */
+  snackbarOptionContainerStyles?: StyleProp<ViewStyle>;
+
+  /** Whether to disable padding in the label container. */
+  disableLabelContainerPadding?: boolean;
+
+  /** Source URI for the success image, if any. */
+  successImageSource?: string;
+
+  /** Source URI for the failure image, if any. */
+  failureImageSource?: string;
+
+  /** Source URI for the info image, if any. */
+  InfoImageSource?: string;
+
+  /** Source URI for the warning image, if any. */
+  warningImageSource?: string;
 }
+
+const defaultSuccessImage = require('./images/success.png');
+const defaultFailureImage = require('./images/error.png');
+const defaultInfoImage = require('./images/info.png');
+const defaultWarningImage = require('./images/warning.png');
 
 export const Snackbar: React.FC<SnackbarProps> = ({
   style,
   snackbarLabelContainerStyles,
   labelProps,
+  snackbarOptionContainerStyles,
+  successImageSource,
+  failureImageSource,
+  InfoImageSource,
+  warningImageSource,
+  disableLabelContainerPadding = false,
   autoHide = false,
   position = 'bottom',
+  onLayout,
   ...props
 }) => {
-  const isTop = position === 'top';
-  const [snackbarConfig, setSnackbarConfig] = useState<SnackbarProperties | null>(null);
+  const positionRef = useRef(position);
+  const autoHideRef = useRef(autoHide);
   const opacityValue = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(isTop ? -100 : screenHeight)).current;
+  const translateY = useRef(new Animated.Value(position === 'top' ? -100 : screenHeight)).current;
+
+  const { theme } = useTheme();
+
+  const [snackbarConfig, setSnackbarConfig] = useState<SnackbarProperties | null>(null);
+  const [snackbarRootRectangle, setSnackbarRootRectangle] = useState<LayoutRectangle | null>(null);
+
+  useEffect(() => {
+    positionRef.current = position;
+  }, [position]);
+
+  useEffect(() => {
+    autoHideRef.current = autoHide;
+  }, [autoHide]);
+
+  useEffect(() => {
+    if (position === 'top') translateY.setValue(-100);
+    else translateY.setValue(screenHeight);
+  }, [position, screenHeight]);
+
+  const snackbarRootContainerOnLayout = (event: LayoutChangeEvent) => {
+    if (onLayout && typeof onLayout === 'function') {
+      onLayout(event);
+    }
+    const { layout } = event.nativeEvent;
+    setSnackbarRootRectangle(layout);
+  };
 
   const hideAnimation = useCallback(() => {
+    const translateYToValue =
+      positionRef.current === 'top' ? (snackbarRootRectangle?.height ? -snackbarRootRectangle.height : -100) : screenHeight;
+
     Animated.parallel([
       Animated.timing(opacityValue, {
         toValue: 0,
@@ -57,7 +172,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
         useNativeDriver: true,
       }),
       Animated.timing(translateY, {
-        toValue: isTop ? -100 : screenHeight,
+        toValue: translateYToValue,
         duration: snackbarConfig?.animationDuration || 500,
         useNativeDriver: true,
       }),
@@ -66,9 +181,14 @@ export const Snackbar: React.FC<SnackbarProps> = ({
         setSnackbarConfig(null);
       }
     });
-  }, [position]);
+  }, [snackbarConfig, opacityValue, positionRef, snackbarRootRectangle, translateY, screenHeight, autoHideRef]);
 
   const startAnimation = useCallback(() => {
+    const translateYToValue =
+      positionRef.current === 'top'
+        ? 30
+        : screenHeight - (snackbarRootRectangle?.height ? snackbarRootRectangle.height + SNACK_BAR_SCREEN_GAP : 100);
+
     Animated.parallel([
       Animated.timing(opacityValue, {
         toValue: 1,
@@ -76,17 +196,17 @@ export const Snackbar: React.FC<SnackbarProps> = ({
         useNativeDriver: true,
       }),
       Animated.spring(translateY, {
-        toValue: isTop ? 50 : screenHeight - 100,
+        toValue: translateYToValue,
         useNativeDriver: true,
       }),
     ]).start(({ finished }) => {
-      if (finished && autoHide) {
+      if (finished && autoHideRef.current) {
         setTimeout(() => {
           hideAnimation();
-        }, snackbarConfig?.hideDuration || 300);
+        }, snackbarConfig?.hideDuration || SNACK_BAR.LENGTH_SHORT);
       }
     });
-  }, [position]);
+  }, [snackbarConfig, opacityValue, positionRef, snackbarRootRectangle, translateY, screenHeight, autoHideRef]);
 
   useEffect(() => {
     DeviceEventEmitter.addListener(SHOW_SNACK_BAR_MESSAGE, (config: SnackbarProperties) => {
@@ -94,49 +214,87 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       startAnimation();
     });
 
+    DeviceEventEmitter.addListener(HIDE_SNACK_BAR_MESSAGE, () => {
+      hideAnimation();
+    });
+
     return () => {
-      DeviceEventEmitter.removeAllListeners();
+      DeviceEventEmitter.removeAllListeners(SHOW_SNACK_BAR_MESSAGE);
+      DeviceEventEmitter.removeAllListeners(HIDE_SNACK_BAR_MESSAGE);
     };
   }, []);
 
   const actionButtonOnPressHandler = useCallback(
     (event: GestureResponderEvent) => {
+      event.stopPropagation();
+      if (snackbarConfig?.shouldHideWhenClickedOnActionButton) {
+        hideAnimation();
+      }
+
       if (snackbarConfig?.actionButtonOnPress && typeof snackbarConfig.actionButtonOnPress === 'function') {
         snackbarConfig.actionButtonOnPress(event);
-        if (snackbarConfig?.shouldHideWhenClickedOnActionButton) {
-          hideAnimation();
-        }
       }
     },
     [snackbarConfig],
   );
 
-  if (!snackbarConfig?.message) return null;
+  const renderAdornment = useCallback(() => {
+    let source: ImageSourcePropType = defaultInfoImage;
+
+    if (snackbarConfig?.type === 'error') {
+      source = failureImageSource || defaultFailureImage;
+    } else if (snackbarConfig?.type === 'success') {
+      source = successImageSource || defaultSuccessImage;
+    } else if (snackbarConfig?.type === 'info') {
+      source = InfoImageSource || defaultInfoImage;
+    } else if (snackbarConfig?.type === 'warning') {
+      source = warningImageSource || defaultWarningImage;
+    }
+
+    const child = snackbarConfig?.startAdornment ? snackbarConfig?.startAdornment : <Image source={source} style={styles.icon} />;
+
+    return <View style={[styles.adornment]}>{child}</View>;
+  }, [snackbarConfig, successImageSource, failureImageSource, InfoImageSource, warningImageSource]);
+
+  if (!snackbarConfig?.message) null;
 
   return (
     <Animated.View
       style={StyleSheet.flatten([styles.snackbarRootContainer, { opacity: opacityValue, transform: [{ translateY }] }, style])}
+      onLayout={snackbarRootContainerOnLayout}
+      pointerEvents="box-none"
       {...props}>
-      <View style={StyleSheet.flatten([styles.snackbar])}>
+      <View
+        style={StyleSheet.flatten([
+          styles.snackbar,
+          { backgroundColor: snackbarConfig?.variant ? getVariant({ variant: snackbarConfig.variant, theme }) : grey[900] },
+        ])}>
         <View style={styles.snackbarLabelWrapper}>
-          {snackbarConfig?.startAdornment && <View style={[styles.adornment]}>{snackbarConfig.startAdornment}</View>}
-          <View style={StyleSheet.flatten([styles.snackbarLabelContainer, snackbarLabelContainerStyles])}>
+          {renderAdornment()}
+          <View
+            style={StyleSheet.flatten([
+              styles.snackbarLabelContainer,
+              snackbarLabelContainerStyles,
+              { paddingLeft: disableLabelContainerPadding ? 0 : 10 },
+            ])}>
             {snackbarConfig?.message && (
-              <Text variation="h3" mode="light" {...labelProps}>
+              <Text variation="h5" mode="light" {...labelProps}>
                 {snackbarConfig.message}
               </Text>
             )}
           </View>
         </View>
         {snackbarConfig?.showActionButton && (
-          <View style={[styles.snackbarOptionContainer]}>
+          <View style={StyleSheet.flatten([styles.snackbarOptionContainer, snackbarOptionContainerStyles])}>
             <Button
               variation="text"
               label={snackbarConfig?.actionButtonLabel || 'HIDE'}
               onPress={actionButtonOnPressHandler}
               labelProps={{ style: styles.buttonLabel }}
-              {...snackbarConfig?.actionButtonOnPress}
-            />
+              style={StyleSheet.flatten([styles.actionButton, snackbarConfig?.actionButtonStyles])}
+              {...snackbarConfig?.actionButtonOnPress}>
+              {snackbarConfig?.actionButtonItem}
+            </Button>
           </View>
         )}
       </View>

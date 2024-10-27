@@ -18,6 +18,7 @@ export const containedButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
 export const textButtonDefaultStyles = (theme: ThemeType): ViewStyle => {
   const baseStyles: ViewStyle = {
     ...containedButtonDefaultStyles(theme),
+    elevation: 0,
     backgroundColor: 'transparent',
   };
 
