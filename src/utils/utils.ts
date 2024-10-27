@@ -54,6 +54,8 @@ export const getElemTopPosition = ({
 };
 
 export const screenHeight = Dimensions.get('window').height;
+const { width } = Dimensions.get('window');
+export const isTablet = width >= 650;
 
 export const getVariant = ({ variant, theme }: GetVariantArgs): string => {
   if (variant === 'primary') return theme.colors.primary[500];
@@ -63,4 +65,8 @@ export const getVariant = ({ variant, theme }: GetVariantArgs): string => {
   else if (variant === 'success') return theme.colors.green[500];
   else if (variant === 'warning') return theme.colors.yellow[500];
   return theme.colors.secondary[500];
+};
+
+export const maxLength = function (text: string, maxLength: number): string {
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 };

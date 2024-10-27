@@ -119,7 +119,7 @@ export interface RadioProps extends ViewProps, BaseInterface {
   /**
    * Styles for the container holding the start adornment
    */
-  startAdornmentContainerStyles?: StyleProp<ViewProps>;
+  startAdornmentContainerStyles?: StyleProp<ViewStyle>;
   /**
    * Content to display at the end of the radio button
    */
@@ -127,7 +127,7 @@ export interface RadioProps extends ViewProps, BaseInterface {
   /**
    * Styles for the container holding the end adornment
    */
-  endAdornmentContainerStyles?: StyleProp<ViewProps>;
+  endAdornmentContainerStyles?: StyleProp<ViewStyle>;
 }
 
 export const Radio = React.forwardRef<View, RadioProps>(
@@ -303,3 +303,6 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
     />
   );
 };
+
+Radio.displayName = 'Radio';
+RadioCircle.displayName = 'RadioCircle';

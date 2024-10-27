@@ -33,10 +33,6 @@ export const gutter = <T extends keyof TextGutter, U extends StylePalette[T]>(pr
   return { [property]: value };
 };
 
-export const maxLength = function (text: string, maxLength: number): string {
-  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
-};
-
 export const generateTextStyles = ({
   theme,
   variation,

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useTheme } from '../../libraries';
 import { generateElementStyles } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
@@ -15,7 +15,7 @@ export const Button = React.forwardRef<TouchableWithoutFeedback, ButtonProps>(
   ) => {
     const { theme } = useTheme();
 
-    const styles = useMemo(
+    const baseButtonStyles = useMemo(
       () =>
         getButtonStyles({
           theme,
@@ -29,7 +29,11 @@ export const Button = React.forwardRef<TouchableWithoutFeedback, ButtonProps>(
     );
 
     return (
-      <BaseButton disabled={loading} ref={ref} {...props} style={[styles, sx && generateElementStyles(sx), style]}>
+      <BaseButton
+        disabled={loading}
+        ref={ref}
+        {...props}
+        style={StyleSheet.flatten([baseButtonStyles, sx && generateElementStyles(sx), style])}>
         {loading ? (
           <ActivityIndicator />
         ) : (
