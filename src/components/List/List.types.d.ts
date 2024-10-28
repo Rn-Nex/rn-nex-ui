@@ -88,6 +88,16 @@ export interface ListItemProps extends BaseButtonProps {
    * Custom color for selected list element
    */
   selectedColor?: ColorValue;
+
+  /**
+   * Remove the bottom spacing
+   */
+  disableBottomSpacing?: boolean;
+
+  /**
+   * Different types of bottom spacing
+   */
+  bottomSpacingType?: 'small' | 'medium' | 'large';
 }
 
 /**
