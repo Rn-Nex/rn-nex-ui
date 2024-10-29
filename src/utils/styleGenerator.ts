@@ -15,13 +15,6 @@ import { styles } from '../libraries';
 export const generateStyle = <T extends KeyOfStylePalette>({ propertyName, value }: StyleEntry<T>) =>
   propertyName && value !== undefined ? { [propertyName]: value } : {};
 
-/**
- * Define a helper function to create autocomplete values for property names
- */
-export const createPropertyName = <T extends KeyOfStylePalette>(propertyName: T): T => {
-  return propertyName;
-};
-
 export const generateSortStyles = (args: StylePalette, elementPropertyName: keyof typeof styles) => {
   const propertyName = styles[elementPropertyName];
   if (!propertyName) return;
