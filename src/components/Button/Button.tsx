@@ -10,30 +10,36 @@ import { getButtonStyles } from './utils';
 
 export const Button = React.forwardRef<TouchableWithoutFeedback, ButtonProps>(
   (
-    { children, style, sx, variation, disabled, fullWidth, disableElevation, buttonColor, loading, label, labelProps, ...props },
+    {
+      children,
+      style,
+      sx,
+      variation,
+      disabled,
+      fullWidth,
+      disableElevation,
+      buttonColor,
+      loading,
+      label,
+      labelProps,
+      square = false,
+      ...props
+    },
     ref,
   ) => {
     const { theme } = useTheme();
 
-    const baseButtonStyles = useMemo(
-      () =>
-        getButtonStyles({
-          theme,
-          variation,
-          fullWidth,
-          disableElevation,
-          disabled,
-          buttonColor,
-        }),
-      [theme, variation, fullWidth, disableElevation, disabled, buttonColor],
-    );
+    const baseButtonStyles = useMemo(() => {
+      const styles = getButtonStyles({ theme, variation, fullWidth, disableElevation, disabled, buttonColor, square });
+      return StyleSheet.create({ generated: styles });
+    }, [theme, variation, fullWidth, disableElevation, disabled, buttonColor, square]);
 
     return (
       <BaseButton
-        disabled={loading}
+        disabled={loading || disabled}
         ref={ref}
         {...props}
-        style={StyleSheet.flatten([baseButtonStyles, sx && generateElementStyles(sx), style])}>
+        style={StyleSheet.flatten([baseButtonStyles.generated, sx && generateElementStyles(sx), style])}>
         {loading ? (
           <ActivityIndicator />
         ) : (

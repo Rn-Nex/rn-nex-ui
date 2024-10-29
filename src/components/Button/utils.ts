@@ -89,24 +89,23 @@ function getButtonBackgroundColor(color: ButtonColorTypes, theme: ThemeType): Pi
   }
 }
 
-export const getButtonStyles = (args: GetButtonStylesProps): ViewStyle => {
-  let style = buttonVariationStyles(args.theme, args?.variation || 'contained');
-
-  if (args?.fullWidth) {
-    style.width = '100%';
-  }
-
-  if (args?.disableElevation) {
-    style.elevation = 0;
-  }
-
-  if (args?.buttonColor) {
-    style = { ...style, ...getButtonBackgroundColor(args.buttonColor, args.theme) };
-  }
-
-  if (args?.disabled) {
-    return { ...style, ...disabledStyles };
-  }
+export const getButtonStyles = ({
+  theme,
+  fullWidth,
+  disableElevation,
+  buttonColor,
+  disabled,
+  square,
+  variation = 'contained',
+}: GetButtonStylesProps): ViewStyle => {
+  const style: ViewStyle = {
+    ...buttonVariationStyles(theme, variation),
+    ...(fullWidth && { width: '100%' }),
+    ...(disableElevation && { elevation: 0 }),
+    ...(buttonColor && getButtonBackgroundColor(buttonColor, theme)),
+    ...(disabled && disabledStyles),
+    ...(square && { borderRadius: 0 }),
+  };
 
   return style;
 };

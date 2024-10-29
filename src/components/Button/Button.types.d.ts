@@ -95,8 +95,18 @@ export interface ButtonProps extends BaseButtonProps {
    * show the loading indicator when the button is clicked
    */
   loading?: boolean;
+  /**
+   * Button label
+   */
   label?: string;
+  /**
+   * Custom props for button label component
+   */
   labelProps?: Omit<TextProps, 'children'>;
+  /**
+   * Change the button radius
+   */
+  square?: boolean;
 }
 
 /**

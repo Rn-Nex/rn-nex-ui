@@ -88,6 +88,7 @@ export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonP
         onPress={buttonPressHandler}
         onLongPress={buttonLongPressHandler}
         onLayout={buttonLayoutHandler}
+        disabled={disabled}
         {...props}>
         <AnimatedView
           pointerEvents="box-only"
