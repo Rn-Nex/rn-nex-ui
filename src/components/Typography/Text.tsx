@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import { Text as RnText } from 'react-native';
+import { Animated, Text as RnText, StyleSheet } from 'react-native';
 import { useTheme } from '../../libraries';
+import { maxLength as maxLengthUtile } from '../../utils';
 import { TextProps } from './Text.types';
 import { generateTextStyles } from './utils';
-import { maxLength as maxLengthUtile } from '../../utils';
 
 export const Text = React.forwardRef<RnText, TextProps>(
   (
@@ -18,8 +18,9 @@ export const Text = React.forwardRef<RnText, TextProps>(
       activeColor,
       style,
       sx,
-      disabled = false,
       mode,
+      color,
+      disabled = false,
       ...props
     },
     ref,
@@ -27,8 +28,23 @@ export const Text = React.forwardRef<RnText, TextProps>(
     const { theme } = useTheme();
 
     const textStyles = useMemo(
-      () => generateTextStyles({ theme, variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, mode }),
-      [theme, variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, mode],
+      () =>
+        StyleSheet.create({
+          generated: generateTextStyles({
+            theme,
+            variation,
+            gutterBottom,
+            isActive,
+            activeColor,
+            disabled,
+            error,
+            errorColor,
+            sx,
+            mode,
+            color,
+          }),
+        }),
+      [theme, variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, mode, color],
     );
 
     const renderedChildren = useMemo(() => {
@@ -39,9 +55,9 @@ export const Text = React.forwardRef<RnText, TextProps>(
     }, [children, maxLength]);
 
     return (
-      <RnText ref={ref} style={[textStyles, style]} {...props}>
+      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles.generated, style])} {...props}>
         {renderedChildren}
-      </RnText>
+      </Animated.Text>
     );
   },
 );

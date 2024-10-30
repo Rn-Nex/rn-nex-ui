@@ -1,8 +1,7 @@
 import { TextStyle } from 'react-native';
-import { StylePalette } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
-import { TextGutter, TextStylesArgs, TextVariation } from './Text.types';
-import { generateElementStyles } from '../../utils';
+import { generateElementStyles, gutter } from '../../utils';
+import { TextStylesArgs, TextVariation } from './Text.types';
 
 export const textFontVariation = function (variation: TextVariation, theme: ThemeType) {
   switch (variation) {
@@ -29,10 +28,6 @@ export const textFontVariation = function (variation: TextVariation, theme: Them
   }
 };
 
-export const gutter = <T extends keyof TextGutter, U extends StylePalette[T]>(property: T, value: U): TextGutter => {
-  return { [property]: value };
-};
-
 export const generateTextStyles = ({
   theme,
   variation,
@@ -44,44 +39,22 @@ export const generateTextStyles = ({
   errorColor,
   mode: textThemeMode,
   sx,
+  color,
 }: TextStylesArgs): TextStyle => {
-  let styles: TextStyle = {};
-
   const {
-    colors: { mode },
+    colors: { mode, secondary, red },
   } = theme;
 
-  if (mode === 'dark' && !textThemeMode) {
-    styles = { ...styles, color: 'white' };
-  } else if (textThemeMode === 'light') {
-    styles = { ...styles, color: 'white' };
-  } else if (textThemeMode === 'dark') {
-    styles = { ...styles, color: 'black' };
-  }
+  const baseColor =
+    (!textThemeMode && mode === 'dark') || textThemeMode === 'light' ? 'white' : textThemeMode === 'dark' ? 'black' : undefined;
 
-  if (variation) {
-    styles = { ...styles, ...textFontVariation(variation, theme) };
-  }
-
-  if (gutterBottom) {
-    styles = { ...styles, ...gutter('marginBottom', 10) };
-  }
-
-  if (isActive) {
-    styles = { ...styles, color: activeColor || theme.colors.secondary[200] };
-  }
-
-  if (disabled) {
-    styles = { ...styles, opacity: 0.3 };
-  }
-
-  if (error) {
-    styles = { ...styles, color: errorColor || theme.colors.red[600] };
-  }
-
-  if (sx) {
-    styles = { ...styles, ...generateElementStyles(sx) };
-  }
-
-  return styles;
+  return {
+    color: color || baseColor,
+    ...(variation ? textFontVariation(variation, theme) : {}),
+    ...(gutterBottom ? gutter('marginBottom', 10) : {}),
+    ...(isActive ? { color: activeColor || secondary[200] } : {}),
+    ...(disabled ? { opacity: 0.3 } : {}),
+    ...(error ? { color: errorColor || red[600] } : {}),
+    ...(sx ? generateElementStyles(sx) : {}),
+  };
 };

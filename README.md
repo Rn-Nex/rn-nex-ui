@@ -1540,14 +1540,6 @@ Interface representing gutter styles for text.
 - `paddingLeft?: number`: Left padding for the text component.
 - `paddingRight?: number`: Right padding for the text component.
 
-### `AnimatedTextProps`
-
-Interface for animated text component properties.
-
-This component extends the native `Animated.Text` component and inherits its props.
-
-These props allow you to customize the appearance, behavior, and styling of text components in your React Native applications.
-
 ### Example
 
 ```tsx

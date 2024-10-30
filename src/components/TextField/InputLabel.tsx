@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Animated, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { useTheme } from '../../libraries';
-import { AnimatedText, Text } from '../Typography';
+import { Text } from '../Typography';
 import { InputLabelProps } from './Input.types';
 import { labelTextStyles, labelTransformStyle } from './TextField.style';
 import { PLACEHOLDER_OUTLINE_LEFT_POSITION, TEXT_FONT_DEFAULT_HEIGHT } from './constants';
@@ -47,13 +47,13 @@ export const InputLabel: React.FC<InputLabelProps> = function ({
 
   return (
     <Animated.View style={[styles, labelContainerStyles]}>
-      <AnimatedText onLayout={onTextLayoutHandler}>
+      <Animated.Text onLayout={onTextLayoutHandler}>
         {textLayoutRect ? (
           <Text variation="h4" disabled={editable} style={[labelStyles, style]} {...props}>
             {placeholder}
           </Text>
         ) : null}
-      </AnimatedText>
+      </Animated.Text>
     </Animated.View>
   );
 };
