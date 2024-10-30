@@ -51,6 +51,7 @@ export interface ColorShades {
  * Type representing the theme, based on the initial light theme.
  */
 export type Theme = typeof initialLightTheme;
+export type ThemeKeys = keyof Omit<Theme, 'mode'>;
 
 /**
  * Enum-like type representing theme modes.
@@ -81,18 +82,21 @@ export type ThemeType = {
   };
 };
 
+type InnerPartial<T> = {
+  [K in keyof T]?: T[k] extends object ? Partial<T[K]> : T[K];
+};
+
+export type CreateThemeType = Omit<InnerPartial<ThemeType>, 'mode'>;
+export type CreateColorShadesInterface = { shades: Partial<ColorShades>; themePropertyName: ThemeKeys };
+
 /**
  * Interface representing the theme context, including the current theme and a function to change the theme mode.
  */
-export interface ThemeInterface<T extends {} = {}> {
+export interface ThemeInterface<T extends {}> {
   /**
    * The current theme, extended with any additional properties
    */
   theme: ThemeType & T;
-  /**
-   * Function to change the theme mode
-   */
-  changeTheme: (mode: ThemMode) => void;
 }
 
 /**
@@ -118,8 +122,4 @@ export interface ThemeProviderProps<T extends Object> {
    * Optional dark theme, extended with additional properties
    */
   darkTheme?: ThemeType & T;
-  /**
-   * Initial theme mode, defaults to 'light'
-   */
-  mode?: ThemMode;
 }

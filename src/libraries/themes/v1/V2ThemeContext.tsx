@@ -1,8 +1,9 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import _ from 'lodash';
+import React, { useContext, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 import { initialDarkTheme, initialLightTheme } from './colors';
 import { font, fontWeight, latterSpacing, lineHeight, spacing } from './sizes';
-import { ThemMode, ThemeInterface, ThemeProviderProps } from './theme';
+import { ColorShades, CreateColorShadesInterface, CreateThemeType, ThemMode, ThemeInterface, ThemeProviderProps } from './theme';
 
 export const themeSpaces = {
   font: font,
@@ -24,20 +25,38 @@ export const defaultDarkTheme = {
 
 export const ThemeContext = React.createContext<ThemeInterface<any> | undefined>(undefined);
 
-export const ThemeProvider = <T extends Object>({ children, lightTheme, darkTheme, mode = 'light' }: ThemeProviderProps<T>) => {
-  const [themeMode, setThemeMode] = useState<string>(mode);
+/**
+ * Function to create color shades by merging default theme colors with custom shades
+ * @returns ColorShades
+ */
+export const createColorShades = ({ shades, themePropertyName }: CreateColorShadesInterface): ColorShades => {
+  return { ...defaultLightTheme.colors[themePropertyName], ...shades };
+};
+
+/**
+ * Function to create a theme based on the specified mode (light or dark) and additional theme configurations.
+ * Merges the base theme (either light or dark) with the custom theme configurations
+ * @param mode ThemMode
+ * @param theme CreateThemeType
+ * @returns ThemeInterface
+ */
+export const createTheme = function (mode: ThemMode, theme: CreateThemeType) {
+  const isLightTheme = mode === 'light';
+  const generatedTheme = { mode, ..._.merge(isLightTheme ? defaultLightTheme : defaultDarkTheme, theme) };
+  return generatedTheme;
+};
+
+export const ThemeProvider = <T extends Object>({ children, lightTheme, darkTheme }: ThemeProviderProps<T>) => {
   const colorScheme = useColorScheme();
 
   const initialTheme = useMemo(() => {
-    if (themeMode === 'dark' || colorScheme === 'dark') {
+    if (colorScheme === 'dark') {
       return darkTheme || defaultDarkTheme;
     }
     return lightTheme || defaultLightTheme;
-  }, [themeMode, lightTheme, darkTheme, mode, colorScheme]);
+  }, [lightTheme, darkTheme, colorScheme]);
 
-  const changeTheme = useCallback((mode: ThemMode) => setThemeMode(mode), []);
-
-  return <ThemeContext.Provider value={{ theme: initialTheme, changeTheme }}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={{ theme: initialTheme }}>{children}</ThemeContext.Provider>;
 };
 
 export const useTheme = <T extends {}>(): ThemeInterface<T> => {

@@ -17,10 +17,10 @@ export const Button = React.forwardRef<View, ButtonProps>(
       disabled,
       fullWidth,
       disableElevation,
-      buttonColor,
       loading,
       label,
       labelProps,
+      buttonColor = 'secondary',
       variation = 'contained',
       square = false,
       ...props
