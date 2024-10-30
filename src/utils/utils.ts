@@ -1,5 +1,6 @@
 import { Dimensions } from 'react-native';
 import { ThemeType } from '../libraries/themes/v1/theme';
+import { SpacingStyle, StylePalette } from '../libraries/style/styleTypes';
 
 export const OFFSET = 20;
 export const WRAPPER_BOTTOM_OFFSET = 50;
@@ -69,4 +70,8 @@ export const getVariant = ({ variant, theme }: GetVariantArgs): string => {
 
 export const maxLength = function (text: string, maxLength: number): string {
   return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};
+
+export const gutter = <T extends keyof SpacingStyle, U extends StylePalette[T]>(property: T, value: U): SpacingStyle => {
+  return { [property]: value };
 };
