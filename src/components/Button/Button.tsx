@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { useTheme } from '../../libraries';
+import { StyleSheet, View } from 'react-native';
+import { grey, useTheme } from '../../libraries';
 import { generateElementStyles } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
 import { Text } from '../Typography';
@@ -8,37 +8,43 @@ import { BaseButton } from './BaseButton';
 import { ButtonProps } from './Button.types';
 import { getButtonStyles } from './utils';
 
-export const Button = React.forwardRef<TouchableWithoutFeedback, ButtonProps>(
+export const Button = React.forwardRef<View, ButtonProps>(
   (
-    { children, style, sx, variation, disabled, fullWidth, disableElevation, buttonColor, loading, label, labelProps, ...props },
+    {
+      children,
+      style,
+      sx,
+      disabled,
+      fullWidth,
+      disableElevation,
+      buttonColor,
+      loading,
+      label,
+      labelProps,
+      variation = 'contained',
+      square = false,
+      ...props
+    },
     ref,
   ) => {
     const { theme } = useTheme();
 
-    const baseButtonStyles = useMemo(
-      () =>
-        getButtonStyles({
-          theme,
-          variation,
-          fullWidth,
-          disableElevation,
-          disabled,
-          buttonColor,
-        }),
-      [theme, variation, fullWidth, disableElevation, disabled, buttonColor],
-    );
+    const baseButtonStyles = useMemo(() => {
+      const styles = getButtonStyles({ theme, variation, fullWidth, disableElevation, disabled, buttonColor, square });
+      return StyleSheet.create({ generated: styles });
+    }, [theme, variation, fullWidth, disableElevation, disabled, buttonColor, square]);
 
     return (
       <BaseButton
-        disabled={loading}
+        disabled={loading || disabled}
         ref={ref}
         {...props}
-        style={StyleSheet.flatten([baseButtonStyles, sx && generateElementStyles(sx), style])}>
+        style={StyleSheet.flatten([baseButtonStyles.generated, sx && generateElementStyles(sx), style])}>
         {loading ? (
           <ActivityIndicator />
         ) : (
           children || (
-            <Text mode="light" {...labelProps}>
+            <Text sx={{ color: variation === 'contained' ? grey[50] : theme.colors.grey[900] }} {...labelProps}>
               {label}
             </Text>
           )
