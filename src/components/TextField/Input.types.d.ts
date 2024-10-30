@@ -39,6 +39,11 @@ export interface BaseInputProps extends TextInputProps {
    * the opacity styles won't be applied when the input is non-editable
    */
   ignoreOpacityOnNonEditable?: boolean;
+
+  /**
+   * Change the shape of the input
+   */
+  square?: boolean;
 }
 
 /**
@@ -104,6 +109,11 @@ export interface TextFieldProps extends BaseInputProps {
    * Additional styles for the component.
    */
   sx?: BaseStyles;
+
+  /**
+   * Hide the text input label
+   */
+  hideLabel?: boolean;
 }
 
 /**
@@ -113,7 +123,7 @@ export interface OutlineProps
   extends React.ComponentPropsWithRef<typeof View>,
     Pick<
       BaseInputProps,
-      'error' | 'activeColor' | 'isFocused' | 'errorColor' | 'variant' | 'editable' | 'ignoreOpacityOnNonEditable'
+      'error' | 'activeColor' | 'isFocused' | 'errorColor' | 'variant' | 'editable' | 'ignoreOpacityOnNonEditable' | 'square'
     > {}
 
 /**
@@ -134,7 +144,7 @@ export interface LabelTransformStyleProps
 export interface OutlineStyles
   extends Pick<
     OutlineProps,
-    'error' | 'errorColor' | 'isFocused' | 'activeColor' | 'editable' | 'variant' | 'ignoreOpacityOnNonEditable'
+    'error' | 'errorColor' | 'isFocused' | 'activeColor' | 'editable' | 'variant' | 'ignoreOpacityOnNonEditable' | 'square'
   > {
   theme: ThemeType;
 }
