@@ -62,6 +62,7 @@ export type ThemMode = 'dark' | 'light';
  * Type representing the overall theme structure, including colors and various design metrics.
  */
 export type ThemeType = {
+  mode: ThemMode;
   colors: Theme;
   font: {
     [key in keyof typeof font]: number;
