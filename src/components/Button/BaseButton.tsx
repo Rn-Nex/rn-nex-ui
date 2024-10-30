@@ -1,12 +1,19 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { Animated, GestureResponderEvent, LayoutChangeEvent, LayoutRectangle, TouchableWithoutFeedback } from 'react-native';
+import {
+  Animated,
+  GestureResponderEvent,
+  LayoutChangeEvent,
+  LayoutRectangle,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import { generateElementStyles } from '../../utils';
 import { AnimatedView } from '../Box';
 import { Ripple } from '../Ripple';
 import { RippleInterface } from '../Ripple/Ripple.types';
 import { BaseButtonProps } from './Button.types';
 
-export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonProps>(
+export const BaseButton = React.forwardRef<View, BaseButtonProps>(
   (
     {
       disableRipple,
@@ -16,11 +23,11 @@ export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonP
       rippleEdge,
       style,
       sx,
-      scaleAnimationValue = 0.99,
-      disableScaleAnimation = false,
       onLayout: onLayoutHandler,
       onPress: onPressHandler,
       onLongPress: onLongPressHandler,
+      scaleAnimationValue = 0.99,
+      disableScaleAnimation = false,
       ...props
     },
     ref,
@@ -83,20 +90,21 @@ export const BaseButton = React.forwardRef<TouchableWithoutFeedback, BaseButtonP
     );
 
     return (
-      <TouchableWithoutFeedback
-        ref={ref}
-        onPress={buttonPressHandler}
-        onLongPress={buttonLongPressHandler}
-        onLayout={buttonLayoutHandler}
-        disabled={disabled}
-        {...props}>
-        <AnimatedView
-          pointerEvents="box-only"
-          style={[sx && generateElementStyles(sx), { transform: [{ scale: scaleValue }] }, style]}>
-          {children}
-          {disableRipple ? null : <Ripple ref={rippleRef} {...rippleProps} />}
-        </AnimatedView>
-      </TouchableWithoutFeedback>
+      <View ref={ref}>
+        <TouchableWithoutFeedback
+          onPress={buttonPressHandler}
+          onLongPress={buttonLongPressHandler}
+          onLayout={buttonLayoutHandler}
+          disabled={disabled}
+          {...props}>
+          <AnimatedView
+            pointerEvents="box-only"
+            style={[sx && generateElementStyles(sx), { transform: [{ scale: scaleValue }] }, style]}>
+            {children}
+            {disableRipple ? null : <Ripple ref={rippleRef} {...rippleProps} />}
+          </AnimatedView>
+        </TouchableWithoutFeedback>
+      </View>
     );
   },
 );

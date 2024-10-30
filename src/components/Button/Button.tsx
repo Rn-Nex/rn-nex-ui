@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { useTheme } from '../../libraries';
+import { StyleSheet, View } from 'react-native';
+import { grey, useTheme } from '../../libraries';
 import { generateElementStyles } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
 import { Text } from '../Typography';
@@ -8,13 +8,12 @@ import { BaseButton } from './BaseButton';
 import { ButtonProps } from './Button.types';
 import { getButtonStyles } from './utils';
 
-export const Button = React.forwardRef<TouchableWithoutFeedback, ButtonProps>(
+export const Button = React.forwardRef<View, ButtonProps>(
   (
     {
       children,
       style,
       sx,
-      variation,
       disabled,
       fullWidth,
       disableElevation,
@@ -22,6 +21,7 @@ export const Button = React.forwardRef<TouchableWithoutFeedback, ButtonProps>(
       loading,
       label,
       labelProps,
+      variation = 'contained',
       square = false,
       ...props
     },
@@ -44,7 +44,7 @@ export const Button = React.forwardRef<TouchableWithoutFeedback, ButtonProps>(
           <ActivityIndicator />
         ) : (
           children || (
-            <Text mode="light" {...labelProps}>
+            <Text sx={{ color: variation === 'contained' ? grey[50] : theme.colors.grey[900] }} {...labelProps}>
               {label}
             </Text>
           )
