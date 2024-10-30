@@ -1,30 +1,48 @@
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
-import { OutlineProps } from './Input.types';
+import { StyleSheet, View } from 'react-native';
 import { useTheme } from '../../libraries';
+import { OutlineProps } from './Input.types';
 import { inputOutlineVariationStyles, outlineStyles } from './TextField.style';
 
 export const Outline = React.forwardRef<View, OutlineProps>(
   (
-    { error, style, isFocused, activeColor, errorColor, editable, ignoreOpacityOnNonEditable, variant = 'outlined', ...props },
+    {
+      error,
+      style,
+      isFocused,
+      activeColor,
+      errorColor,
+      editable,
+      ignoreOpacityOnNonEditable,
+      square,
+      variant = 'outlined',
+      ...props
+    },
     ref,
   ) => {
     const { theme } = useTheme();
-    const styles = useMemo(
+    const outlineGeneratedStyles = useMemo(
       () =>
-        outlineStyles({
-          error,
-          errorColor,
-          isFocused,
-          activeColor,
-          theme,
-          editable,
-          variant,
-          ignoreOpacityOnNonEditable,
+        StyleSheet.create({
+          generated: {
+            ...inputOutlineVariationStyles(variant, theme),
+            ...outlineStyles({
+              error,
+              errorColor,
+              isFocused,
+              activeColor,
+              theme,
+              editable,
+              variant,
+              ignoreOpacityOnNonEditable,
+              square,
+            }),
+          },
         }),
-      [error, errorColor, isFocused, activeColor, theme, editable, variant, ignoreOpacityOnNonEditable],
+      [error, errorColor, isFocused, activeColor, theme, editable, variant, ignoreOpacityOnNonEditable, square],
     );
 
-    return <View ref={ref} {...props} style={[inputOutlineVariationStyles(variant, theme), styles, style]} />;
+    return <View ref={ref} {...props} style={StyleSheet.flatten([outlineGeneratedStyles.generated, style])} />;
   },
 );
+Outline.displayName = 'TextFiledOutline';

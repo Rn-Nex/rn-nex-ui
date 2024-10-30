@@ -10,15 +10,15 @@ import {
 import { generateElementStyles } from '../../utils';
 import { Box } from '../Box';
 import { BaseInput } from './BaseInput';
-import { InputLabel } from './InputLabel';
-import { Outline } from './InputOutline';
-import { TextFieldProps } from './Input.types';
 import {
   LABELED_ANIMATION_DURATION,
   PLACEHOLDER_FILED_INPUT_LEFT_POSITION,
   PLACEHOLDER_OUTLINE_LEFT_POSITION,
   TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
 } from './constants';
+import { TextFieldProps } from './Input.types';
+import { InputLabel } from './InputLabel';
+import { Outline } from './InputOutline';
 import { textInputStyles } from './TextField.style';
 
 export const TextField: React.FC<TextFieldProps> = ({
@@ -39,6 +39,8 @@ export const TextField: React.FC<TextFieldProps> = ({
   onFocus: onTextInputFocusHandler,
   onBlur: onTextInputBlurHandler,
   onLayout: onTextInputLayoutHandler,
+  hideLabel = false,
+  square = false,
   editable = true,
   placeholder = 'Outlined',
   variant = 'outlined',
@@ -116,21 +118,24 @@ export const TextField: React.FC<TextFieldProps> = ({
       style={[sx && generateElementStyles(sx), style]}
       isFocused={isFocused}
       error={error}
-      ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}>
-      <InputLabel
-        disabled={!editable}
-        variant={variant}
-        isActive={isFocused}
-        activeColor={activeColor}
-        errorColor={errorColor}
-        placeholder={placeholder}
-        labeled={inputLabeledAnimatedValue}
-        translateYAnimatedPosition={getLabelTranslatePos()}
-        placeholderLeftPosition={placeHolderLeftPos}
-        error={error}
-        ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
-        {...inputLabelProps}
-      />
+      ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
+      square={square}>
+      {!hideLabel && (
+        <InputLabel
+          disabled={!editable}
+          variant={variant}
+          isActive={isFocused}
+          activeColor={activeColor}
+          errorColor={errorColor}
+          placeholder={placeholder}
+          labeled={inputLabeledAnimatedValue}
+          translateYAnimatedPosition={getLabelTranslatePos()}
+          placeholderLeftPosition={placeHolderLeftPos}
+          error={error}
+          ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
+          {...inputLabelProps}
+        />
+      )}
       {startAdornment && (
         <Box style={{ marginRight: 8 }} {...startAdornmentContainerProps}>
           {startAdornment}
@@ -144,6 +149,7 @@ export const TextField: React.FC<TextFieldProps> = ({
         onLayout={onLayout}
         style={[textStyles, inputStyles]}
         variant={variant}
+        placeholder={hideLabel ? placeholder : undefined}
         {...props}
       />
       {endAdornment && (

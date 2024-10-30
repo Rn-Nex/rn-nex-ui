@@ -1,6 +1,11 @@
 import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
-import { INPUT_DEFAULT_BORDER_WIDTH, INPUT_DEFAULT_HEIGHT, TRANSLATE_Y_ANIMATED_DEFAULT_POSITION } from './constants';
+import {
+  INPUT_DEFAULT_BORDER_RADIUS,
+  INPUT_DEFAULT_BORDER_WIDTH,
+  INPUT_DEFAULT_HEIGHT,
+  TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
+} from './constants';
 import {
   BaseInputStylesProps,
   LabelTextStylesProps,
@@ -59,29 +64,28 @@ export const outlineStyles = ({
   editable,
   variant,
   ignoreOpacityOnNonEditable,
-}: OutlineStyles): StyleProp<ViewStyle> => {
-  let styles: ViewStyle = {
+  square,
+}: OutlineStyles): ViewStyle => {
+  const baseStyles: ViewStyle = {
     borderWidth: variant === 'outlined' ? 0.6 : 0,
     borderColor: theme.colors.grey[400],
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    opacity: editable || ignoreOpacityOnNonEditable ? 1 : 0.6,
+    borderRadius: square ? 0 : INPUT_DEFAULT_BORDER_RADIUS,
   };
 
-  if (error) {
-    styles = { ...styles, borderColor: errorColor ? errorColor : theme.colors.red[500] };
-  } else if (isFocused) {
-    styles = { ...styles, borderColor: activeColor ? activeColor : theme.colors.lightBlue[500] };
-  }
+  const borderColor = error
+    ? errorColor || theme.colors.red[500]
+    : isFocused
+      ? activeColor || theme.colors.lightBlue[500]
+      : theme.colors.grey[400];
 
-  if (!editable) {
-    styles = { ...styles, opacity: ignoreOpacityOnNonEditable ? 1 : 0.6 };
-  }
-
-  return styles;
+  return { ...baseStyles, borderColor };
 };
 
-export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme: ThemeType): StyleProp<ViewStyle> => {
+export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme: ThemeType): ViewStyle => {
   const outlineDefaultStyles: ViewStyle = {
     width: '100%',
     borderRadius: 6,
@@ -92,27 +96,20 @@ export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme
     backgroundColor: 'transparent',
   };
 
-  if (variation === 'outlined') return outlineDefaultStyles;
-  else if (variation === 'filled')
-    return {
-      ...outlineDefaultStyles,
-      borderWidth: 0,
-      borderColor: 'transparent',
-      backgroundColor: theme.colors.grey[500],
-      borderBottomRightRadius: 0,
-      borderBottomLeftRadius: 0,
-      borderBottomWidth: INPUT_DEFAULT_BORDER_WIDTH,
-    };
-  else if (variation === 'standard')
-    return {
-      ...outlineDefaultStyles,
-      borderWidth: 0,
-      borderColor: 'transparent',
-      borderBottomRightRadius: 0,
-      borderBottomLeftRadius: 0,
-      borderBottomWidth: INPUT_DEFAULT_BORDER_WIDTH,
-    };
-  return outlineDefaultStyles;
+  switch (variation) {
+    case 'outlined':
+      return outlineDefaultStyles;
+    case 'filled':
+      return {
+        ...outlineDefaultStyles,
+        borderWidth: 0,
+        borderColor: 'transparent',
+        backgroundColor: theme.colors.grey[500],
+        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: 0,
+        borderBottomWidth: INPUT_DEFAULT_BORDER_WIDTH,
+      };
+  }
 };
 
 export const labelTransformStyle = ({
