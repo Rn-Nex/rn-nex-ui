@@ -1,49 +1,18 @@
 import { initialLightTheme } from './colors';
 import { font, fontWeight, latterSpacing, lineHeight, spacing } from './sizes';
+import { themeDimensions } from './V2ThemeContext';
 
-/**
- * Interface representing a set of color shades.
- */
+/** Interface representing a set of color shades. */
 export interface ColorShades {
-  /**
-   * Very light shade
-   */
   50: string;
-  /**
-   * Light shade
-   */
   100: string;
-  /**
-   * Lighter shade
-   */
   200: string;
-  /**
-   * Light-medium shade
-   */
   300: string;
-  /**
-   * Medium shade
-   */
   400: string;
-  /**
-   * Medium-dark shade
-   */
   500: string;
-  /**
-   * Dark shade
-   */
   600: string;
-  /**
-   * Darker shade
-   */
   700: string;
-  /**
-   * Very dark shade
-   */
   800: string;
-  /**
-   * Deep dark shade
-   */
   900: string;
 }
 
@@ -59,40 +28,38 @@ export type ThemeKeys = keyof Omit<Theme, 'mode'>;
  */
 export type ThemMode = 'dark' | 'light';
 
+export type ThemeDimensions = {
+  font: typeof font;
+  spacing: typeof spacing;
+  latterSpacing: typeof latterSpacing;
+  lineHeight: typeof lineHeight;
+  fontWeight: typeof fontWeight;
+};
+
 /**
  * Type representing the overall theme structure, including colors and various design metrics.
  */
 export type ThemeType = {
   mode: ThemMode;
   colors: Theme;
-  font: {
-    [key in keyof typeof font]: number;
-  };
-  spacing: {
-    [key in keyof typeof spacing]: number;
-  };
-  latterSpacing: {
-    [key in keyof typeof latterSpacing]: number;
-  };
-  lineHeight: {
-    [key in keyof typeof lineHeight]: number;
-  };
-  fontWeight: {
-    [key in keyof typeof fontWeight]: number;
-  };
-};
+} & ThemeDimensions;
 
-type InnerPartial<T> = {
+export type ThemeSpacingType = typeof themeDimensions;
+
+export type InnerPartial<T> = {
   [K in keyof T]?: T[k] extends object ? Partial<T[K]> : T[K];
 };
 
-export type CreateThemeType = Omit<InnerPartial<ThemeType>, 'mode'>;
+export type CreateThemeType = Pick<InnerPartial<ThemeType>, 'colors'>;
+export type CreateThemeReturnValues = Pick<ThemeType, 'colors' | 'mode'>;
+export type CreateThemeDimensions = InnerPartial<ThemeDimensions>;
+export type CreateThemeDimensionsReturnValues = ThemeDimensions & InnerPartial<ThemeDimensions>;
 export type CreateColorShadesInterface = { shades: Partial<ColorShades>; themePropertyName: ThemeKeys };
 
 /**
  * Interface representing the theme context, including the current theme and a function to change the theme mode.
  */
-export interface ThemeInterface<T extends {}> {
+export interface ThemeInterface<T extends object> {
   /**
    * The current theme, extended with any additional properties
    */
@@ -117,9 +84,14 @@ export interface ThemeProviderProps<T extends Object> {
   /**
    * Optional light theme, extended with additional properties
    */
-  lightTheme?: ThemeType & T;
+  lightTheme?: Pick<ThemeType, 'mode' | 'colors'> & T;
   /**
    * Optional dark theme, extended with additional properties
    */
-  darkTheme?: ThemeType & T;
+  darkTheme?: Pick<ThemeType, 'mode' | 'colors'> & T;
+
+  /**
+   * Optional theme dimensions values
+   */
+  dimensions?: ThemeDimensions;
 }
