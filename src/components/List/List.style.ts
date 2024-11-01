@@ -2,29 +2,40 @@ import { StyleSheet, ViewStyle } from 'react-native';
 import { ListItemContainerStylesProps, ListItemTextStylesProps, ListStylesProps } from './List.types';
 
 export const styles = StyleSheet.create({
+  flexContainer: {
+    flexDirection: 'row',
+    width: '100%',
+  },
+  listItemInnerContainer: { flex: 1 },
   headerContainer: {
     paddingLeft: 10,
     paddingTop: 5,
     paddingBottom: 5,
   },
-  baseButton: { display: 'flex', flexDirection: 'row', minHeight: 50, flex: 1 },
+  baseButton: { display: 'flex', flexDirection: 'row', minHeight: 50 },
   listItemContainer: {
     display: 'flex',
     flexDirection: 'row',
-    flex: 1,
   },
   adornment: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 10,
+    minWidth: '15%',
   },
-  listItemIcon: { padding: 5, minWidth: '15%', minHeight: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  listItemIcon: {
+    minWidth: '12%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export const listStyles = ({ disablePadding }: ListStylesProps): ViewStyle => {
   let styles: ViewStyle = {
-    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   };
 
   if (!disablePadding) {
@@ -36,17 +47,36 @@ export const listStyles = ({ disablePadding }: ListStylesProps): ViewStyle => {
   return styles;
 };
 
-export const listItemContainerStyles = ({ selected, theme, selectedColor }: ListItemContainerStylesProps): ViewStyle => {
-  const styles: ViewStyle = {
-    backgroundColor: selected ? selectedColor || theme.colors.grey[500] : 'transparent',
+export const listItemContainerStyles = ({
+  selected,
+  theme,
+  selectedColor,
+  showOutline,
+  outlineWidth,
+  outlineColor,
+  showDefaultBg,
+  softRadius,
+}: ListItemContainerStylesProps): ViewStyle => {
+  let styles: ViewStyle = {
+    backgroundColor: selected ? selectedColor || theme.colors.grey[500] : showDefaultBg ? theme.colors.grey[50] : 'transparent',
   };
+
+  if (showOutline) {
+    styles.borderWidth = outlineWidth || 1;
+    styles.borderColor = outlineColor || theme.colors.grey[400];
+  }
+
+  if (softRadius) {
+    styles.borderRadius = 10;
+  }
+
   return styles;
 };
 
 export const listItemTextStyles = ({ disablePadding, alignItems }: ListItemTextStylesProps): ViewStyle => {
   let styles: ViewStyle = {
-    flex: 1,
     display: 'flex',
+    flex: 1,
     justifyContent: 'center',
     alignItems:
       alignItems === 'start'
@@ -61,8 +91,10 @@ export const listItemTextStyles = ({ disablePadding, alignItems }: ListItemTextS
   if (!disablePadding) {
     return {
       ...styles,
-      paddingHorizontal: 15,
-      paddingVertical: 5,
+      paddingLeft: 15,
+      paddingRight: 15,
+      paddingTop: 5,
+      paddingBottom: 5,
     };
   }
 

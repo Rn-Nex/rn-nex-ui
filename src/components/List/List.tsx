@@ -7,10 +7,10 @@ import { ListProps } from './List.types';
 
 export const List = React.forwardRef<View, ListProps>(
   ({ sx, style, subheader, children, subheaderProps, subheaderContainerStyles, disablePadding, ...props }, ref) => {
-    const listContainerStyles = useMemo(() => listStyles({ disablePadding }), [disablePadding]);
+    const listContainerStyles = useMemo(() => ({ generated: listStyles({ disablePadding }) }), [disablePadding]);
 
     return (
-      <Box sx={sx} style={[listContainerStyles, style]} ref={ref} {...props}>
+      <Box sx={sx} style={StyleSheet.flatten([listContainerStyles.generated, style])} ref={ref} {...props}>
         {subheader && (
           <Box
             sx={subheaderContainerStyles?.sx}
@@ -20,7 +20,7 @@ export const List = React.forwardRef<View, ListProps>(
             </Text>
           </Box>
         )}
-        {children}
+        <View style={[styles.container]}>{children}</View>
       </Box>
     );
   },

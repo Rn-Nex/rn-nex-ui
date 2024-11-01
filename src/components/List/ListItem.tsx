@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
 import { Box } from '../Box';
@@ -19,16 +19,33 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
       listContainerStyles,
       selected,
       selectedColor,
+      outlineColor,
+      softRadius = false,
+      showDefaultBg = false,
+      actionType = 'list',
       bottomSpacingType = 'medium',
       disableBottomSpacing = false,
+      showOutline = false,
+      outlineWidth = 0.5,
       ...props
     },
     ref,
   ) => {
     const { theme } = useTheme();
+
     const containerStyles = useMemo(
-      () => listItemContainerStyles({ selected, theme, selectedColor }),
-      [selected, theme, selectedColor],
+      () =>
+        listItemContainerStyles({
+          selected,
+          theme,
+          selectedColor,
+          showOutline,
+          outlineWidth,
+          outlineColor,
+          showDefaultBg,
+          softRadius,
+        }),
+      [selected, theme, selectedColor, showOutline, outlineWidth, outlineColor, showDefaultBg, softRadius],
     );
 
     const spacingStyles = useMemo(() => {
@@ -52,28 +69,59 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
       return baseStyles;
     }, [bottomSpacingType, disableBottomSpacing]);
 
+    const renderAdornment = useCallback(
+      (type: 'start' | 'end', adornment?: React.ReactNode) => {
+        const isStartAdornment = type === 'start';
+
+        if (!adornment) return null;
+        return (
+          <Box
+            sx={isStartAdornment ? startAdornmentContainerStyles?.sx : endAdornmentContainerStyles?.sx}
+            style={StyleSheet.flatten([
+              styles.adornment,
+              isStartAdornment ? startAdornmentContainerStyles?.style : endAdornmentContainerStyles?.style,
+            ])}>
+            {adornment}
+          </Box>
+        );
+      },
+      [startAdornment, endAdornment, startAdornmentContainerStyles, endAdornmentContainerStyles],
+    );
+
+    const renderListItem = useCallback(() => {
+      if (actionType === 'list') {
+        return (
+          <View style={[styles.flexContainer, styles.listItemInnerContainer]}>
+            {renderAdornment('start', startAdornment)}
+            <View style={{ flex: 1 }}>
+              <BaseButton style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
+                <View style={[styles.flexContainer]}>{children}</View>
+              </BaseButton>
+            </View>
+            {renderAdornment('end', endAdornment)}
+          </View>
+        );
+      } else if (actionType === 'root') {
+        return (
+          <View style={{ flex: 1 }}>
+            <BaseButton style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
+              <View style={[styles.flexContainer]}>
+                {renderAdornment('start', startAdornment)}
+                {children}
+                {renderAdornment('end', endAdornment)}
+              </View>
+            </BaseButton>
+          </View>
+        );
+      } else return null;
+    }, [actionType, startAdornment, endAdornment, props, style]);
+
     return (
       <Box
         sx={listContainerStyles?.sx}
         style={StyleSheet.flatten([styles.listItemContainer, spacingStyles, containerStyles, listContainerStyles?.style])}
         ref={ref}>
-        {startAdornment && (
-          <Box
-            sx={startAdornmentContainerStyles?.sx}
-            style={StyleSheet.flatten([styles.adornment, startAdornmentContainerStyles?.style])}>
-            {startAdornment}
-          </Box>
-        )}
-        <BaseButton style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
-          {children}
-        </BaseButton>
-        {endAdornment && (
-          <Box
-            sx={endAdornmentContainerStyles?.sx}
-            style={StyleSheet.flatten([styles.adornment, endAdornmentContainerStyles?.style])}>
-            {endAdornment}
-          </Box>
-        )}
+        {renderListItem()}
       </Box>
     );
   },

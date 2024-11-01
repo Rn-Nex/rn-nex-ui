@@ -10,10 +10,15 @@ export const ListItemText = React.forwardRef<View, ListItemTextProps>(
     { sx, style, primary, primaryLabelProps, secondary, secondaryLabelProps, disablePadding, alignItems = 'start', ...props },
     ref,
   ) => {
-    const styles = useMemo(() => listItemTextStyles({ disablePadding, alignItems }), [disablePadding, alignItems]);
+    const styles = useMemo(
+      () => ({
+        generated: listItemTextStyles({ disablePadding, alignItems }),
+      }),
+      [disablePadding, alignItems],
+    );
 
     return (
-      <Box sx={sx} ref={ref} style={[styles, style]} {...props}>
+      <Box sx={sx} ref={ref} style={[styles.generated, style]} {...props}>
         {primary && (
           <Text variation="h3" {...primaryLabelProps}>
             {primary}
