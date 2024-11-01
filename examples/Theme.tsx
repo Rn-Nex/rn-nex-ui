@@ -1,12 +1,47 @@
 import React from 'react';
-import { Box, ThemeProvider } from '../src';
+import { SafeAreaView, ScrollView } from 'react-native';
+import { Button, Container, ThemeProvider, createColorShades, createTheme, createThemeDimensions } from '../src';
 
-const App: React.FC = () => {
+const lightTheme = createTheme('light', {
+  colors: {
+    green: createColorShades({
+      shades: {
+        400: '#000000',
+      },
+      themePropertyName: 'green',
+    }),
+  },
+});
+
+const darkTheme = createTheme('light', {
+  colors: {
+    green: createColorShades({
+      shades: {
+        400: '#d54d4d',
+      },
+      themePropertyName: 'green',
+    }),
+  },
+});
+
+const themeDimensions = createThemeDimensions({
+  spacing: {
+    xs: 10,
+  },
+});
+
+function App(): React.JSX.Element {
   return (
-    <ThemeProvider>
-      <Box sx={{ f: 1, d: 'flex', content: 'center', items: 'center', px: 10 }} />
+    <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme} dimensions={themeDimensions}>
+      <SafeAreaView>
+        <ScrollView>
+          <Container>
+            <Button label="Theme" buttonColor="success" />
+          </Container>
+        </ScrollView>
+      </SafeAreaView>
     </ThemeProvider>
   );
-};
+}
 
 export default App;
