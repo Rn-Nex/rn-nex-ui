@@ -42,7 +42,7 @@ export const Outline = React.forwardRef<View, OutlineProps>(
       [error, errorColor, isFocused, activeColor, theme, editable, variant, ignoreOpacityOnNonEditable, square],
     );
 
-    return <View ref={ref} {...props} style={StyleSheet.flatten([outlineGeneratedStyles.generated, style])} />;
+    return <View ref={ref} style={StyleSheet.flatten([outlineGeneratedStyles.generated, style])} {...props} />;
   },
 );
 Outline.displayName = 'TextFiledOutline';

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, LayoutChangeEvent, StyleSheet, TouchableWithoutFeedback, ViewStyle } from 'react-native';
+import { Animated, LayoutChangeEvent, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
@@ -87,108 +87,118 @@ interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof Touchab
 
 export interface GetSwitchSizesArgs extends Pick<SwitchProps, 'size'> {}
 
-export const Switch: React.FC<SwitchProps> = ({
-  onToggle,
-  wrapperActiveBgColor,
-  wrapperDefaultBgColor,
-  thumbStyles,
-  style,
-  sx,
-  containerTestID,
-  thumbTestID,
-  variant = 'primary',
-  size = 'medium',
-  initialToggleState = false,
-  toggleWrapperBgDuration = 200,
-  toggleDuration = 220,
-  ...props
-}) => {
-  const [isToggled, setIsToggled] = useState(false);
-  const animatedValue = useRef(new Animated.Value(initialToggleState ? 1 : 0)).current;
-  const switchWrapperBgAnimatedValue = useRef(new Animated.Value(0)).current;
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [thumbWidth, setThumbWidth] = useState(0);
+export const Switch = React.forwardRef<View, SwitchProps>(
+  (
+    {
+      onToggle,
+      wrapperActiveBgColor,
+      wrapperDefaultBgColor,
+      thumbStyles,
+      style,
+      sx,
+      containerTestID,
+      thumbTestID,
+      variant = 'primary',
+      size = 'medium',
+      initialToggleState = false,
+      toggleWrapperBgDuration = 200,
+      toggleDuration = 220,
+      ...props
+    },
+    ref,
+  ) => {
+    const [isToggled, setIsToggled] = useState(false);
+    const animatedValue = useRef(new Animated.Value(initialToggleState ? 1 : 0)).current;
+    const switchWrapperBgAnimatedValue = useRef(new Animated.Value(0)).current;
+    const [containerWidth, setContainerWidth] = useState(0);
+    const [thumbWidth, setThumbWidth] = useState(0);
 
-  const { theme } = useTheme();
+    const { theme } = useTheme();
 
-  useEffect(() => {
-    if (initialToggleState) {
-      setIsToggled(true);
-    } else {
-      setIsToggled(false);
-    }
-  }, [initialToggleState]);
+    useEffect(() => {
+      if (initialToggleState) {
+        setIsToggled(true);
+      } else {
+        setIsToggled(false);
+      }
+    }, [initialToggleState]);
 
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(animatedValue, {
-        toValue: isToggled ? 1 : 0,
-        duration: toggleDuration,
-        useNativeDriver: false,
-      }),
-      Animated.timing(switchWrapperBgAnimatedValue, {
-        toValue: isToggled ? 1 : 0,
-        duration: toggleWrapperBgDuration,
-        useNativeDriver: false,
-      }),
-    ]).start();
-  }, [isToggled]);
-
-  const toggleSwitch = () => {
-    setIsToggled(!isToggled);
-    if (onToggle && typeof onToggle === 'function') {
-      onToggle(!isToggled);
-    }
-  };
-
-  const handleContainerLayout = (event: LayoutChangeEvent) => {
-    setContainerWidth(event.nativeEvent.layout.width);
-  };
-
-  const handleThumbLayout = (event: LayoutChangeEvent) => {
-    setThumbWidth(event.nativeEvent.layout.width);
-  };
-
-  const switchStyles: ViewStyle = {
-    transform: [
-      {
-        translateX: animatedValue.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, containerWidth - thumbWidth - 4],
+    useEffect(() => {
+      Animated.parallel([
+        Animated.timing(animatedValue, {
+          toValue: isToggled ? 1 : 0,
+          duration: toggleDuration,
+          useNativeDriver: false,
         }),
-      },
-    ],
-  };
+        Animated.timing(switchWrapperBgAnimatedValue, {
+          toValue: isToggled ? 1 : 0,
+          duration: toggleWrapperBgDuration,
+          useNativeDriver: false,
+        }),
+      ]).start();
+    }, [isToggled]);
 
-  const colorVariation = useMemo(() => getVariant({ variant, theme }), [variant, theme]);
-  const switchSizeVariation = useMemo(() => getSwitchSizes({ size }), [size]);
+    const toggleSwitch = () => {
+      setIsToggled(!isToggled);
+      if (onToggle && typeof onToggle === 'function') {
+        onToggle(!isToggled);
+      }
+    };
 
-  const backgroundColorInterpolation = switchWrapperBgAnimatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [wrapperDefaultBgColor ?? theme.colors.grey[300], wrapperActiveBgColor ? wrapperActiveBgColor : colorVariation],
-  });
+    const handleContainerLayout = (event: LayoutChangeEvent) => {
+      setContainerWidth(event.nativeEvent.layout.width);
+    };
 
-  return (
-    <TouchableWithoutFeedback onPress={toggleSwitch} {...props}>
-      <Animated.View
-        style={StyleSheet.flatten([
-          styles.switchContainer,
-          switchSizeVariation.thumbContainerStyles,
-          { backgroundColor: backgroundColorInterpolation },
-          style,
-          sx && generateElementStyles(sx),
-        ])}
-        onLayout={handleContainerLayout}
-        testID={containerTestID}>
-        <Animated.View
-          style={StyleSheet.flatten([styles.thumb, switchSizeVariation.thumbStyles, switchStyles, thumbStyles])}
-          onLayout={handleThumbLayout}
-          testID={thumbTestID}
-        />
-      </Animated.View>
-    </TouchableWithoutFeedback>
-  );
-};
+    const handleThumbLayout = (event: LayoutChangeEvent) => {
+      setThumbWidth(event.nativeEvent.layout.width);
+    };
+
+    const switchStyles: ViewStyle = {
+      transform: [
+        {
+          translateX: animatedValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, containerWidth - thumbWidth - 4],
+          }),
+        },
+      ],
+    };
+
+    const colorVariation = useMemo(() => getVariant({ variant, theme }), [variant, theme]);
+    const switchSizeVariation = useMemo(() => getSwitchSizes({ size }), [size]);
+
+    const backgroundColorInterpolation = switchWrapperBgAnimatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [
+        wrapperDefaultBgColor ?? theme.colors.grey[300],
+        wrapperActiveBgColor ? wrapperActiveBgColor : colorVariation,
+      ],
+    });
+
+    return (
+      <View ref={ref}>
+        <TouchableWithoutFeedback onPress={toggleSwitch} {...props}>
+          <Animated.View
+            style={StyleSheet.flatten([
+              styles.switchContainer,
+              switchSizeVariation.thumbContainerStyles,
+              { backgroundColor: backgroundColorInterpolation },
+              style,
+              sx && generateElementStyles(sx),
+            ])}
+            onLayout={handleContainerLayout}
+            testID={containerTestID}>
+            <Animated.View
+              style={StyleSheet.flatten([styles.thumb, switchSizeVariation.thumbStyles, switchStyles, thumbStyles])}
+              onLayout={handleThumbLayout}
+              testID={thumbTestID}
+            />
+          </Animated.View>
+        </TouchableWithoutFeedback>
+      </View>
+    );
+  },
+);
 Switch.displayName = 'Switch';
 
 const styles = StyleSheet.create({

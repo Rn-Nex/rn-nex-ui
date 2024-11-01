@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, TouchableWithoutFeedback, ViewStyle } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
 import { listItemContainerStyles, styles } from './List.style';
 import { ListItemProps } from './List.types';
-import { BOTTOM_LARGE_SPACING, BOTTOM_MEDIUM_SPACING, BOTTOM_SMALL_SPACING, DEFAULT_BOTTOM_SPACING } from './constants';
+import { BOTTOM_LARGE_SPACING, BOTTOM_MEDIUM_SPACING, BOTTOM_SMALL_SPACING } from './constants';
 
-export const ListItem = React.forwardRef<TouchableWithoutFeedback, ListItemProps>(
+export const ListItem = React.forwardRef<View, ListItemProps>(
   (
     {
       children,
@@ -55,7 +55,8 @@ export const ListItem = React.forwardRef<TouchableWithoutFeedback, ListItemProps
     return (
       <Box
         sx={listContainerStyles?.sx}
-        style={StyleSheet.flatten([styles.listItemContainer, spacingStyles, containerStyles, listContainerStyles?.style])}>
+        style={StyleSheet.flatten([styles.listItemContainer, spacingStyles, containerStyles, listContainerStyles?.style])}
+        ref={ref}>
         {startAdornment && (
           <Box
             sx={startAdornmentContainerStyles?.sx}
@@ -63,7 +64,7 @@ export const ListItem = React.forwardRef<TouchableWithoutFeedback, ListItemProps
             {startAdornment}
           </Box>
         )}
-        <BaseButton style={StyleSheet.flatten([styles.baseButton, style])} ref={ref} {...props}>
+        <BaseButton style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
           {children}
         </BaseButton>
         {endAdornment && (

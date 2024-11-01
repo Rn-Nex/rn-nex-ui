@@ -305,4 +305,5 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
 };
 
 Radio.displayName = 'Radio';
+RadioOutline.displayName = 'RadioOutline';
 RadioCircle.displayName = 'RadioCircle';

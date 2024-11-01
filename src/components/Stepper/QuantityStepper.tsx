@@ -57,7 +57,7 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
     }, [theme]);
 
     return (
-      <View {...props} style={[styles.stepperContainer, style]} ref={ref}>
+      <View style={[styles.stepperContainer, style]} ref={ref} {...props}>
         <TouchableWithoutFeedback onPress={onDecrement} disabled={disabledDecrement || value <= minDecrement ? true : false}>
           <View style={[styles.item, styles.stepperOptions, stepperOptionsStyles('DEC', buttonType), decrementButtonStyle]}>
             {decrementIcon || <View style={[styles.horizontalLine, iconStyle]} />}

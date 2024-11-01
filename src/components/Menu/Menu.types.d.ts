@@ -13,13 +13,10 @@ import { PortalProps } from '../Portal/Portal.types';
 export interface MenuItemProps extends BaseButtonProps {
   /** Styles for the container of the list item, can use BoxProps style and sx properties. */
   listContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
-
   /** Element to be displayed at the end of the menu item, e.g., an icon. */
   endAdornment?: React.ReactNode;
-
   /** Styles for the container of the end adornment, can use BoxProps style and sx properties. */
   endAdornmentContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
-
   /** Indicates if the menu item is selected. */
   selected?: boolean;
 }
@@ -38,7 +35,6 @@ export interface MenuItemStylesProps {
 export interface MenuItemContainerStylesProps extends Pick<MenuItemProps, 'selected'> {
   /** The theme object, which contains theme-related properties and methods. */
   theme: ThemeType;
-
   /** Indicates if the menu item is disabled. */
   disabled?: boolean;
 }
@@ -64,16 +60,12 @@ export interface MenuListProps extends BoxProps {}
 export interface MenuProps extends PortalProps {
   /** Indicates if the menu is currently focused. */
   focused?: boolean;
-
   /** Rect object that contains the dimensions and position of the root element. */
   rootElementRect?: MeasureElementRect | null;
-
   /** Styles for the container of the menu, using ViewStyle. */
   menuContainerStyles?: StyleProp<ViewStyle>;
-
   /** Duration of the fade animation in milliseconds. */
   fadeAnimationDuration?: number;
-
   /** Duration of the scale animation in milliseconds. */
   scaleAnimationDuration?: number;
 }

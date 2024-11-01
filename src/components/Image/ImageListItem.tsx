@@ -19,7 +19,7 @@ export const ImageListItem = React.forwardRef<View, ImageListItemProps>(
     }, []);
 
     return (
-      <Box style={[style, imageListItemStyles]} {...props} ref={ref}>
+      <Box style={[style, imageListItemStyles]} ref={ref} {...props}>
         <Box style={[imageListWrapperContainerStyles]}>{children}</Box>
       </Box>
     );
