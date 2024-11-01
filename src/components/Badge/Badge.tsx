@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, StyleSheet, View } from 'react-native';
 import { useTheme } from '../../libraries';
-import { AnimatedView, Box } from '../Box';
+import { Box } from '../Box';
 import { Text } from '../Typography';
 import { BadgeContainerProps, BadgeProps } from './Badge.types';
 import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE } from './constants';
@@ -95,9 +95,9 @@ export const Badge = React.forwardRef<View, BadgeProps>(
           {children}
         </BadgeContainer>
         {badgeContainerLayoutRect ? (
-          <AnimatedView ref={ref} style={[styles.badge, badgeStyles, style]} {...props}>
+          <Animated.View ref={ref} style={[styles.badge, badgeStyles, style]} {...props}>
             {renderBadgeContent(badgeContent)}
-          </AnimatedView>
+          </Animated.View>
         ) : null}
       </View>
     );
