@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import { generateElementStyles } from '../../utils';
-import { AnimatedView } from '../Box';
 import { Ripple } from '../Ripple';
 import { RippleInterface } from '../Ripple/Ripple.types';
 import { BaseButtonProps } from './Button.types';
@@ -97,12 +96,12 @@ export const BaseButton = React.forwardRef<View, BaseButtonProps>(
           onLayout={buttonLayoutHandler}
           disabled={disabled}
           {...props}>
-          <AnimatedView
+          <Animated.View
             pointerEvents="box-only"
             style={[sx && generateElementStyles(sx), { transform: [{ scale: scaleValue }] }, style]}>
             {children}
             {disableRipple ? null : <Ripple ref={rippleRef} {...rippleProps} />}
-          </AnimatedView>
+          </Animated.View>
         </TouchableWithoutFeedback>
       </View>
     );

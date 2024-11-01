@@ -11,6 +11,11 @@ export interface BoxProps extends React.ComponentPropsWithRef<typeof View> {
    * The content to be rendered inside the Box component.
    */
   children?: React.ReactNode;
+
+  /**
+   * Property for whether the component is animated view or normal view.
+   */
+  animatedView?: boolean;
 }
 
 /**

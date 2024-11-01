@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, LayoutChangeEvent, LayoutRectangle } from 'react-native';
-import { AnimatedView } from '../Box';
 import { Portal } from '../Portal';
 import { FADE_ANIMATION_DURATION, SCALE_ANIMATION_DURATION } from './constants';
 import { dialogContainerStyles, styles } from './Menu.style';
@@ -66,7 +65,7 @@ export const Menu: React.FC<MenuProps> = ({
       visible={visible || focused}
       modalContainerProps={{ ...modalContainerProps, style: [styles.menuModal, modalContainerProps?.style] }}
       {...props}>
-      <AnimatedView
+      <Animated.View
         onLayout={animatedViewOnLayoutHandler}
         style={[
           dialogContainer,
@@ -77,7 +76,7 @@ export const Menu: React.FC<MenuProps> = ({
           menuContainerStyles,
         ]}>
         {children}
-      </AnimatedView>
+      </Animated.View>
     </Portal>
   );
 };

@@ -38,8 +38,8 @@ export const Button = React.forwardRef<View, ButtonProps>(
       <BaseButton
         disabled={loading || disabled}
         ref={ref}
-        {...props}
-        style={StyleSheet.flatten([baseButtonStyles.generated, sx && generateElementStyles(sx), style])}>
+        style={StyleSheet.flatten([baseButtonStyles.generated, sx && generateElementStyles(sx), style])}
+        {...props}>
         {loading ? (
           <ActivityIndicator />
         ) : (
