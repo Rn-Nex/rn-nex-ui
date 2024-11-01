@@ -119,11 +119,9 @@ export interface SnackbarProps extends ViewProps {
   warningImageSource?: string;
 
   /** Additional props for the action button. */
-  actionButtonProps?: Omit<ButtonProps, 'children'>;
+  actionButtonProps?: Omit<ButtonProps, 'children' | 'ref'>;
 
-  /**
-   * Max length of the snackbar component message
-   */
+  /** Max length of the snackbar component message */
   messageMaxLength?: number;
 }
 

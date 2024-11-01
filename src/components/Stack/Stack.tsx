@@ -47,7 +47,7 @@ export const Stack = React.forwardRef<View, StackProps>(
     }, [direction, display, justifyContent, alignItems, flex]);
 
     return (
-      <Box ref={ref} {...rest} style={[rest.style, generatedStyles.container, { gap: spacing }]}>
+      <Box ref={ref} style={[rest.style, generatedStyles.container, { gap: spacing }]} {...rest}>
         {children}
       </Box>
     );

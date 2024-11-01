@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableWithoutFeedback, ViewStyle } from 'react-native';
+import { TouchableWithoutFeedback, ViewProps, ViewStyle } from 'react-native';
 import { BoxProps } from '../Box/Box.types';
 import { VariantTypes } from '../../utils';
 
@@ -77,4 +77,6 @@ export interface CheckBoxProps extends React.ComponentPropsWithoutRef<typeof Tou
   endAdornmentContainerProps?: Omit<BoxProps, 'children'>;
 
   variant?: VariantTypes;
+
+  containerProps?: Omit<ViewProps, 'children'>;
 }

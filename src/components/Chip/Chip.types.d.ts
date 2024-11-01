@@ -12,7 +12,7 @@ export type ChipVariant = 'outlined' | 'filled';
  * Defines the color variations available for the chip.
  */
 export type ChipVariations = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
-export interface ChipProps extends Omit<BaseButtonProps, 'children' | 'sx'>, Omit<TouchableWithoutFeedbackProps, 'ref'> {
+export interface ChipProps extends Omit<BaseButtonProps, 'children' | 'sx'> {
   /**
    * The label text to display inside the chip.
    */

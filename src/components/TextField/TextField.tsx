@@ -6,6 +6,7 @@ import {
   LayoutRectangle,
   NativeSyntheticEvent,
   TextInputFocusEventData,
+  View,
 } from 'react-native';
 import { generateElementStyles } from '../../utils';
 import { Box } from '../Box';
@@ -21,144 +22,150 @@ import { InputLabel } from './InputLabel';
 import { Outline } from './InputOutline';
 import { textInputStyles } from './TextField.style';
 
-export const TextField: React.FC<TextFieldProps> = ({
-  value,
-  style,
-  sx,
-  error,
-  activeColor,
-  errorColor,
-  inputLabelProps,
-  animatedDuration,
-  startAdornment,
-  startAdornmentContainerProps,
-  endAdornment,
-  endAdornmentContainerProps,
-  inputStyles,
-  isFocused: inputIsFocused,
-  onFocus: onTextInputFocusHandler,
-  onBlur: onTextInputBlurHandler,
-  onLayout: onTextInputLayoutHandler,
-  hideLabel = false,
-  square = false,
-  editable = true,
-  placeholder = 'Outlined',
-  variant = 'outlined',
-  ignoreOpacityOnNonEditable = false,
-  ...props
-}) => {
-  const inputLabeledAnimatedValue = useRef(new Animated.Value(0)).current;
-  const [textInputLayoutRectangle, setTextInputLayoutRectangle] = useState<LayoutRectangle>();
-  const [isFocused, setIsFocused] = useState<boolean>(false);
+export const TextField = React.forwardRef<View, TextFieldProps>(
+  (
+    {
+      value,
+      style,
+      sx,
+      error,
+      activeColor,
+      errorColor,
+      inputLabelProps,
+      animatedDuration,
+      startAdornment,
+      startAdornmentContainerProps,
+      endAdornment,
+      endAdornmentContainerProps,
+      inputStyles,
+      isFocused: inputIsFocused,
+      onFocus: onTextInputFocusHandler,
+      onBlur: onTextInputBlurHandler,
+      onLayout: onTextInputLayoutHandler,
+      hideLabel = false,
+      square = false,
+      editable = true,
+      placeholder = 'Outlined',
+      variant = 'outlined',
+      ignoreOpacityOnNonEditable = false,
+      ...props
+    },
+    ref,
+  ) => {
+    const inputLabeledAnimatedValue = useRef(new Animated.Value(0)).current;
+    const [textInputLayoutRectangle, setTextInputLayoutRectangle] = useState<LayoutRectangle>();
+    const [isFocused, setIsFocused] = useState<boolean>(false);
 
-  const placeHolderLeftPos = variant === 'filled' ? PLACEHOLDER_FILED_INPUT_LEFT_POSITION : PLACEHOLDER_OUTLINE_LEFT_POSITION;
+    const placeHolderLeftPos = variant === 'filled' ? PLACEHOLDER_FILED_INPUT_LEFT_POSITION : PLACEHOLDER_OUTLINE_LEFT_POSITION;
 
-  const onLayout = useCallback((event: LayoutChangeEvent) => {
-    const { layout } = event.nativeEvent;
+    const onLayout = useCallback((event: LayoutChangeEvent) => {
+      const { layout } = event.nativeEvent;
 
-    if (onTextInputLayoutHandler && typeof onTextInputLayoutHandler === 'function') {
-      onTextInputLayoutHandler(event);
-    }
+      if (onTextInputLayoutHandler && typeof onTextInputLayoutHandler === 'function') {
+        onTextInputLayoutHandler(event);
+      }
 
-    setTextInputLayoutRectangle(layout);
-  }, []);
+      setTextInputLayoutRectangle(layout);
+    }, []);
 
-  const onFocus = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    if (onTextInputFocusHandler && typeof onTextInputFocusHandler === 'function') {
-      onTextInputFocusHandler(event);
-    }
-    setIsFocused(true);
-  };
+    const onFocus = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+      if (onTextInputFocusHandler && typeof onTextInputFocusHandler === 'function') {
+        onTextInputFocusHandler(event);
+      }
+      setIsFocused(true);
+    };
 
-  const onBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    if (onTextInputBlurHandler && typeof onTextInputBlurHandler === 'function') {
-      onTextInputBlurHandler(event);
-    }
-    setIsFocused(false);
-  };
+    const onBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+      if (onTextInputBlurHandler && typeof onTextInputBlurHandler === 'function') {
+        onTextInputBlurHandler(event);
+      }
+      setIsFocused(false);
+    };
 
-  const getLabelTranslatePos = useCallback(() => {
-    if (textInputLayoutRectangle?.width && textInputLayoutRectangle?.width) {
-      if (variant === 'outlined') return (textInputLayoutRectangle.height / 2) * -1;
-      else if (variant === 'filled') return ((textInputLayoutRectangle.height - 19) / 2) * -1;
-    }
-    return TRANSLATE_Y_ANIMATED_DEFAULT_POSITION;
-  }, [textInputLayoutRectangle]);
+    const getLabelTranslatePos = useCallback(() => {
+      if (textInputLayoutRectangle?.width && textInputLayoutRectangle?.width) {
+        if (variant === 'outlined') return (textInputLayoutRectangle.height / 2) * -1;
+        else if (variant === 'filled') return ((textInputLayoutRectangle.height - 19) / 2) * -1;
+      }
+      return TRANSLATE_Y_ANIMATED_DEFAULT_POSITION;
+    }, [textInputLayoutRectangle]);
 
-  const textStyles = useMemo(
-    () => textInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }),
-    [variant, endAdornment, startAdornment],
-  );
+    const textStyles = useMemo(
+      () => textInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }),
+      [variant, endAdornment, startAdornment],
+    );
 
-  useEffect(() => {
-    inputLabeledAnimatedValue.stopAnimation();
-    if (isFocused || value || !!startAdornment || inputIsFocused) {
-      Animated.timing(inputLabeledAnimatedValue, {
-        toValue: 1,
-        duration: animatedDuration ? animatedDuration : LABELED_ANIMATION_DURATION,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(inputLabeledAnimatedValue, {
-        toValue: 0,
-        duration: animatedDuration ? animatedDuration : LABELED_ANIMATION_DURATION,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [isFocused, inputIsFocused, value, startAdornment, endAdornment]);
+    useEffect(() => {
+      inputLabeledAnimatedValue.stopAnimation();
+      if (isFocused || value || !!startAdornment || inputIsFocused) {
+        Animated.timing(inputLabeledAnimatedValue, {
+          toValue: 1,
+          duration: animatedDuration ? animatedDuration : LABELED_ANIMATION_DURATION,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        }).start();
+      } else {
+        Animated.timing(inputLabeledAnimatedValue, {
+          toValue: 0,
+          duration: animatedDuration ? animatedDuration : LABELED_ANIMATION_DURATION,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        }).start();
+      }
+    }, [isFocused, inputIsFocused, value, startAdornment, endAdornment]);
 
-  return (
-    <Outline
-      editable={editable}
-      variant={variant}
-      activeColor={activeColor}
-      errorColor={errorColor}
-      style={[sx && generateElementStyles(sx), style]}
-      isFocused={isFocused}
-      error={error}
-      ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
-      square={square}>
-      {!hideLabel && (
-        <InputLabel
-          disabled={!editable}
-          variant={variant}
-          isActive={isFocused}
-          activeColor={activeColor}
-          errorColor={errorColor}
-          placeholder={placeholder}
-          labeled={inputLabeledAnimatedValue}
-          translateYAnimatedPosition={getLabelTranslatePos()}
-          placeholderLeftPosition={placeHolderLeftPos}
-          error={error}
-          ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
-          {...inputLabelProps}
-        />
-      )}
-      {startAdornment && (
-        <Box style={{ marginRight: 8 }} {...startAdornmentContainerProps}>
-          {startAdornment}
-        </Box>
-      )}
-      <BaseInput
-        value={value}
+    return (
+      <Outline
         editable={editable}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        onLayout={onLayout}
-        style={[textStyles, inputStyles]}
         variant={variant}
-        placeholder={hideLabel ? placeholder : undefined}
-        {...props}
-      />
-      {endAdornment && (
-        <Box style={{ marginLeft: 8 }} {...endAdornmentContainerProps}>
-          {endAdornment}
-        </Box>
-      )}
-    </Outline>
-  );
-};
+        activeColor={activeColor}
+        errorColor={errorColor}
+        style={[sx && generateElementStyles(sx), style]}
+        isFocused={isFocused}
+        error={error}
+        ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
+        square={square}
+        ref={ref}>
+        {!hideLabel && (
+          <InputLabel
+            disabled={!editable}
+            variant={variant}
+            isActive={isFocused}
+            activeColor={activeColor}
+            errorColor={errorColor}
+            placeholder={placeholder}
+            labeled={inputLabeledAnimatedValue}
+            translateYAnimatedPosition={getLabelTranslatePos()}
+            placeholderLeftPosition={placeHolderLeftPos}
+            error={error}
+            ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
+            {...inputLabelProps}
+          />
+        )}
+        {startAdornment && (
+          <Box style={{ marginRight: 8 }} {...startAdornmentContainerProps}>
+            {startAdornment}
+          </Box>
+        )}
+        <BaseInput
+          value={value}
+          editable={editable}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          onLayout={onLayout}
+          style={[textStyles, inputStyles]}
+          variant={variant}
+          placeholder={hideLabel ? placeholder : undefined}
+          {...props}
+        />
+        {endAdornment && (
+          <Box style={{ marginLeft: 8 }} {...endAdornmentContainerProps}>
+            {endAdornment}
+          </Box>
+        )}
+      </Outline>
+    );
+  },
+);
 
 TextField.displayName = 'TextField';
