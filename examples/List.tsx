@@ -1,4 +1,17 @@
-import { Avatar, Chip, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Text } from '../src';
+import { SafeAreaView } from 'react-native';
+import {
+  Avatar,
+  Chip,
+  Container,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Text,
+  ThemeProvider,
+} from '../src';
 
 export const Ex1 = () => {
   return (
@@ -163,5 +176,41 @@ export const Ex4 = () => {
         <ListItemText primary="Spam" />
       </ListItem>
     </List>
+  );
+};
+
+export const Ex7 = () => {
+  return (
+    <ThemeProvider>
+      <SafeAreaView>
+        <Container>
+          <List subheader="List item">
+            <ListItem
+              showOutline={true}
+              showDefaultBg
+              outlineColor={'red'}
+              actionType="root"
+              softRadius
+              startAdornment={<Text>Start</Text>}
+              endAdornment={<Text>End</Text>}
+              onPress={() => {}}>
+              <ListItemIcon>
+                <Avatar
+                  source={{
+                    uri: 'https://imgs.search.brave.com/WHJCQXFEWeTCsmPBN1X3quXyqvqubCn9Zk586lY-Mv8/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE0/OTQ3OTAxMDgzNzct/YmU5YzI5YjI5MzMw/P3E9ODAmdz0xMDAw/JmF1dG89Zm9ybWF0/JmZpdD1jcm9wJml4/bGliPXJiLTQuMC4z/Jml4aWQ9TTN3eE1q/QTNmREI4TUh4elpX/RnlZMmg4TW54OGRY/TmxjaVV5TUhCeWIy/WnBiR1Y4Wlc1OE1I/eDhNSHg4ZkRBPQ',
+                  }}
+                  size={30}
+                  variation="rounded"
+                />
+              </ListItemIcon>
+              <ListItemText
+                primary="Brunch this weekend?"
+                secondary="Ali Connors — I'll be in your neighborhood doing errands this…"
+              />
+            </ListItem>
+          </List>
+        </Container>
+      </SafeAreaView>
+    </ThemeProvider>
   );
 };

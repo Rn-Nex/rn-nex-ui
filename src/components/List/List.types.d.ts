@@ -98,6 +98,36 @@ export interface ListItemProps extends BaseButtonProps {
    * Different types of bottom spacing
    */
   bottomSpacingType?: 'small' | 'medium' | 'large';
+
+  /**
+   * Used for check the onPress event handler positioning in the top of the container or in the list element.
+   */
+  actionType?: 'root' | 'list';
+
+  /**
+   * show the list component border
+   */
+  showOutline?: boolean;
+
+  /**
+   * List item component border width
+   */
+  outlineWidth?: number;
+
+  /**
+   * List item component outline color
+   */
+  outlineColor?: ColorValue;
+
+  /**
+   * The showDefaultBg prop is used for show the list item component default background color
+   */
+  showDefaultBg?: boolean;
+
+  /**
+   * Soft border radius
+   */
+  softRadius?: boolean;
 }
 
 /**
@@ -158,7 +188,11 @@ export interface ListItemTextStylesProps extends Pick<ListItemTextProps, 'disabl
  * Interface for styles related to the ListItem container, focusing on the selected property
  * This interface defines styles specific to the ListItem container.
  */
-export interface ListItemContainerStylesProps extends Pick<ListItemProps, 'selected' | 'selectedColor'> {
+export interface ListItemContainerStylesProps
+  extends Pick<
+    ListItemProps,
+    'selected' | 'selectedColor' | 'showOutline' | 'outlineWidth' | 'outlineColor' | 'showDefaultBg' | 'softRadius'
+  > {
   theme: ThemeType;
 }
 
