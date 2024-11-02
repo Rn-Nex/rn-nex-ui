@@ -4,6 +4,49 @@ RN NEX Ui
 
 A sophisticated UI library crafted to enhance your React Native development workflow. Designed for simplicity and elegance, nex-ui provides a rich collection of components and utilities to effortlessly create polished mobile applications.
 
+## What's New in This Release
+
+### Image
+
+- **Animation Support**: Now includes animation capabilities, enhancing visual interactivity.
+
+### List
+
+- **Enhanced Pressability**: New prop allows triggering an `onPress` event across the entire List item component.
+- **Outline Customization**: Props `showOutline`, `outlineWidth`, and `outlineColor` enable full control over List item borders.
+- **Background Flexibility**: `showDefaultBg` prop added to toggle background color support.
+- **Soft Radius Option**: New `softRadius` prop for rounded corners on List items.
+
+### Text
+
+- **Dynamic Color Control**: `color` prop allows dynamic text color changes.
+- **Animation Support**: Added animation options.
+- **Code Optimization**: Improved performance and readability.
+
+### Input
+
+- **Square Corners**: New `square` prop to control border radius.
+- **Hide Label**: Added `hideLabel` prop for optional label visibility.
+- **Code Optimization**: Enhanced performance with refactored code.
+
+### Button
+
+- **Shape Customization**: Added `square` and `round` props for customizable shapes.
+- **Forward Ref Fix**: Improved ref handling.
+
+### Box
+
+- **Animation Support**: Animation options added for engaging design.
+
+### Theme
+
+- **Simplified Theme Creation**: New `createTheme` function for easy theme setup.
+- **Theme Config Optimization**: Spacing config is now optimized with a dedicated prop, eliminating redundancy.
+
+### Fixes
+
+- **Forward Ref Consistency**: Forward ref issues resolved across all components.
+
 ## Table of Contents
 
 - [Dropdown](#dropdown-component)
@@ -770,18 +813,19 @@ The `Button` component provides an interactive element that users can tap to tri
 
 ## Props
 
-| Property           | Type               | Default     | Description                                                                                                                                            |
-| ------------------ | ------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `disabled`         | `boolean`          | `false`     | Determines whether the button is disabled. When `true`, the button becomes non-interactive.                                                            |
-| `children`         | `ReactNode`        | -           | The content to be displayed inside the button, such as text, icons, or other components.                                                               |
-| `disableRipple`    | `boolean`          | `false`     | Determines whether the ripple effect is disabled. If `true`, the button will not display a ripple effect on press.                                     |
-| `rippleProps`      | `RippleProps`      | -           | Props for configuring the ripple effect, such as ripple color, duration, and radius.                                                                   |
-| `rippleEdge`       | `RipplePosition`   | `center`    | Determines the position of the ripple effect relative to the button. Options include 'center', 'topLeft', 'topRight', 'bottomLeft', and 'bottomRight'. |
-| `sx`               | `BaseStyles`       | -           | Additional styles for the button container using the BaseStyles type from styleTypes.                                                                  |
-| `variation`        | `ButtonVariations` | `contained` | Specifies the visual style variation of the button. Can be 'contained', 'outlined', or 'text'.                                                         |
-| `fullWidth`        | `boolean`          | `false`     | Specifies whether the button should take up the full width available.                                                                                  |
-| `disableElevation` | `boolean`          | `false`     | Specifies whether to disable elevation for the button. Elevation adds a shadow effect to the button.                                                   |
-| `buttonColor`      | `ButtonColorTypes` | -           | Specifies the color variation of the button. Can be 'primary', 'secondary', 'success', 'error', 'info', or 'warning'.                                  |
+| Property             | Type               | Default     | Description                                                                                                                                            |
+| -------------------- | ------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `disabled`           | `boolean`          | `false`     | Determines whether the button is disabled. When `true`, the button becomes non-interactive.                                                            |
+| `children`           | `ReactNode`        | -           | The content to be displayed inside the button, such as text, icons, or other components.                                                               |
+| `disableRipple`      | `boolean`          | `false`     | Determines whether the ripple effect is disabled. If `true`, the button will not display a ripple effect on press.                                     |
+| `rippleProps`        | `RippleProps`      | -           | Props for configuring the ripple effect, such as ripple color, duration, and radius.                                                                   |
+| `rippleEdge`         | `RipplePosition`   | `center`    | Determines the position of the ripple effect relative to the button. Options include 'center', 'topLeft', 'topRight', 'bottomLeft', and 'bottomRight'. |
+| `sx`                 | `BaseStyles`       | -           | Additional styles for the button container using the BaseStyles type from styleTypes.                                                                  |
+| `variation`          | `ButtonVariations` | `contained` | Specifies the visual style variation of the button. Can be 'contained', 'outlined', or 'text'.                                                         |
+| `fullWidth`          | `boolean`          | `false`     | Specifies whether the button should take up the full width available.                                                                                  |
+| `disableElevation`   | `boolean`          | `false`     | Specifies whether to disable elevation for the button. Elevation adds a shadow effect to the button.                                                   |
+| `buttonColor`        | `ButtonColorTypes` | -           | Specifies the color variation of the button. Can be 'primary', 'secondary', 'success', 'error', 'info', or 'warning'.                                  |
+| `square` and `round` | `boolean`          | `round`     | props for flexible shape styling.                                                                                                                      |
 
 ## Examples
 
@@ -1524,6 +1568,7 @@ Interface for the properties that can be passed to a text component.
 - `activeColor?: ColorValue`: Color value for the text when in an active state.
 - `disabled?: boolean`: Specifies if the text component is disabled.
 - `mode?: 'light' | 'dark'`: Mode used for text light and dark variation color.
+- `color` prop allows dynamic text color changes
 
 ### `TextGutter`
 
@@ -1597,6 +1642,8 @@ Defines common properties for a base input component.
 - `isFocused`: Indicates if the input is focused.
 - `errorColor`: Color to use when there is an error.
 - `variant`: The variation type of the text field (outlined or filled).
+- `square` prop allows control over border radius.
+- `hideLabel` prop for scenarios where the label is unnecessary.
 
 ### `InputLabelProps`
 
@@ -1769,33 +1816,50 @@ The `initialLightTheme` object defines the color palette for the light mode of t
 
 ```tsx
 import React from 'react';
-import { Box, ThemeProvider, defaultDarkTheme, defaultLightTheme } from 'rn-nex-ui/src';
+import { SafeAreaView, ScrollView } from 'react-native';
+import { Button, Container, ThemeProvider, createColorShades, createTheme, createThemeDimensions } from 'rn-nex-ui/src';
 
-const App: React.FC = () => {
+const lightTheme = createTheme('light', {
+  colors: {
+    green: createColorShades({
+      shades: {
+        400: '#000000',
+      },
+      themePropertyName: 'green',
+    }),
+  },
+});
+
+const darkTheme = createTheme('light', {
+  colors: {
+    green: createColorShades({
+      shades: {
+        400: '#d54d4d',
+      },
+      themePropertyName: 'green',
+    }),
+  },
+});
+
+const themeDimensions = createThemeDimensions({
+  spacing: {
+    xs: 10,
+  },
+});
+
+function App(): React.JSX.Element {
   return (
-    <ThemeProvider
-      lightTheme={{
-        ...defaultLightTheme,
-        colors: {
-          ...defaultLightTheme.colors,
-          scan: {
-            50: '#000000',
-          },
-        },
-      }}
-      darkTheme={{
-        ...defaultDarkTheme,
-        colors: {
-          ...defaultDarkTheme.colors,
-          scan: {
-            50: 'red',
-          },
-        },
-      }}>
-      <Box sx={{ f: 1, d: 'flex', content: 'center', items: 'center', px: 10 }} />
+    <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme} dimensions={themeDimensions}>
+      <SafeAreaView>
+        <ScrollView>
+          <Container>
+            <Button label="Theme" buttonColor="success" />
+          </Container>
+        </ScrollView>
+      </SafeAreaView>
     </ThemeProvider>
   );
-};
+}
 
 export default App;
 ```
