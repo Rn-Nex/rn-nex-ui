@@ -1,6 +1,5 @@
 export * from './Accordion/Accordion.types';
 export * from './ActivityIndicator/ActivityIndicator.types';
-export * from './Avatar/Avatar.types';
 export * from './Badge/Badge.types';
 export * from './Box/Box.types';
 export * from './Button/Button.types';

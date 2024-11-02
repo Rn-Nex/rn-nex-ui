@@ -21,9 +21,6 @@ export interface ImageVariationProp {
  * Extends React Native ImageProps and ImageVariationProp for styling flexibility.
  */
 export interface ImageProps extends React.ComponentType<Image>, RnImageProps, ImageVariationProp {
-  /**
-   * Size of the image.
-   */
   size?: DimensionValue;
   sx?: BaseStyles;
 }
