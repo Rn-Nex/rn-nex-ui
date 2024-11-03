@@ -123,6 +123,7 @@ export type ElementTextStyleProps = {
   dColor?: TextStyle['textDecorationColor'];
   transform?: TextStyle['textTransform'];
   select?: TextStyle['userSelect'];
+  tAlign?: TextStyle['textAlign'];
 };
 
 export type ElementFlexStyleProps = {

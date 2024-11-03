@@ -125,11 +125,15 @@ export interface RadioProps extends ViewProps, BaseInterface {
   /**
    * Content to display at the end of the radio button
    */
-  endAdornment?: React.ReactNode;
+  adornment?: React.ReactNode;
   /**
    * Styles for the container holding the end adornment
    */
-  endAdornmentContainerStyles?: StyleProp<ViewStyle>;
+  adornmentContainerStyles?: StyleProp<ViewProps>;
+  /**
+   * Display the adornment at the end of the radio button of start of the radio button
+   */
+  adornmentType?: 'start' | 'end';
 }
 
 export const Radio = React.forwardRef<View, RadioProps>(
@@ -147,8 +151,8 @@ export const Radio = React.forwardRef<View, RadioProps>(
       radioItem,
       radioItemContainerStyles,
       baseButtonStyles,
-      endAdornment,
-      endAdornmentContainerStyles,
+      adornment,
+      adornmentContainerStyles,
       gap = 8,
       disabled = false,
       size = 'medium',
@@ -156,6 +160,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
       animationDuration = 100,
       variant = 'info',
       actionType = 'element',
+      adornmentType = 'end',
       ...props
     },
     ref,
@@ -171,18 +176,21 @@ export const Radio = React.forwardRef<View, RadioProps>(
     };
 
     const renderAdornment = useCallback(() => {
-      if (label || description || endAdornment) {
-        const element = endAdornment ? (
-          <View style={[endAdornmentContainerStyles]}>{endAdornment}</View>
+      if (label || description || adornment) {
+        const { sx: labelSx, ...restLabelProps } = labelProps || {};
+        const { sx: descriptionSx, ...restDescriptionProps } = descriptionProps || {};
+
+        const element = adornment ? (
+          <View style={[adornmentContainerStyles]}>{adornment}</View>
         ) : (
           <View style={[labelContainerStyles]}>
             {label && (
-              <Text variation="h4" {...labelProps}>
+              <Text variation="h4" sx={labelSx} {...restLabelProps}>
                 {label}
               </Text>
             )}
             {description && (
-              <Text variation="h5" {...descriptionProps}>
+              <Text variation="h5" sx={descriptionSx} {...restDescriptionProps}>
                 {description}
               </Text>
             )}
@@ -196,8 +204,8 @@ export const Radio = React.forwardRef<View, RadioProps>(
         );
       } else return null;
     }, [
-      endAdornment,
-      endAdornmentContainerStyles,
+      adornment,
+      adornmentContainerStyles,
       label,
       description,
       labelProps,
@@ -205,10 +213,12 @@ export const Radio = React.forwardRef<View, RadioProps>(
       descriptionProps,
       actionType,
       isActive,
+      adornmentType,
     ]);
 
     return (
       <View ref={ref} style={StyleSheet.flatten([styles.radioRootContainer, style])} {...props}>
+        {adornmentType === 'start' && renderAdornment()}
         <View style={[styles.baseButtonContainer]}>
           <BaseButton
             onPress={radioOnPressHandler}
@@ -234,7 +244,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
             </RadioOutline>
           </BaseButton>
         </View>
-        {renderAdornment()}
+        {adornmentType === 'end' && renderAdornment()}
       </View>
     );
   },
@@ -299,7 +309,7 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
   }, [isActive, animationDuration]);
 
   const colorVariation = useMemo(() => getVariant({ variant, theme }), [variant, theme]);
-  const backgroundRange = activeColor || colorVariation;
+  const backgroundOutputRange = activeColor || colorVariation;
 
   const getSize = useMemo(() => {
     if (size === 'small') return sizeConfig?.small || RADIO_SMALL;
@@ -310,7 +320,7 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
 
   const backgroundColorInterpolation = backgroundColorValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [backgroundRange, backgroundRange],
+    outputRange: [backgroundOutputRange, backgroundOutputRange],
   });
 
   const animatedStyle: ViewStyle = {
