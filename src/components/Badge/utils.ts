@@ -1,4 +1,5 @@
 import { TextStyle, ViewStyle } from 'react-native';
+import { getVariant } from '../../utils';
 import {
   BadgeContentDefaultStylesProps,
   GenerateBadgeContainerStylesProps,
@@ -14,32 +15,18 @@ export const badgeContentDefaultStyles = ({ variation }: BadgeContentDefaultStyl
   return baseStyles;
 };
 
-export const placeBadgeBasedPosition = ({ anchorOrigin, rootElementRect, variant }: PlaceBadgeBasedPosition): ViewStyle => {
-  const { width, height, x, y } = rootElementRect;
+export const placeBadgeBasedPosition = ({ anchorOrigin, variant }: PlaceBadgeBasedPosition): ViewStyle => {
   const isDotVariation = variant === 'dot';
-  const halfOfBadgeRadius = BADGE_DEFAULT_RADIUS / 2;
+  const placement = isDotVariation ? 0 : -4;
 
-  if (anchorOrigin?.vertical === 'bottom' && anchorOrigin?.horizontal === 'right') {
-    return {
-      top: isDotVariation ? y + height - halfOfBadgeRadius : y + height - BADGE_DEFAULT_RADIUS,
-      left: isDotVariation ? x + width - halfOfBadgeRadius : x + width - BADGE_DEFAULT_RADIUS,
-    };
-  } else if (anchorOrigin?.vertical === 'bottom' && anchorOrigin?.horizontal === 'left') {
-    return {
-      top: isDotVariation ? y + height - halfOfBadgeRadius : y + height - BADGE_DEFAULT_RADIUS,
-      left: isDotVariation ? x - halfOfBadgeRadius : x - BADGE_DEFAULT_RADIUS,
-    };
-  } else if (anchorOrigin?.vertical === 'top' && anchorOrigin?.horizontal === 'left') {
-    return {
-      top: isDotVariation ? y - halfOfBadgeRadius : y - BADGE_DEFAULT_RADIUS,
-      left: isDotVariation ? x - halfOfBadgeRadius : x - BADGE_DEFAULT_RADIUS,
-    };
-  } else {
-    return {
-      top: isDotVariation ? y - halfOfBadgeRadius : y - BADGE_DEFAULT_RADIUS,
-      left: isDotVariation ? x + width - halfOfBadgeRadius : x + width - BADGE_DEFAULT_RADIUS,
-    };
-  }
+  const baseStyles: ViewStyle = {
+    ...(anchorOrigin?.horizontal === 'left' && { left: placement }),
+    ...(anchorOrigin?.horizontal === 'right' && { right: placement }),
+    ...(anchorOrigin?.vertical === 'top' && { top: placement }),
+    ...(anchorOrigin?.vertical === 'bottom' && { bottom: placement }),
+  };
+
+  return baseStyles;
 };
 
 export const generateBadgeContainerStyles = ({ overlap }: GenerateBadgeContainerStylesProps): ViewStyle => {
@@ -55,39 +42,19 @@ export const generateBadgeContainerStyles = ({ overlap }: GenerateBadgeContainer
 
 export const generateBadgeStyles = ({
   theme,
-  rootElementRect,
   variation,
   badgeVisibility,
   variant,
   anchorOrigin,
 }: GenerateBadgeStylesProps): ViewStyle => {
-  if (!rootElementRect) {
-    throw new Error('Root element rect cannot be null.');
-  }
-
   const isDotVariation = variant === 'dot';
   let styles: ViewStyle = {};
 
   styles = {
     ...styles,
-    ...placeBadgeBasedPosition({ rootElementRect, anchorOrigin, variant }),
+    ...placeBadgeBasedPosition({ anchorOrigin, variant }),
+    backgroundColor: getVariant({ variant: variation, theme }),
   };
-
-  if (variation === 'primary') {
-    styles.backgroundColor = theme.colors.primary[300];
-  } else if (variation === 'secondary') {
-    styles.backgroundColor = theme.colors.secondary[300];
-  } else if (variation === 'error') {
-    styles.backgroundColor = theme.colors.red[500];
-  } else if (variation === 'warning') {
-    styles.backgroundColor = theme.colors.yellow[500];
-  } else if (variation === 'info') {
-    styles.backgroundColor = theme.colors.lightBlue[500];
-  } else if (variation === 'success') {
-    styles.backgroundColor = theme.colors.green[500];
-  } else {
-    styles.backgroundColor = theme.colors.green[800];
-  }
 
   styles = {
     ...styles,

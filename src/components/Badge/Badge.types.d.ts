@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, LayoutRectangle, TextProps, View } from 'react-native';
+import { Animated, LayoutRectangle, TextProps, View, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/Box.types';
 
@@ -67,6 +67,10 @@ export interface BadgeProps extends React.ComponentPropsWithRef<typeof View> {
    * Wrapped shape the badge should overlap.
    */
   overlap?: BadgeOverlap;
+  /**
+   * Badge root container styles
+   */
+  containerStyles?: ViewStyle;
 }
 
 /**
@@ -80,16 +84,12 @@ export interface BadgeContainerProps extends Pick<BadgeProps, 'overlap'>, BoxPro
 export interface GenerateBadgeStylesProps extends Pick<BadgeProps, 'variation' | 'variant' | 'anchorOrigin'> {
   theme: ThemeType;
   /**
-   * Rectangle representing the layout of the root element.
-   */
-  rootElementRect: LayoutRectangle;
-  /**
    * Animated value controlling the visibility of the badge.
    */
   badgeVisibility?: Animated.Value;
 }
 
-export interface PlaceBadgeBasedPosition extends Pick<GenerateBadgeStylesProps, 'rootElementRect' | 'anchorOrigin' | 'variant'> {}
+export interface PlaceBadgeBasedPosition extends Pick<GenerateBadgeStylesProps, 'anchorOrigin' | 'variant'> {}
 export interface GenerateBadgeContainerStylesProps extends Pick<BadgeContainerProps, 'overlap'> {}
 export interface BadgeContentDefaultStylesProps {
   variation?: BadgeVariations;

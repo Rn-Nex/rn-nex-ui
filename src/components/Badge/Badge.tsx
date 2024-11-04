@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, StyleSheet, View } from 'react-native';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { Animated, Easing, StyleSheet, View } from 'react-native';
 import { useTheme } from '../../libraries';
 import { Box } from '../Box';
 import { Text } from '../Typography';
@@ -26,8 +26,9 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       badgeContentProps,
       max,
       variant,
-      anchorOrigin,
+      anchorOrigin = { vertical: 'top', horizontal: 'right' },
       badgeContainerProps,
+      containerStyles,
       variation = 'secondary',
       overlap = 'rectangular',
       ...props
@@ -35,27 +36,18 @@ export const Badge = React.forwardRef<View, BadgeProps>(
     ref,
   ) => {
     const { theme } = useTheme();
-    const [badgeContainerLayoutRect, setBadgeContainerLayoutRect] = useState<LayoutRectangle>();
     const badgeVisibility = useRef(new Animated.Value(0)).current;
     const maxValueLimit = max || BADGE_MAX_DEFAULT_VALUE;
 
     const badgeStyles = useMemo(() => {
-      if (badgeContainerLayoutRect) {
-        return generateBadgeStyles({
-          rootElementRect: badgeContainerLayoutRect,
-          variation,
-          badgeVisibility,
-          variant,
-          anchorOrigin,
-          theme,
-        });
-      }
-    }, [badgeContainerLayoutRect, variation, badgeVisibility, variant, anchorOrigin, theme]);
-
-    const badgeContainerLayoutHandler = useCallback((event: LayoutChangeEvent) => {
-      const { layout } = event.nativeEvent;
-      setBadgeContainerLayoutRect(layout);
-    }, []);
+      return generateBadgeStyles({
+        variation,
+        badgeVisibility,
+        variant,
+        anchorOrigin,
+        theme,
+      });
+    }, [variation, badgeVisibility, variant, anchorOrigin, theme]);
 
     const renderBadgeContent = function (content: BadgeProps['badgeContent']) {
       if (variant === 'dot') return null;
@@ -65,14 +57,18 @@ export const Badge = React.forwardRef<View, BadgeProps>(
 
         if (isNaN(badgeNumber)) {
           return (
-            <Text style={[styles.badgeContent, badgeContentDefaultStyles({ variation })]} {...badgeContentProps}>
+            <Text
+              style={StyleSheet.flatten([styles.badgeContent, badgeContentDefaultStyles({ variation })])}
+              {...badgeContentProps}>
               {content}
             </Text>
           );
         }
 
         return (
-          <Text style={[styles.badgeContent, badgeContentDefaultStyles({ variation })]} {...badgeContentProps}>
+          <Text
+            style={StyleSheet.flatten([styles.badgeContent, badgeContentDefaultStyles({ variation })])}
+            {...badgeContentProps}>
             {badgeNumber >= maxValueLimit ? maxValueLimit - 1 + '+' : badgeNumber}
           </Text>
         );
@@ -90,15 +86,13 @@ export const Badge = React.forwardRef<View, BadgeProps>(
     }, [invisible, badgeContent]);
 
     return (
-      <View>
-        <BadgeContainer overlap={overlap} onLayout={badgeContainerLayoutHandler} {...badgeContainerProps}>
+      <View style={StyleSheet.flatten([styles.container, containerStyles])} ref={ref}>
+        <BadgeContainer overlap={overlap} {...badgeContainerProps}>
           {children}
         </BadgeContainer>
-        {badgeContainerLayoutRect ? (
-          <Animated.View ref={ref} style={[styles.badge, badgeStyles, style]} {...props}>
-            {renderBadgeContent(badgeContent)}
-          </Animated.View>
-        ) : null}
+        <Animated.View style={StyleSheet.flatten([styles.badge, badgeStyles, style])} {...props}>
+          {renderBadgeContent(badgeContent)}
+        </Animated.View>
       </View>
     );
   },
@@ -109,13 +103,17 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 11,
   },
+  container: {
+    minWidth: 40,
+    minHeight: 40,
+  },
   badgeContainer: {
     padding: 6,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 30,
-    alignSelf: 'center',
+    alignSelf: 'flex-start',
+    width: '100%',
   },
   badge: {
     paddingHorizontal: 5,
@@ -129,3 +127,4 @@ const styles = StyleSheet.create({
 });
 
 Badge.displayName = 'Badge';
+BadgeContainer.displayName = 'BadgeContainer';
