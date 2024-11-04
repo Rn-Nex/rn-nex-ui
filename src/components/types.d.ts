@@ -6,7 +6,6 @@ export * from './Button/Button.types';
 export * from './Card/Card.types';
 export * from './CheckBox/CheckBox.types';
 export * from './Chip/Chip.types';
-export * from './Dialog/Dialog.types';
 export * from './Divider/Divider.types';
 export * from './Image/Image.types';
 export * from './List/List.types';
