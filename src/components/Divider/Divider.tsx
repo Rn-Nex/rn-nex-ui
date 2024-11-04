@@ -1,109 +1,109 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
+import React, { useCallback, useMemo } from 'react';
+import { ColorSchemeName, ColorValue, StyleProp, StyleSheet, useColorScheme, View, ViewProps, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
-import { DividerProps, DividerRootContainerProps } from './Divider.types';
-import { generateDividerStyles, generateRootContainerStyles } from './Divider.style';
+import { RequiredTheme } from '../../libraries/themes/v1/theme';
+import { dividerLineStyles, dividerRootContainerStyles, styles } from './Divider.styles';
 
-const DividerRootContainer = React.forwardRef<View, DividerRootContainerProps>(
-  ({ children, variant, style, orientation, ...props }, ref) => {
-    const dividerStyles = useMemo(() => generateRootContainerStyles({ variant, orientation }), [variant, orientation]);
+export interface DividerProps extends ViewProps {
+  /**
+   * Styles for the line at the start of the divider.
+   */
+  startLineStyles?: StyleProp<ViewStyle>;
+  /**
+   * Styles for the line at the end of the divider.
+   */
+  endLineStyles?: StyleProp<ViewStyle>;
+  /**
+   * Determines the divider's layout behavior.
+   * - 'fullWidth': Divider spans the full width of the container.
+   * - 'middle': Divider has padding on both sides to center within the container.
+   * - 'startSpacing': Divider is aligned to the start with padding at the beginning.
+   * - 'endSpacing': Divider is aligned to the end with padding at the end.
+   */
+  variant?: 'fullWidth' | 'middle' | 'startSpacing' | 'endSpacing';
+  /**
+   * Orientation of the divider line.
+   * - 'vertical': Divider is displayed vertically.
+   * - 'horizontal': Divider is displayed horizontally.
+   */
+  orientation?: 'vertical' | 'horizontal';
+  /**
+   * Aligns any element within the divider.
+   * - 'left': Aligns element to the left.
+   * - 'center': Centers element.
+   * - 'right': Aligns element to the right.
+   */
+  textAlign?: 'left' | 'center' | 'right';
+  /**
+   * The color of the divider line, defined by a color value.
+   */
+  borderColor?: ColorValue;
+  /**
+   * Space between the divider line and any child elements.
+   */
+  gap?: number;
+}
 
-    return (
-      <View style={[dividerStyles, style]} ref={ref} {...props}>
-        {children}
-      </View>
-    );
-  },
-);
+export type LineType = 'start' | 'end';
+export interface DividerRootContainerStyles extends Pick<DividerProps, 'variant' | 'orientation' | 'gap'>, RequiredTheme {
+  /**
+   * Indicates if there are child elements within the divider component.
+   * This can influence layout and styling decisions.
+   */
+  hasChild?: boolean;
+}
+export interface DividerLineStyles extends Pick<DividerProps, 'borderColor' | 'textAlign'> {
+  /**
+   * The color scheme used in the divider, such as 'light' or 'dark'.
+   */
+  mode: ColorSchemeName;
+  /**
+   * Specifies whether the style is applied to the start or end line.
+   */
+  lineType: LineType;
+}
 
 export const Divider = React.forwardRef<View, DividerProps>(
   (
     {
-      children,
-      dividerBorderStyles,
-      leftDividerBorderStyle,
-      rightDividerBorderStyle,
-      onLayout: dividerOnLayoutHandler,
-      orientation = 'horizontal',
+      style,
+      startLineStyles,
+      endLineStyles,
+      borderColor,
+      gap,
       textAlign = 'center',
       variant = 'fullWidth',
+      orientation = 'horizontal',
+      children,
       ...props
     },
     ref,
   ) => {
     const { theme } = useTheme();
-    const [dividerRootLayoutRect, setDividerRootLayoutRect] = useState<LayoutRectangle>();
-    const [childWrapperLayoutRect, setChildWrapperLayoutRect] = useState<LayoutRectangle>();
+    const colorScheme = useColorScheme();
+    const hasChild = Boolean(children);
 
-    const childWrapperOnLayoutHandler = useCallback((event: LayoutChangeEvent) => {
-      const { layout } = event.nativeEvent;
-      setChildWrapperLayoutRect(prev => {
-        if (!prev || prev.width !== layout.width || prev.height !== layout.height) {
-          return layout;
-        }
-        return prev;
+    const containerStyles = useMemo(() => {
+      return StyleSheet.create({
+        generated: dividerRootContainerStyles({ theme, variant, orientation, gap, hasChild }),
       });
-    }, []);
+    }, [theme, variant, orientation, gap, hasChild]);
 
-    const dividerRootOnLayoutHandler = useCallback(
-      (event: LayoutChangeEvent) => {
-        const { layout } = event.nativeEvent;
-        if (dividerOnLayoutHandler) {
-          dividerOnLayoutHandler(event);
-        }
-        setDividerRootLayoutRect(layout);
+    const lineStyles = useCallback(
+      (lineType: LineType) => {
+        return StyleSheet.create({
+          generated: dividerLineStyles({ mode: colorScheme, borderColor, textAlign, lineType }),
+        });
       },
-      [dividerOnLayoutHandler],
-    );
-
-    const leftStyle = useMemo(
-      () =>
-        generateDividerStyles({
-          dividerType: 'left',
-          variant,
-          hasChild: !!children,
-          childWrapperLayoutRect,
-          dividerRootLayoutRect,
-          textAlign,
-          orientation,
-          theme,
-        }),
-      [variant, !!children, !!childWrapperLayoutRect, !!dividerRootLayoutRect, textAlign, orientation, theme],
-    );
-
-    const rightStyle = useMemo(
-      () =>
-        generateDividerStyles({
-          dividerType: 'right',
-          variant,
-          hasChild: !!children,
-          childWrapperLayoutRect,
-          dividerRootLayoutRect,
-          textAlign,
-          orientation,
-          theme,
-        }),
-      [variant, !!children, !!childWrapperLayoutRect, !!dividerRootLayoutRect, textAlign, orientation, theme],
+      [borderColor, colorScheme, textAlign],
     );
 
     return (
-      <DividerRootContainer
-        orientation={orientation}
-        onLayout={dividerRootOnLayoutHandler}
-        variant={variant}
-        ref={ref}
-        {...props}>
-        <View style={[leftStyle, leftDividerBorderStyle, dividerBorderStyles]} />
-        {children && (
-          <View style={{ paddingHorizontal: 10 }} onLayout={childWrapperOnLayoutHandler}>
-            {children}
-          </View>
-        )}
-        <View style={[rightStyle, rightDividerBorderStyle, dividerBorderStyles]} />
-      </DividerRootContainer>
+      <View ref={ref} style={StyleSheet.flatten([styles.rootContainer, containerStyles.generated, style])} {...props}>
+        <View style={StyleSheet.flatten([styles.line, lineStyles('start').generated, startLineStyles])} />
+        {children}
+        <View style={StyleSheet.flatten([styles.line, lineStyles('end').generated, endLineStyles])} />
+      </View>
     );
   },
 );
-
-Divider.displayName = 'Divider';
-DividerRootContainer.displayName = 'DividerRootContainer';

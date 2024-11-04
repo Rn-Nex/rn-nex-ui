@@ -36,6 +36,10 @@ export type ThemeDimensions = {
   fontWeight: typeof fontWeight;
 };
 
+export interface RequiredTheme {
+  theme: ThemeType;
+}
+
 /**
  * Type representing the overall theme structure, including colors and various design metrics.
  */
