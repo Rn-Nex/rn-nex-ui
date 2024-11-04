@@ -76,19 +76,19 @@ export const Ex1: React.FC = () => {
         <Box sx={{ p: 10 }}>
           <Text>Other line</Text>
         </Box>
-        <Divider textAlign="right" dividerBorderStyles={{ backgroundColor: 'red' }}>
+        <Divider textAlign="right" startLineStyles={{ backgroundColor: 'red' }}>
           <Text>Right</Text>
         </Divider>
         <Box sx={{ p: 10 }}>
           <Text>Other line</Text>
         </Box>
-        <Divider textAlign="right" leftDividerBorderStyle={{ backgroundColor: 'red' }}>
+        <Divider textAlign="right" startLineStyles={{ backgroundColor: 'red' }}>
           <Text>Right</Text>
         </Divider>
         <Box sx={{ p: 10 }}>
           <Text>Other line</Text>
         </Box>
-        <Divider textAlign="right" rightDividerBorderStyle={{ backgroundColor: 'red' }}>
+        <Divider textAlign="right" endLineStyles={{ backgroundColor: 'red' }}>
           <Text>Right</Text>
         </Divider>
       </Box>
