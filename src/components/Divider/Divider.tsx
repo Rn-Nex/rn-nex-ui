@@ -42,10 +42,16 @@ export interface DividerProps extends ViewProps {
    * Space between the divider line and any child elements.
    */
   gap?: number;
+  /**
+   * Custom spacing for divider lines in different variants.
+   */
+  variantSpacing?: number;
 }
 
 export type LineType = 'start' | 'end';
-export interface DividerRootContainerStyles extends Pick<DividerProps, 'variant' | 'orientation' | 'gap'>, RequiredTheme {
+export interface DividerRootContainerStyles
+  extends Pick<DividerProps, 'variant' | 'orientation' | 'gap' | 'variantSpacing'>,
+    RequiredTheme {
   /**
    * Indicates if there are child elements within the divider component.
    * This can influence layout and styling decisions.
@@ -71,6 +77,7 @@ export const Divider = React.forwardRef<View, DividerProps>(
       endLineStyles,
       borderColor,
       gap,
+      variantSpacing,
       textAlign = 'center',
       variant = 'fullWidth',
       orientation = 'horizontal',
@@ -85,9 +92,9 @@ export const Divider = React.forwardRef<View, DividerProps>(
 
     const containerStyles = useMemo(() => {
       return StyleSheet.create({
-        generated: dividerRootContainerStyles({ theme, variant, orientation, gap, hasChild }),
+        generated: dividerRootContainerStyles({ theme, variant, orientation, gap, hasChild, variantSpacing }),
       });
-    }, [theme, variant, orientation, gap, hasChild]);
+    }, [theme, variant, orientation, gap, hasChild, variantSpacing]);
 
     const lineStyles = useCallback(
       (lineType: LineType) => {

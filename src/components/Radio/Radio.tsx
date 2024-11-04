@@ -16,6 +16,7 @@ import { Text } from '../Typography';
 import { TextProps } from '../types';
 import { styles } from './Radio.styles';
 import { RADIO_LARGE, RADIO_MEDIUM, RADIO_SMALL } from './constants';
+import { Divider, DividerProps } from '../Divider';
 
 export interface SizeConfig {
   small: number;
@@ -134,6 +135,14 @@ export interface RadioProps extends ViewProps, BaseInterface {
    * Display the adornment at the end of the radio button of start of the radio button
    */
   adornmentType?: 'start' | 'end';
+  /**
+   * Show the divider element
+   */
+  showDivider?: boolean;
+  /**
+   * Customize the divider component.
+   */
+  dividerProps?: DividerProps;
 }
 
 export const Radio = React.forwardRef<View, RadioProps>(
@@ -153,6 +162,8 @@ export const Radio = React.forwardRef<View, RadioProps>(
       baseButtonStyles,
       adornment,
       adornmentContainerStyles,
+      dividerProps,
+      showDivider = false,
       gap = 8,
       disabled = false,
       size = 'medium',
@@ -216,9 +227,22 @@ export const Radio = React.forwardRef<View, RadioProps>(
       adornmentType,
     ]);
 
+    const renderDivider = useCallback(() => {
+      return (
+        <View>
+          <Divider orientation="vertical" variant="middle" variantSpacing={10} {...dividerProps} />
+        </View>
+      );
+    }, [showDivider, dividerProps]);
+
     return (
       <View ref={ref} style={StyleSheet.flatten([styles.radioRootContainer, style])} {...props}>
-        {adornmentType === 'start' && renderAdornment()}
+        {adornmentType === 'start' && (
+          <React.Fragment>
+            {renderAdornment()}
+            {showDivider && renderDivider()}
+          </React.Fragment>
+        )}
         <View style={[styles.baseButtonContainer]}>
           <BaseButton
             onPress={radioOnPressHandler}
@@ -244,7 +268,12 @@ export const Radio = React.forwardRef<View, RadioProps>(
             </RadioOutline>
           </BaseButton>
         </View>
-        {adornmentType === 'end' && renderAdornment()}
+        {adornmentType === 'end' && (
+          <React.Fragment>
+            {showDivider && renderDivider()}
+            {renderAdornment()}
+          </React.Fragment>
+        )}
       </View>
     );
   },

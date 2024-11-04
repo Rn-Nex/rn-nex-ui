@@ -20,8 +20,7 @@ export const styles = StyleSheet.create({
     paddingRight: 6,
   },
   baseButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 10,
+    padding: 8,
   },
   radioOutline: {
     borderRadius: 100,
