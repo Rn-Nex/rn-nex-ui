@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
 
 export const dividerLineStyles = ({ mode, borderColor, textAlign, lineType }: DividerLineStyles) => {
   let baseStyles: ViewStyle = {
-    borderColor: borderColor || mode === 'light' ? grey[400] : grey[700],
+    borderColor: borderColor ? borderColor : mode === 'light' ? grey[400] : grey[700],
   };
   const isStartLine = lineType === 'start';
 
@@ -40,25 +40,32 @@ export const dividerRootContainerStyles = ({
   orientation,
   gap,
   hasChild,
+  variantSpacing,
 }: DividerRootContainerStyles): ViewStyle => {
   const { spacing } = theme;
   const isVertical = orientation === 'vertical';
 
   const baseStyles: ViewStyle = isVertical
-    ? { paddingHorizontal: 6, alignSelf: 'flex-start', height: '100%', flexDirection: 'column' }
-    : { paddingVertical: 6 };
+    ? {
+        paddingHorizontal: 2,
+        alignSelf: 'flex-start',
+        flex: 1,
+        flexDirection: 'column',
+      }
+    : { paddingVertical: 2 };
 
   const styles: ViewStyle = { ...baseStyles, gap: gap || hasChild ? 10 : 0 };
+  const elementSpacing = variantSpacing || spacing.lg;
 
   switch (variant) {
     case 'middle':
-      isVertical ? (styles.paddingVertical = spacing.lg) : (styles.paddingHorizontal = spacing.lg);
+      isVertical ? (styles.paddingVertical = elementSpacing) : (styles.paddingHorizontal = elementSpacing);
       break;
     case 'startSpacing':
-      isVertical ? (styles.paddingTop = spacing.lg) : (styles.paddingLeft = spacing.lg);
+      isVertical ? (styles.paddingTop = elementSpacing) : (styles.paddingLeft = elementSpacing);
       break;
     case 'endSpacing':
-      isVertical ? (styles.paddingBottom = spacing.lg) : (styles.paddingRight = spacing.lg);
+      isVertical ? (styles.paddingBottom = elementSpacing) : (styles.paddingRight = elementSpacing);
       break;
   }
 

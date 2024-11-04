@@ -17,9 +17,7 @@ function App(): React.JSX.Element {
               label="HTML Version"
               description="@material packed with rich components and widgets."
               disabled={false}
-              endAdornment={<Text>Hi</Text>}
-              disableButtonScaleAnimation={false}
-              disableRipple={false}
+              adornment={<Text>Hi</Text>}
               radioItem={
                 <Avatar
                   source={{
@@ -38,11 +36,6 @@ function App(): React.JSX.Element {
               label="HTML Version"
               description="@material packed with rich components and widgets."
               disabled={false}
-              disableButtonScaleAnimation={false}
-              disableRipple={false}
-              rippleProps={{
-                rippleStyles: { backgroundColor: 'red' },
-              }}
               radioItemContainerStyles={{ width: 30, height: 30 }}
             />
             <Radio
@@ -61,9 +54,6 @@ function App(): React.JSX.Element {
               label="HTML Version"
               description="@material packed with rich components and widgets."
               disabled={false}
-              rippleProps={{
-                rippleStyles: { backgroundColor: 'red' },
-              }}
               radioItem={
                 <Avatar
                   source={{
@@ -74,7 +64,19 @@ function App(): React.JSX.Element {
                 />
               }
               radioItemContainerStyles={{ width: 30, height: 30 }}
-              radioContainerStyles={{ alignItems: 'flex-start' }}
+            />
+            <Radio
+              dividerProps={{
+                borderColor: 'red',
+              }}
+              adornmentType="start"
+              showDivider
+              adornment={
+                <React.Fragment>
+                  <Text>React native radio component</Text>
+                  <Text variation="h5">Some of the description...</Text>
+                </React.Fragment>
+              }
             />
           </Container>
         </ThemeProvider>
