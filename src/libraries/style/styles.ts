@@ -100,4 +100,5 @@ export const styles: Record<
   bColor: 'borderColor',
   bWidth: 'borderWidth',
   overflow: 'overflow',
+  tAlign: 'textAlign',
 };

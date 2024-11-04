@@ -1,17 +1,23 @@
-import React, { useEffect, useMemo, useRef } from 'react';
-import { Animated, GestureResponderEvent, StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import {
+  Animated,
+  GestureResponderEvent,
+  StyleProp,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+  ViewProps,
+  ViewStyle,
+} from 'react-native';
 import { useTheme } from '../../libraries';
 import { getVariant, VariantTypes } from '../../utils';
 import { BaseButton } from '../Button';
 import { Text } from '../Typography';
-import { RippleProps, TextProps } from '../types';
+import { TextProps } from '../types';
 import { styles } from './Radio.styles';
 import { RADIO_LARGE, RADIO_MEDIUM, RADIO_SMALL } from './constants';
 
 export interface SizeConfig {
-  /**
-   * Size configuration for radio buttons
-   */
   small: number;
   medium: number;
   large: number;
@@ -40,6 +46,10 @@ export interface BaseInterface {
    * Color to use when the radio button is active
    */
   activeColor?: string;
+  /**
+   * Used for check the onPress event handler positioning in the top of the container or in the radio element.
+   */
+  actionType?: 'root' | 'element';
 }
 
 export interface RadioOutlineProps extends ViewProps, Omit<BaseInterface, 'size' | 'sizeConfig' | 'activeColor'> {}
@@ -75,11 +85,11 @@ export interface RadioProps extends ViewProps, BaseInterface {
   /**
    * Additional props for customizing the label text
    */
-  labelProps?: TextProps;
+  labelProps?: Omit<TextProps, 'children'>;
   /**
-   * Styles for the container holding the radio button
+   * Additional properties for customizing the description text
    */
-  radioContainerStyles?: StyleProp<ViewStyle>;
+  descriptionProps?: Omit<TextProps, 'children'>;
   /**
    * Indicates whether the radio button is disabled
    */
@@ -96,14 +106,6 @@ export interface RadioProps extends ViewProps, BaseInterface {
    * Styles for the container holding the radio item
    */
   radioItemContainerStyles?: StyleProp<ViewStyle>;
-  /**
-   * Props for customizing ripple effect on press
-   */
-  rippleProps?: RippleProps;
-  /**
-   * Flag to disable the ripple effect on press
-   */
-  disableRipple?: boolean;
   /**
    * Styles for the base button used in the radio button
    */
@@ -123,11 +125,15 @@ export interface RadioProps extends ViewProps, BaseInterface {
   /**
    * Content to display at the end of the radio button
    */
-  endAdornment?: React.ReactNode;
+  adornment?: React.ReactNode;
   /**
    * Styles for the container holding the end adornment
    */
-  endAdornmentContainerStyles?: StyleProp<ViewStyle>;
+  adornmentContainerStyles?: StyleProp<ViewProps>;
+  /**
+   * Display the adornment at the end of the radio button of start of the radio button
+   */
+  adornmentType?: 'start' | 'end';
 }
 
 export const Radio = React.forwardRef<View, RadioProps>(
@@ -138,26 +144,23 @@ export const Radio = React.forwardRef<View, RadioProps>(
       onPress,
       label,
       labelProps,
-      radioContainerStyles,
+      descriptionProps,
       activeColor,
       labelContainerStyles,
       description,
       radioItem,
       radioItemContainerStyles,
-      rippleProps,
       baseButtonStyles,
-      startAdornment,
-      startAdornmentContainerStyles,
-      endAdornment,
-      endAdornmentContainerStyles,
-      disableButtonScaleAnimation = true,
-      disableRipple = true,
+      adornment,
+      adornmentContainerStyles,
       gap = 8,
       disabled = false,
       size = 'medium',
       isActive = false,
       animationDuration = 100,
       variant = 'info',
+      actionType = 'element',
+      adornmentType = 'end',
       ...props
     },
     ref,
@@ -168,17 +171,61 @@ export const Radio = React.forwardRef<View, RadioProps>(
       }
     };
 
+    const adornmentOnPressHandler = (event: GestureResponderEvent) => {
+      if (actionType === 'root') radioOnPressHandler(event);
+    };
+
+    const renderAdornment = useCallback(() => {
+      if (label || description || adornment) {
+        const { sx: labelSx, ...restLabelProps } = labelProps || {};
+        const { sx: descriptionSx, ...restDescriptionProps } = descriptionProps || {};
+
+        const element = adornment ? (
+          <View style={[adornmentContainerStyles]}>{adornment}</View>
+        ) : (
+          <View style={[labelContainerStyles]}>
+            {label && (
+              <Text variation="h4" sx={labelSx} {...restLabelProps}>
+                {label}
+              </Text>
+            )}
+            {description && (
+              <Text variation="h5" sx={descriptionSx} {...restDescriptionProps}>
+                {description}
+              </Text>
+            )}
+          </View>
+        );
+
+        return (
+          <View style={[styles.contentContainer]}>
+            <TouchableWithoutFeedback onPress={adornmentOnPressHandler}>{element}</TouchableWithoutFeedback>
+          </View>
+        );
+      } else return null;
+    }, [
+      adornment,
+      adornmentContainerStyles,
+      label,
+      description,
+      labelProps,
+      labelContainerStyles,
+      descriptionProps,
+      actionType,
+      isActive,
+      adornmentType,
+    ]);
+
     return (
-      <View ref={ref} style={[style]} {...props}>
-        <BaseButton
-          onPress={radioOnPressHandler}
-          disabled={disabled}
-          rippleProps={rippleProps}
-          disableRipple={disableRipple}
-          style={StyleSheet.flatten([styles.baseButton, baseButtonStyles])}
-          disableScaleAnimation={disableButtonScaleAnimation}>
-          <View style={StyleSheet.flatten([styles.radioContainer, radioContainerStyles, { opacity: disabled ? 0.5 : 1, gap }])}>
-            {startAdornment && <View style={[startAdornmentContainerStyles]}>{startAdornment}</View>}
+      <View ref={ref} style={StyleSheet.flatten([styles.radioRootContainer, style])} {...props}>
+        {adornmentType === 'start' && renderAdornment()}
+        <View style={[styles.baseButtonContainer]}>
+          <BaseButton
+            onPress={radioOnPressHandler}
+            disabled={disabled}
+            disableRipple={true}
+            style={StyleSheet.flatten([styles.baseButton, baseButtonStyles])}
+            disableScaleAnimation={true}>
             <RadioOutline isActive={isActive} animationDuration={animationDuration}>
               {radioItem ? (
                 <View style={StyleSheet.flatten([styles.radioItemContainer, radioItemContainerStyles])}>
@@ -195,20 +242,9 @@ export const Radio = React.forwardRef<View, RadioProps>(
                 />
               )}
             </RadioOutline>
-            {endAdornment ? (
-              <View style={[endAdornmentContainerStyles]}>{endAdornment}</View>
-            ) : (
-              <View style={[labelContainerStyles]}>
-                {label && (
-                  <Text variation="h4" {...labelProps}>
-                    {label}
-                  </Text>
-                )}
-                {description && <Text variation="h5">{description}</Text>}
-              </View>
-            )}
-          </View>
-        </BaseButton>
+          </BaseButton>
+        </View>
+        {adornmentType === 'end' && renderAdornment()}
       </View>
     );
   },
@@ -261,7 +297,7 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
       }),
       Animated.timing(opacityValue, {
         toValue: isActive ? 1 : 0,
-        duration: animationDuration,
+        duration: 200,
         useNativeDriver: true,
       }),
       Animated.timing(backgroundColorValue, {
@@ -273,6 +309,7 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
   }, [isActive, animationDuration]);
 
   const colorVariation = useMemo(() => getVariant({ variant, theme }), [variant, theme]);
+  const backgroundOutputRange = activeColor || colorVariation;
 
   const getSize = useMemo(() => {
     if (size === 'small') return sizeConfig?.small || RADIO_SMALL;
@@ -283,7 +320,7 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
 
   const backgroundColorInterpolation = backgroundColorValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ['transparent', activeColor || colorVariation],
+    outputRange: [backgroundOutputRange, backgroundOutputRange],
   });
 
   const animatedStyle: ViewStyle = {
