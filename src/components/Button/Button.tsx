@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { grey, useTheme } from '../../libraries';
-import { generateElementStyles } from '../../utils';
+import { generateElementStyles, getVariant } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
 import { Text } from '../Typography';
 import { BaseButton } from './BaseButton';
-import { ButtonProps } from './Button.types';
 import { getButtonStyles } from './Button.styles';
+import { ButtonProps } from './Button.types';
 
 export const Button = React.forwardRef<View, ButtonProps>(
   (
@@ -20,6 +20,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
       loading,
       label,
       labelStyles,
+      labelColor,
       buttonColor = 'secondary',
       variation = 'contained',
       square = false,
@@ -28,6 +29,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
     ref,
   ) => {
     const { theme } = useTheme();
+    const isContainedButton = variation === 'contained';
 
     const baseButtonStyles = useMemo(() => {
       const styles = getButtonStyles({ theme, variation, fullWidth, disableElevation, disabled, buttonColor, square });
@@ -40,15 +42,11 @@ export const Button = React.forwardRef<View, ButtonProps>(
       } else if (children) {
         return children;
       } else {
-        const textColor = variation === 'contained' ? grey[50] : theme.colors.grey[900];
+        const textColor = labelColor ?? (isContainedButton ? grey[50] : getVariant({ variant: buttonColor, theme }));
 
-        return (
-          <Text sx={{ color: textColor }} style={labelStyles}>
-            {label}
-          </Text>
-        );
+        return <Text style={StyleSheet.flatten([{ color: textColor }, labelStyles])}>{label}</Text>;
       }
-    }, [loading, children, labelStyles, theme, variation]);
+    }, [loading, children, labelStyles, theme, variation, buttonColor, labelColor]);
 
     return (
       <BaseButton

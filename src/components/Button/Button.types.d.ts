@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextStyle, TouchableWithoutFeedback } from 'react-native';
+import { ColorValue, TextStyle, TouchableWithoutFeedback } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { VariantTypes } from '../../utils';
@@ -100,6 +100,10 @@ export interface ButtonProps extends BaseButtonProps {
    * Change the button radius
    */
   square?: boolean;
+  /**
+   * Change the button label color
+   */
+  labelColor?: ColorValue;
 }
 
 /**

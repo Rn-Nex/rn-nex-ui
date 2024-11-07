@@ -4,7 +4,6 @@ import { getVariant } from '../../utils';
 import { ButtonVariationsType, GetButtonStylesProps } from './Button.types';
 
 export const containedButtonDefaultStyles = (theme: ThemeType): ViewStyle => ({
-  backgroundColor: theme.colors.secondary[400],
   padding: theme.spacing.lg,
   elevation: 5,
   alignItems: 'center',
@@ -63,11 +62,16 @@ export const getButtonStyles = ({
   disabled,
   square,
   variation = 'contained',
-}: GetButtonStylesProps): ViewStyle => ({
-  ...(fullWidth && { width: '100%' }),
-  ...(disableElevation && { elevation: 0 }),
-  ...(buttonColor && { backgroundColor: getVariant({ variant: buttonColor, theme }) }),
-  ...buttonVariationStyles(theme, variation),
-  ...(disabled && disabledStyles),
-  ...(square && { borderRadius: 0 }),
-});
+}: GetButtonStylesProps): ViewStyle => {
+  const isContainedVariation = variation === 'contained';
+
+  return {
+    ...(fullWidth && { width: '100%' }),
+    ...(disableElevation && { elevation: 0 }),
+    ...(buttonColor && { backgroundColor: getVariant({ variant: buttonColor, theme }) }),
+    ...buttonVariationStyles(theme, variation),
+    ...(!isContainedVariation && { borderColor: getVariant({ variant: buttonColor, theme }) }),
+    ...(disabled && disabledStyles),
+    ...(square && { borderRadius: 0 }),
+  };
+};
