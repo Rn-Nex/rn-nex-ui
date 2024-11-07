@@ -1,9 +1,9 @@
 import React from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
+import { TextStyle, TouchableWithoutFeedback } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
+import { VariantTypes } from '../../utils';
 import { RipplePosition, RippleProps } from '../Ripple/Ripple.types';
-import { TextProps } from '../types';
 
 export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof TouchableWithoutFeedback> {
   /**
@@ -54,12 +54,6 @@ export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof Touc
 export type ButtonVariations = 'contained' | 'outlined' | 'text';
 
 /**
- * Define a union type for the possible color variations of a button component,
- * including 'primary', 'secondary', 'success', 'error', 'info', or 'warning'.
- */
-export type ButtonColorTypes = 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
-
-/**
  * Define the properties that can be passed to the Button component,
  * extending from React's TouchableWithoutFeedback component props.
  */
@@ -87,9 +81,8 @@ export interface ButtonProps extends BaseButtonProps {
 
   /**
    * Optional property to specify the color variation of the button.
-   * Can only accept values defined in ButtonColorTypes type.
    */
-  buttonColor?: ButtonColorTypes;
+  buttonColor?: VariantTypes;
 
   /**
    * show the loading indicator when the button is clicked
@@ -100,9 +93,9 @@ export interface ButtonProps extends BaseButtonProps {
    */
   label?: string;
   /**
-   * Custom props for button label component
+   * Custom styles for button label component
    */
-  labelProps?: Omit<TextProps, 'children'>;
+  labelStyles?: TextStyle;
   /**
    * Change the button radius
    */

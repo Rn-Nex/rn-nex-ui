@@ -4,7 +4,7 @@ import { useTheme } from '../../libraries';
 import { generateElementStyles } from '../../utils';
 import { BaseButton } from './BaseButton';
 import { IconButtonProps } from './Button.types';
-import { getButtonStyles } from './utils';
+import { getButtonStyles } from './Button.styles';
 
 export const IconButton = React.forwardRef<View, IconButtonProps>(
   ({ disabled, children, style, sx, variation = 'roundedIconButton', ...props }, ref) => {
