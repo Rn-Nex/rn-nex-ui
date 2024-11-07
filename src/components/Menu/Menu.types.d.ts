@@ -1,37 +1,23 @@
 import React from 'react';
-import { LayoutRectangle, NativeTouchEvent, StyleProp, ViewStyle } from 'react-native';
+import { LayoutRectangle, StyleProp, ViewProps, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { MeasureElementRect } from '../../types';
 import { BoxProps } from '../Box/Box.types';
 import { BaseButtonProps } from '../Button/Button.types';
 import { PortalProps } from '../Portal/Portal.types';
 
-/**
- * Props for the individual menu item component.
- * Extends BaseButtonProps to include button-related properties.
- */
 export interface MenuItemProps extends BaseButtonProps {
-  /** Styles for the container of the list item, can use BoxProps style and sx properties. */
-  listContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
   /** Element to be displayed at the end of the menu item, e.g., an icon. */
-  endAdornment?: React.ReactNode;
-  /** Styles for the container of the end adornment, can use BoxProps style and sx properties. */
-  endAdornmentContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
+  adornment?: React.ReactNode;
+  /** Styles for the container of the end adornment */
+  adornmentContainerStyles?: ViewStyle;
   /** Indicates if the menu item is selected. */
   selected?: boolean;
+  adornmentType?: 'start' | 'end';
+  actionType?: 'root' | 'element';
+  adornmentMinWidth?: number;
 }
 
-/**
- * Props for styles related to the menu item.
- */
-export interface MenuItemStylesProps {
-  /** Element to be displayed at the end of the menu item, e.g., an icon. */
-  endAdornment?: React.ReactNode;
-}
-
-/**
- * Props for the container styles of the menu item.
- */
 export interface MenuItemContainerStylesProps extends Pick<MenuItemProps, 'selected'> {
   /** The theme object, which contains theme-related properties and methods. */
   theme: ThemeType;
@@ -39,24 +25,13 @@ export interface MenuItemContainerStylesProps extends Pick<MenuItemProps, 'selec
   disabled?: boolean;
 }
 
-/**
- * Props for styles related to the menu list.
- */
 export interface MenuListStylesProps {
   /** The theme object, which contains theme-related properties and methods. */
   theme: ThemeType;
 }
 
-/**
- * Props for the menu list component.
- * Extends BoxProps to include box-related properties.
- */
-export interface MenuListProps extends BoxProps {}
+export interface MenuListProps extends ViewProps {}
 
-/**
- * Props for the main menu component.
- * Extends PortalProps to include portal-related properties.
- */
 export interface MenuProps extends PortalProps {
   /** Indicates if the menu is currently focused. */
   focused?: boolean;
@@ -70,9 +45,6 @@ export interface MenuProps extends PortalProps {
   scaleAnimationDuration?: number;
 }
 
-/**
- * Props for the dialog container styles.
- */
 export interface DialogContainerStylesProps extends Pick<MenuProps, 'rootElementRect'> {
   /** Rect object that contains the dimensions and position of the wrapper component. */
   wrapperComponentRect?: LayoutRectangle;
