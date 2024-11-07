@@ -70,6 +70,32 @@ export const App: React.FC = () => {
           </Menu>
         </View>
         <View style={{ height: 1000 }}></View>
+        <MenuList>
+          <MenuItem actionType="root" adornmentType="start" adornment={<Text>Demo</Text>} onPress={() => {}}>
+            <ListItemIcon>
+              <Avatar
+                source={{
+                  uri: 'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+                }}
+                size={30}
+                variation="rounded"
+              />
+            </ListItemIcon>
+            <ListItemText secondary="Ali Connors — I'll be in your neighborhood doing errands this…" />
+          </MenuItem>
+          <MenuItem adornmentType="start" adornment={<Text>Demo</Text>} onPress={() => {}}>
+            <ListItemIcon>
+              <Avatar
+                source={{
+                  uri: 'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+                }}
+                size={30}
+                variation="rounded"
+              />
+            </ListItemIcon>
+            <ListItemText secondary="Ali Connors — I'll be in your neighborhood doing errands this…" />
+          </MenuItem>
+        </MenuList>
       </ScrollView>
     </PortalProvider>
   );

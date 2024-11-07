@@ -1,10 +1,10 @@
 import React from 'react';
-import { ColorValue, View } from 'react-native';
+import { ColorValue, TextStyle, View, ViewProps } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
-import { TextProps } from '../Typography/Text.types';
-import { BaseButtonProps } from '../Button/Button.types';
-import { BoxProps } from '../Box/Box.types';
 import { ThemeType } from '../../libraries/themes/v1/theme';
+import { BoxProps } from '../Box/Box.types';
+import { BaseButtonProps } from '../Button/Button.types';
+import { TextProps } from '../Typography/Text.types';
 
 /**
  * Interface for the List component properties, extending the properties of a View component
@@ -131,10 +131,9 @@ export interface ListItemProps extends BaseButtonProps {
 }
 
 /**
- * Interface for ListItemIcon component properties, extending the properties of ListProps
- * This interface defines the props that can be passed to a ListItemIcon component.
+ * Interface for ListItemIcon component properties, extending the properties of ViewProps
  */
-export interface ListItemIconProps extends ListProps {}
+export interface ListItemIconProps extends ViewProps {}
 
 /**
  * Interface for ListItemText component properties, extending ListProps but omitting the 'children' property
@@ -149,9 +148,8 @@ export interface ListItemTextProps extends Omit<ListProps, 'children'> {
 
   /**
    * Optional properties for the primary text label.
-   * This allows customization of the primary text label properties, excluding the children prop.
    */
-  primaryLabelProps?: Omit<TextProps, 'children'>;
+  primaryLabelStyles?: TextStyle;
 
   /**
    * Optional secondary text for the ListItemText component.
@@ -161,9 +159,8 @@ export interface ListItemTextProps extends Omit<ListProps, 'children'> {
 
   /**
    * Optional properties for the secondary text label.
-   * This allows customization of the secondary text label properties, excluding the children prop.
    */
-  secondaryLabelProps?: Omit<TextProps, 'children'>;
+  secondaryLabelStyles?: TextStyle;
 
   /**
    * Optional flag to disable padding for the ListItemText component.

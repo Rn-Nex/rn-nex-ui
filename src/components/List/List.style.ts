@@ -25,10 +25,16 @@ export const styles = StyleSheet.create({
     minWidth: '15%',
   },
   listItemIcon: {
-    minWidth: '12%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+  },
+  listItemText: {
+    display: 'flex',
+    justifyContent: 'center',
+    flex: 1,
   },
 });
 
@@ -75,9 +81,6 @@ export const listItemContainerStyles = ({
 
 export const listItemTextStyles = ({ disablePadding, alignItems }: ListItemTextStylesProps): ViewStyle => {
   let styles: ViewStyle = {
-    display: 'flex',
-    flex: 1,
-    justifyContent: 'center',
     alignItems:
       alignItems === 'start'
         ? 'flex-start'
