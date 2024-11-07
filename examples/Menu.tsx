@@ -32,7 +32,7 @@ export const App: React.FC = () => {
       <ScrollView style={{ flex: 1, paddingVertical: 30 }}>
         <View style={{ height: 1000 }}></View>
         <View style={styles.container}>
-          <Button ref={buttonRef} fullWidth onPress={handlePress}>
+          <Button ref={buttonRef} onPress={handlePress}>
             <Text>Click to show menu</Text>
           </Button>
           <Menu

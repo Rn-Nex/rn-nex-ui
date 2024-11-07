@@ -1,6 +1,5 @@
 import React from 'react';
 import { ColorValue, TextStyle, TouchableWithoutFeedback, ViewStyle } from 'react-native';
-import { BaseStyles } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { VariantTypes } from '../../utils';
 import { RipplePosition, RippleProps } from '../Ripple/Ripple.types';
@@ -30,11 +29,6 @@ export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof Touc
    * Determines the position of the ripple effect relative to the button.
    */
   rippleEdge?: RipplePosition;
-
-  /**
-   * Additional styles for the button container.
-   */
-  sx?: BaseStyles;
 
   /**
    * stop scale animation when the button is clicked
@@ -96,6 +90,8 @@ export interface ButtonProps extends BaseButtonProps {
    * Change the button label color
    */
   labelColor?: ColorValue;
+
+  baseButtonStyles?: ViewStyle;
 }
 
 /**
