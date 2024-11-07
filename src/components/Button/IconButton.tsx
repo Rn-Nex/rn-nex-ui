@@ -3,8 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { useTheme } from '../../libraries';
 import { generateElementStyles } from '../../utils';
 import { BaseButton } from './BaseButton';
-import { IconButtonProps } from './Button.types';
 import { getButtonStyles } from './Button.styles';
+import { IconButtonProps } from './Button.types';
 
 export const IconButton = React.forwardRef<View, IconButtonProps>(
   ({ disabled, children, style, sx, variation = 'roundedIconButton', ...props }, ref) => {
@@ -16,6 +16,7 @@ export const IconButton = React.forwardRef<View, IconButtonProps>(
         rippleEdge="center"
         ref={ref}
         style={StyleSheet.flatten([iconButtonStyles, sx && generateElementStyles(sx), style])}
+        baseButtonContainerStyle={{ flexDirection: 'column' }}
         {...props}>
         {children}
       </BaseButton>

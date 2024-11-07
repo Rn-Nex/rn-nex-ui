@@ -1,5 +1,5 @@
 import React from 'react';
-import { ColorValue, TextStyle, TouchableWithoutFeedback } from 'react-native';
+import { ColorValue, TextStyle, TouchableWithoutFeedback, ViewStyle } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { VariantTypes } from '../../utils';
@@ -45,6 +45,8 @@ export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof Touc
    * button scale animation when the button is clicked
    */
   scaleAnimationValue?: number;
+
+  baseButtonContainerStyle?: ViewStyle;
 }
 
 /**
@@ -68,16 +70,6 @@ export interface ButtonProps extends BaseButtonProps {
    * Boolean flag to disable the ripple effect.
    */
   disableRipple?: boolean;
-
-  /**
-   * Boolean flag to specify whether the button should take up the full width available.
-   */
-  fullWidth?: boolean;
-
-  /**
-   * Boolean flag to specify whether to disable elevation for the button.
-   */
-  disableElevation?: boolean;
 
   /**
    * Optional property to specify the color variation of the button.
