@@ -1,11 +1,26 @@
-import { ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { getVariant } from '../../utils';
 import { ButtonVariationsType, GetButtonStylesProps } from './Button.types';
 
+export const styles = StyleSheet.create({
+  rootContainer: {
+    width: '100%',
+    flexDirection: 'row',
+  },
+  innerContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 1,
+  },
+  baseButtonContainer: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+});
+
 export const containedButtonDefaultStyles = (theme: ThemeType): ViewStyle => ({
   padding: theme.spacing.lg,
-  elevation: 5,
   alignItems: 'center',
   borderRadius: 8,
   overflow: 'hidden',
@@ -56,8 +71,6 @@ export const buttonVariationStyles = (theme: ThemeType, variation: ButtonVariati
 
 export const getButtonStyles = ({
   theme,
-  fullWidth,
-  disableElevation,
   buttonColor,
   disabled,
   square,
@@ -66,12 +79,11 @@ export const getButtonStyles = ({
   const isContainedVariation = variation === 'contained';
 
   return {
-    ...(fullWidth && { width: '100%' }),
-    ...(disableElevation && { elevation: 0 }),
     ...(buttonColor && { backgroundColor: getVariant({ variant: buttonColor, theme }) }),
     ...buttonVariationStyles(theme, variation),
     ...(!isContainedVariation && { borderColor: getVariant({ variant: buttonColor, theme }) }),
     ...(disabled && disabledStyles),
     ...(square && { borderRadius: 0 }),
+    flex: 1,
   };
 };

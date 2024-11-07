@@ -5,7 +5,7 @@ import { generateElementStyles, getVariant } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
 import { Text } from '../Typography';
 import { BaseButton } from './BaseButton';
-import { getButtonStyles } from './Button.styles';
+import { getButtonStyles, styles } from './Button.styles';
 import { ButtonProps } from './Button.types';
 
 export const Button = React.forwardRef<View, ButtonProps>(
@@ -15,8 +15,6 @@ export const Button = React.forwardRef<View, ButtonProps>(
       style,
       sx,
       disabled,
-      fullWidth,
-      disableElevation,
       loading,
       label,
       labelStyles,
@@ -32,9 +30,9 @@ export const Button = React.forwardRef<View, ButtonProps>(
     const isContainedButton = variation === 'contained';
 
     const baseButtonStyles = useMemo(() => {
-      const styles = getButtonStyles({ theme, variation, fullWidth, disableElevation, disabled, buttonColor, square });
+      const styles = getButtonStyles({ theme, variation, disabled, buttonColor, square });
       return StyleSheet.create({ generated: styles });
-    }, [theme, variation, fullWidth, disableElevation, disabled, buttonColor, square]);
+    }, [theme, variation, disabled, buttonColor, square]);
 
     const renderChild = useCallback(() => {
       if (loading) {
@@ -49,13 +47,17 @@ export const Button = React.forwardRef<View, ButtonProps>(
     }, [loading, children, labelStyles, theme, variation, buttonColor, labelColor]);
 
     return (
-      <BaseButton
-        disabled={loading || disabled}
-        ref={ref}
-        style={StyleSheet.flatten([baseButtonStyles.generated, sx && generateElementStyles(sx), style])}
-        {...props}>
-        {renderChild()}
-      </BaseButton>
+      <View style={styles.rootContainer}>
+        <View style={[styles.innerContainer]}>
+          <BaseButton
+            disabled={loading || disabled}
+            ref={ref}
+            style={StyleSheet.flatten([baseButtonStyles.generated, sx && generateElementStyles(sx), style])}
+            {...props}>
+            {renderChild()}
+          </BaseButton>
+        </View>
+      </View>
     );
   },
 );
