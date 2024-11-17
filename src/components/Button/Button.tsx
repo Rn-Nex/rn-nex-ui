@@ -44,7 +44,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
 
         return <Text style={StyleSheet.flatten([{ color: textColor }, labelStyles])}>{label}</Text>;
       }
-    }, [loading, children, labelStyles, theme, variation, buttonColor, labelColor]);
+    }, [loading, children, labelStyles, theme, variation, buttonColor, labelColor, label]);
 
     return (
       <View style={StyleSheet.flatten([styles.rootContainer, style])}>

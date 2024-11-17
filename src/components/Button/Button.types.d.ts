@@ -6,16 +6,6 @@ import { RipplePosition, RippleProps } from '../Ripple/Ripple.types';
 
 export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof TouchableWithoutFeedback> {
   /**
-   * Determines whether the button is disabled.
-   */
-  disabled?: boolean;
-
-  /**
-   * The content to be displayed inside the button.
-   */
-  children?: React.ReactNode;
-
-  /**
    * Determines whether the ripple effect is disabled.
    */
   disableRipple?: boolean;
