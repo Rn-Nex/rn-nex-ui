@@ -4,16 +4,16 @@ import { generateElementStyles } from '../../utils';
 import { ImageProps } from './Image.types';
 import { generateImageRadiusStyles } from './utils';
 
-export const Image = React.forwardRef<RnImage, ImageProps>(({ size, variation, style, sx, ...props }, ref) => {
+export const Image = React.forwardRef<RnImage, ImageProps>(({ size, variation, style, sx, width, height, ...props }, ref) => {
   const imageStyles = useMemo(() => {
     return StyleSheet.create({
       generated: generateElementStyles({
-        h: size,
-        w: size,
+        h: size ?? height,
+        w: size ?? width,
         ...sx,
       }) as ImageStyle,
     });
-  }, [sx]);
+  }, [sx, width, height]);
 
   return (
     <Animated.Image

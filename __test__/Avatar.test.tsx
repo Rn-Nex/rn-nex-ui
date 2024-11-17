@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react-native';
 import React from 'react';
-import { Image, StyleProp, ViewStyle } from 'react-native';
+import { Image, ViewStyle } from 'react-native';
 import { Avatar } from '../src';
 import { BaseStyles } from '../src/libraries/style/styleTypes';
 
@@ -31,7 +31,7 @@ describe('Avatar Component', () => {
   it('passes size prop correctly to the Image component', () => {
     const { getByTestId } = render(<Avatar testID={mockAvatarUrl} source={{ uri: mockAvatarUrl }} size={50} />);
     const avatar = getByTestId(mockAvatarUrl);
-    expect(avatar.props.style).toContainEqual({ width: 50, height: 50 });
+    expect(avatar.props.style).toEqual({ width: 50, height: 50 });
   });
 
   it('applies sx styles correctly', () => {
@@ -40,8 +40,8 @@ describe('Avatar Component', () => {
 
     const avatar = getByTestId(mockAvatarUrl);
 
-    const expectedStyles: StyleProp<ViewStyle> = [{ backgroundColor: 'blue', borderWidth: 2 }];
-    expect(avatar.props.style).toEqual(expect.arrayContaining(expectedStyles));
+    const expectedStyles: ViewStyle = { backgroundColor: 'blue', borderWidth: 2 };
+    expect(avatar.props.style).toEqual(expectedStyles);
   });
 
   it('forwards ref to the Image component', () => {
@@ -53,12 +53,12 @@ describe('Avatar Component', () => {
     const { getByTestId, rerender } = render(<Avatar testID={mockTestId} source={{ uri: mockAvatarUrl }} variation="rounded" />);
 
     const avatar = getByTestId(mockTestId);
-    expect(avatar.props.style).toContainEqual({ borderRadius: 100 });
+    expect(avatar.props.style).toEqual({ borderRadius: 100 });
 
     rerender(<Avatar testID={mockTestId} source={{ uri: mockAvatarUrl }} variation="square" />);
-    expect(avatar.props.style).toContainEqual({ borderRadius: 0 });
+    expect(avatar.props.style).toEqual({ borderRadius: 0 });
 
     rerender(<Avatar testID={mockTestId} source={{ uri: mockAvatarUrl }} variation="rounded-lg" />);
-    expect(avatar.props.style).toContainEqual({ borderRadius: 40 });
+    expect(avatar.props.style).toEqual({ borderRadius: 40 });
   });
 });
