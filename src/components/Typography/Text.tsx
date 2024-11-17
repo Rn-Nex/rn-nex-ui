@@ -20,6 +20,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
       sx,
       mode,
       color,
+      gutterBottomSpace = 10,
       disabled = false,
       ...props
     },
@@ -34,6 +35,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
             theme,
             variation,
             gutterBottom,
+            gutterBottomSpace,
             isActive,
             activeColor,
             disabled,
@@ -44,13 +46,13 @@ export const Text = React.forwardRef<RnText, TextProps>(
             color,
           }),
         }),
-      [theme, variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, mode, color],
+      [theme, variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, mode, color, gutterBottomSpace],
     );
 
     const renderedChildren = useMemo(() => {
       if (typeof children === 'string' && maxLength) {
         return maxLengthUtile(children, maxLength);
-      }
+      } else if (maxLength && typeof children !== 'string') throw new Error('maxLength props must be used with string');
       return children;
     }, [children, maxLength]);
 
