@@ -40,21 +40,29 @@ export const generateTextStyles = ({
   mode: textThemeMode,
   sx,
   color,
+  gutterBottomSpace,
 }: TextStylesArgs): TextStyle => {
   const {
     colors: { mode, secondary, red },
   } = theme;
 
-  const baseColor =
-    (!textThemeMode && mode === 'dark') || textThemeMode === 'light' ? 'white' : textThemeMode === 'dark' ? 'black' : undefined;
+  let baseColor: string | undefined = undefined;
+
+  if (textThemeMode === 'light' || (!textThemeMode && mode === 'dark')) {
+    baseColor = 'white';
+  } else if (textThemeMode === 'dark') {
+    baseColor = 'black';
+  }
+
+  const textColor = color ?? baseColor;
 
   return {
-    color: color || baseColor,
+    ...(textColor ? { color: textColor } : {}),
     ...(variation ? textFontVariation(variation, theme) : {}),
-    ...(gutterBottom ? gutter('marginBottom', 10) : {}),
-    ...(isActive ? { color: activeColor || secondary[200] } : {}),
+    ...(gutterBottom ? gutter('marginBottom', gutterBottomSpace) : {}),
+    ...(isActive ? { color: activeColor ?? secondary[200] } : {}),
     ...(disabled ? { opacity: 0.3 } : {}),
-    ...(error ? { color: errorColor || red[600] } : {}),
+    ...(error ? { color: errorColor ?? red[600] } : {}),
     ...(sx ? generateElementStyles(sx) : {}),
   };
 };

@@ -34,6 +34,11 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
   gutterBottom?: boolean;
 
   /**
+   * Specifies how much space should be added to the bottom of the text component
+   */
+  gutterBottomSpace?: number;
+
+  /**
    * Maximum length of the text content. Used for truncating or limiting text length.
    */
   maxLength?: number;
@@ -77,7 +82,17 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
 export interface TextStylesArgs
   extends Pick<
     TextProps,
-    'variation' | 'gutterBottom' | 'isActive' | 'disabled' | 'error' | 'sx' | 'activeColor' | 'errorColor' | 'mode' | 'color'
+    | 'variation'
+    | 'gutterBottom'
+    | 'isActive'
+    | 'disabled'
+    | 'error'
+    | 'sx'
+    | 'activeColor'
+    | 'errorColor'
+    | 'mode'
+    | 'color'
+    | 'gutterBottomSpace'
   > {
   theme: ThemeType;
 }

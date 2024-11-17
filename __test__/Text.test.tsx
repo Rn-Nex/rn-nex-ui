@@ -29,8 +29,8 @@ describe('Text Component', () => {
     );
 
     const text = getByTestId(mockTestId);
-    const expectedStyles: StyleProp<TextStyle> = [{ color: 'red', fontSize: 20, fontWeight: '400' }];
-    expect(text.props.style).toEqual(expect.arrayContaining(expectedStyles));
+    const expectedStyles: TextStyle = { color: 'red', fontSize: 20, fontWeight: '400' };
+    expect(text.props.style).toEqual(expectedStyles);
   });
 
   it('should render the disabled text when passed the disabled prop', () => {
@@ -43,8 +43,8 @@ describe('Text Component', () => {
     );
 
     const text = getByTestId(mockTestId);
-    const expectedStyles: StyleProp<TextStyle> = [{ opacity: 0.3 }];
-    expect(text.props.style).toEqual(expect.arrayContaining(expectedStyles));
+    const expectedStyles: StyleProp<TextStyle> = { opacity: 0.3 };
+    expect(text.props.style).toEqual(expectedStyles);
   });
 
   it('truncates text when maxLength is provided', () => {
@@ -65,7 +65,7 @@ describe('Text Component', () => {
       </ThemeProvider>,
     );
     const text = getByTestId(mockTestId);
-    expect(text.props.style).toEqual(expect.arrayContaining([{ fontSize: 24 }]));
+    expect(text.props.style).toEqual({ fontSize: 24 });
   });
 
   it('applies active state', () => {
@@ -77,7 +77,7 @@ describe('Text Component', () => {
       </ThemeProvider>,
     );
     const text = getByTestId(mockTestId);
-    expect(text.props.style).toEqual(expect.arrayContaining([{ color: 'green' }]));
+    expect(text.props.style).toEqual({ color: 'green' });
   });
 
   it('applies error state', () => {
@@ -89,17 +89,17 @@ describe('Text Component', () => {
       </ThemeProvider>,
     );
     const text = getByTestId(mockTestId);
-    expect(text.props.style).toEqual(expect.arrayContaining([{ color: red[600] }]));
+    expect(text.props.style).toEqual({ color: red[600] });
   });
 
-  it('applies light and dark themes', () => {
+  it('applies light mode', () => {
     const { getByText } = render(
-      <ThemeProvider mode="dark">
-        <Text>Dark Mode Text</Text>
+      <ThemeProvider>
+        <Text mode="light">Light Mode Text</Text>
       </ThemeProvider>,
     );
-    const text = getByText('Dark Mode Text');
-    expect(text.props.style).toEqual(expect.arrayContaining([{ color: 'white' }]));
+    const text = getByText('Light Mode Text');
+    expect(text.props.style).toEqual({ color: 'white' });
   });
 
   it('applies custom styles via sx prop', () => {
@@ -112,8 +112,8 @@ describe('Text Component', () => {
       </ThemeProvider>,
     );
     const text = getByTestId(mockTestId);
-    const expectedStyles: StyleProp<TextStyle> = [{ fontSize: 30, color: 'purple' }];
-    expect(text.props.style).toEqual(expect.arrayContaining(expectedStyles));
+    const expectedStyles: StyleProp<TextStyle> = { fontSize: 30, color: 'purple' };
+    expect(text.props.style).toEqual(expectedStyles);
   });
 
   it('should apply the isActive prop', () => {
@@ -125,7 +125,7 @@ describe('Text Component', () => {
       </ThemeProvider>,
     );
     const text = getByTestId(mockTestId);
-    expect(text.props.style).toEqual(expect.arrayContaining([{ color: secondary[200] }]));
+    expect(text.props.style).toEqual({ color: secondary[200] });
   });
 
   it('should apply the spacing bottom styles when passed the gutter prop', () => {
@@ -137,7 +137,7 @@ describe('Text Component', () => {
       </ThemeProvider>,
     );
     const text = getByTestId(mockTestId);
-    expect(text.props.style).toEqual(expect.arrayContaining([{ marginBottom: 10 }]));
+    expect(text.props.style).toEqual({ marginBottom: 10 });
   });
 
   it('should override the gutter style when passed the custom spacing styles', () => {
@@ -149,7 +149,19 @@ describe('Text Component', () => {
       </ThemeProvider>,
     );
     const text = getByTestId(mockTestId);
-    expect(text.props.style).toEqual(expect.arrayContaining([{ marginBottom: 20 }]));
+    expect(text.props.style).toEqual({ marginBottom: 20 });
+  });
+
+  it('should able to adjust the gutter spacing', () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Text testID={mockTestId} gutterBottom gutterBottomSpace={20}>
+          gutter
+        </Text>
+      </ThemeProvider>,
+    );
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual({ marginBottom: 20 });
   });
 
   it('should override the default active color when passed the custom styles', () => {
@@ -161,7 +173,7 @@ describe('Text Component', () => {
       </ThemeProvider>,
     );
     const text = getByTestId(mockTestId);
-    expect(text.props.style).toEqual(expect.arrayContaining([{ color: 'red' }]));
+    expect(text.props.style).toEqual({ color: 'red' });
   });
 
   it('attaches the ref to the Text component', () => {
@@ -177,5 +189,33 @@ describe('Text Component', () => {
     expect(getByTestId(mockTestId)).toBeTruthy();
     expect(ref.current).toBeTruthy();
     expect(ref.current?.props.children).toBe('Text with ref');
+  });
+
+  it('should apply the custom text color', () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <Text testID={mockTestId} color={'red'}>
+          Text with custom color value
+        </Text>
+      </ThemeProvider>,
+    );
+
+    const text = getByTestId(mockTestId);
+    expect(text).toBeTruthy();
+    expect(text.props.style).toEqual({ color: 'red' });
+  });
+
+  it('should throw an error when using the maxLength prop with a non-string value', () => {
+    const renderComponent = () => {
+      render(
+        <ThemeProvider>
+          <Text maxLength={10}>
+            <></>
+          </Text>
+        </ThemeProvider>,
+      );
+    };
+
+    expect(renderComponent).toThrowError('maxLength props must be used with string');
   });
 });
