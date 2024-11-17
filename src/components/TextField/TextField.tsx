@@ -83,7 +83,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
     };
 
     const getLabelTranslatePos = useCallback(() => {
-      if (textInputLayoutRectangle?.width && textInputLayoutRectangle?.width) {
+      if (textInputLayoutRectangle?.width && textInputLayoutRectangle?.height) {
         if (variant === 'outlined') return (textInputLayoutRectangle.height / 2) * -1;
         else if (variant === 'filled') return ((textInputLayoutRectangle.height - 19) / 2) * -1;
       }
@@ -100,14 +100,14 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       if (isFocused || value || !!startAdornment || inputIsFocused) {
         Animated.timing(inputLabeledAnimatedValue, {
           toValue: 1,
-          duration: animatedDuration ? animatedDuration : LABELED_ANIMATION_DURATION,
+          duration: animatedDuration ?? LABELED_ANIMATION_DURATION,
           easing: Easing.out(Easing.ease),
           useNativeDriver: true,
         }).start();
       } else {
         Animated.timing(inputLabeledAnimatedValue, {
           toValue: 0,
-          duration: animatedDuration ? animatedDuration : LABELED_ANIMATION_DURATION,
+          duration: animatedDuration ?? LABELED_ANIMATION_DURATION,
           easing: Easing.out(Easing.ease),
           useNativeDriver: true,
         }).start();

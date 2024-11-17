@@ -20,7 +20,7 @@ export const List = React.forwardRef<View, ListProps>(
             </Text>
           </Box>
         )}
-        <View style={[styles.container]}>{children}</View>
+        {children}
       </Box>
     );
   },

@@ -129,7 +129,7 @@ export const labelTransformStyle = ({
     position: 'absolute',
     zIndex: 10,
     backgroundColor: variant === 'outlined' ? theme.colors.white[50] : 'transparent',
-    left: placeholderLeftPosition || 0,
+    left: placeholderLeftPosition ?? 0,
     paddingHorizontal: 8,
     top: '50%',
     transform: [

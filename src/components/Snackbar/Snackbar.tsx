@@ -157,8 +157,8 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   const [snackbarConfig, setSnackbarConfig] = useState<SnackbarProperties | null>(null);
   const [snackbarRootRectangle, setSnackbarRootRectangle] = useState<LayoutRectangle | null>(null);
 
-  const animationDuration = snackbarConfig?.animationDuration || 500;
-  const hideDuration = snackbarConfig?.hideDuration || SNACK_BAR.LENGTH_SHORT;
+  const animationDuration = snackbarConfig?.animationDuration ?? 500;
+  const hideDuration = snackbarConfig?.hideDuration ?? SNACK_BAR.LENGTH_SHORT;
 
   useEffect(() => {
     positionRef.current = position;
@@ -264,13 +264,13 @@ export const Snackbar: React.FC<SnackbarProps> = ({
     let source: ImageSourcePropType = defaultInfoImage;
 
     if (snackbarConfig?.type === 'error') {
-      source = failureImageSource || defaultFailureImage;
+      source = failureImageSource ?? defaultFailureImage;
     } else if (snackbarConfig?.type === 'success') {
-      source = successImageSource || defaultSuccessImage;
+      source = successImageSource ?? defaultSuccessImage;
     } else if (snackbarConfig?.type === 'info') {
-      source = InfoImageSource || defaultInfoImage;
+      source = InfoImageSource ?? defaultInfoImage;
     } else if (snackbarConfig?.type === 'warning') {
-      source = warningImageSource || defaultWarningImage;
+      source = warningImageSource ?? defaultWarningImage;
     }
 
     const child = snackbarConfig?.startAdornment ? snackbarConfig?.startAdornment : <Image source={source} style={styles.icon} />;
@@ -286,7 +286,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
     } else return snackbarConfig?.message;
   }, [messageMaxLength, snackbarConfig]);
 
-  if (!snackbarConfig?.message) null;
+  if (!snackbarConfig?.message) return null;
 
   return (
     <Animated.View
@@ -307,7 +307,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
               snackbarLabelContainerStyles,
               { paddingLeft: disableLabelContainerPadding ? 0 : 10 },
             ])}>
-            {snackbarConfig?.message && (
+            {Boolean(snackbarConfig?.message) && (
               <Text variation="h5" mode="light" {...labelProps}>
                 {renderMessage()}
               </Text>
@@ -318,9 +318,9 @@ export const Snackbar: React.FC<SnackbarProps> = ({
           <View style={StyleSheet.flatten([styles.snackbarOptionContainer, snackbarOptionContainerStyles])}>
             <Button
               variation="text"
-              label={snackbarConfig?.actionButtonLabel || 'HIDE'}
+              label={snackbarConfig?.actionButtonLabel ?? 'HIDE'}
               onPress={actionButtonOnPressHandler}
-              labelProps={{ style: styles.buttonLabel }}
+              labelStyles={styles.buttonLabel}
               style={StyleSheet.flatten([styles.actionButton, snackbarConfig?.actionButtonStyles])}
               {...actionButtonProps}>
               {snackbarConfig?.actionButtonItem}

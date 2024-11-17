@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, LayoutChangeEvent, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
 import { BaseStyles } from '../../libraries/style/styleTypes';
-import { ThemeType } from '../../libraries/themes/v1/theme';
 import { generateElementStyles, getVariant, VariantTypes } from '../../utils';
 import { getSwitchSizes } from './utils';
 
@@ -116,11 +115,7 @@ export const Switch = React.forwardRef<View, SwitchProps>(
     const { theme } = useTheme();
 
     useEffect(() => {
-      if (initialToggleState) {
-        setIsToggled(true);
-      } else {
-        setIsToggled(false);
-      }
+      setIsToggled(initialToggleState);
     }, [initialToggleState]);
 
     useEffect(() => {
@@ -169,10 +164,7 @@ export const Switch = React.forwardRef<View, SwitchProps>(
 
     const backgroundColorInterpolation = switchWrapperBgAnimatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [
-        wrapperDefaultBgColor ?? theme.colors.grey[300],
-        wrapperActiveBgColor ? wrapperActiveBgColor : colorVariation,
-      ],
+      outputRange: [wrapperDefaultBgColor ?? theme.colors.grey[300], wrapperActiveBgColor ?? colorVariation],
     });
 
     return (
