@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { grey, useTheme } from '../../libraries';
-import { generateElementStyles, getVariant } from '../../utils';
+import { getVariant } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
 import { Text } from '../Typography';
 import { BaseButton } from './BaseButton';
@@ -13,12 +13,12 @@ export const Button = React.forwardRef<View, ButtonProps>(
     {
       children,
       style,
-      sx,
       disabled,
       loading,
       label,
       labelStyles,
       labelColor,
+      baseButtonStyles,
       buttonColor = 'secondary',
       variation = 'contained',
       square = false,
@@ -29,7 +29,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
     const { theme } = useTheme();
     const isContainedButton = variation === 'contained';
 
-    const baseButtonStyles = useMemo(() => {
+    const baseButtonS = useMemo(() => {
       const styles = getButtonStyles({ theme, variation, disabled, buttonColor, square });
       return StyleSheet.create({ generated: styles });
     }, [theme, variation, disabled, buttonColor, square]);
@@ -47,12 +47,12 @@ export const Button = React.forwardRef<View, ButtonProps>(
     }, [loading, children, labelStyles, theme, variation, buttonColor, labelColor]);
 
     return (
-      <View style={styles.rootContainer}>
+      <View style={StyleSheet.flatten([styles.rootContainer, style])}>
         <View style={[styles.innerContainer]}>
           <BaseButton
             disabled={loading || disabled}
             ref={ref}
-            style={StyleSheet.flatten([baseButtonStyles.generated, sx && generateElementStyles(sx), style])}
+            style={StyleSheet.flatten([baseButtonS.generated, baseButtonStyles])}
             {...props}>
             {renderChild()}
           </BaseButton>

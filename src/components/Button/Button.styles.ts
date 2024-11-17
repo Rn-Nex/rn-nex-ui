@@ -4,6 +4,11 @@ import { getVariant } from '../../utils';
 import { ButtonVariationsType, GetButtonStylesProps } from './Button.types';
 
 export const styles = StyleSheet.create({
+  buttonGroupContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+  },
   rootContainer: {
     width: '100%',
     flexDirection: 'row',

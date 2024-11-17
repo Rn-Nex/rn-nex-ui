@@ -17,28 +17,28 @@ export const App: React.FC = () => {
       <Button onPress={() => console.log('pressed')}>
         <Text>Click here</Text>
       </Button>
-      <Button fullWidth onPress={() => console.log('pressed')}>
+      <Button onPress={() => console.log('pressed')}>
         <Text>Click here</Text>
       </Button>
-      <Button onPress={() => console.log('pressed')} fullWidth variation="outlined">
+      <Button onPress={() => console.log('pressed')} variation="outlined">
         <Text style={{ color: 'grey' }}>Click here</Text>
       </Button>
-      <Button onPress={() => console.log('pressed')} fullWidth variation="text">
+      <Button onPress={() => console.log('pressed')} variation="text">
         <Text style={{ color: 'grey' }}>Click here</Text>
       </Button>
-      <Button fullWidth buttonColor="primary" onPress={() => console.log('pressed')}>
+      <Button buttonColor="primary" onPress={() => console.log('pressed')}>
         <Text>Click here</Text>
       </Button>
-      <Button fullWidth buttonColor="secondary" onPress={() => console.log('pressed')}>
+      <Button buttonColor="secondary" onPress={() => console.log('pressed')}>
         <Text>Click here</Text>
       </Button>
-      <Button fullWidth buttonColor="success" onPress={() => console.log('pressed')}>
+      <Button buttonColor="success" onPress={() => console.log('pressed')}>
         <Text>Click here</Text>
       </Button>
-      <Button fullWidth buttonColor="warning" onPress={() => console.log('pressed')}>
+      <Button buttonColor="warning" onPress={() => console.log('pressed')}>
         <Text>Click here</Text>
       </Button>
-      <Button sx={{ r: 30, px: 20, py: 10, w: '100%' }} onPress={() => console.log('pressed')}>
+      <Button onPress={() => console.log('pressed')}>
         <Text>Custom button</Text>
       </Button>
       <Button onPress={() => {}} buttonColor="secondary" label="Save" />
