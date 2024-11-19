@@ -4,7 +4,7 @@ import { useTheme } from '../../libraries';
 import { Box } from '../Box';
 import { Text } from '../Typography';
 import { BadgeContainerProps, BadgeProps } from './Badge.types';
-import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE } from './constants';
+import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE, BADGE_TOP_RIGHT_POSITION } from './constants';
 import { badgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './utils';
 
 const BadgeContainer = React.forwardRef<View, BadgeContainerProps>(({ children, style, overlap, ...props }, ref) => {
@@ -22,11 +22,11 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       style,
       badgeContent,
       invisible,
-      badgeAnimationDuration,
-      badgeContentProps,
-      max,
-      variant,
-      anchorOrigin = { vertical: 'top', horizontal: 'right' },
+      badgeContentStyle,
+      max = BADGE_MAX_DEFAULT_VALUE,
+      badgeAnimationDuration = BADGE_ANIMATION_DURATION,
+      variant = 'badge',
+      anchorOrigin = BADGE_TOP_RIGHT_POSITION,
       badgeContainerProps,
       containerStyles,
       variation = 'secondary',
@@ -37,7 +37,6 @@ export const Badge = React.forwardRef<View, BadgeProps>(
   ) => {
     const { theme } = useTheme();
     const badgeVisibility = useRef(new Animated.Value(0)).current;
-    const maxValueLimit = max || BADGE_MAX_DEFAULT_VALUE;
 
     const badgeStyles = useMemo(() => {
       return generateBadgeStyles({
@@ -57,19 +56,15 @@ export const Badge = React.forwardRef<View, BadgeProps>(
 
         if (isNaN(badgeNumber)) {
           return (
-            <Text
-              style={StyleSheet.flatten([styles.badgeContent, badgeContentDefaultStyles({ variation })])}
-              {...badgeContentProps}>
+            <Text style={StyleSheet.flatten([styles.badgeContent, badgeContentDefaultStyles({ variation }), badgeContentStyle])}>
               {content}
             </Text>
           );
         }
 
         return (
-          <Text
-            style={StyleSheet.flatten([styles.badgeContent, badgeContentDefaultStyles({ variation })])}
-            {...badgeContentProps}>
-            {badgeNumber >= maxValueLimit ? maxValueLimit - 1 + '+' : badgeNumber}
+          <Text style={StyleSheet.flatten([styles.badgeContent, badgeContentDefaultStyles({ variation }), badgeContentStyle])}>
+            {badgeNumber >= max ? max - 1 + '+' : badgeNumber}
           </Text>
         );
       } else if (typeof content === 'object') throw new Error('Badge content must be a string or number');
@@ -79,7 +74,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       badgeVisibility.stopAnimation();
       Animated.timing(badgeVisibility, {
         toValue: badgeContent && !invisible ? 1 : 0,
-        duration: badgeAnimationDuration || BADGE_ANIMATION_DURATION,
+        duration: badgeAnimationDuration,
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
       }).start();
@@ -106,6 +101,7 @@ const styles = StyleSheet.create({
   container: {
     minWidth: 40,
     minHeight: 40,
+    alignSelf: 'flex-start',
   },
   badgeContainer: {
     padding: 6,
@@ -113,7 +109,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'flex-start',
-    width: '100%',
+    borderWidth: 1,
   },
   badge: {
     paddingHorizontal: 5,
