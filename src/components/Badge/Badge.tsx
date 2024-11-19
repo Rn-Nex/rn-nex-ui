@@ -23,7 +23,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       badgeContent,
       invisible,
       badgeContentStyle,
-      max,
+      max = BADGE_MAX_DEFAULT_VALUE,
       badgeAnimationDuration = BADGE_ANIMATION_DURATION,
       variant = 'badge',
       anchorOrigin = BADGE_TOP_RIGHT_POSITION,
@@ -37,7 +37,6 @@ export const Badge = React.forwardRef<View, BadgeProps>(
   ) => {
     const { theme } = useTheme();
     const badgeVisibility = useRef(new Animated.Value(0)).current;
-    const maxValueLimit = max || BADGE_MAX_DEFAULT_VALUE;
 
     const badgeStyles = useMemo(() => {
       return generateBadgeStyles({
@@ -65,7 +64,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
 
         return (
           <Text style={StyleSheet.flatten([styles.badgeContent, badgeContentDefaultStyles({ variation }), badgeContentStyle])}>
-            {badgeNumber >= maxValueLimit ? maxValueLimit - 1 + '+' : badgeNumber}
+            {badgeNumber >= max ? max - 1 + '+' : badgeNumber}
           </Text>
         );
       } else if (typeof content === 'object') throw new Error('Badge content must be a string or number');
