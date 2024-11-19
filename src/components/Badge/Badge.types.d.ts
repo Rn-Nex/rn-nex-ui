@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, LayoutRectangle, TextProps, View, ViewStyle } from 'react-native';
+import { Animated, LayoutRectangle, TextProps, TextStyle, View, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/Box.types';
 
@@ -11,7 +11,7 @@ export type BadgeVariations = 'primary' | 'secondary' | 'error' | 'info' | 'succ
 /**
  * Defines the available variants for the badge.
  */
-export type BadgeVariant = 'dot';
+export type BadgeVariant = 'dot' | 'badge';
 
 export type BadgeOverlap = 'circular' | 'rectangular';
 
@@ -54,7 +54,7 @@ export interface BadgeProps extends React.ComponentPropsWithRef<typeof View> {
   /**
    * Props for customizing the content displayed inside the badge.
    */
-  badgeContentProps?: Omit<TextProps, 'children'>;
+  badgeContentStyle?: TextStyle;
   /**
    * Anchor origin configuration to position the badge.
    */
