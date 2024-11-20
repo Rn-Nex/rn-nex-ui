@@ -1,8 +1,8 @@
-import { render } from '@testing-library/react-native';
 import React from 'react';
 import { Image, ViewStyle } from 'react-native';
 import { Avatar } from '../src';
 import { BaseStyles } from '../src/libraries/style/styleTypes';
+import { render } from './test-utils';
 
 describe('Avatar Component', () => {
   const ref = React.createRef<Image>();

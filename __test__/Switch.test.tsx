@@ -1,4 +1,3 @@
-import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import {
   Switch,
@@ -8,8 +7,8 @@ import {
   SWITCH_CONTAINER_WIDTH_LARGE,
   SWITCH_CONTAINER_WIDTH_MEDIUM,
   SWITCH_CONTAINER_WIDTH_SMALL,
-  ThemeProvider,
 } from '../src';
+import { fireEvent, render } from './test-utils';
 
 describe('Switch Component', () => {
   const switchMockTestId = 'switch_test_id';
@@ -19,31 +18,19 @@ describe('Switch Component', () => {
   });
 
   it('should match the snapshot with default props', () => {
-    const { toJSON } = render(
-      <ThemeProvider>
-        <Switch />
-      </ThemeProvider>,
-    );
+    const { toJSON } = render(<Switch />);
     expect(toJSON).toMatchSnapshot();
   });
 
   it('should render with default props', () => {
-    const { getByTestId } = render(
-      <ThemeProvider>
-        <Switch testID={switchMockTestId} />
-      </ThemeProvider>,
-    );
+    const { getByTestId } = render(<Switch testID={switchMockTestId} />);
     const switchComponent = getByTestId(switchMockTestId);
     expect(switchComponent).toBeTruthy();
   });
 
   it('should call onToggle when switch is toggled', async () => {
     const onToggleMock = jest.fn();
-    const { getByTestId } = render(
-      <ThemeProvider>
-        <Switch testID={switchMockTestId} onToggle={onToggleMock} />
-      </ThemeProvider>,
-    );
+    const { getByTestId } = render(<Switch testID={switchMockTestId} onToggle={onToggleMock} />);
     const switchComponent = getByTestId(switchMockTestId);
 
     fireEvent.press(switchComponent);
@@ -53,11 +40,7 @@ describe('Switch Component', () => {
 
   it('should toggle off when initially on', () => {
     const onToggleMock = jest.fn();
-    const { getByTestId } = render(
-      <ThemeProvider>
-        <Switch testID={switchMockTestId} initialToggleState={true} onToggle={onToggleMock} />
-      </ThemeProvider>,
-    );
+    const { getByTestId } = render(<Switch testID={switchMockTestId} initialToggleState={true} onToggle={onToggleMock} />);
     const switchComponent = getByTestId(switchMockTestId);
 
     fireEvent.press(switchComponent);
@@ -66,11 +49,7 @@ describe('Switch Component', () => {
   });
 
   it('should apply the correct size for the "large" switch', () => {
-    const { getByTestId } = render(
-      <ThemeProvider>
-        <Switch testID={switchMockTestId} size="large" />
-      </ThemeProvider>,
-    );
+    const { getByTestId } = render(<Switch testID={switchMockTestId} size="large" />);
 
     const switchComponent = getByTestId(switchMockTestId);
     expect(switchComponent.props.style.width).toBe(SWITCH_CONTAINER_WIDTH_LARGE);
@@ -78,11 +57,7 @@ describe('Switch Component', () => {
   });
 
   it('should apply the correct size for the "medium" switch', () => {
-    const { getByTestId } = render(
-      <ThemeProvider>
-        <Switch testID={switchMockTestId} size="medium" />
-      </ThemeProvider>,
-    );
+    const { getByTestId } = render(<Switch testID={switchMockTestId} size="medium" />);
 
     const switchComponent = getByTestId(switchMockTestId);
     expect(switchComponent.props.style.width).toBe(SWITCH_CONTAINER_WIDTH_MEDIUM);
@@ -90,11 +65,7 @@ describe('Switch Component', () => {
   });
 
   it('should apply the correct size for the "small" switch', () => {
-    const { getByTestId } = render(
-      <ThemeProvider>
-        <Switch testID={switchMockTestId} size="small" />
-      </ThemeProvider>,
-    );
+    const { getByTestId } = render(<Switch testID={switchMockTestId} size="small" />);
 
     const switchComponent = getByTestId(switchMockTestId);
     expect(switchComponent.props.style.width).toBe(SWITCH_CONTAINER_WIDTH_SMALL);

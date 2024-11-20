@@ -1,7 +1,7 @@
-import { render } from '@testing-library/react-native';
 import React from 'react';
 import { ActivityIndicator as RnActivityIndicator } from 'react-native';
 import { ActivityIndicator } from '../src';
+import { render } from './test-utils';
 
 describe('ActivityIndicator', () => {
   const mockActivityIndicatorTestId = 'mock-activity-indicator-test-id';

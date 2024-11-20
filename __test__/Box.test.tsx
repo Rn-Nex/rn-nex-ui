@@ -1,8 +1,8 @@
-import { render } from '@testing-library/react-native';
 import React from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import { Box, Text, ThemeProvider } from '../src';
+import { Box, Text } from '../src';
 import { BaseStyles } from '../src/libraries/style/styleTypes';
+import { render } from './test-utils';
 
 describe('Box Component', () => {
   const ref = React.createRef<View>();
@@ -77,9 +77,7 @@ describe('Box Component', () => {
   it('renders children correctly', () => {
     const { getByText } = render(
       <Box testID={mockTestId}>
-        <ThemeProvider>
-          <Text>Child Text</Text>
-        </ThemeProvider>
+        <Text>Child Text</Text>
       </Box>,
     );
     expect(getByText('Child Text')).toBeTruthy();
