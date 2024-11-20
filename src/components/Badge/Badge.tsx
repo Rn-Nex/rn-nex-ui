@@ -104,12 +104,10 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   badgeContainer: {
-    padding: 6,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'flex-start',
-    borderWidth: 1,
   },
   badge: {
     paddingHorizontal: 5,
