@@ -1,7 +1,8 @@
-import { StyleSheet, ViewStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
-import { ChipVariations, GenerateChipStylesProps } from './Chip.types';
+import { ColorValue, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { getVariant } from '../../utils';
+import { GenerateChipStylesProps, LabelStylesInterface } from './Chip.types';
 import { ADORNMENT_WRAPPER_SPACE } from './constants';
+import { grey } from '../../libraries';
 
 export const styles = StyleSheet.create({
   chip: {
@@ -28,51 +29,57 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const getColorVariant = (theme: ThemeType, variant: ChipVariations | undefined) => {
-  switch (variant) {
-    case 'primary':
-      return theme.colors.primary[500];
-    case 'secondary':
-      return theme.colors.secondary[500];
-    case 'error':
-      return theme.colors.red[500];
-    case 'warning':
-      return theme.colors.yellow[400];
-    case 'info':
-      return theme.colors.lightBlue[500];
-    case 'success':
-      return theme.colors.green[500];
-    default:
-      return theme.colors.grey[700];
-  }
-};
-
-export const generateChipStyles = ({ variant, disabled, withAdornment, color, theme }: GenerateChipStylesProps) => {
+export const generateChipStyles = ({ variant, disabled, color, theme }: GenerateChipStylesProps) => {
   let styles: ViewStyle = {};
 
   if (disabled) {
     styles = { ...styles, opacity: 0.5 };
   }
 
-  if (withAdornment) {
-    styles = {
-      ...styles,
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 10,
-    };
-  }
-
   if (variant === 'outlined') {
     styles = {
       ...styles,
       borderWidth: 1,
-      borderColor: getColorVariant(theme, color),
+      borderColor: getVariant({ variant: color, theme }),
     };
   } else {
-    styles.backgroundColor = getColorVariant(theme, color);
+    styles.backgroundColor = getVariant({ variant: color, theme });
   }
 
   return styles;
+};
+
+export const labelStyles = ({
+  isOutlinedVariant,
+  theme,
+  labelColor,
+  color,
+  syncBorderAndLabelColor,
+}: LabelStylesInterface): TextStyle => {
+  let textColor: ColorValue;
+
+  switch (color) {
+    case 'secondary':
+    case 'error':
+    case 'success':
+    case 'info':
+      textColor = grey[50];
+      break;
+    default:
+      textColor = theme.colors.grey[50];
+  }
+
+  let resolvedColor;
+
+  if (syncBorderAndLabelColor) {
+    resolvedColor = getVariant({ variant: color, theme });
+  } else if (labelColor) {
+    resolvedColor = labelColor;
+  } else {
+    resolvedColor = isOutlinedVariant ? theme.colors.grey[900] : textColor;
+  }
+
+  return {
+    color: resolvedColor,
+  };
 };
