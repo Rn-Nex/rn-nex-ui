@@ -1,7 +1,8 @@
-import { ColorValue, StyleProp, ViewStyle } from 'react-native';
+import { ColorValue, StyleProp, TouchableOpacityProps, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { BaseButtonProps } from '../Button/Button.types';
 import { VariantTypes } from '../../utils';
+import React from 'react';
 
 /**
  * Defines the variant of the chip.
@@ -39,6 +40,22 @@ export interface ChipProps extends Omit<BaseButtonProps, 'children' | 'sx'> {
    * Implies that the border and text colors are synchronized.
    */
   syncBorderAndLabelColor?: boolean;
+  /**
+   * Render the start icon of the chip component
+   */
+  startIcon?: React.ReactNode;
+  /**
+   * Render the end icon of the chip component
+   */
+  endIcon?: React.ReactNode;
+  /**
+   * start icon touch props
+   */
+  startIconProps?: Omit<TouchableOpacityProps, 'children'>;
+  /**
+   * end icon touch props
+   */
+  endIconProps?: Omit<TouchableOpacityProps, 'children'>;
 }
 export interface GenerateChipStylesProps extends Pick<ChipProps, 'variant' | 'disabled' | 'color'> {
   theme: ThemeType;
