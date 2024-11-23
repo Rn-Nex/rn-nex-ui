@@ -1,3 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Chip Component should match the snapshot with default props 1`] = `[Function]`;
+
+exports[`Chip Component should render correctly with end icon 1`] = `[Function]`;
+
+exports[`Chip Component should render correctly with start icon 1`] = `[Function]`;
