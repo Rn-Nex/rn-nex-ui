@@ -1,26 +1,28 @@
 import React from 'react';
-import { StyleProp, Text, TextStyle, ViewStyle } from 'react-native';
-import { Chip, green, grey, lightBlue, primary, red, secondary, yellow } from '../src';
+import { Avatar, Chip, green, lightBlue, primary, red, secondary, yellow } from '../src';
+import { SQUARE_BORDER_RADIUS } from '../src/components/Chip/constants';
 import { fireEvent, render } from './test-utils';
+import { View } from 'react-native';
 
 describe('Chip Component', () => {
-  const chipMockTestId = 'chip_test_id';
-  const chipWrapperMockTestId = 'chip_wrapper_test_id';
-  const chipLabelTestId = 'chip_label_test_id';
+  const chipMockTestId = 'chip-test-id';
   const chipMockLabel = 'label';
-  const mockEvent = { nativeEvent: {} };
+  const startIconMockTestId = 'start-icon-test-id';
+  const endIconMockTestId = 'end-icon-test-id';
+  const iconMockTestId = 'icon-test-id';
 
-  const chipBaseStyles: StyleProp<ViewStyle> = {
-    borderRadius: 20,
-    opacity: 0.5,
-    overflow: 'hidden',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    transform: [{ scale: 1 }],
-  };
+  const mockRef = React.createRef<View>();
+  const mockOnPress = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('should forward ref correctly', () => {
+    render(<Chip ref={mockRef} />);
+
+    expect(mockRef.current).not.toBeNull();
+    expect(mockRef.current).toBeInstanceOf(View);
   });
 
   it('should match the snapshot with default props', () => {
@@ -38,170 +40,288 @@ describe('Chip Component', () => {
   it('should show the label', () => {
     const { getByTestId, getByText } = render(<Chip testID={chipMockTestId} label={chipMockLabel} />);
     const chip = getByTestId(chipMockTestId);
+
     expect(getByText(chipMockLabel)).toBeTruthy();
     expect(chip).toBeTruthy();
   });
 
-  it('renders startAdornment and endAdornment', () => {
-    const mockStartAdornment = <Text>Start</Text>;
-    const mockEndAdornment = <Text>End</Text>;
+  it('should render the outlined variation of the chip component', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} label={chipMockLabel} variant="outlined" />);
+    const chip = getByTestId(chipMockTestId);
 
-    const { getByText } = render(
-      <Chip testID={chipMockTestId} label={chipMockLabel} startAdornment={mockStartAdornment} endAdornment={mockEndAdornment} />,
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderWidth: 1 }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should change the border of the chip component when square prop is passed', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} label={chipMockLabel} square />);
+    const chip = getByTestId(chipMockTestId);
+
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderRadius: SQUARE_BORDER_RADIUS }));
+  });
+
+  it('should call the function when chip component is pressed', () => {
+    const { getByTestId } = render(<Chip onPress={mockOnPress} testID={chipMockTestId} />);
+    const chip = getByTestId(chipMockTestId);
+    fireEvent.press(chip, { nativeEvent: {} });
+    expect(mockOnPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('should change the label default color when passed the labelColor prop', () => {
+    const { getByText } = render(<Chip labelColor={'red'} label={chipMockLabel} onPress={mockOnPress} testID={chipMockTestId} />);
+    const label = getByText(chipMockLabel);
+    expect(label.props.style).toEqual(expect.objectContaining({ color: 'red' }));
+  });
+
+  it('should render with the (secondary) color in (filled) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ backgroundColor: secondary[500] }));
+  });
+
+  it('should render with the (primary) color in (filled) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} color="primary" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ backgroundColor: primary[500] }));
+  });
+
+  it('should render with the (success) color in (filled) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} color="success" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ backgroundColor: green[500] }));
+  });
+
+  it('should render with the (error) color in (filled) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} color="error" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ backgroundColor: red[500] }));
+  });
+
+  it('should render with the (info) color in (filled) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} color="info" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ backgroundColor: lightBlue[500] }));
+  });
+
+  it('should render with the (warning) color in (filled) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} color="warning" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ backgroundColor: yellow[500] }));
+  });
+
+  it('should render with the (secondary) color in (outlined) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} variant="outlined" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: secondary[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should render with the (primary) color in (outlined) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} color="primary" variant="outlined" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: primary[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should render with the (success) color in (outlined) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} color="success" variant="outlined" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: green[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should render with the (error) color in (outlined) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} color="error" variant="outlined" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: red[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should render with the (info) color in (outlined) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} color="info" variant="outlined" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: lightBlue[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should render with the (warning) color in (outlined) variant', () => {
+    const { getByTestId } = render(<Chip testID={chipMockTestId} color="warning" variant="outlined" />);
+    const chip = getByTestId(chipMockTestId);
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: yellow[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should sync the chip and label (secondary) color in (outlined) variant', () => {
+    const { getByTestId, getByText } = render(
+      <Chip testID={chipMockTestId} variant="outlined" syncBorderAndLabelColor label={chipMockLabel} />,
     );
 
-    expect(getByText('Start')).toBeTruthy();
-    expect(getByText('End')).toBeTruthy();
+    const chip = getByTestId(chipMockTestId);
+    const label = getByText(chipMockLabel);
+
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: secondary[500] }));
+    expect(label.props.style).toEqual(expect.objectContaining({ color: secondary[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
   });
 
-  it('applies styles based on variant and disabled props', () => {
-    const { getByTestId } = render(<Chip testID={chipMockTestId} label={chipMockLabel} variant="outlined" disabled />);
+  it('should sync the chip and label (primary) color in (outlined) variant', () => {
+    const { getByTestId, getByText } = render(
+      <Chip testID={chipMockTestId} color="primary" variant="outlined" syncBorderAndLabelColor label={chipMockLabel} />,
+    );
 
-    const chipElement = getByTestId(chipMockTestId);
-    const expectedStyles: StyleProp<ViewStyle> = {
-      borderColor: grey[400],
-      ...chipBaseStyles,
-    };
+    const chip = getByTestId(chipMockTestId);
+    const label = getByText(chipMockLabel);
 
-    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: primary[500] }));
+    expect(label.props.style).toEqual(expect.objectContaining({ color: primary[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
   });
 
-  it('renders with a custom color', () => {
-    const customColor = 'red';
+  it('should sync the chip and label (success) color in (outlined) variant', () => {
+    const { getByTestId, getByText } = render(
+      <Chip testID={chipMockTestId} variant="outlined" color="success" syncBorderAndLabelColor label={chipMockLabel} />,
+    );
 
+    const chip = getByTestId(chipMockTestId);
+    const label = getByText(chipMockLabel);
+
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: green[500] }));
+    expect(label.props.style).toEqual(expect.objectContaining({ color: green[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should sync the chip and label (error) color in (outlined) variant', () => {
+    const { getByTestId, getByText } = render(
+      <Chip testID={chipMockTestId} variant="outlined" color="error" syncBorderAndLabelColor label={chipMockLabel} />,
+    );
+
+    const chip = getByTestId(chipMockTestId);
+    const label = getByText(chipMockLabel);
+
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: red[500] }));
+    expect(label.props.style).toEqual(expect.objectContaining({ color: red[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should sync the chip and label (info) color in (outlined) variant', () => {
+    const { getByTestId, getByText } = render(
+      <Chip testID={chipMockTestId} variant="outlined" color="info" syncBorderAndLabelColor label={chipMockLabel} />,
+    );
+
+    const chip = getByTestId(chipMockTestId);
+    const label = getByText(chipMockLabel);
+
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: lightBlue[500] }));
+    expect(label.props.style).toEqual(expect.objectContaining({ color: lightBlue[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should sync the chip and label (warning) color in (outlined) variant', () => {
+    const { getByTestId, getByText } = render(
+      <Chip testID={chipMockTestId} variant="outlined" color="warning" syncBorderAndLabelColor label={chipMockLabel} />,
+    );
+
+    const chip = getByTestId(chipMockTestId);
+    const label = getByText(chipMockLabel);
+
+    expect(chip.props.style).toEqual(expect.objectContaining({ borderColor: yellow[500] }));
+    expect(label.props.style).toEqual(expect.objectContaining({ color: yellow[500] }));
+    expect(chip.props.style).not.toHaveProperty('backgroundColor');
+  });
+
+  it('should render correctly with start icon', () => {
+    const { getByTestId, toJSON } = render(
+      <Chip
+        testID={chipMockTestId}
+        startIcon={
+          <Avatar
+            source={{
+              uri: 'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            }}
+            size={20}
+            variation="rounded"
+            testID={startIconMockTestId}
+          />
+        }
+      />,
+    );
+
+    const startIcon = getByTestId(startIconMockTestId);
+    expect(startIcon).toBeTruthy();
+    expect(toJSON).toMatchSnapshot();
+  });
+
+  it('should render correctly with end icon', () => {
+    const { getByTestId, toJSON } = render(
+      <Chip
+        testID={chipMockTestId}
+        endIcon={
+          <Avatar
+            source={{
+              uri: 'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            }}
+            size={20}
+            variation="rounded"
+            testID={endIconMockTestId}
+          />
+        }
+      />,
+    );
+
+    const endIcon = getByTestId(endIconMockTestId);
+    expect(endIcon).toBeTruthy();
+    expect(toJSON).toMatchSnapshot();
+  });
+
+  it('user should able to click on the start icon', () => {
     const { getByTestId } = render(
-      <Chip testID={chipMockTestId} label={chipMockLabel} style={{ backgroundColor: customColor }} />,
+      <Chip
+        testID={chipMockTestId}
+        startIconProps={{
+          onPress: mockOnPress,
+          testID: iconMockTestId,
+        }}
+        startIcon={
+          <Avatar
+            source={{
+              uri: 'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            }}
+            size={20}
+            variation="rounded"
+            testID={startIconMockTestId}
+          />
+        }
+      />,
     );
 
-    const chipElement = getByTestId(chipMockTestId);
-
-    expect(chipElement.props.style).toEqual(expect.objectContaining({ backgroundColor: customColor }));
+    const startIconTouch = getByTestId(iconMockTestId);
+    fireEvent.press(startIconTouch, { nativeEvent: {} });
+    expect(mockOnPress).toHaveBeenCalledTimes(1);
   });
 
-  it('should apply the chip (filled) variant', () => {
-    const { getByTestId } = render(<Chip testID={chipMockTestId} label={chipMockLabel} variant="filled" disabled />);
-
-    const chipElement = getByTestId(chipMockTestId);
-    const expectedStyles: StyleProp<ViewStyle> = {
-      backgroundColor: grey[400],
-      ...chipBaseStyles,
-    };
-
-    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
-  });
-
-  it('should apply the chip color (error) variant', () => {
+  it('user should able to click on the end icon', () => {
     const { getByTestId } = render(
-      <Chip testID={chipMockTestId} label={chipMockLabel} color="error" variant="filled" disabled />,
+      <Chip
+        testID={chipMockTestId}
+        endIconProps={{
+          onPress: mockOnPress,
+          testID: iconMockTestId,
+        }}
+        endIcon={
+          <Avatar
+            source={{
+              uri: 'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            }}
+            size={20}
+            variation="rounded"
+            testID={startIconMockTestId}
+          />
+        }
+      />,
     );
 
-    const chipElement = getByTestId(chipMockTestId);
-    const expectedStyles: StyleProp<ViewStyle> = {
-      backgroundColor: red[500],
-      ...chipBaseStyles,
-    };
-
-    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
-  });
-
-  it('should apply the chip color (info) variant', () => {
-    const { getByTestId } = render(<Chip testID={chipMockTestId} label={chipMockLabel} color="info" variant="filled" disabled />);
-
-    const chipElement = getByTestId(chipMockTestId);
-    const expectedStyles: StyleProp<ViewStyle> = {
-      backgroundColor: lightBlue[500],
-      ...chipBaseStyles,
-    };
-
-    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
-  });
-
-  it('should apply the chip color (primary) variant', () => {
-    const { getByTestId } = render(
-      <Chip testID={chipMockTestId} label={chipMockLabel} color="primary" variant="filled" disabled />,
-    );
-
-    const chipElement = getByTestId(chipMockTestId);
-    const expectedStyles: StyleProp<ViewStyle> = {
-      backgroundColor: primary[500],
-      ...chipBaseStyles,
-    };
-
-    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
-  });
-
-  it('should apply the chip color (secondary) variant', () => {
-    const { getByTestId } = render(
-      <Chip testID={chipMockTestId} label={chipMockLabel} color="secondary" variant="filled" disabled />,
-    );
-
-    const chipElement = getByTestId(chipMockTestId);
-    const expectedStyles: StyleProp<ViewStyle> = {
-      backgroundColor: secondary[500],
-      ...chipBaseStyles,
-    };
-
-    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
-  });
-
-  it('should apply the chip color (success) variant', () => {
-    const { getByTestId } = render(
-      <Chip testID={chipMockTestId} label={chipMockLabel} color="success" variant="filled" disabled />,
-    );
-
-    const chipElement = getByTestId(chipMockTestId);
-    const expectedStyles: StyleProp<ViewStyle> = {
-      backgroundColor: green[500],
-      ...chipBaseStyles,
-    };
-
-    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
-  });
-
-  it('should apply the chip color (warning) variant', () => {
-    const { getByTestId } = render(
-      <Chip testID={chipMockTestId} label={chipMockLabel} color="warning" variant="filled" disabled />,
-    );
-
-    const chipElement = getByTestId(chipMockTestId);
-    const expectedStyles: StyleProp<ViewStyle> = {
-      backgroundColor: yellow[400],
-      ...chipBaseStyles,
-    };
-
-    expect(chipElement.props.style).toEqual(expect.objectContaining(expectedStyles));
-  });
-
-  it('should call the event when passed the onPress prop', () => {
-    const mockOnPress = jest.fn();
-    const { getByTestId } = render(<Chip testID={chipMockTestId} label={chipMockLabel} onPress={mockOnPress} />);
-    fireEvent.press(getByTestId(chipMockTestId), mockEvent);
-    expect(mockOnPress).toHaveBeenCalled();
-  });
-
-  it('should disable the onPress props when passed the disabled prop', () => {
-    const mockOnPress = jest.fn();
-    const { getByTestId } = render(<Chip testID={chipMockTestId} label={chipMockLabel} onPress={mockOnPress} disabled />);
-    fireEvent.press(getByTestId(chipMockTestId), mockEvent);
-    expect(mockOnPress).not.toHaveBeenCalled();
-  });
-
-  it('should apply the custom styles on chip wrapper', () => {
-    const styles: ViewStyle = { backgroundColor: 'red' };
-
-    const { getByTestId } = render(<Chip chipWrapperContainerProps={{ style: styles, testID: chipWrapperMockTestId }} />);
-
-    const chipWrapper = getByTestId(chipWrapperMockTestId);
-    expect(chipWrapper).toBeTruthy();
-
-    expect(chipWrapper.props.style).toEqual(expect.arrayContaining([styles]));
-  });
-
-  it('should apply the custom text styles', () => {
-    const styles: TextStyle = { color: 'red' };
-    const { getByTestId } = render(<Chip labelContainerProps={{ style: styles, testID: chipLabelTestId }} />);
-
-    const label = getByTestId(chipLabelTestId);
-    expect(label.props.style).toEqual(expect.arrayContaining([styles]));
+    const endIconTouch = getByTestId(iconMockTestId);
+    fireEvent.press(endIconTouch, { nativeEvent: {} });
+    expect(mockOnPress).toHaveBeenCalledTimes(1);
   });
 });

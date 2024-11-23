@@ -1,74 +1,75 @@
-import React, { useMemo } from 'react';
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import React, { useCallback, useMemo } from 'react';
+import { StyleSheet, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { useTheme } from '../../libraries';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
-import { generateChipStyles, styles } from './Chip.style';
+import { generateChipStyles, labelStyles, styles } from './Chip.style';
 import { ChipProps } from './Chip.types';
+import { DEFAULT_BORDER_RADIUS, SQUARE_BORDER_RADIUS } from './constants';
 
 export const Chip = React.forwardRef<View, ChipProps>(
   (
     {
       label,
-      labelContainerProps,
-      variant,
       disabled,
-      startAdornment,
-      endAdornmentContainerStyle,
-      startAdornmentTouchableProps,
-      endAdornment,
-      startAdornmentContainerStyle,
-      endAdornmentTouchableProps,
       disableRipple,
       style,
-      color,
       chipWrapperContainerStyles,
-      chipWrapperContainerProps,
+      labelColor,
+      startIcon,
+      endIcon,
+      startIconProps,
+      endIconProps,
+      variant = 'filled',
+      color = 'secondary',
       square = false,
-      testID,
+      syncBorderAndLabelColor = false,
       ...props
     },
     ref,
   ) => {
     const { theme } = useTheme();
+    const isOutlinedVariant = variant === 'outlined';
+    const colorScheme = useColorScheme();
+    const hasIcon = Boolean(startIcon) || Boolean(endIcon);
 
-    const chipStyles = useMemo(
-      () => generateChipStyles({ variant, disabled, withAdornment: !!startAdornment || !!endAdornment, color, theme }),
-      [variant, disabled, startAdornment, endAdornment, color, theme],
-    );
+    const chipStyles = useMemo(() => generateChipStyles({ variant, disabled, color, theme }), [variant, disabled, color, theme]);
 
-    const startAdornmentElement = startAdornment && (
-      <TouchableWithoutFeedback {...startAdornmentTouchableProps}>
-        <Box style={[styles.chipInnerComponentWrapper, startAdornmentContainerStyle]}>{startAdornment}</Box>
-      </TouchableWithoutFeedback>
-    );
+    const renderLabel = useCallback(() => {
+      return (
+        <Text style={labelStyles({ isOutlinedVariant, theme, labelColor, color, syncBorderAndLabelColor })} variation="h4">
+          {label}
+        </Text>
+      );
+    }, [theme, label, isOutlinedVariant, colorScheme, labelColor, color, syncBorderAndLabelColor]);
 
-    const endAdornmentElement = endAdornment && (
-      <TouchableWithoutFeedback {...endAdornmentTouchableProps}>
-        <Box style={[styles.chipInnerComponentWrapper, endAdornmentContainerStyle]}>{endAdornment}</Box>
-      </TouchableWithoutFeedback>
-    );
+    if (hasIcon) {
+      return (
+        <Box style={StyleSheet.flatten([styles.chip, chipStyles, style, { borderRadius: square ? 5 : 20 }])} ref={ref}>
+          <Box style={StyleSheet.flatten([styles.chipWrapper, chipWrapperContainerStyles])}>
+            {startIcon && <TouchableOpacity {...startIconProps}>{startIcon}</TouchableOpacity>}
+            {renderLabel()}
+            {endIcon && <TouchableOpacity {...endIconProps}>{endIcon}</TouchableOpacity>}
+          </Box>
+        </Box>
+      );
+    }
 
     return (
       <BaseButton
         disabled={disabled}
         disableRipple={disableRipple}
-        style={StyleSheet.flatten([styles.chip, chipStyles, style, { borderRadius: square ? 5 : 20 }])}
-        testID={testID}
+        style={StyleSheet.flatten([
+          styles.chip,
+          chipStyles,
+          style,
+          { borderRadius: square ? SQUARE_BORDER_RADIUS : DEFAULT_BORDER_RADIUS },
+        ])}
+        baseButtonContainerStyle={{ flex: 0 }}
         ref={ref}
         {...props}>
-        <Box style={StyleSheet.flatten([styles.chipWrapper, chipWrapperContainerStyles])} {...chipWrapperContainerProps}>
-          {startAdornmentElement}
-          <Text
-            isActive
-            activeColor={variant === 'outlined' ? theme.colors.grey[900] : theme.colors.grey[50]}
-            variation="h4"
-            {...labelContainerProps}>
-            {label}
-          </Text>
-          {endAdornmentElement}
-        </Box>
+        <Box style={StyleSheet.flatten([styles.chipWrapper, chipWrapperContainerStyles])}>{renderLabel()}</Box>
       </BaseButton>
     );
   },
