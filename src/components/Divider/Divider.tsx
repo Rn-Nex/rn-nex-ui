@@ -46,6 +46,14 @@ export interface DividerProps extends ViewProps {
    * Custom spacing for divider lines in different variants.
    */
   variantSpacing?: number;
+  /**
+   * Start line test id
+   */
+  startLineTestId?: string;
+  /**
+   * End line test id
+   */
+  endLineTestId?: string;
 }
 
 export type LineType = 'start' | 'end';
@@ -78,6 +86,8 @@ export const Divider = React.forwardRef<View, DividerProps>(
       borderColor,
       gap,
       variantSpacing,
+      startLineTestId,
+      endLineTestId,
       textAlign = 'center',
       variant = 'fullWidth',
       orientation = 'horizontal',
@@ -107,9 +117,12 @@ export const Divider = React.forwardRef<View, DividerProps>(
 
     return (
       <View ref={ref} style={StyleSheet.flatten([styles.rootContainer, containerStyles.generated, style])} {...props}>
-        <View style={StyleSheet.flatten([styles.line, lineStyles('start').generated, startLineStyles])} />
+        <View
+          style={StyleSheet.flatten([styles.line, lineStyles('start').generated, startLineStyles])}
+          testID={startLineTestId}
+        />
         {children}
-        <View style={StyleSheet.flatten([styles.line, lineStyles('end').generated, endLineStyles])} />
+        <View style={StyleSheet.flatten([styles.line, lineStyles('end').generated, endLineStyles])} testID={endLineTestId} />
       </View>
     );
   },

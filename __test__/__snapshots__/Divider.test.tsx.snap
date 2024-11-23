@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Divider Component should render correctly 1`] = `[Function]`;
+
+exports[`Divider Component should render the children correctly 1`] = `[Function]`;
