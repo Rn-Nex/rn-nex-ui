@@ -1,5 +1,14 @@
 import React, { useCallback } from 'react';
-import { GestureResponderEvent, Image, ImageStyle, Pressable, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  GestureResponderEvent,
+  Image,
+  ImageSourcePropType,
+  ImageStyle,
+  Pressable,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import { useTheme } from '../../libraries';
 import { getVariant } from '../../utils';
 import { Text } from '../Typography';
@@ -10,8 +19,8 @@ const checkBoxOutlineSmall = require('./images/check-box-outline-small.png');
 const checkBoxMedium = require('./images/check-box-medium.png');
 const checkBoxOutlineMedium = require('./images/check-box-outline-medium.png');
 
-const CHECKBOX_SMALL_SIZE = 20;
-const CHECKBOX_MEDIUM_SIZE = 30;
+export const CHECKBOX_SMALL_SIZE = 20;
+export const CHECKBOX_MEDIUM_SIZE = 30;
 
 export const CheckBox = React.forwardRef<View, CheckBoxProps>(
   (
@@ -31,8 +40,9 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
       subLabel,
       labelStyles,
       subLabelStyles,
+      checkBoxImageTestId,
+      adornmentTestId,
       actionType = 'root',
-      fullWidth = false,
       adornmentType = 'end',
       size = 'medium',
       isChecked = false,
@@ -43,32 +53,32 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
   ) => {
     const { theme } = useTheme();
     const hasAdornment = Boolean(adornment);
+    const shouldRenderAdornment = adornmentType === 'start' && (hasAdornment || label || subLabel);
+    const shouldRenderEndAdornment = adornmentType === 'end' && (hasAdornment || label || subLabel);
 
     const displayCheckedImage = useCallback(() => {
       const isSmallCheckBox = size === 'small';
-      let source = isChecked
-        ? isSmallCheckBox
-          ? checkBoxSmall
-          : checkBoxMedium
-        : isSmallCheckBox
-          ? checkBoxOutlineSmall
-          : checkBoxOutlineMedium;
+      let source: ImageSourcePropType;
+
+      if (isChecked) {
+        source = isSmallCheckBox ? checkBoxSmall : checkBoxMedium;
+      } else {
+        source = isSmallCheckBox ? checkBoxOutlineSmall : checkBoxOutlineMedium;
+      }
 
       const sizeStyles: ImageStyle = {
         width: isSmallCheckBox ? CHECKBOX_SMALL_SIZE : CHECKBOX_MEDIUM_SIZE,
         height: isSmallCheckBox ? CHECKBOX_SMALL_SIZE : CHECKBOX_MEDIUM_SIZE,
       };
 
-      return (
-        <Image
-          source={source}
-          style={StyleSheet.flatten([
-            { tintColor: checkBoxColor || isChecked ? getVariant({ variant, theme }) : theme.colors.grey[600] },
-            sizeStyles,
-          ])}
-        />
-      );
-    }, [isChecked, variant, theme, checkBoxColor, size]);
+      let tintColor: string;
+
+      if (checkBoxColor) tintColor = checkBoxColor;
+      else if (isChecked) tintColor = getVariant({ variant, theme });
+      else tintColor = theme.colors.grey[600];
+
+      return <Image source={source} style={StyleSheet.flatten([{ tintColor }, sizeStyles])} testID={checkBoxImageTestId} />;
+    }, [isChecked, variant, theme, checkBoxColor, size, checkBoxImageTestId]);
 
     const elementOnPressHandler = (event: GestureResponderEvent) => {
       if (onPress && typeof onPress === 'function' && actionType === 'root') {
@@ -77,25 +87,28 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
     };
 
     const renderAdornment = useCallback(() => {
-      const element = hasAdornment ? (
-        adornment
-      ) : (
-        <React.Fragment>
-          <Text variation="h4" style={labelStyles}>
-            {label}
-          </Text>
-          {subLabel && (
-            <Text variation="h5" style={subLabelStyles}>
-              {subLabel}
+      let element: React.ReactNode;
+      if (hasAdornment) element = adornment;
+      else {
+        element = (
+          <React.Fragment>
+            <Text variation="h4" style={labelStyles}>
+              {label}
             </Text>
-          )}
-        </React.Fragment>
-      );
+            {subLabel && (
+              <Text variation="h5" style={subLabelStyles}>
+                {subLabel}
+              </Text>
+            )}
+          </React.Fragment>
+        );
+      }
+
       const elementContainerStyles = hasAdornment ? adornmentContainerStyles : labelContainerStyles;
 
       return (
         <View style={StyleSheet.flatten([styles.adornmentContainer, elementContainerStyles])}>
-          <Pressable disabled={disabled} onPress={elementOnPressHandler}>
+          <Pressable disabled={disabled} onPress={elementOnPressHandler} testID={adornmentTestId}>
             {element}
           </Pressable>
         </View>
@@ -112,25 +125,26 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
       subLabel,
       labelStyles,
       subLabelStyles,
+      adornmentTestId,
     ]);
 
     const renderImage = useCallback(() => {
       if (isChecked) {
-        return checkedImage ? checkedImage : displayCheckedImage();
-      } else {
-        return unCheckedImage ? unCheckedImage : displayCheckedImage();
+        return checkedImage ?? displayCheckedImage();
       }
+
+      return unCheckedImage ?? displayCheckedImage();
     }, [isChecked, variant, theme, checkBoxColor, size]);
 
     return (
       <View ref={ref} style={StyleSheet.flatten([styles.container, style, { opacity: disabled ? 0.5 : 1 }])} {...containerProps}>
-        {adornmentType === 'start' && (hasAdornment || label) && renderAdornment()}
+        {shouldRenderAdornment && renderAdornment()}
         <View style={StyleSheet.flatten([styles.checkboxContainer, checkBoxWrapperStyles])}>
           <TouchableWithoutFeedback disabled={disabled} onPress={onPress} {...props}>
             {renderImage()}
           </TouchableWithoutFeedback>
         </View>
-        {adornmentType === 'end' && (hasAdornment || label) && renderAdornment()}
+        {shouldRenderEndAdornment && renderAdornment()}
       </View>
     );
   },
