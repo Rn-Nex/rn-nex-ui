@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ScrollView, ViewStyle } from 'react-native';
+import { ScrollView, StyleSheet, ViewStyle } from 'react-native';
 import { ImageListProps } from './Image.types';
 
 export const ImageList = React.forwardRef<ScrollView, ImageListProps>(
@@ -14,9 +14,14 @@ export const ImageList = React.forwardRef<ScrollView, ImageListProps>(
     }, []);
 
     return (
-      <ScrollView style={[style]} contentContainerStyle={[scrollViewStyles, contentContainerStyle]} ref={ref} {...props}>
+      <ScrollView
+        style={[style]}
+        contentContainerStyle={StyleSheet.flatten([scrollViewStyles, contentContainerStyle])}
+        ref={ref}
+        {...props}>
         {children}
       </ScrollView>
     );
   },
 );
+ImageList.displayName = 'ImageList';

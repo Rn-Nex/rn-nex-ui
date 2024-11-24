@@ -73,7 +73,7 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
 
       let tintColor: string;
 
-      if (checkBoxColor) tintColor = checkBoxColor;
+      if (checkBoxColor && isChecked) tintColor = checkBoxColor;
       else if (isChecked) tintColor = getVariant({ variant, theme });
       else tintColor = theme.colors.grey[600];
 

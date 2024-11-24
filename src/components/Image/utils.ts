@@ -31,28 +31,24 @@ export const generateImageRadiusStyles = (variation: ImageVariant) => {
   return generateStyle({ propertyName: 'borderRadius', value: styles['borderRadius'] });
 };
 
-export const generateImageListItemStyles = ({
-  index,
-  itemSpace,
-  itemBottomSpace,
-  items = 3,
-}: GenerateImageListItemStylesProps) => {
+export const generateImageListItemStyles = ({ index, itemSpace, itemBottomSpace, items }: GenerateImageListItemStylesProps) => {
+  if (!items) return;
+
   let applySpacing = false;
   let checkVisibility = (index + 1) % items;
-  let space = itemSpace ?? 1;
 
   if (checkVisibility && checkVisibility !== 1) {
     applySpacing = true;
   }
 
-  const paddingLeft = applySpacing ? space : checkVisibility === 1 ? 0 : space;
-  const paddingRight = applySpacing ? space : checkVisibility === 1 ? space : 0;
+  const paddingLeft = applySpacing ? itemSpace : checkVisibility === 1 ? 0 : itemSpace;
+  const paddingRight = applySpacing ? itemSpace : checkVisibility === 1 ? itemSpace : 0;
 
   const baseStyle: ViewStyle = {
     width: `${100 / items}%`,
     paddingLeft,
     paddingRight,
-    paddingBottom: itemBottomSpace ?? 2,
+    paddingBottom: itemBottomSpace,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
