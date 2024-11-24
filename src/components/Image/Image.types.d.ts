@@ -56,48 +56,14 @@ export interface ImageListItemProps extends React.ComponentPropsWithRef<typeof V
    * Vertical spacing between the image list items.
    */
   itemBottomSpace?: number;
-}
-
-/**
- * Interface for properties that can be passed to an image list item bar component.
- */
-export interface ImageListItemBarProps extends Omit<BoxProps, 'children'> {
   /**
-   * Styles for the wrapper around the list content.
+   * Custom styles for list wrapper container
    */
-  listContentWrapperStyles?: ViewStyle;
+  listWrapperContainerStyles?: ViewStyle;
   /**
-   * Title text for the item.
+   * Test id for list wrapper container
    */
-  title?: string;
-  /**
-   * Additional properties for the title text.
-   */
-  titleProps?: Omit<TextProps, 'children'>;
-  /**
-   * Subtitle text for the item.
-   */
-  subtitle?: string;
-  /**
-   * Additional properties for the subtitle text.
-   */
-  subtitleProps?: Omit<TextProps, 'children'>;
-  /**
-   * Element to display at the end of the item bar.
-   */
-  endAdornment?: React.ReactNode;
-  /**
-   * Styles for the end adornment container.
-   */
-  endAdornmentContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
-  /**
-   * Position of the item bar, either at the bottom or top.
-   */
-  position?: 'bottom' | 'top';
-  /**
-   * Color overlay for the item bar.
-   */
-  overlayColor?: ColorValue;
+  listWrapperTestId?: string;
 }
 
 export interface GenerateImageListItemStylesProps

@@ -5,6 +5,7 @@ import {
   CHECKBOX_MEDIUM_SIZE,
   CHECKBOX_SMALL_SIZE,
   green,
+  grey,
   lightBlue,
   primary,
   red,
@@ -63,10 +64,23 @@ describe('CheckBox Component', () => {
     expect(subLabel.props.style).toEqual(expect.objectContaining({ color: 'red' }));
   });
 
-  it('should change the check box color when checkBoxColor prop passed', () => {
-    const { getByTestId } = render(<CheckBox checkBoxColor="red" checkBoxImageTestId={mockCheckBoxImageTestId} />);
+  it('should change the check box color when checkBoxColor prop passed and checkbox is checked', () => {
+    const { getByTestId } = render(<CheckBox isChecked checkBoxColor="red" checkBoxImageTestId={mockCheckBoxImageTestId} />);
     const checkBoxImage = getByTestId(mockCheckBoxImageTestId);
     expect(checkBoxImage.props.style).toEqual(expect.objectContaining({ tintColor: 'red' }));
+  });
+
+  it("should't change the check box color when checkBoxColor prop passed without passing the checked flag", () => {
+    const { getByTestId } = render(<CheckBox checkBoxColor="red" checkBoxImageTestId={mockCheckBoxImageTestId} />);
+    const checkBoxImage = getByTestId(mockCheckBoxImageTestId);
+    expect(checkBoxImage.props.style).not.toEqual(expect.objectContaining({ tintColor: 'red' }));
+    expect(checkBoxImage.props.style).toEqual(expect.objectContaining({ tintColor: grey[600] }));
+  });
+
+  it('should take the default color of the checkbox', () => {
+    const { getByTestId } = render(<CheckBox checkBoxImageTestId={mockCheckBoxImageTestId} />);
+    const checkBoxImage = getByTestId(mockCheckBoxImageTestId);
+    expect(checkBoxImage.props.style).toEqual(expect.objectContaining({ tintColor: grey[600] }));
   });
 
   it('should call the onPress when clicked on the checkbox', () => {

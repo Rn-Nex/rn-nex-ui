@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Image, ImageList, ImageListItem, ImageListItemBar } from '../src';
+import { Box, Image, ImageList, ImageListItem } from '../src';
 
 export const App: React.FC = () => {
   return (
@@ -18,19 +18,6 @@ export const App: React.FC = () => {
               }}
               sx={{ w: '100%' }}
               height={140}
-            />
-            <ImageListItemBar
-              subtitle={item.author}
-              title={item.title}
-              endAdornment={
-                <Avatar
-                  source={{
-                    uri: 'https://imgs.search.brave.com/IA-a4lUg47kM0FW6vtr7Lz_eIaEWKTc1EHlAv1FFPVg/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9idXJz/dC5zaG9waWZ5Y2Ru/LmNvbS9waG90b3Mv/YS1kcm9wLW9mLXBp/bmstYW5kLXllbGxv/dy1wYWludC1pbi13/YXRlci5qcGc_d2lk/dGg9MTAwMCZmb3Jt/YXQ9cGpwZyZleGlm/PTAmaXB0Yz0w',
-                  }}
-                  size={30}
-                  variation="rounded"
-                />
-              }
             />
           </ImageListItem>
         ))}

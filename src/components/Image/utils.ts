@@ -2,6 +2,7 @@ import { ViewStyle } from 'react-native';
 import { ElementRadius } from '../../libraries/style/styleTypes';
 import { generateStyle } from '../../utils';
 import {
+  DEFAULT_ITEMS,
   IMAGE_ROUNDED_LG_RADIUS,
   IMAGE_ROUNDED_MD_RADIUS,
   IMAGE_ROUNDED_RADIUS,
@@ -35,28 +36,21 @@ export const generateImageListItemStyles = ({
   index,
   itemSpace,
   itemBottomSpace,
-  items = 3,
-}: GenerateImageListItemStylesProps) => {
-  let applySpacing = false;
-  let checkVisibility = (index + 1) % items;
-  let space = itemSpace ?? 1;
+  items = DEFAULT_ITEMS,
+}: GenerateImageListItemStylesProps): ViewStyle => {
+  const isFirstInRow = (index + 1) % items === 1;
+  const isLastInRow = (index + 1) % items === 0;
 
-  if (checkVisibility && checkVisibility !== 1) {
-    applySpacing = true;
-  }
+  const paddingLeft = isFirstInRow ? 0 : itemSpace;
+  const paddingRight = isLastInRow ? 0 : itemSpace;
 
-  const paddingLeft = applySpacing ? space : checkVisibility === 1 ? 0 : space;
-  const paddingRight = applySpacing ? space : checkVisibility === 1 ? space : 0;
+  const applyPaddingLeft = items >= 2 ? paddingLeft : 0;
+  const applyPaddingRight = items >= 2 ? paddingRight : 0;
 
-  const baseStyle: ViewStyle = {
+  return {
     width: `${100 / items}%`,
-    paddingLeft,
-    paddingRight,
-    paddingBottom: itemBottomSpace ?? 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
+    paddingLeft: applyPaddingLeft,
+    paddingRight: applyPaddingRight,
+    paddingBottom: itemBottomSpace,
   };
-
-  return baseStyle;
 };

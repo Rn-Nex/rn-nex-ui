@@ -254,20 +254,6 @@ Interface for properties that can be passed to an individual item (`ImageListIte
 | sx?      | Custom styles for the image list item. | Specifies custom styles using `BaseStyles`. |
 | items?   | Number of items to display.            | Specifies the number of items to display.   |
 
-### ImageListItemBarProps
-
-Interface for properties that can be passed to the `ImageListItemBar` component, which provides additional information for an `ImageListItem`.
-
-| Property                       | Description                                      | Usage                                                                                      |
-| ------------------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| `listContentWrapperStyles?`    | Custom styles for the list content wrapper.      | Specifies custom styles using `ViewStyle`.                                                 |
-| `title?`                       | Title text to display.                           | Specifies the title text as a string.                                                      |
-| `titleProps?`                  | Props for the title text component.              | Specifies properties for the title text component, omitting `children`.                    |
-| `subtitle?`                    | Subtitle text to display.                        | Specifies the subtitle text as a string.                                                   |
-| `subtitleProps?`               | Props for the subtitle text component.           | Specifies properties for the subtitle text component, omitting `children`.                 |
-| `endAdornment?`                | Node to display at the end of the list item bar. | Specifies a React node (e.g., an icon or button) for the end of the list item bar.         |
-| `endAdornmentContainerStyles?` | Styles for the container of the end adornment.   | Specifies styles for the end adornment container using `Pick<BoxProps, 'style'     'sx'>`. |
-
 ## Examples
 
 ```tsx
@@ -291,19 +277,6 @@ export const App: React.FC = () => {
               }}
               sx={{ w: '100%' }}
               height={140}
-            />
-            <ImageListItemBar
-              subtitle={item.author}
-              title={item.title}
-              endAdornment={
-                <Avatar
-                  source={{
-                    uri: 'https://imgs.search.brave.com/IA-a4lUg47kM0FW6vtr7Lz_eIaEWKTc1EHlAv1FFPVg/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9idXJz/dC5zaG9waWZ5Y2Ru/LmNvbS9waG90b3Mv/YS1kcm9wLW9mLXBp/bmstYW5kLXllbGxv/dy1wYWludC1pbi13/YXRlci5qcGc_d2lk/dGg9MTAwMCZmb3Jt/YXQ9cGpwZyZleGlm/PTAmaXB0Yz0w',
-                  }}
-                  size={30}
-                  variation="rounded"
-                />
-              }
             />
           </ImageListItem>
         ))}
