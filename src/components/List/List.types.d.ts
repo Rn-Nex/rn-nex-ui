@@ -173,13 +173,19 @@ export interface ListItemTextProps extends Omit<ListProps, 'children'> {
    * This property allows you to align the items to the start, middle, or end.
    */
   alignItems?: 'start' | 'middle' | 'end';
+
+  /**
+   * disable the left padding
+   */
+  disableLeftPadding?: boolean;
 }
 
 /**
  * Interface for styles related to ListItemText component, focusing on the disablePadding property
  * This interface defines styles specific to the ListItemText component.
  */
-export interface ListItemTextStylesProps extends Pick<ListItemTextProps, 'disablePadding' | 'alignItems'> {}
+export interface ListItemTextStylesProps
+  extends Pick<ListItemTextProps, 'disablePadding' | 'alignItems' | 'disableLeftPadding'> {}
 
 /**
  * Interface for styles related to the ListItem container, focusing on the selected property

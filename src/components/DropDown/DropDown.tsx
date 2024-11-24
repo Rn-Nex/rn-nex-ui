@@ -13,7 +13,7 @@ import {
   View,
   ViewProps,
 } from 'react-native';
-import { useTheme } from '../../libraries';
+import { grey, useTheme } from '../../libraries';
 import { MeasureElementRect } from '../../types';
 import { Box } from '../Box';
 import { ListItem, ListItemText } from '../List';
@@ -41,7 +41,9 @@ export interface DropDownData {
  * Props for the container that renders the list of dropdown items.
  * Extends properties from `ViewProps` and specific `FlatListProps`.
  */
-export interface DropDownListContainerProps<T extends DropDownData> extends ViewProps, Pick<FlatListProps<T>, 'data'> {
+export interface DropDownListContainerProps<T extends Partial<DropDownData>>
+  extends ViewProps,
+    Partial<Pick<FlatListProps<T>, 'data'>> {
   /**
    * Whether the dropdown is open.
    * */
@@ -180,11 +182,6 @@ export interface DropDownProps<T extends DropDownData>
    * */
   onDropDownClicked?: (event: GestureResponderEvent) => void;
 
-  /**
-   * Callback triggered when a list item in the dropdown is clicked.
-   * */
-  onListItemClicked?: (event: GestureResponderEvent, item: DropDownData) => void;
-
   multiselectMessage?: string;
 
   /**
@@ -228,6 +225,8 @@ export const DropDown = <T extends DropDownData>({
   const [inputRect, setInputRect] = useState<LayoutRectangle | null>(null);
   const [dropDownContainerRect, setDropDownContainerRect] = useState<MeasureElementRect | null>(null);
 
+  const hasListSelectedItems = selectedListItems !== undefined;
+
   const dropDownCloseHandler = () => {
     setOpen(false);
   };
@@ -238,14 +237,7 @@ export const DropDown = <T extends DropDownData>({
     }
     if (containerRef?.current) {
       containerRef.current.measure((x, y, width, height, pageX, pageY) => {
-        setDropDownContainerRect({
-          x,
-          y,
-          width,
-          height,
-          pageX,
-          pageY,
-        });
+        setDropDownContainerRect({ x, y, width, height, pageX, pageY });
       });
     }
     setOpen(!open);
@@ -257,30 +249,48 @@ export const DropDown = <T extends DropDownData>({
   };
 
   const onItemClickedHandler = (item: DropDownData) => {
+    let updatedSelectedItems: DropDownData[];
+
     if (multiselect) {
-      setSelectedItems(prev => (prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]));
+      updatedSelectedItems = selectedItems.includes(item) ? selectedItems.filter(i => i !== item) : [...selectedItems, item];
     } else {
-      setSelectedItems([item]);
+      updatedSelectedItems = [item];
+    }
+
+    if (hasListSelectedItems) {
+      setSelectedItems(updatedSelectedItems);
+    }
+
+    if (!!onItemClicked && typeof onItemClicked === 'function') {
+      onItemClicked(updatedSelectedItems);
     }
   };
 
   const renderInput = useCallback(() => {
+    let value = '';
+
+    if (multiselect) {
+      value = multiselectMessage ?? `Selected items ${hasListSelectedItems ? selectedListItems?.length : selectedItems.length}`;
+    } else if (hasListSelectedItems && selectedListItems?.length) {
+      value = selectedListItems?.[0]?.title;
+    } else {
+      value = selectedItems?.[0]?.title;
+    }
+
     const commonProps = {
       placeholder,
       startAdornment: inputStartAdornment,
       endAdornment: inputEndAdornment,
       ignoreOpacityOnNonEditable: true,
       editable: false,
-      value: multiselect
-        ? multiselectMessage || `Selected items ${selectedListItems?.length || selectedItems.length}`
-        : selectedItems?.[0]?.title,
+      value,
     };
 
     switch (variation) {
       case 'filled':
-        return <TextField onLayout={inputOnLayout} pointerEvents="none" variant="filled" {...commonProps} />;
+        return <TextField onLayout={inputOnLayout} pointerEvents="none" variant={variation} {...commonProps} />;
       case 'outlined':
-        return <TextField onLayout={inputOnLayout} pointerEvents="none" variant="outlined" {...commonProps} />;
+        return <TextField onLayout={inputOnLayout} pointerEvents="none" variant={variation} {...commonProps} />;
       case 'icon':
         return <IconInput onLayout={inputOnLayout} pointerEvents="none" {...commonProps} />;
       default:
@@ -297,12 +307,6 @@ export const DropDown = <T extends DropDownData>({
     selectedListItems,
   ]);
 
-  useEffect(() => {
-    if (!!onItemClicked && typeof onItemClicked === 'function') {
-      onItemClicked(selectedItems);
-    }
-  }, [selectedItems]);
-
   return (
     <View collapsable={false} style={[style]} {...props} ref={containerRef}>
       <TouchableOpacity onPress={dropDownClickHandler}>{renderInput()}</TouchableOpacity>
@@ -315,7 +319,7 @@ export const DropDown = <T extends DropDownData>({
           onClose={dropDownCloseHandler}
           inputLayoutRectangle={inputRect}
           dropDownContainerRect={dropDownContainerRect}
-          selectedListItems={selectedListItems || selectedItems}
+          selectedListItems={selectedListItems ?? selectedItems}
           showSelectedItem={showSelectedItem}
           activeItemColor={activeItemColor}
           listItemTextProps={listItemTextProps}
@@ -397,23 +401,45 @@ const DropDownListContainer = <T extends DropDownData>({
         showSelectedItem && selectedListItems?.length && selectedListItems.some(selectedItem => selectedItem.id === item.id),
       );
 
+      let startAdornment: React.ReactNode;
+      let endAdornment: React.ReactNode;
+
+      if (displaySelectedAdornment) {
+        startAdornment = isSelected ? listItemStartAdornment : null;
+      } else {
+        startAdornment = listItemStartAdornment;
+      }
+
+      if (displaySelectedAdornment) {
+        endAdornment = isSelected ? listItemEndAdornment : null;
+      } else {
+        endAdornment = listItemEndAdornment;
+      }
+
+      let listItemTextColor: string;
+
+      if (colorScheme === 'dark') {
+        listItemTextColor = theme.colors.grey[900];
+      } else if (isSelected) {
+        listItemTextColor = grey[50];
+      } else {
+        listItemTextColor = grey[900];
+      }
+
       return (
         <ListItem
-          startAdornment={displaySelectedAdornment ? (isSelected ? listItemStartAdornment : null) : listItemStartAdornment}
-          selectedColor={activeItemColor || theme.colors.secondary[500]}
+          startAdornment={startAdornment}
+          selectedColor={activeItemColor ?? theme.colors.secondary[500]}
           selected={isSelected}
           onPress={() => itemOnPressHandler(item)}
-          endAdornment={displaySelectedAdornment ? (isSelected ? listItemEndAdornment : null) : listItemEndAdornment}
+          endAdornment={endAdornment}
+          actionType="root"
           style={[{ minHeight: listItemMinHeight }]}>
           <ListItemText
-            secondaryLabelProps={{
-              sx: {
-                color:
-                  colorScheme === 'dark' ? theme.colors.grey[900] : isSelected ? theme.colors.grey[50] : theme.colors.grey[900],
-              },
-            }}
+            secondaryLabelStyles={{ color: listItemTextColor }}
             disablePadding={disableTextPadding}
             secondary={item.title}
+            disableLeftPadding={isSelected && Boolean(startAdornment)}
             {...listItemTextProps}
           />
         </ListItem>
@@ -443,7 +469,7 @@ const DropDownListContainer = <T extends DropDownData>({
   };
 
   useEffect(() => {
-    if (selectedListItems && selectedListItems.length && data?.length && open) {
+    if (Boolean(selectedListItems) && selectedListItems?.length && data?.length && open) {
       const index = (data as unknown as Array<DropDownData>).findIndex(item => item.id === selectedListItems?.[0].id);
       scrollToItem(index);
     }
@@ -460,12 +486,12 @@ const DropDownListContainer = <T extends DropDownData>({
         <Animated.View
           style={StyleSheet.flatten([
             styles.listContainer,
-            style,
             {
               backgroundColor: theme.colors.grey[300],
               maxHeight,
               top: dropDownContainerRect.pageY + inputLayoutRectangle.height,
             },
+            style,
           ])}
           {...props}>
           {search && (
@@ -473,7 +499,7 @@ const DropDownListContainer = <T extends DropDownData>({
               <IconInput
                 onChangeText={searchHandler}
                 inputWrapperProps={{ style: { borderColor: theme.colors.grey[600], borderWidth: 0.7, height: 30 } }}
-                placeholder={searchPlaceholder || 'Search'}
+                placeholder={searchPlaceholder ?? 'Search'}
                 {...searchProps}
               />
             </Box>

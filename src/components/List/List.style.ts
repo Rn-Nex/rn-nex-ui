@@ -79,7 +79,7 @@ export const listItemContainerStyles = ({
   return styles;
 };
 
-export const listItemTextStyles = ({ disablePadding, alignItems }: ListItemTextStylesProps): ViewStyle => {
+export const listItemTextStyles = ({ disablePadding, alignItems, disableLeftPadding }: ListItemTextStylesProps): ViewStyle => {
   let styles: ViewStyle = {
     alignItems:
       alignItems === 'start'
@@ -94,7 +94,7 @@ export const listItemTextStyles = ({ disablePadding, alignItems }: ListItemTextS
   if (!disablePadding) {
     return {
       ...styles,
-      paddingLeft: 15,
+      paddingLeft: disableLeftPadding ? 0 : 15,
       paddingRight: 15,
       paddingTop: 5,
       paddingBottom: 5,

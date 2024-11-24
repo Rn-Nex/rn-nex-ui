@@ -5,6 +5,7 @@ import {
   LayoutChangeEvent,
   LayoutRectangle,
   NativeSyntheticEvent,
+  StyleSheet,
   TextInputFocusEventData,
   View,
 } from 'react-native';
@@ -120,7 +121,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
         variant={variant}
         activeColor={activeColor}
         errorColor={errorColor}
-        style={[sx && generateElementStyles(sx), style]}
+        style={StyleSheet.flatten([sx && generateElementStyles(sx), style])}
         isFocused={isFocused}
         error={error}
         ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
@@ -153,7 +154,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
           onBlur={onBlur}
           onFocus={onFocus}
           onLayout={onLayout}
-          style={[textStyles, inputStyles]}
+          style={StyleSheet.flatten([textStyles, inputStyles])}
           variant={variant}
           placeholder={hideLabel ? placeholder : undefined}
           {...props}
