@@ -91,12 +91,17 @@ export interface CheckBoxProps extends React.ComponentPropsWithoutRef<typeof Tou
   labelContainerStyles?: ViewStyle;
 
   /**
-   * If true, the component takes up the full width of its container; otherwise, it adjusts based on content.
-   */
-  fullWidth?: boolean;
-
-  /**
    * Determines the action trigger level; 'root' applies at the top-level, 'element' applies at a specific element level.
    */
   actionType?: 'root' | 'element';
+
+  /**
+   * Test id for check box images
+   */
+  checkBoxImageTestId?: string;
+
+  /**
+   * Test id of adornment
+   */
+  adornmentTestId?: string;
 }
