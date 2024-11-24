@@ -53,7 +53,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
     },
     ref,
   ) => {
-    const inputLabeledAnimatedValue = useRef(new Animated.Value(0)).current;
+    const inputLabelAnimatedValue = useRef(new Animated.Value(0)).current;
     const [textInputLayoutRectangle, setTextInputLayoutRectangle] = useState<LayoutRectangle>();
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -97,16 +97,16 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
     );
 
     useEffect(() => {
-      inputLabeledAnimatedValue.stopAnimation();
+      inputLabelAnimatedValue.stopAnimation();
       if (isFocused || value || !!startAdornment || inputIsFocused) {
-        Animated.timing(inputLabeledAnimatedValue, {
+        Animated.timing(inputLabelAnimatedValue, {
           toValue: 1,
           duration: animatedDuration ?? LABELED_ANIMATION_DURATION,
           easing: Easing.out(Easing.ease),
           useNativeDriver: true,
         }).start();
       } else {
-        Animated.timing(inputLabeledAnimatedValue, {
+        Animated.timing(inputLabelAnimatedValue, {
           toValue: 0,
           duration: animatedDuration ?? LABELED_ANIMATION_DURATION,
           easing: Easing.out(Easing.ease),
@@ -135,7 +135,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
             activeColor={activeColor}
             errorColor={errorColor}
             placeholder={placeholder}
-            labeled={inputLabeledAnimatedValue}
+            labelAnimatedValue={inputLabelAnimatedValue}
             translateYAnimatedPosition={getLabelTranslatePos()}
             placeholderLeftPosition={placeHolderLeftPos}
             error={error}

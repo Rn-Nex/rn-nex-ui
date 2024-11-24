@@ -1,4 +1,4 @@
-import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { ColorValue, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import {
   INPUT_DEFAULT_BORDER_RADIUS,
@@ -76,11 +76,15 @@ export const outlineStyles = ({
     borderRadius: square ? 0 : INPUT_DEFAULT_BORDER_RADIUS,
   };
 
-  const borderColor = error
-    ? errorColor || theme.colors.red[500]
-    : isFocused
-      ? activeColor || theme.colors.lightBlue[500]
-      : theme.colors.grey[400];
+  let borderColor: ColorValue;
+
+  if (error) {
+    borderColor = errorColor ?? theme.colors.red[500];
+  } else if (isFocused) {
+    borderColor = activeColor ?? theme.colors.lightBlue[500];
+  } else {
+    borderColor = theme.colors.grey[400];
+  }
 
   return { ...baseStyles, borderColor };
 };
@@ -115,40 +119,34 @@ export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme
 export const labelTransformStyle = ({
   theme,
   textHeight,
-  labeled,
+  labelAnimatedValue,
   variant,
   placeholderLeftPosition,
   translateYAnimatedPosition = TRANSLATE_Y_ANIMATED_DEFAULT_POSITION,
 }: LabelTransformStyleProps): StyleProp<ViewStyle> => {
+  const isOutlinedVariant = variant === 'outlined';
+
   const getOutputRange = () => {
     let outputRange = [-(textHeight / 2), translateYAnimatedPosition + -(textHeight / 2)];
     return outputRange;
   };
 
+  const transform: ViewStyle['transform'] = [
+    {
+      translateY: labelAnimatedValue ? labelAnimatedValue.interpolate({ inputRange: [0, 1], outputRange: getOutputRange() }) : 0,
+    },
+    {
+      scale: labelAnimatedValue ? labelAnimatedValue.interpolate({ inputRange: [0, 1], outputRange: [1, 0.8] }) : 1,
+    },
+  ];
+
   return {
     position: 'absolute',
     zIndex: 10,
-    backgroundColor: variant === 'outlined' ? theme.colors.white[50] : 'transparent',
+    backgroundColor: isOutlinedVariant ? theme.colors.white[50] : 'transparent',
     left: placeholderLeftPosition ?? 0,
     paddingHorizontal: 8,
     top: '50%',
-    transform: [
-      {
-        translateY: labeled
-          ? labeled.interpolate({
-              inputRange: [0, 1],
-              outputRange: getOutputRange(),
-            })
-          : 0,
-      },
-      {
-        scale: labeled
-          ? labeled.interpolate({
-              inputRange: [0, 1],
-              outputRange: [1, 0.8],
-            })
-          : 1,
-      },
-    ],
+    transform,
   };
 };

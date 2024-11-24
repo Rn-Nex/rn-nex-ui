@@ -13,7 +13,7 @@ export const Image = React.forwardRef<RnImage, ImageProps>(({ size, variation, s
         ...sx,
       }) as ImageStyle,
     });
-  }, [sx, width, height]);
+  }, [sx, width, height, size]);
 
   return (
     <Animated.Image

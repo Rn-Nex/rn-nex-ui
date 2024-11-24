@@ -8,7 +8,7 @@ import { PLACEHOLDER_OUTLINE_LEFT_POSITION, TEXT_FONT_DEFAULT_HEIGHT } from './c
 
 export const InputLabel: React.FC<InputLabelProps> = function ({
   placeholder,
-  labeled,
+  labelAnimatedValue,
   editable,
   translateYAnimatedPosition,
   placeholderLeftPosition,
@@ -28,11 +28,11 @@ export const InputLabel: React.FC<InputLabelProps> = function ({
         theme,
         textHeight,
         translateYAnimatedPosition,
-        labeled,
+        labelAnimatedValue,
         variant,
-        placeholderLeftPosition: placeholderLeftPosition || PLACEHOLDER_OUTLINE_LEFT_POSITION,
+        placeholderLeftPosition: placeholderLeftPosition ?? PLACEHOLDER_OUTLINE_LEFT_POSITION,
       }),
-    [theme, textHeight, translateYAnimatedPosition, labeled, variant, placeholderLeftPosition],
+    [theme, textHeight, translateYAnimatedPosition, labelAnimatedValue, variant, placeholderLeftPosition],
   );
 
   const labelStyles = useMemo(
