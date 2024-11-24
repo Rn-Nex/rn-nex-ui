@@ -12,6 +12,7 @@ export const ImageListItem = React.forwardRef<View, ImageListItemProps>(
       style,
       children,
       listWrapperContainerStyles,
+      listWrapperTestId,
       itemBottomSpace = DEFAULT_ITEM_BOTTOM_SPACE,
       itemSpace = DEFAULT_ITEM_SPACING,
       items = DEFAULT_ITEMS,
@@ -27,14 +28,21 @@ export const ImageListItem = React.forwardRef<View, ImageListItemProps>(
     );
 
     return (
-      <Box style={StyleSheet.flatten([style, imageListItemStyles])} ref={ref} {...props}>
-        <Box style={StyleSheet.flatten([styles.listWrapperContainer, listWrapperContainerStyles])}>{children}</Box>
+      <Box style={StyleSheet.flatten([styles.container, imageListItemStyles, style])} ref={ref} {...props}>
+        <Box style={StyleSheet.flatten([styles.listWrapperContainer, listWrapperContainerStyles])} testID={listWrapperTestId}>
+          {children}
+        </Box>
       </Box>
     );
   },
 );
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
   listWrapperContainer: {
     width: '100%',
     position: 'relative',

@@ -14,11 +14,11 @@ export const Box = React.forwardRef<View, BoxProps>(({ children, style, sx, anim
   }, [sx]);
 
   if (animatedView) {
-    return <AnimatedView ref={ref} style={[generatedStyles.boxSX, style]} {...props} />;
+    return <AnimatedView ref={ref} style={StyleSheet.flatten([generatedStyles.boxSX, style])} {...props} />;
   }
 
   return (
-    <View ref={ref} style={[generatedStyles.boxSX, style]} {...props}>
+    <View ref={ref} style={StyleSheet.flatten([generatedStyles.boxSX, style])} {...props}>
       {children}
     </View>
   );

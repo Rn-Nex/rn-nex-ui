@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ImageList Component should render correctly with default props 1`] = `[Function]`;
+
+exports[`ImageListItem Component should render correctly 1`] = `[Function]`;

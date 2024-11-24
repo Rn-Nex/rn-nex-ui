@@ -60,6 +60,10 @@ export interface ImageListItemProps extends React.ComponentPropsWithRef<typeof V
    * Custom styles for list wrapper container
    */
   listWrapperContainerStyles?: ViewStyle;
+  /**
+   * Test id for list wrapper container
+   */
+  listWrapperTestId?: string;
 }
 
 export interface GenerateImageListItemStylesProps
