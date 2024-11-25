@@ -8,6 +8,7 @@ describe('TextField Component', () => {
   const mockTextFiledValue = 'text-filed-value';
   const mockTextFiledInputLabelTestId = 'text-filed-input-label-test-id';
   const mockTextFiledPlaceholder = 'text-filed-placeholder';
+  const mockTextFieldOutlineTestId = 'text-outline-test-id';
 
   const mockRef = React.createRef<View>();
 
@@ -48,5 +49,21 @@ describe('TextField Component', () => {
     expect(placeHolderElem).toBeDefined();
     expect(placeHolderElem.props.placeholder).toEqual(mockTextFiledPlaceholder);
     jest.useRealTimers();
+  });
+
+  it('should apply the dynamic sx styles', () => {
+    const { getByTestId } = render(
+      <TextField outlineContainerTestId={mockTextFieldOutlineTestId} sx={{ bWidth: 10, bColor: 'red' }} />,
+    );
+    const outline = getByTestId(mockTextFieldOutlineTestId);
+    expect(outline.props.style).toEqual(expect.objectContaining({ borderWidth: 10, borderColor: 'red' }));
+  });
+
+  it('should apply the dynamic styles', () => {
+    const { getByTestId } = render(
+      <TextField outlineContainerTestId={mockTextFieldOutlineTestId} style={{ borderWidth: 10, borderColor: 'red' }} />,
+    );
+    const outline = getByTestId(mockTextFieldOutlineTestId);
+    expect(outline.props.style).toEqual(expect.objectContaining({ borderWidth: 10, borderColor: 'red' }));
   });
 });

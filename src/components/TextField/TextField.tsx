@@ -39,6 +39,8 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       endAdornment,
       endAdornmentContainerProps,
       inputStyles,
+      outlineContainerTestId,
+      outlineProps,
       isFocused: inputIsFocused,
       onFocus: onTextInputFocusHandler,
       onBlur: onTextInputBlurHandler,
@@ -126,7 +128,9 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
         error={error}
         ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
         square={square}
-        ref={ref}>
+        ref={ref}
+        testID={outlineContainerTestId}
+        {...outlineProps}>
         {!hideLabel && (
           <InputLabel
             disabled={!editable}

@@ -113,6 +113,14 @@ export interface TextFieldProps extends BaseInputProps {
    * Hide the text input label
    */
   hideLabel?: boolean;
+  /**
+   * Test id for outline container
+   */
+  outlineContainerTestId?: string;
+  /**
+   * Outline container props
+   */
+  outlineProps?: OutlineProps;
 }
 
 /**
