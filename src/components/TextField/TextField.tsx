@@ -21,7 +21,7 @@ import {
 import { TextFieldProps } from './Input.types';
 import { InputLabel } from './InputLabel';
 import { Outline } from './InputOutline';
-import { textInputStyles } from './TextField.style';
+import { textInputStyles as textInputStylesUtil } from './TextField.style';
 
 export const TextField = React.forwardRef<View, TextFieldProps>(
   (
@@ -39,6 +39,8 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       endAdornment,
       endAdornmentContainerProps,
       inputStyles,
+      outlineContainerTestId,
+      outlineProps,
       isFocused: inputIsFocused,
       onFocus: onTextInputFocusHandler,
       onBlur: onTextInputBlurHandler,
@@ -53,7 +55,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
     },
     ref,
   ) => {
-    const inputLabeledAnimatedValue = useRef(new Animated.Value(0)).current;
+    const inputLabelAnimatedValue = useRef(new Animated.Value(0)).current;
     const [textInputLayoutRectangle, setTextInputLayoutRectangle] = useState<LayoutRectangle>();
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -91,22 +93,22 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       return TRANSLATE_Y_ANIMATED_DEFAULT_POSITION;
     }, [textInputLayoutRectangle]);
 
-    const textStyles = useMemo(
-      () => textInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }),
+    const textInputStyles = useMemo(
+      () => textInputStylesUtil({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }),
       [variant, endAdornment, startAdornment],
     );
 
     useEffect(() => {
-      inputLabeledAnimatedValue.stopAnimation();
+      inputLabelAnimatedValue.stopAnimation();
       if (isFocused || value || !!startAdornment || inputIsFocused) {
-        Animated.timing(inputLabeledAnimatedValue, {
+        Animated.timing(inputLabelAnimatedValue, {
           toValue: 1,
           duration: animatedDuration ?? LABELED_ANIMATION_DURATION,
           easing: Easing.out(Easing.ease),
           useNativeDriver: true,
         }).start();
       } else {
-        Animated.timing(inputLabeledAnimatedValue, {
+        Animated.timing(inputLabelAnimatedValue, {
           toValue: 0,
           duration: animatedDuration ?? LABELED_ANIMATION_DURATION,
           easing: Easing.out(Easing.ease),
@@ -126,7 +128,9 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
         error={error}
         ignoreOpacityOnNonEditable={ignoreOpacityOnNonEditable}
         square={square}
-        ref={ref}>
+        ref={ref}
+        testID={outlineContainerTestId}
+        {...outlineProps}>
         {!hideLabel && (
           <InputLabel
             disabled={!editable}
@@ -135,7 +139,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
             activeColor={activeColor}
             errorColor={errorColor}
             placeholder={placeholder}
-            labeled={inputLabeledAnimatedValue}
+            labelAnimatedValue={inputLabelAnimatedValue}
             translateYAnimatedPosition={getLabelTranslatePos()}
             placeholderLeftPosition={placeHolderLeftPos}
             error={error}
@@ -154,7 +158,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
           onBlur={onBlur}
           onFocus={onFocus}
           onLayout={onLayout}
-          style={StyleSheet.flatten([textStyles, inputStyles])}
+          style={StyleSheet.flatten([textInputStyles, inputStyles])}
           variant={variant}
           placeholder={hideLabel ? placeholder : undefined}
           {...props}

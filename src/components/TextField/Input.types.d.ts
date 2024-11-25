@@ -62,7 +62,7 @@ export interface InputLabelProps
   /**
    * Animated value for controlling label animation.
    */
-  labeled?: Animated.Value;
+  labelAnimatedValue?: Animated.Value;
   /**
    * Animated position for label translation.
    */
@@ -109,11 +109,18 @@ export interface TextFieldProps extends BaseInputProps {
    * Additional styles for the component.
    */
   sx?: BaseStyles;
-
   /**
    * Hide the text input label
    */
   hideLabel?: boolean;
+  /**
+   * Test id for outline container
+   */
+  outlineContainerTestId?: string;
+  /**
+   * Outline container props
+   */
+  outlineProps?: OutlineProps;
 }
 
 /**
@@ -130,7 +137,7 @@ export interface OutlineProps
  * Represents the properties required to get label transformation styles.
  */
 export interface LabelTransformStyleProps
-  extends Pick<InputLabelProps, 'labeled' | 'translateYAnimatedPosition' | 'variant' | 'placeholderLeftPosition'> {
+  extends Pick<InputLabelProps, 'labelAnimatedValue' | 'translateYAnimatedPosition' | 'variant' | 'placeholderLeftPosition'> {
   theme: ThemeType;
   /**
    * Height of the text input.
