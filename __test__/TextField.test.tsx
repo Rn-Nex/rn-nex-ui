@@ -1,7 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
-import { TextField } from '../src';
-import { render } from './test-utils';
+import { Text, View } from 'react-native';
+import { lightBlue, red, TextField } from '../src';
+import { fireEvent, render } from './test-utils';
 
 describe('TextField Component', () => {
   const mockTextFiledTestId = 'text-filed-test-id';
@@ -9,8 +9,13 @@ describe('TextField Component', () => {
   const mockTextFiledInputLabelTestId = 'text-filed-input-label-test-id';
   const mockTextFiledPlaceholder = 'text-filed-placeholder';
   const mockTextFieldOutlineTestId = 'text-outline-test-id';
+  const mockAdornmentLabel = 'adornment-label';
 
   const mockRef = React.createRef<View>();
+  const mockOnFocus = jest.fn();
+  const mockOnBlur = jest.fn();
+  const mockOnChangeText = jest.fn();
+  const mockOnSubmitEditing = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -65,5 +70,175 @@ describe('TextField Component', () => {
     );
     const outline = getByTestId(mockTextFieldOutlineTestId);
     expect(outline.props.style).toEqual(expect.objectContaining({ borderWidth: 10, borderColor: 'red' }));
+  });
+
+  it('should render the endAdornment component', () => {
+    const { getByText } = render(<TextField endAdornment={<Text>{mockAdornmentLabel}</Text>} />);
+
+    const endAdornment = getByText(mockAdornmentLabel);
+    expect(endAdornment).toBeDefined();
+  });
+
+  it('should render the startAdornment component', () => {
+    const { getByText } = render(<TextField startAdornment={<Text>{mockAdornmentLabel}</Text>} />);
+
+    const startAdornment = getByText(mockAdornmentLabel);
+    expect(startAdornment).toBeDefined();
+  });
+
+  it('should change the input placeholder color', () => {
+    jest.useFakeTimers();
+    const { getByPlaceholderText } = render(
+      <TextField hideLabel placeholder={mockTextFiledPlaceholder} placeholderTextColor={'red'} />,
+    );
+
+    const placeholder = getByPlaceholderText(mockTextFiledPlaceholder);
+    expect(placeholder.props.placeholderTextColor).toEqual('red');
+    jest.useRealTimers();
+  });
+
+  it('should handle the focus event', () => {
+    const { getByTestId } = render(<TextField onFocus={mockOnFocus} testID={mockTextFiledTestId} />);
+
+    const textFiled = getByTestId(mockTextFiledTestId);
+    fireEvent(textFiled, 'focus');
+    expect(mockOnFocus).toHaveBeenCalledTimes(1);
+  });
+
+  it('should handle the blur event', () => {
+    const { getByTestId } = render(<TextField onBlur={mockOnBlur} testID={mockTextFiledTestId} />);
+
+    const textField = getByTestId(mockTextFiledTestId);
+    fireEvent(textField, 'blur');
+    expect(mockOnBlur).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call onChangeText when text is changed', () => {
+    const { getByTestId } = render(<TextField onChangeText={mockOnChangeText} testID={mockTextFiledTestId} />);
+
+    const textField = getByTestId(mockTextFiledTestId);
+    const newText = 'Hello, World!';
+
+    fireEvent.changeText(textField, newText);
+    expect(mockOnChangeText).toHaveBeenCalledTimes(1);
+    expect(mockOnChangeText).toHaveBeenCalledWith(newText);
+  });
+
+  it('should accept and display the value prop', () => {
+    const value = 'Initial value';
+    const { getByDisplayValue } = render(<TextField value={value} testID={mockTextFiledTestId} />);
+
+    const textField = getByDisplayValue(value);
+    expect(textField).toBeTruthy();
+  });
+
+  it('should be disabled when editable is false', () => {
+    const { getByTestId } = render(<TextField editable={false} testID={mockTextFiledTestId} />);
+
+    const textField = getByTestId(mockTextFiledTestId);
+    expect(textField.props.editable).toBe(false);
+  });
+
+  it('should handle returnKeyType prop', () => {
+    const returnKeyType = 'done';
+    const { getByTestId } = render(<TextField returnKeyType={returnKeyType} testID={mockTextFiledTestId} />);
+
+    const textField = getByTestId(mockTextFiledTestId);
+    expect(textField.props.returnKeyType).toBe(returnKeyType);
+  });
+
+  it('should handle secureTextEntry prop for password inputs', () => {
+    const { getByTestId } = render(<TextField secureTextEntry testID={mockTextFiledTestId} />);
+
+    const textField = getByTestId(mockTextFiledTestId);
+    expect(textField.props.secureTextEntry).toBe(true);
+  });
+
+  it('should call onSubmitEditing when submit is triggered', () => {
+    const { getByTestId } = render(<TextField onSubmitEditing={mockOnSubmitEditing} testID={mockTextFiledTestId} />);
+
+    const textField = getByTestId(mockTextFiledTestId);
+    fireEvent(textField, 'submitEditing');
+    expect(mockOnSubmitEditing).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call onKeyPress when a key is pressed', () => {
+    const mockOnKeyPress = jest.fn();
+    const { getByTestId } = render(<TextField onKeyPress={mockOnKeyPress} testID={mockTextFiledTestId} />);
+
+    const textField = getByTestId(mockTextFiledTestId);
+    fireEvent(textField, 'keyPress', { nativeEvent: { key: 'Enter' } });
+    expect(mockOnKeyPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show the (RED) border color when error prop is passed and input variation is (outlined)', () => {
+    const { getByTestId } = render(<TextField variant="outlined" outlineContainerTestId={mockTextFieldOutlineTestId} error />);
+
+    const textFieldOutlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(textFieldOutlined.props.style).toEqual(expect.objectContaining({ borderColor: red[500] }));
+  });
+
+  it('should show the border (CUSTOM ERROR COLOR) when error prop, error color props is passed and input variation is (outlined)', () => {
+    const { getByTestId } = render(
+      <TextField errorColor="pink" variant="outlined" outlineContainerTestId={mockTextFieldOutlineTestId} error />,
+    );
+
+    const textFieldOutlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(textFieldOutlined.props.style).toEqual(expect.objectContaining({ borderColor: 'pink' }));
+  });
+
+  it('should show the active border color when text field in the focused state', () => {
+    const { getByTestId } = render(
+      <TextField onFocus={mockOnFocus} testID={mockTextFiledTestId} outlineContainerTestId={mockTextFieldOutlineTestId} />,
+    );
+
+    const textFiled = getByTestId(mockTextFiledTestId);
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+
+    fireEvent(textFiled, 'focus');
+
+    expect(mockOnFocus).toHaveBeenCalledTimes(1);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ borderColor: lightBlue[500] }));
+  });
+
+  it('should show the (CUSTOM) active border color when text field in the focused state and activeColor prop is passed', () => {
+    const { getByTestId } = render(
+      <TextField
+        onFocus={mockOnFocus}
+        activeColor={'blue'}
+        testID={mockTextFiledTestId}
+        outlineContainerTestId={mockTextFieldOutlineTestId}
+      />,
+    );
+
+    const textFiled = getByTestId(mockTextFiledTestId);
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+
+    fireEvent(textFiled, 'focus');
+
+    expect(mockOnFocus).toHaveBeenCalledTimes(1);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ borderColor: 'blue' }));
+  });
+
+  it('should change the border radius when passed the square prop', () => {
+    const { getByTestId } = render(<TextField outlineContainerTestId={mockTextFieldOutlineTestId} square />);
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ borderRadius: 0 }));
+  });
+
+  it('should apply the opacity when the input is disabled', () => {
+    const { getByTestId } = render(<TextField outlineContainerTestId={mockTextFieldOutlineTestId} editable={false} />);
+
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ opacity: 0.6 }));
+  });
+
+  it('should remove the opacity when the input is disabled and passed the ignoreOpacityOnNonEditable prop', () => {
+    const { getByTestId } = render(
+      <TextField outlineContainerTestId={mockTextFieldOutlineTestId} editable={false} ignoreOpacityOnNonEditable />,
+    );
+
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ opacity: 1 }));
   });
 });

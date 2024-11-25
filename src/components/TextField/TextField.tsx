@@ -21,7 +21,7 @@ import {
 import { TextFieldProps } from './Input.types';
 import { InputLabel } from './InputLabel';
 import { Outline } from './InputOutline';
-import { textInputStyles } from './TextField.style';
+import { textInputStyles as textInputStylesUtil } from './TextField.style';
 
 export const TextField = React.forwardRef<View, TextFieldProps>(
   (
@@ -93,8 +93,8 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       return TRANSLATE_Y_ANIMATED_DEFAULT_POSITION;
     }, [textInputLayoutRectangle]);
 
-    const textStyles = useMemo(
-      () => textInputStyles({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }),
+    const textInputStyles = useMemo(
+      () => textInputStylesUtil({ variant, endAdornment: !!endAdornment, startAdornment: !!startAdornment }),
       [variant, endAdornment, startAdornment],
     );
 
@@ -158,7 +158,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
           onBlur={onBlur}
           onFocus={onFocus}
           onLayout={onLayout}
-          style={StyleSheet.flatten([textStyles, inputStyles])}
+          style={StyleSheet.flatten([textInputStyles, inputStyles])}
           variant={variant}
           placeholder={hideLabel ? placeholder : undefined}
           {...props}
