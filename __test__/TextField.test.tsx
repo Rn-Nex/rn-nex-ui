@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { lightBlue, red, TextField } from '../src';
+import { grey, lightBlue, red, TextField } from '../src';
 import { fireEvent, render } from './test-utils';
 
 describe('TextField Component', () => {
@@ -240,5 +240,53 @@ describe('TextField Component', () => {
 
     const outlined = getByTestId(mockTextFieldOutlineTestId);
     expect(outlined.props.style).toEqual(expect.objectContaining({ opacity: 1 }));
+  });
+
+  it('should added the background color when input variant is (filled)', () => {
+    const { getByTestId } = render(<TextField variant="filled" outlineContainerTestId={mockTextFieldOutlineTestId} />);
+
+    const input = getByTestId(mockTextFieldOutlineTestId);
+    expect(input.props.style).toEqual(expect.objectContaining({ backgroundColor: grey[500] }));
+  });
+
+  it('should render the error border color when input variant is (filled)', () => {
+    const { getByTestId } = render(<TextField variant="filled" error outlineContainerTestId={mockTextFieldOutlineTestId} />);
+    const input = getByTestId(mockTextFieldOutlineTestId);
+    expect(input.props.style).toEqual(
+      expect.objectContaining({
+        borderColor: red[500],
+        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: 0,
+        borderBottomWidth: 1,
+      }),
+    );
+  });
+
+  it('should show the border (CUSTOM ERROR COLOR) when error prop, error color props is passed and input variation is (filled)', () => {
+    const { getByTestId } = render(
+      <TextField errorColor="pink" variant="filled" outlineContainerTestId={mockTextFieldOutlineTestId} error />,
+    );
+
+    const textFieldOutlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(textFieldOutlined.props.style).toEqual(expect.objectContaining({ borderColor: 'pink' }));
+  });
+
+  it('should show the active border color when text field in the focused state and variant is (filled)', () => {
+    const { getByTestId } = render(
+      <TextField
+        variant="filled"
+        onFocus={mockOnFocus}
+        testID={mockTextFiledTestId}
+        outlineContainerTestId={mockTextFieldOutlineTestId}
+      />,
+    );
+
+    const textFiled = getByTestId(mockTextFiledTestId);
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+
+    fireEvent(textFiled, 'focus');
+
+    expect(mockOnFocus).toHaveBeenCalledTimes(1);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ borderColor: lightBlue[500] }));
   });
 });
