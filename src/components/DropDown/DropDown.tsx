@@ -9,6 +9,7 @@ import {
   LayoutRectangle,
   StyleSheet,
   TouchableOpacity,
+  TouchableOpacityProps,
   useColorScheme,
   View,
   ViewProps,
@@ -19,7 +20,7 @@ import { Box } from '../Box';
 import { ListItem, ListItemText } from '../List';
 import { Portal, PortalProvider } from '../Portal';
 import { IconInput, IconInputProps, TextField } from '../TextField';
-import { BoxProps, ListItemTextProps, TextFiledVariation } from '../types';
+import { BoxProps, ListItemTextProps, TextFieldProps, TextFiledVariation } from '../types';
 import { styles } from './DropDown.styles';
 
 /**
@@ -182,6 +183,24 @@ export interface DropDownProps<T extends DropDownData>
    * */
   onDropDownClicked?: (event: GestureResponderEvent) => void;
 
+  /**
+   * Drop down input test id
+   */
+  dropDownInputTestId?: string;
+
+  /**
+   * Test if for input wrapper touchable opacity component.
+   */
+  inputWrapperTouchableOpacityTestId?: string;
+
+  /**
+   * Input wrapper touchable opacity props.
+   */
+  inputWrapperTouchableOpacityProps?: TouchableOpacityProps;
+
+  /**
+   * Used for customizing the dropdown list selection
+   */
   multiselectMessage?: string;
 
   /**
@@ -208,6 +227,9 @@ export const DropDown = <T extends DropDownData>({
   searchPlaceholder,
   searchProps,
   searchContainerProps,
+  dropDownInputTestId,
+  inputWrapperTouchableOpacityTestId,
+  inputWrapperTouchableOpacityProps,
   maxHeight = 200,
   search = false,
   multiselect = false,
@@ -249,15 +271,23 @@ export const DropDown = <T extends DropDownData>({
   };
 
   const onItemClickedHandler = (item: DropDownData) => {
-    let updatedSelectedItems: DropDownData[];
+    let updatedSelectedItems: DropDownData[] = [];
 
     if (multiselect) {
-      updatedSelectedItems = selectedItems.includes(item) ? selectedItems.filter(i => i !== item) : [...selectedItems, item];
+      if (hasListSelectedItems && selectedListItems?.length) {
+        updatedSelectedItems = selectedListItems?.includes(item)
+          ? selectedListItems.filter(listItem => listItem.id !== item.id)
+          : [...selectedListItems, item];
+      } else {
+        updatedSelectedItems = selectedItems.includes(item)
+          ? selectedItems.filter(listItem => listItem.id !== item.id)
+          : [...selectedItems, item];
+      }
     } else {
       updatedSelectedItems = [item];
     }
 
-    if (hasListSelectedItems) {
+    if (!hasListSelectedItems) {
       setSelectedItems(updatedSelectedItems);
     }
 
@@ -277,7 +307,7 @@ export const DropDown = <T extends DropDownData>({
       value = selectedItems?.[0]?.title;
     }
 
-    const commonProps = {
+    const commonProps: TextFieldProps = {
       placeholder,
       startAdornment: inputStartAdornment,
       endAdornment: inputEndAdornment,
@@ -288,11 +318,18 @@ export const DropDown = <T extends DropDownData>({
 
     switch (variation) {
       case 'filled':
-        return <TextField onLayout={inputOnLayout} pointerEvents="none" variant={variation} {...commonProps} />;
       case 'outlined':
-        return <TextField onLayout={inputOnLayout} pointerEvents="none" variant={variation} {...commonProps} />;
+        return (
+          <TextField
+            onLayout={inputOnLayout}
+            pointerEvents="none"
+            testID={dropDownInputTestId}
+            variant={variation}
+            {...commonProps}
+          />
+        );
       case 'icon':
-        return <IconInput onLayout={inputOnLayout} pointerEvents="none" {...commonProps} />;
+        return <IconInput onLayout={inputOnLayout} pointerEvents="none" testID={dropDownInputTestId} {...commonProps} />;
       default:
         return null;
     }
@@ -305,11 +342,18 @@ export const DropDown = <T extends DropDownData>({
     multiselectMessage,
     multiselect,
     selectedListItems,
+    inputOnLayout,
+    dropDownInputTestId,
   ]);
 
   return (
     <View collapsable={false} style={[style]} {...props} ref={containerRef}>
-      <TouchableOpacity onPress={dropDownClickHandler}>{renderInput()}</TouchableOpacity>
+      <TouchableOpacity
+        onPress={dropDownClickHandler}
+        testID={inputWrapperTouchableOpacityTestId}
+        {...inputWrapperTouchableOpacityProps}>
+        {renderInput()}
+      </TouchableOpacity>
       {inputRect && dropDownContainerRect && (
         <DropDownListContainer
           open={open}
@@ -507,7 +551,7 @@ const DropDownListContainer = <T extends DropDownData>({
           <FlatList
             ref={flatListRef}
             style={[styles.listContainerScrollView]}
-            data={filteredData || data}
+            data={filteredData ?? data}
             renderItem={renderListItem}
             keyExtractor={item => item.id}
             collapsable={collapsable}
