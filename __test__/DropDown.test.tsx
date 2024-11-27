@@ -1,8 +1,10 @@
 import React from 'react';
-import { render } from './test-utils';
 import { DropDown, Text } from '../src';
+import { fireEvent, render } from './test-utils';
 
 describe('DropDown Component', () => {
+  const mockInputWrapperTouchTestId = 'input-wrapper-touch-test-id';
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -26,13 +28,16 @@ describe('DropDown Component', () => {
     expect(inputEndAdornment).toBeDefined();
   });
 
-  it('should change the input placeholder', () => {
-    jest.useFakeTimers();
-    const placeholderText = 'mockPlaceHolder';
-    const { getByPlaceholderText } = render(<DropDown placeholder={placeholderText} />);
+  it('should trigger the onDropDownClicked when clicking on the input', () => {
+    const mockOnDropDownClicked = jest.fn();
 
-    const placeholder = getByPlaceholderText(placeholderText);
-    expect(placeholder).toBeDefined();
-    jest.useRealTimers();
+    const { getByTestId } = render(
+      <DropDown inputWrapperTouchableOpacityTestId={mockInputWrapperTouchTestId} onDropDownClicked={mockOnDropDownClicked} />,
+    );
+
+    const wrapper = getByTestId(mockInputWrapperTouchTestId);
+    fireEvent.press(wrapper);
+    expect(mockOnDropDownClicked).toHaveBeenCalled();
+    expect(mockOnDropDownClicked).toHaveBeenCalledTimes(1);
   });
 });
