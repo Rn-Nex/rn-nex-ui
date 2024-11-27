@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
-import { TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
+import React, { useCallback } from 'react';
+import { StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
 import { Text } from '../Typography';
-import { styles } from './styles';
 import { QuantityStepperProps } from './Stepper.types';
+import { iconStyle, styles } from './styles';
 
 export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
   (
@@ -23,11 +23,19 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
       minDecrement = 0,
       incrementIcon,
       decrementIcon,
+      allowInfiniteIncrement = false,
+      allowInfiniteDecrement = false,
       ...props
     },
     ref,
   ) => {
     const { theme } = useTheme();
+
+    const isBelowMinimum = value <= minDecrement;
+    const isAboveMaximum = value >= maxIncrement;
+
+    const shouldDisableDecrement = disabledDecrement || (isBelowMinimum && !allowInfiniteDecrement);
+    const shouldDisableIncrement = disabledIncrement || (isAboveMaximum && !allowInfiniteIncrement);
 
     const stepperOptionsStyles = useCallback(
       (type: 'INC' | 'DEC', buttonType: QuantityStepperProps['buttonType']): ViewStyle => {
@@ -37,30 +45,36 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
           borderRadius: buttonType === 'round' ? 100 : 5,
         };
 
-        if (
-          (type === 'INC' && (disabledIncrement || value >= maxIncrement)) ||
-          (type === 'DEC' && (disabledDecrement || value <= minDecrement))
-        ) {
+        if ((type === 'INC' && shouldDisableIncrement) || (type === 'DEC' && shouldDisableDecrement)) {
           styles.opacity = 0.4;
         }
 
         return styles;
       },
-      [theme, disabledDecrement, disabledIncrement, minDecrement, maxIncrement, value, buttonType],
+      [
+        theme,
+        disabledDecrement,
+        disabledIncrement,
+        minDecrement,
+        maxIncrement,
+        value,
+        buttonType,
+        allowInfiniteIncrement,
+        allowInfiniteDecrement,
+      ],
     );
 
-    const iconStyle = useMemo(() => {
-      const styles: ViewStyle = {
-        backgroundColor: theme.colors.grey[800],
-      };
-      return styles;
-    }, [theme]);
-
     return (
-      <View style={[styles.stepperContainer, style]} ref={ref} {...props}>
-        <TouchableWithoutFeedback onPress={onDecrement} disabled={disabledDecrement || value <= minDecrement ? true : false}>
-          <View style={[styles.item, styles.stepperOptions, stepperOptionsStyles('DEC', buttonType), decrementButtonStyle]}>
-            {decrementIcon || <View style={[styles.horizontalLine, iconStyle]} />}
+      <View style={StyleSheet.flatten([styles.stepperContainer, style])} ref={ref} {...props}>
+        <TouchableWithoutFeedback onPress={onDecrement} disabled={shouldDisableDecrement}>
+          <View
+            style={StyleSheet.flatten([
+              styles.item,
+              styles.stepperOptions,
+              stepperOptionsStyles('DEC', buttonType),
+              decrementButtonStyle,
+            ])}>
+            {decrementIcon ?? <View style={StyleSheet.flatten([styles.horizontalLine, iconStyle(theme)])} />}
           </View>
         </TouchableWithoutFeedback>
         <View style={[styles.item]} {...labelWrapperProps}>
@@ -68,12 +82,18 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
             {value}
           </Text>
         </View>
-        <TouchableWithoutFeedback onPress={onIncrement} disabled={disabledIncrement || value >= maxIncrement}>
-          <View style={[styles.item, styles.stepperOptions, stepperOptionsStyles('INC', buttonType), incrementButtonStyle]}>
-            {incrementIcon || (
+        <TouchableWithoutFeedback onPress={onIncrement} disabled={shouldDisableIncrement}>
+          <View
+            style={StyleSheet.flatten([
+              styles.item,
+              styles.stepperOptions,
+              stepperOptionsStyles('INC', buttonType),
+              incrementButtonStyle,
+            ])}>
+            {incrementIcon ?? (
               <React.Fragment>
-                <View style={[styles.horizontalLine, iconStyle]} />
-                <View style={[styles.verticalLine, iconStyle]} />
+                <View style={StyleSheet.flatten([styles.horizontalLine, iconStyle(theme)])} />
+                <View style={StyleSheet.flatten([styles.verticalLine, iconStyle(theme)])} />
               </React.Fragment>
             )}
           </View>

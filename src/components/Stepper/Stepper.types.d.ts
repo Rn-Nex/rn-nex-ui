@@ -83,4 +83,14 @@ export interface QuantityStepperProps extends React.ComponentPropsWithRef<typeof
    * Custom icon for the increment button
    */
   incrementIcon?: React.ReactNode;
+
+  /**
+   * stop calculating the max increment
+   */
+  allowInfiniteIncrement?: boolean;
+
+  /**
+   * stop calculating the min increment
+   */
+  allowInfiniteDecrement?: boolean;
 }
