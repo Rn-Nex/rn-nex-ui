@@ -28,10 +28,20 @@ export interface QuantityStepperProps extends React.ComponentPropsWithRef<typeof
   onIncrement?: (event: GestureResponderEvent) => void;
 
   /**
+   * Test id for increment touch wrapper element.
+   */
+  onIncrementTestId?: string;
+
+  /**
    * Callback function that is called when the decrement button is pressed.
    * Receives the gesture event as a parameter.
    */
   onDecrement?: (event: GestureResponderEvent) => void;
+
+  /**
+   * Test id for decrement touch wrapper element.
+   */
+  onDecrementTestId?: string;
 
   /**
    * Style to be applied to the increment button view.

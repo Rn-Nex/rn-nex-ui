@@ -5,6 +5,9 @@ import { Text } from '../Typography';
 import { QuantityStepperProps } from './Stepper.types';
 import { iconStyle, styles } from './styles';
 
+export const DEFAULT_ROUND_RADIUS = 100;
+export const DEFAULT_SQUARE_RADIUS = 5;
+
 export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
   (
     {
@@ -14,6 +17,8 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
       labelWrapperProps,
       onIncrement,
       onDecrement,
+      onIncrementTestId,
+      onDecrementTestId,
       incrementButtonStyle,
       decrementButtonStyle,
       buttonType = 'round',
@@ -42,7 +47,7 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
         let styles: ViewStyle = {
           borderColor: theme.colors.grey[800],
           opacity: 1,
-          borderRadius: buttonType === 'round' ? 100 : 5,
+          borderRadius: buttonType === 'round' ? DEFAULT_ROUND_RADIUS : DEFAULT_SQUARE_RADIUS,
         };
 
         if ((type === 'INC' && shouldDisableIncrement) || (type === 'DEC' && shouldDisableDecrement)) {
@@ -66,7 +71,7 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
 
     return (
       <View style={StyleSheet.flatten([styles.stepperContainer, style])} ref={ref} {...props}>
-        <TouchableWithoutFeedback onPress={onDecrement} disabled={shouldDisableDecrement}>
+        <TouchableWithoutFeedback onPress={onDecrement} disabled={shouldDisableDecrement} testID={onDecrementTestId}>
           <View
             style={StyleSheet.flatten([
               styles.item,
@@ -82,7 +87,7 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
             {value}
           </Text>
         </View>
-        <TouchableWithoutFeedback onPress={onIncrement} disabled={shouldDisableIncrement}>
+        <TouchableWithoutFeedback onPress={onIncrement} disabled={shouldDisableIncrement} testID={onIncrementTestId}>
           <View
             style={StyleSheet.flatten([
               styles.item,
