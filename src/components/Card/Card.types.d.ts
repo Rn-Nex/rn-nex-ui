@@ -16,11 +16,6 @@ export type CardVariations = 'outlined' | undefined;
 export interface CardProps extends React.ComponentPropsWithRef<typeof View> {
   sx?: BaseStyles;
   /**
-   * Children elements to be rendered within the card.
-   */
-  children?: React.ReactNode;
-
-  /**
    * Variation of the card, such as 'outlined'.
    */
   variation?: CardVariations;
@@ -30,7 +25,6 @@ export interface CardMediaProps extends ImageProps {}
 
 export interface CardHeaderProps extends React.ComponentPropsWithRef<typeof View> {
   sx?: BaseStyles;
-  children?: React.ReactNode;
 }
 
 export interface CardContentProps extends CardHeaderProps {}
