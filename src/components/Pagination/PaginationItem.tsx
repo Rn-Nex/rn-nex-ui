@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated } from 'react-native';
 import { useTheme } from '../../libraries';
-import { generateElementStyles } from '../../utils';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
 import { paginationItemStyles, styles } from './Pagination.style';
@@ -11,11 +10,11 @@ export const ANIMATION_DURATION = 200;
 
 export const PaginationItem: React.FC<PaginationItemProps> = ({
   style,
-  sx,
   page,
   active,
   disabled,
-  color = 'standard',
+  color,
+  testID = 'pagination-item-test-id',
   shape = 'circular',
   variant = 'text',
   rippleBackgroundColor = '#fefefe2f',
@@ -47,13 +46,12 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
 
   return (
     <BaseButton
-      rippleProps={{
-        rippleStyles: {
-          backgroundColor: rippleBackgroundColor,
-        },
-      }}
-      {...props}
-      style={[styles.paginationItem, paginationItemS, sx && generateElementStyles(sx), style]}>
+      rippleProps={{ rippleStyles: { backgroundColor: rippleBackgroundColor } }}
+      baseButtonContainerStyle={{ flex: 0 }}
+      style={[styles.paginationItem, paginationItemS, style]}
+      disabled={disabled}
+      testID={`${testID}-${page}`}
+      {...props}>
       <Text>{page}</Text>
     </BaseButton>
   );

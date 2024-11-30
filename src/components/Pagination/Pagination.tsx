@@ -17,6 +17,9 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
       paginationItemProps,
       style,
       disabled,
+      itemShape,
+      variant,
+      color = 'secondary',
       activeCount: active = 1,
       renderItem,
       count = 1,
@@ -84,7 +87,6 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
 
     return (
       <Box ref={ref} style={[styles.paginationContainer, style]} {...props}>
-        {disabled ? <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 100 }} /> : null}
         {renderPaginationItems().map((item, index) => {
           if (item === 'start-dots' || item === 'end-dots') {
             return (
@@ -106,6 +108,9 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
               page={item}
               active={activeCount === item}
               disabled={disabled}
+              color={color}
+              shape={itemShape}
+              variant={variant}
               {...paginationItemProps}
             />
           );

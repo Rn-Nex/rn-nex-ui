@@ -1,9 +1,9 @@
+import React from 'react';
 import { Animated, ColorValue, GestureResponderEvent, StyleProp, TextStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
+import { VariantTypes } from '../../utils';
 import { BoxProps } from '../Box/Box.types';
 import { BaseButtonProps } from '../Button/Button.types';
-import { TextProps } from '../Typography/Text.types';
-import React from 'react';
 
 type PaginationItemColor = 'primary' | 'secondary' | 'standard' | 'error';
 type PaginationShape = 'circular' | 'rounded';
@@ -12,7 +12,7 @@ type PaginationVariant = 'outlined' | 'text';
 /**
  * Props for a single pagination item.
  */
-export interface PaginationItemProps extends Omit<BaseButtonProps, 'children'> {
+export interface PaginationItemProps extends Omit<BaseButtonProps, 'children' | 'ref'> {
   /**
    * The page number or a special string value like 'start-dots' or 'end-dots'.
    * This determines what will be displayed on the pagination item.
@@ -33,7 +33,7 @@ export interface PaginationItemProps extends Omit<BaseButtonProps, 'children'> {
   /**
    * The active color
    */
-  color?: PaginationItemColor;
+  color?: VariantTypes;
   /**
    * pagination item shape
    */
@@ -60,7 +60,7 @@ export interface PaginationItemStylesProps extends Pick<PaginationItemProps, 'co
 /**
  * Props for the Pagination component.
  */
-export interface PaginationProps extends BoxProps {
+export interface PaginationProps extends BoxProps, Pick<PaginationItemProps, 'color' | 'variant'> {
   /**
    * The total number of pages.
    * This is used to determine the range of pagination items to render.
@@ -104,4 +104,9 @@ export interface PaginationProps extends BoxProps {
    * custom pagination item.
    */
   renderItem?: React.ReactNode;
+
+  /**
+   * pagination item shape
+   */
+  itemShape?: PaginationShape;
 }
