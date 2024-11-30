@@ -66,7 +66,7 @@ export const Chip = React.forwardRef<View, ChipProps>(
           style,
           { borderRadius: square ? SQUARE_BORDER_RADIUS : DEFAULT_BORDER_RADIUS },
         ])}
-        baseButtonContainerStyle={{ flex: 0 }}
+        disableBaseButtonContainerFlex
         ref={ref}
         {...props}>
         <Box style={StyleSheet.flatten([styles.chipWrapper, chipWrapperContainerStyles])}>{renderLabel()}</Box>

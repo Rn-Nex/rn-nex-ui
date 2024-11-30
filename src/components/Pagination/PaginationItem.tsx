@@ -47,7 +47,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
   return (
     <BaseButton
       rippleProps={{ rippleStyles: { backgroundColor: rippleBackgroundColor } }}
-      baseButtonContainerStyle={{ flex: 0 }}
+      disableBaseButtonContainerFlex
       style={[styles.paginationItem, paginationItemS, style]}
       disabled={disabled}
       testID={`${testID}-${page}`}

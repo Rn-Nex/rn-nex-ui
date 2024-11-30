@@ -20,6 +20,8 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
       selected,
       selectedColor,
       outlineColor,
+      disableRipple,
+      listItemContainerTestId,
       softRadius = false,
       showDefaultBg = false,
       actionType = 'list',
@@ -49,38 +51,31 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
     );
 
     const spacingStyles = useMemo(() => {
-      let baseStyles: ViewStyle = {};
-
       if (disableBottomSpacing) {
-        baseStyles.marginBottom = 'auto';
+        return { marginBottom: 'auto' } as ViewStyle;
       }
 
-      if (bottomSpacingType) {
-        baseStyles.marginBottom =
-          bottomSpacingType === 'small'
-            ? BOTTOM_SMALL_SPACING
-            : bottomSpacingType === 'medium'
-              ? BOTTOM_MEDIUM_SPACING
-              : bottomSpacingType === 'large'
-                ? BOTTOM_LARGE_SPACING
-                : 10;
-      }
+      const spacingMap = {
+        small: BOTTOM_SMALL_SPACING,
+        medium: BOTTOM_MEDIUM_SPACING,
+        large: BOTTOM_LARGE_SPACING,
+      };
 
-      return baseStyles;
+      return {
+        marginBottom: spacingMap[bottomSpacingType] ?? 10,
+      } as ViewStyle;
     }, [bottomSpacingType, disableBottomSpacing]);
 
     const renderAdornment = useCallback(
       (type: 'start' | 'end', adornment?: React.ReactNode) => {
-        const isStartAdornment = type === 'start';
-
         if (!adornment) return null;
+
+        const isStartAdornment = type === 'start';
+        const adornmentSx = isStartAdornment ? startAdornmentContainerStyles?.sx : endAdornmentContainerStyles?.sx;
+        const adornmentStyles = isStartAdornment ? startAdornmentContainerStyles?.style : endAdornmentContainerStyles?.style;
+
         return (
-          <Box
-            sx={isStartAdornment ? startAdornmentContainerStyles?.sx : endAdornmentContainerStyles?.sx}
-            style={StyleSheet.flatten([
-              styles.adornment,
-              isStartAdornment ? startAdornmentContainerStyles?.style : endAdornmentContainerStyles?.style,
-            ])}>
+          <Box sx={adornmentSx} style={StyleSheet.flatten([styles.adornment, adornmentStyles])}>
             {adornment}
           </Box>
         );
@@ -94,7 +89,11 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
           <View style={[styles.flexContainer, styles.listItemInnerContainer]}>
             {renderAdornment('start', startAdornment)}
             <View style={{ flex: 1 }}>
-              <BaseButton style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
+              <BaseButton
+                disableRipple={disableRipple}
+                disableBaseButtonContainerFlex
+                style={StyleSheet.flatten([styles.baseButton, style])}
+                {...props}>
                 <View style={[styles.flexContainer]}>{children}</View>
               </BaseButton>
             </View>
@@ -104,7 +103,7 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
       } else if (actionType === 'root') {
         return (
           <View style={{ flex: 1 }}>
-            <BaseButton style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
+            <BaseButton disableRipple={disableRipple} style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
               <View style={[styles.flexContainer]}>
                 {renderAdornment('start', startAdornment)}
                 {children}
@@ -114,13 +113,14 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
           </View>
         );
       } else return null;
-    }, [actionType, startAdornment, endAdornment, props, style]);
+    }, [actionType, startAdornment, endAdornment, props, style, disableRipple]);
 
     return (
       <Box
         sx={listContainerStyles?.sx}
         style={StyleSheet.flatten([styles.listItemContainer, spacingStyles, containerStyles, listContainerStyles?.style])}
-        ref={ref}>
+        ref={ref}
+        testID={listItemContainerTestId}>
         {renderListItem()}
       </Box>
     );
