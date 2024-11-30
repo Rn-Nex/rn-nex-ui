@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Button, Portal } from '../../src';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Button, Portal, Text } from '../../src';
 
 const PortalExample2: React.FC = () => {
   const [portalVisible, setPortalVisible] = useState(false);
@@ -18,17 +18,20 @@ const PortalExample2: React.FC = () => {
       <Portal
         portalKey="PortalExample2"
         visible={portalVisible}
+        onClose={togglePortal}
         onDismiss={togglePortal}
+        animationType="fade"
         modalContainerProps={{
           style: {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            padding: 10,
           },
         }}>
         <View style={styles.portalContent}>
-          <Text>This is Portal Example 3!</Text>
-          <Button fullWidth onPress={togglePortal}>
+          <Text mode="dark">This is Portal Example 3!</Text>
+          <Button onPress={togglePortal}>
             <Text>Close</Text>
           </Button>
         </View>

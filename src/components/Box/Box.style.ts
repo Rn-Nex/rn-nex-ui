@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle } from 'react-native';
-import { GenerateContainerStylesProps } from './Box.types';
+import { GenerateContainerStylesProps, GenerateContainerWrapperStylesProps } from './Box.types';
 import { LG_MAX_WIDTH, MD_MAX_WIDTH, SM_MAX_WIDTH, XS_MAX_WIDTH, xl_MAX_WIDTH } from './constants';
 
 export const containerStyles = StyleSheet.create({
@@ -8,9 +8,16 @@ export const containerStyles = StyleSheet.create({
   },
 });
 
-export const generateContainerStyles = ({ maxWidth, disableGutters }: GenerateContainerStylesProps) => {
+export const generateContainerWrapperStyles = ({ flex }: GenerateContainerWrapperStylesProps) => {
+  return {
+    ...(flex && { flex }),
+  };
+};
+
+export const generateContainerStyles = ({ maxWidth, disableGutters, flex }: GenerateContainerStylesProps) => {
   const baseStyles: ViewStyle = {
     margin: 'auto',
+    ...(flex && { flex }),
   };
 
   if (!disableGutters) {

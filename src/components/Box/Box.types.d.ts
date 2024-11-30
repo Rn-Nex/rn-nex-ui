@@ -40,9 +40,12 @@ export interface ContainerProps extends React.ComponentPropsWithRef<typeof View>
    * Custom styles to apply to the Container wrapper component.
    */
   containerStyles?: ViewStyle;
+
+  /**
+   * View flex style
+   */
+  flex?: number;
 }
 
-/**
- * Props for generating container styles.
- */
-export interface GenerateContainerStylesProps extends Pick<ContainerProps, 'maxWidth' | 'disableGutters'> {}
+export interface GenerateContainerWrapperStylesProps extends Pick<ContainerProps, 'flex'> {}
+export interface GenerateContainerStylesProps extends Pick<ContainerProps, 'maxWidth' | 'disableGutters' | 'flex'> {}
