@@ -72,6 +72,10 @@ export interface RadioProps extends ViewProps, BaseInterface {
    */
   onPress?: (event: GestureResponderEvent) => void;
   /**
+   * Test id for radio base button
+   */
+  radioBaseButtonTestId?: string;
+  /**
    * Label to display alongside the radio button
    */
   label?: string;
@@ -96,10 +100,6 @@ export interface RadioProps extends ViewProps, BaseInterface {
    */
   disabled?: boolean;
   /**
-   * Gap size between radio items
-   */
-  gap?: number;
-  /**
    * Custom content to display inside the radio button
    */
   radioItem?: React.ReactNode;
@@ -111,18 +111,6 @@ export interface RadioProps extends ViewProps, BaseInterface {
    * Styles for the base button used in the radio button
    */
   baseButtonStyles?: StyleProp<ViewStyle>;
-  /**
-   * Flag to disable scaling animation on button press
-   */
-  disableButtonScaleAnimation?: boolean;
-  /**
-   * Content to display at the start of the radio button
-   */
-  startAdornment?: React.ReactNode;
-  /**
-   * Styles for the container holding the start adornment
-   */
-  startAdornmentContainerStyles?: StyleProp<ViewStyle>;
   /**
    * Content to display at the end of the radio button
    */
@@ -163,8 +151,8 @@ export const Radio = React.forwardRef<View, RadioProps>(
       adornment,
       adornmentContainerStyles,
       dividerProps,
+      radioBaseButtonTestId,
       showDivider = false,
-      gap = 8,
       disabled = false,
       size = 'medium',
       isActive = false,
@@ -248,8 +236,10 @@ export const Radio = React.forwardRef<View, RadioProps>(
             onPress={radioOnPressHandler}
             disabled={disabled}
             disableRipple={true}
+            disableBaseButtonContainerFlex
             style={StyleSheet.flatten([styles.baseButton, baseButtonStyles])}
-            disableScaleAnimation={true}>
+            disableScaleAnimation={true}
+            testID={radioBaseButtonTestId}>
             <RadioOutline isActive={isActive} animationDuration={animationDuration}>
               {radioItem ? (
                 <View style={StyleSheet.flatten([styles.radioItemContainer, radioItemContainerStyles])}>
@@ -341,9 +331,9 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
   const backgroundOutputRange = activeColor || colorVariation;
 
   const getSize = useMemo(() => {
-    if (size === 'small') return sizeConfig?.small || RADIO_SMALL;
-    else if (size === 'medium') return sizeConfig?.medium || RADIO_MEDIUM;
-    else if (size === 'large') return sizeConfig?.large || RADIO_LARGE;
+    if (size === 'small') return sizeConfig?.small ?? RADIO_SMALL;
+    else if (size === 'medium') return sizeConfig?.medium ?? RADIO_MEDIUM;
+    else if (size === 'large') return sizeConfig?.large ?? RADIO_LARGE;
     else return RADIO_SMALL;
   }, [size, sizeConfig]);
 
