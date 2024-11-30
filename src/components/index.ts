@@ -17,7 +17,6 @@ export * from './Pagination';
 export * from './Portal';
 export * from './Radio';
 export * from './Snackbar';
-export * from './Stack';
 export * from './Stepper';
 export * from './Switch';
 export * from './TextField';
