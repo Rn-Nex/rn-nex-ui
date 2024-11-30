@@ -136,7 +136,7 @@ export const Ex3: React.FC = () => {
             items: 'center',
             content: 'flex-end',
           }}>
-          <Button sx={{ py: 5, px: 10 }} onPress={() => console.log('pressed')} variation="text">
+          <Button onPress={() => console.log('pressed')} variation="text">
             <Text>Buy</Text>
           </Button>
         </Box>

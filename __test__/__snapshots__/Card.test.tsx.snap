@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card Component should render correctly 1`] = `[Function]`;
+
+exports[`CardContent Component should render correctly 1`] = `[Function]`;
+
+exports[`CardHeader Component should render correctly 1`] = `[Function]`;
