@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Ripple } from '../Ripple';
 import { RippleInterface } from '../Ripple/Ripple.types';
-import { styles } from './Button.styles';
+import { buttonContainerStyles, styles } from './Button.styles';
 import { BaseButtonProps } from './Button.types';
 
 export const BaseButton = React.forwardRef<View, BaseButtonProps>(
@@ -26,6 +26,7 @@ export const BaseButton = React.forwardRef<View, BaseButtonProps>(
       onLayout: onLayoutHandler,
       onPress: onPressHandler,
       onLongPress: onLongPressHandler,
+      disableBaseButtonContainerFlex = false,
       scaleAnimationValue = 0.99,
       disableScaleAnimation = false,
       ...props
@@ -90,7 +91,13 @@ export const BaseButton = React.forwardRef<View, BaseButtonProps>(
     );
 
     return (
-      <View ref={ref} style={StyleSheet.flatten([styles.baseButtonContainer, baseButtonContainerStyle])}>
+      <View
+        ref={ref}
+        style={StyleSheet.flatten([
+          styles.baseButtonContainer,
+          buttonContainerStyles({ disableBaseButtonContainerFlex }),
+          baseButtonContainerStyle,
+        ])}>
         <TouchableWithoutFeedback
           onPress={buttonPressHandler}
           onLongPress={buttonLongPressHandler}

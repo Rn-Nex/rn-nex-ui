@@ -31,6 +31,11 @@ export interface ListProps extends React.ComponentPropsWithRef<typeof View> {
   subheaderContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
 
   /**
+   * Test id for sub header container
+   */
+  subHeaderContainerTestId?: string;
+
+  /**
    * Properties for the subheader text component.
    * This allows customization of the subheader text properties, excluding the children prop.
    */
@@ -53,6 +58,11 @@ export interface ListItemProps extends BaseButtonProps {
    * This can be used to apply additional styling to the ListItem container.
    */
   listContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
+
+  /**
+   * Test id for list item container
+   */
+  listItemContainerTestId?: string;
 
   /**
    * Optional element to be displayed at the end of the ListItem.
@@ -152,6 +162,11 @@ export interface ListItemTextProps extends Omit<ListProps, 'children'> {
   primaryLabelStyles?: TextStyle;
 
   /**
+   * Primary text label props
+   */
+  primaryLabelProps?: Omit<TextProps, 'children'>;
+
+  /**
    * Optional secondary text for the ListItemText component.
    * This property allows you to set additional text for the ListItemText component.
    */
@@ -161,6 +176,11 @@ export interface ListItemTextProps extends Omit<ListProps, 'children'> {
    * Optional properties for the secondary text label.
    */
   secondaryLabelStyles?: TextStyle;
+
+  /**
+   * Secondary text label props
+   */
+  secondaryLabelProps?: Omit<TextProps, 'children'>;
 
   /**
    * Optional flag to disable padding for the ListItemText component.

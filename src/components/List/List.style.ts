@@ -63,13 +63,16 @@ export const listItemContainerStyles = ({
   showDefaultBg,
   softRadius,
 }: ListItemContainerStylesProps): ViewStyle => {
+  const defaultBgColor = theme.colors.grey[50];
+  const selectedBgColor = selectedColor || theme.colors.grey[100];
+
   let styles: ViewStyle = {
-    backgroundColor: selected ? selectedColor || theme.colors.grey[500] : showDefaultBg ? theme.colors.grey[50] : 'transparent',
+    backgroundColor: selected ? selectedBgColor : showDefaultBg ? defaultBgColor : 'transparent',
   };
 
   if (showOutline) {
-    styles.borderWidth = outlineWidth || 1;
-    styles.borderColor = outlineColor || theme.colors.grey[400];
+    styles.borderWidth = outlineWidth ?? 1;
+    styles.borderColor = outlineColor ?? theme.colors.grey[400];
   }
 
   if (softRadius) {
@@ -80,21 +83,31 @@ export const listItemContainerStyles = ({
 };
 
 export const listItemTextStyles = ({ disablePadding, alignItems, disableLeftPadding }: ListItemTextStylesProps): ViewStyle => {
+  let alignItemsStyle: ViewStyle['alignItems'];
+
+  switch (alignItems) {
+    case 'start':
+      alignItemsStyle = 'flex-start';
+      break;
+    case 'middle':
+      alignItemsStyle = 'center';
+      break;
+    case 'end':
+      alignItemsStyle = 'flex-end';
+      break;
+    default:
+      alignItemsStyle = 'flex-start';
+      break;
+  }
+
   let styles: ViewStyle = {
-    alignItems:
-      alignItems === 'start'
-        ? 'flex-start'
-        : alignItems === 'middle'
-          ? 'center'
-          : alignItems === 'end'
-            ? 'flex-end'
-            : 'flex-start',
+    alignItems: alignItemsStyle,
   };
 
   if (!disablePadding) {
     return {
       ...styles,
-      paddingLeft: disableLeftPadding ? 0 : 15,
+      ...(!disableLeftPadding && { paddingLeft: 15 }),
       paddingRight: 15,
       paddingTop: 5,
       paddingBottom: 5,

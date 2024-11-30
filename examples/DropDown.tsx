@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Avatar, Container, DropDown, Stack, ThemeProvider } from '../src';
+import { Avatar, Container, DropDown, ThemeProvider } from '../src';
 
 const DATA = [
   { id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba', title: 'First Item' },
@@ -18,60 +18,58 @@ function App(): React.JSX.Element {
       <ScrollView>
         <Container>
           <ThemeProvider>
-            <Stack spacing={15}>
-              <DropDown
-                onItemClicked={item => console.log(item)}
-                listItemEndAdornment={
-                  <Avatar
-                    source={{
-                      uri: 'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                    }}
-                    size={20}
-                    variation="rounded"
-                  />
-                }
-                displaySelectedAdornment
-                inputStartAdornment={
-                  <Avatar
-                    source={{
-                      uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                    }}
-                    size={30}
-                    variation="rounded"
-                  />
-                }
-                variation="outlined"
-                data={DATA}
-              />
-              <DropDown onItemClicked={item => console.log(item)} displaySelectedAdornment variation="filled" data={DATA} />
-              <DropDown onItemClicked={item => console.log(item)} displaySelectedAdornment variation="icon" data={DATA} />
-              <DropDown onItemClicked={item => console.log(item)} search displaySelectedAdornment variation="icon" data={DATA} />
-              <DropDown
-                onItemClicked={item => console.log(item)}
-                multiselect
-                listItemEndAdornment={
-                  <Avatar
-                    source={{
-                      uri: 'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                    }}
-                    size={20}
-                    variation="rounded"
-                  />
-                }
-                displaySelectedAdornment
-                inputStartAdornment={
-                  <Avatar
-                    source={{
-                      uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                    }}
-                    size={30}
-                    variation="rounded"
-                  />
-                }
-                variation="outlined"
-                data={DATA}
-              />
-            </Stack>
+            <DropDown
+              onItemClicked={item => console.log(item)}
+              listItemEndAdornment={
+                <Avatar
+                  source={{
+                    uri: 'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+                  }}
+                  size={20}
+                  variation="rounded"
+                />
+              }
+              displaySelectedAdornment
+              inputStartAdornment={
+                <Avatar
+                  source={{
+                    uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+                  }}
+                  size={30}
+                  variation="rounded"
+                />
+              }
+              variation="outlined"
+              data={DATA}
+            />
+            <DropDown onItemClicked={item => console.log(item)} displaySelectedAdornment variation="filled" data={DATA} />
+            <DropDown onItemClicked={item => console.log(item)} displaySelectedAdornment variation="icon" data={DATA} />
+            <DropDown onItemClicked={item => console.log(item)} search displaySelectedAdornment variation="icon" data={DATA} />
+            <DropDown
+              onItemClicked={item => console.log(item)}
+              multiselect
+              listItemEndAdornment={
+                <Avatar
+                  source={{
+                    uri: 'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+                  }}
+                  size={20}
+                  variation="rounded"
+                />
+              }
+              displaySelectedAdornment
+              inputStartAdornment={
+                <Avatar
+                  source={{
+                    uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+                  }}
+                  size={30}
+                  variation="rounded"
+                />
+              }
+              variation="outlined"
+              data={DATA}
+            />
           </ThemeProvider>
         </Container>
       </ScrollView>

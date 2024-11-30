@@ -14,7 +14,9 @@ export const ListItemText = React.forwardRef<View, ListItemTextProps>(
       primaryLabelStyles,
       secondary,
       secondaryLabelStyles,
+      secondaryLabelProps,
       disablePadding,
+      primaryLabelProps,
       disableLeftPadding = false,
       alignItems = 'start',
       ...props
@@ -31,12 +33,12 @@ export const ListItemText = React.forwardRef<View, ListItemTextProps>(
     return (
       <Box sx={sx} ref={ref} style={[styles.listItemText, listItemGeneratedStyles.generated, style]} {...props}>
         {primary && (
-          <Text variation="h3" style={primaryLabelStyles}>
+          <Text variation="h3" style={primaryLabelStyles} {...primaryLabelProps}>
             {primary}
           </Text>
         )}
         {secondary && (
-          <Text variation="h5" style={secondaryLabelStyles}>
+          <Text variation="h5" style={secondaryLabelStyles} {...secondaryLabelProps}>
             {secondary}
           </Text>
         )}

@@ -1,7 +1,7 @@
-import { StyleSheet, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { getVariant } from '../../utils';
-import { ButtonVariationsType, GetButtonStylesProps } from './Button.types';
+import { ButtonContainerStylesInterface, ButtonVariationsType, GetButtonStylesProps } from './Button.types';
 
 export const styles = StyleSheet.create({
   buttonGroupContainer: {
@@ -20,7 +20,6 @@ export const styles = StyleSheet.create({
   },
   baseButtonContainer: {
     flexDirection: 'row',
-    flex: 1,
   },
 });
 
@@ -90,5 +89,13 @@ export const getButtonStyles = ({
     ...(disabled && disabledStyles),
     ...(square && { borderRadius: 0 }),
     flex: 1,
+  };
+};
+
+export const buttonContainerStyles = ({
+  disableBaseButtonContainerFlex,
+}: ButtonContainerStylesInterface): StyleProp<ViewStyle> => {
+  return {
+    ...(!disableBaseButtonContainerFlex && { flex: 1 }),
   };
 };
