@@ -44,10 +44,6 @@ export interface ModalContainerProps extends BoxProps {
  */
 export interface PortalProps extends ModalProps {
   /**
-   * The content to render inside the portal.
-   */
-  children: ReactNode;
-  /**
    * Unique identifier for the portal.
    */
   portalKey: string;

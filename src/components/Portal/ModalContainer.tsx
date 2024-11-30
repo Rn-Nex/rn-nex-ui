@@ -16,7 +16,7 @@ export const ModalContainer = forwardRef<View, ModalContainerProps>(({ style, sx
   return (
     <TouchableWithoutFeedback onPress={onPressHandler}>
       <Box style={[styles, style]} sx={sx} ref={ref} {...props}>
-        <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>
+        <TouchableWithoutFeedback accessible={false}>{children}</TouchableWithoutFeedback>
       </Box>
     </TouchableWithoutFeedback>
   );
