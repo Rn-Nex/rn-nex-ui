@@ -1,7 +1,12 @@
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { getVariant } from '../../utils';
-import { ButtonContainerStylesInterface, ButtonVariationsType, GetButtonStylesProps } from './Button.types';
+import {
+  ButtonContainerStylesInterface,
+  ButtonRootContainerStylesInterface,
+  ButtonVariationsType,
+  GetButtonStylesProps,
+} from './Button.types';
 
 export const styles = StyleSheet.create({
   buttonGroupContainer: {
@@ -21,6 +26,10 @@ export const styles = StyleSheet.create({
   baseButtonContainer: {
     flexDirection: 'row',
   },
+});
+
+export const buttonRootContainerStyles = ({ flex }: ButtonRootContainerStylesInterface) => ({
+  ...(flex && { flex }),
 });
 
 export const containedButtonDefaultStyles = (theme: ThemeType): ViewStyle => ({

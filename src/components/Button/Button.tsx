@@ -5,7 +5,7 @@ import { getVariant } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
 import { Text } from '../Typography';
 import { BaseButton } from './BaseButton';
-import { getButtonStyles, styles } from './Button.styles';
+import { buttonRootContainerStyles, getButtonStyles, styles } from './Button.styles';
 import { ButtonProps } from './Button.types';
 
 export const Button = React.forwardRef<View, ButtonProps>(
@@ -19,6 +19,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
       labelStyles,
       labelColor,
       baseButtonStyles,
+      flex,
       buttonColor = 'secondary',
       variation = 'contained',
       square = false,
@@ -47,7 +48,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
     }, [loading, children, labelStyles, theme, variation, buttonColor, labelColor, label]);
 
     return (
-      <View style={StyleSheet.flatten([styles.rootContainer, style])}>
+      <View style={StyleSheet.flatten([styles.rootContainer, buttonRootContainerStyles({ flex }), style])}>
         <View style={[styles.innerContainer]}>
           <BaseButton
             disabled={loading || disabled}

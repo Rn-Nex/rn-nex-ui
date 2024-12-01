@@ -85,9 +85,16 @@ export interface ButtonProps extends BaseButtonProps {
    * Change the button label color
    */
   labelColor?: ColorValue;
-
+  /**
+   * Base button styles
+   */
   baseButtonStyles?: ViewStyle;
+  /**
+   * Button container flex style
+   */
+  flex?: number;
 }
+export interface ButtonRootContainerStylesInterface extends Pick<ButtonProps, 'flex'> {}
 
 /**
  * Defines variations of IconButton component.
