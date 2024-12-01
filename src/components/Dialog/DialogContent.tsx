@@ -1,11 +1,9 @@
-import React, { useMemo } from 'react';
-import { View } from 'react-native';
-import { BoxProps } from '../Box/Box.types';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Box } from '../Box';
-import { dialogContentStyles } from './utils';
+import { BoxProps } from '../Box/Box.types';
+import { styles } from './Dialog.styles';
 
 export const DialogContent = React.forwardRef<View, BoxProps>(({ style, sx, ...props }, ref) => {
-  const styles = useMemo(() => dialogContentStyles(), []);
-
-  return <Box sx={sx} style={[styles, style]} ref={ref} {...props} />;
+  return <Box sx={sx} style={StyleSheet.flatten([styles.dialogContent, style])} ref={ref} {...props} />;
 });

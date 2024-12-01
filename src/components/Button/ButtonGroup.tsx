@@ -4,8 +4,9 @@ import { grey, useTheme } from '../../libraries';
 import { getVariant, VariantTypes } from '../../utils';
 import { styles } from './Button.styles';
 import { ButtonProps, ButtonVariations } from './Button.types';
+import _ from 'lodash';
 
-export interface ButtonGroupProps extends ViewProps {
+export interface ButtonGroupProps extends ViewProps, Pick<ButtonProps, 'disableRipple' | 'baseButtonStyles'> {
   roundSize?: number;
   borderWidth?: number;
   removeBorders?: boolean;
@@ -18,6 +19,8 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
     {
       style,
       children,
+      baseButtonStyles,
+      disableRipple = false,
       variation = 'contained',
       buttonColor = 'secondary',
       removeBorders = false,
@@ -63,17 +66,29 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
 
         if (React.isValidElement(child)) {
           return React.cloneElement(child, {
-            ...child.props,
             style: { flex: 1 },
-            baseButtonStyles: borderStyles,
+            baseButtonStyles: _.merge({}, borderStyles, baseButtonStyles),
             disableScaleAnimation: true,
             variation,
             buttonColor,
+            disableRipple,
+            ...child.props,
           } as ButtonProps);
         }
         return child;
       });
-    }, [roundSize, childrenCount, children, borderWidth, removeBorders, variation, buttonColor, theme]);
+    }, [
+      roundSize,
+      childrenCount,
+      children,
+      borderWidth,
+      removeBorders,
+      variation,
+      buttonColor,
+      theme,
+      disableRipple,
+      baseButtonStyles,
+    ]);
 
     return (
       <View style={[styles.buttonGroupContainer, style]} {...props} ref={ref}>
