@@ -18,7 +18,6 @@ function App(): React.JSX.Element {
         <ScrollView>
           <Container>
             <Button
-              sx={{ mt: Platform.OS === 'ios' ? 0 : 30 }}
               label="Show Snack bar"
               onPress={() =>
                 snackbar.show({
