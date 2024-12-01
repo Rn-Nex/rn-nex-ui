@@ -4,49 +4,6 @@ RN NEX Ui
 
 A sophisticated UI library crafted to enhance your React Native development workflow. Designed for simplicity and elegance, nex-ui provides a rich collection of components and utilities to effortlessly create polished mobile applications.
 
-## What's New in This Release
-
-### Image
-
-- **Animation Support**: Now includes animation capabilities, enhancing visual interactivity.
-
-### List
-
-- **Enhanced Pressability**: New prop allows triggering an `onPress` event across the entire List item component.
-- **Outline Customization**: Props `showOutline`, `outlineWidth`, and `outlineColor` enable full control over List item borders.
-- **Background Flexibility**: `showDefaultBg` prop added to toggle background color support.
-- **Soft Radius Option**: New `softRadius` prop for rounded corners on List items.
-
-### Text
-
-- **Dynamic Color Control**: `color` prop allows dynamic text color changes.
-- **Animation Support**: Added animation options.
-- **Code Optimization**: Improved performance and readability.
-
-### Input
-
-- **Square Corners**: New `square` prop to control border radius.
-- **Hide Label**: Added `hideLabel` prop for optional label visibility.
-- **Code Optimization**: Enhanced performance with refactored code.
-
-### Button
-
-- **Shape Customization**: Added `square` and `round` props for customizable shapes.
-- **Forward Ref Fix**: Improved ref handling.
-
-### Box
-
-- **Animation Support**: Animation options added for engaging design.
-
-### Theme
-
-- **Simplified Theme Creation**: New `createTheme` function for easy theme setup.
-- **Theme Config Optimization**: Spacing config is now optimized with a dedicated prop, eliminating redundancy.
-
-### Fixes
-
-- **Forward Ref Consistency**: Forward ref issues resolved across all components.
-
 ## Table of Contents
 
 - [Dropdown](#dropdown-component)
@@ -68,7 +25,6 @@ A sophisticated UI library crafted to enhance your React Native development work
 - [Dialog](#dialog-component)
 - [Divider](#divider-component)
 - [List](#list-component)
-- [Menu](#menu-component)
 - [Pagination](#pagination-component)
 - [Text](#text-component)
 - [TextInput](#textinput-component)
