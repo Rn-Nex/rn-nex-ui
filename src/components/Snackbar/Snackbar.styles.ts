@@ -1,25 +1,25 @@
-import { StyleSheet } from 'react-native';
-import { green } from '../../libraries';
+import { DimensionValue, StyleSheet, ViewStyle } from 'react-native';
+import { green, grey } from '../../libraries';
+import { getVariant, isAndroid, isIso, isLargeScreen } from '../../utils';
+import { SnackbarContainerStylesInterface, SnackbarRootContainerStylesInterface } from './Snackbar';
 
 export const styles = StyleSheet.create({
   snackbarRootContainer: {
-    width: '100%',
     paddingHorizontal: 16,
     paddingVertical: 10,
     position: 'absolute',
-    left: 0,
-    right: 0,
     zIndex: 9999,
     elevation: 1000,
   },
   snackbar: {
-    width: '100%',
     minHeight: 50,
     borderRadius: 6,
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    right: 0,
+    left: 0,
   },
   snackbarLabelWrapper: {
     flex: 1,
@@ -52,3 +52,34 @@ export const styles = StyleSheet.create({
     height: 20,
   },
 });
+
+export const snackbarRootContainerStyle = ({
+  horizontal,
+  opacityValue,
+  translateY,
+}: SnackbarRootContainerStylesInterface): ViewStyle => {
+  const isLeftPosition = horizontal === 'left';
+  let width: DimensionValue;
+
+  if (isLargeScreen && isIso) {
+    width = '40%';
+  } else if (isLargeScreen && isAndroid) {
+    width = '30%';
+  } else {
+    width = '100%';
+  }
+
+  return {
+    width,
+    opacity: opacityValue,
+    transform: [{ translateY }],
+    ...(isLeftPosition && { left: 0 }),
+    ...(!isLeftPosition && { right: 0 }),
+  };
+};
+
+export const snackbarContainerStyles = ({ theme, variant }: SnackbarContainerStylesInterface): ViewStyle => {
+  return {
+    backgroundColor: variant ? getVariant({ variant: variant, theme }) : grey[900],
+  };
+};
