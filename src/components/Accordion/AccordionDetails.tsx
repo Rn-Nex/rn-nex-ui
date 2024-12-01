@@ -18,21 +18,12 @@ export const AccordionDetails = React.forwardRef<View, AccordionDetailsProps>(({
   }, [disable]);
 
   return (
-    <View style={[accordionStyle, style]} {...props} ref={ref}>
-      {disable ? <View style={[styles.overLayStyle]} /> : null}
-      {children}
+    <View style={StyleSheet.flatten([accordionStyle, style])} {...props} ref={ref}>
+      {React.Children.map(children, child =>
+        React.isValidElement(child) ? React.cloneElement<any>(child, { disabled: disable }) : child,
+      )}
     </View>
   );
 });
 
-const styles = StyleSheet.create({
-  overLayStyle: {
-    width: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: '100%',
-    zIndex: 100,
-  },
-});
 AccordionDetails.displayName = 'AccordionDetails';
