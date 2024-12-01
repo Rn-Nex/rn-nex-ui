@@ -9,9 +9,12 @@ import {
   SWITCH_CONTAINER_WIDTH_SMALL,
 } from '../src';
 import { fireEvent, render } from './test-utils';
+import { View } from 'react-native';
 
 describe('Switch Component', () => {
-  const switchMockTestId = 'switch_test_id';
+  const switchMockTestId = 'switch-test-id';
+
+  const mockRef = React.createRef<View>();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -20,6 +23,12 @@ describe('Switch Component', () => {
   it('should match the snapshot with default props', () => {
     const { toJSON } = render(<Switch />);
     expect(toJSON).toMatchSnapshot();
+  });
+
+  it('should forward ref correctly', () => {
+    render(<Switch ref={mockRef} />);
+    expect(mockRef.current).toBeDefined();
+    expect(mockRef.current).toBeInstanceOf(View);
   });
 
   it('should render with default props', () => {
@@ -48,7 +57,7 @@ describe('Switch Component', () => {
     expect(onToggleMock).toHaveBeenCalledWith(false);
   });
 
-  it('should apply the correct size for the "large" switch', () => {
+  it('should apply the correct size for the (large) switch', () => {
     const { getByTestId } = render(<Switch testID={switchMockTestId} size="large" />);
 
     const switchComponent = getByTestId(switchMockTestId);
@@ -56,7 +65,7 @@ describe('Switch Component', () => {
     expect(switchComponent.props.style.height).toBe(SWITCH_CONTAINER_HEIGHT_LARGE);
   });
 
-  it('should apply the correct size for the "medium" switch', () => {
+  it('should apply the correct size for the (medium) switch', () => {
     const { getByTestId } = render(<Switch testID={switchMockTestId} size="medium" />);
 
     const switchComponent = getByTestId(switchMockTestId);
@@ -64,7 +73,7 @@ describe('Switch Component', () => {
     expect(switchComponent.props.style.height).toBe(SWITCH_CONTAINER_HEIGHT_MEDIUM);
   });
 
-  it('should apply the correct size for the "small" switch', () => {
+  it('should apply the correct size for the (small) switch', () => {
     const { getByTestId } = render(<Switch testID={switchMockTestId} size="small" />);
 
     const switchComponent = getByTestId(switchMockTestId);
