@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleProp, TouchableWithoutFeedback, ViewStyle } from 'react-native';
+import { ThemeType } from '../../libraries/themes/v1/theme';
+import { AccordionProps } from './Accordion';
 
 /**
  * Props for the AccordionSummary component.
@@ -84,4 +86,8 @@ export interface AccordionSummaryProps extends React.ComponentPropsWithRef<typeo
    * Track Content Changes: prop to identify when the content of accordionDetails changes.
    */
   contentKey?: string;
+}
+
+export interface AccordionWrapperStylesInterface extends Pick<AccordionProps, 'disable' | 'square'> {
+  theme: ThemeType;
 }
