@@ -12,7 +12,6 @@ export * from './Divider';
 export * from './DropDown';
 export * from './Image';
 export * from './List';
-export * from './Menu';
 export * from './Pagination';
 export * from './Portal';
 export * from './Radio';

@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
+import { AccordionWrapperStylesInterface } from './AccordionTypes';
 
 export const accordionSummaryStyles = StyleSheet.create({
   accordionSummaryWrapperContainer: {
@@ -50,3 +51,12 @@ export const accordionStyles = StyleSheet.create({
     zIndex: 100,
   },
 });
+
+export const accordionWrapperStyles = ({ theme, disable, square }: AccordionWrapperStylesInterface): ViewStyle => {
+  return {
+    width: '100%',
+    backgroundColor: theme.colors.grey[200],
+    opacity: disable ? 0.5 : 1,
+    ...(!square && { borderRadius: 8 }),
+  };
+};

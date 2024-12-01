@@ -4,11 +4,13 @@ import {
   Easing,
   GestureResponderEvent,
   LayoutChangeEvent,
+  StyleSheet,
   TouchableWithoutFeedback,
   View,
   ViewStyle,
 } from 'react-native';
 import { useTheme } from '../../libraries';
+import { Box } from '../Box';
 import { accordionSummaryStyles } from './Accordion.style';
 import { AccordionSummaryProps } from './Accordion.types';
 import {
@@ -18,9 +20,8 @@ import {
   ROTATE_ANIMATION_DURATION,
   ROTATE_ANIMATION_RANGE,
 } from './constants';
-import { Box } from '../Box';
 
-export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, AccordionSummaryProps>(
+export const AccordionSummary = React.forwardRef<View, AccordionSummaryProps>(
   (
     {
       style,
@@ -32,12 +33,12 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
       accordionWrapperStyles,
       topBorder,
       bottomBorder,
-      contentKey,
       onExpand,
       startAdornment,
       startAdornmentContainerStyle,
       childrenWrapperStyles,
       onPress: accordionSummaryOnPressHandler,
+      disabled,
       accordionDetailsOpacityDuration = ACCORDION_DETAILS_OPACITY_DURATION,
       defaultExpanded = ACCORDION_DETAILS_DEFAULT_EXPANDED,
       rotateAnimationDuration = ROTATE_ANIMATION_DURATION,
@@ -135,26 +136,29 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
 
     useEffect(() => {
       setMeasuredHeight(null);
-    }, [contentKey]);
+    }, [accordionDetails]);
 
     return (
-      <View>
-        <TouchableWithoutFeedback onPress={onPress} {...props} ref={ref}>
-          <View style={[accordionSummaryStyles.accordionSummaryWrapperContainer, summaryWrapperStyles, style]}>
-            <View style={[accordionSummaryStyles.accordionSummaryChildWrapper, summaryChildWrapperStyles]}>
+      <View ref={ref}>
+        <TouchableWithoutFeedback onPress={onPress} disabled={disabled} {...props}>
+          <View
+            style={StyleSheet.flatten([accordionSummaryStyles.accordionSummaryWrapperContainer, summaryWrapperStyles, style])}>
+            <View style={StyleSheet.flatten([accordionSummaryStyles.accordionSummaryChildWrapper, summaryChildWrapperStyles])}>
               {startAdornment && (
-                <View style={[accordionSummaryStyles.startAdornmentContainer, startAdornmentContainerStyle]}>
+                <View style={StyleSheet.flatten([accordionSummaryStyles.startAdornmentContainer, startAdornmentContainerStyle])}>
                   {startAdornment}
                 </View>
               )}
-              <Box style={[accordionSummaryStyles.accordionSummaryChildrenWrapper, childrenWrapperStyles]}>{children}</Box>
+              <Box style={StyleSheet.flatten([accordionSummaryStyles.accordionSummaryChildrenWrapper, childrenWrapperStyles])}>
+                {children}
+              </Box>
             </View>
             <Animated.View
-              style={[
+              style={StyleSheet.flatten([
                 accordionSummaryStyles.accordionSummaryExpandIconWrapper,
                 { transform: [{ rotate: rotateInterpolate }] },
                 expandIconWrapperStyles,
-              ]}>
+              ])}>
               {expandIcon}
             </Animated.View>
           </View>
@@ -162,7 +166,11 @@ export const AccordionSummary = React.forwardRef<TouchableWithoutFeedback, Accor
         <Animated.View style={{ height: heightValue, opacity: accordionDetailsOpacityValue, overflow: 'hidden' }}>
           <View
             ref={accordionContentRef}
-            style={[accordionSummaryStyles.accordionDetailsWrapper, { height: measuredHeight }, accordionWrapperStyles]}>
+            style={StyleSheet.flatten([
+              accordionSummaryStyles.accordionDetailsWrapper,
+              { height: measuredHeight },
+              accordionWrapperStyles,
+            ])}>
             {accordionDetails}
           </View>
         </Animated.View>
