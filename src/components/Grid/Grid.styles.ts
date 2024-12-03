@@ -3,7 +3,6 @@ import { GridContainerStylesInterface, GridItemContainerStylesInterface } from '
 
 export const styles = StyleSheet.create({
   gridContainer: {
-    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -11,7 +10,7 @@ export const styles = StyleSheet.create({
 });
 
 export const gridContainerStyles = ({ width }: GridContainerStylesInterface): ViewStyle => {
-  return { width };
+  return { width: width ?? '100%' };
 };
 
 export const gridItemContainerStyles = ({
@@ -22,6 +21,7 @@ export const gridItemContainerStyles = ({
   bottomSpacing,
 }: GridItemContainerStylesInterface): ViewStyle => {
   const calculateWidth: DimensionValue = !!size && size > 0 ? `${(size / 12) * 100}%` : 'auto';
+
   return {
     width: calculateWidth,
     ...(topSpacing && { marginTop: topSpacing }),
