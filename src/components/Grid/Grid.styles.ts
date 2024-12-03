@@ -8,9 +8,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  gridItemInnerContainer: {
-    flex: 1,
-  },
 });
 
 export const gridContainerStyles = ({ width }: GridContainerStylesInterface): ViewStyle => {

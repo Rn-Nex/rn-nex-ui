@@ -214,7 +214,7 @@ export const Grid = forwardRef<View, GridProps>(
             style,
           ])}
           {...props}>
-          <Box style={StyleSheet.flatten([styles.gridItemInnerContainer, gridInnerContainerStyles])}>{children}</Box>
+          <Box style={StyleSheet.flatten([gridInnerContainerStyles])}>{children}</Box>
         </Box>
       );
     } else if (container) {
