@@ -26,6 +26,17 @@ export const styles = StyleSheet.create({
   baseButtonContainer: {
     flexDirection: 'row',
   },
+  iconButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
+    padding: 5,
+    aspectRatio: 1,
+    borderRadius: 100,
+    overflow: 'hidden',
+  },
 });
 
 export const buttonRootContainerStyles = ({ flex }: ButtonRootContainerStylesInterface) => ({
@@ -55,27 +66,14 @@ export const disabledStyles: ViewStyle = {
   opacity: 0.7,
 };
 
-export const iconButtonDefaultStyles = (theme: ThemeType): ViewStyle => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexDirection: 'row',
-  alignSelf: 'flex-start',
-  minWidth: theme.spacing.xl,
-  minHeight: theme.spacing.xl,
-  borderRadius: 100,
-  padding: 5,
-  overflow: 'hidden',
-});
-
 export const buttonVariationStyles = (theme: ThemeType, variation: ButtonVariationsType) => {
   const variations: Record<ButtonVariationsType, ViewStyle> = {
     outlined: outlinedButtonDefaultStyles(theme),
     contained: containedButtonDefaultStyles(theme),
     text: textButtonDefaultStyles(theme),
-    roundedIconButton: iconButtonDefaultStyles(theme),
+    roundedIconButton: styles.iconButton,
     squareIconButton: {
-      ...iconButtonDefaultStyles(theme),
+      ...styles.iconButton,
       borderRadius: 5,
     },
   };
@@ -97,7 +95,6 @@ export const getButtonStyles = ({
     ...(!isContainedVariation && { borderColor: getVariant({ variant: buttonColor, theme }) }),
     ...(disabled && disabledStyles),
     ...(square && { borderRadius: 0 }),
-    flex: 1,
   };
 };
 

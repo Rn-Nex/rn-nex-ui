@@ -8,6 +8,7 @@ import { IconButtonProps } from './Button.types';
 export const IconButton = React.forwardRef<View, IconButtonProps>(
   ({ disabled, children, style, variation = 'roundedIconButton', ...props }, ref) => {
     const { theme } = useTheme();
+
     const iconButtonStyles = useMemo(() => getButtonStyles({ variation, disabled, theme }), [variation, disabled, theme]);
 
     return (
@@ -16,6 +17,7 @@ export const IconButton = React.forwardRef<View, IconButtonProps>(
         ref={ref}
         style={StyleSheet.flatten([iconButtonStyles, style])}
         baseButtonContainerStyle={{ flexDirection: 'column' }}
+        disableBaseButtonContainerFlex
         {...props}>
         {children}
       </BaseButton>
