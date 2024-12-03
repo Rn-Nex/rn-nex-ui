@@ -10,6 +10,7 @@ export * from './Chip';
 export * from './Dialog';
 export * from './Divider';
 export * from './DropDown';
+export * from './Grid';
 export * from './Image';
 export * from './List';
 export * from './Pagination';
