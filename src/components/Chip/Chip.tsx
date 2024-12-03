@@ -21,6 +21,7 @@ export const Chip = React.forwardRef<View, ChipProps>(
       endIcon,
       startIconProps,
       endIconProps,
+      children,
       variant = 'filled',
       color = 'secondary',
       square = false,
@@ -44,7 +45,7 @@ export const Chip = React.forwardRef<View, ChipProps>(
       );
     }, [theme, label, isOutlinedVariant, colorScheme, labelColor, color, syncBorderAndLabelColor]);
 
-    if (hasIcon) {
+    if (hasIcon && !children) {
       return (
         <Box style={StyleSheet.flatten([styles.chip, chipStyles, style, { borderRadius: square ? 5 : 20 }])} ref={ref}>
           <Box style={StyleSheet.flatten([styles.chipWrapper, chipWrapperContainerStyles])}>
@@ -69,7 +70,7 @@ export const Chip = React.forwardRef<View, ChipProps>(
         disableBaseButtonContainerFlex
         ref={ref}
         {...props}>
-        <Box style={StyleSheet.flatten([styles.chipWrapper, chipWrapperContainerStyles])}>{renderLabel()}</Box>
+        <Box style={StyleSheet.flatten([styles.chipWrapper, chipWrapperContainerStyles])}>{children ?? renderLabel()}</Box>
       </BaseButton>
     );
   },

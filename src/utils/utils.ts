@@ -4,7 +4,7 @@ import { ThemeType } from '../libraries/themes/v1/theme';
 export const OFFSET = 20;
 export const WRAPPER_BOTTOM_OFFSET = 50;
 
-export type VariantTypes = 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+export type VariantTypes = 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning' | 'grey' | 'lightGrey';
 export interface GetVariantArgs {
   theme: ThemeType;
   variant?: VariantTypes;
@@ -17,6 +17,8 @@ export const getVariant = ({ variant, theme }: GetVariantArgs): string => {
   else if (variant === 'info') return theme.colors.lightBlue[500];
   else if (variant === 'success') return theme.colors.green[500];
   else if (variant === 'warning') return theme.colors.yellow[500];
+  else if (variant === 'grey') return theme.colors.grey[500];
+  else if (variant === 'lightGrey') return theme.colors.grey[200];
   return theme.colors.secondary[500];
 };
 

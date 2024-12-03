@@ -23,6 +23,7 @@ export interface ImageVariationProp {
 export interface ImageProps extends React.ComponentType<Image>, RnImageProps, ImageVariationProp {
   size?: DimensionValue;
   sx?: BaseStyles;
+  expandToFill?: boolean;
 }
 
 /**
@@ -68,3 +69,4 @@ export interface ImageListItemProps extends React.ComponentPropsWithRef<typeof V
 
 export interface GenerateImageListItemStylesProps
   extends Pick<ImageListItemProps, 'index' | 'items' | 'itemSpace' | 'itemBottomSpace'> {}
+export interface ImageStyleInterface extends Pick<ImageProps, 'expandToFill' | 'size' | 'height' | 'width'> {}

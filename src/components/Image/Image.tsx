@@ -1,27 +1,24 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Animated, ImageStyle, Image as RnImage, StyleSheet } from 'react-native';
 import { generateElementStyles } from '../../utils';
+import { generateImageRadiusStyles, imageStyles } from './Image.styles';
 import { ImageProps } from './Image.types';
-import { generateImageRadiusStyles } from './utils';
 
-export const Image = React.forwardRef<RnImage, ImageProps>(({ size, variation, style, sx, width, height, ...props }, ref) => {
-  const imageStyles = useMemo(() => {
-    return StyleSheet.create({
-      generated: generateElementStyles({
-        h: size ?? height,
-        w: size ?? width,
-        ...sx,
-      }) as ImageStyle,
-    });
-  }, [sx, width, height, size]);
-
-  return (
-    <Animated.Image
-      ref={ref}
-      style={StyleSheet.flatten([imageStyles.generated, variation && generateImageRadiusStyles(variation), style])}
-      {...props}
-    />
-  );
-});
+export const Image = React.forwardRef<RnImage, ImageProps>(
+  ({ size, variation, style, sx, width, height, expandToFill = false, ...props }, ref) => {
+    return (
+      <Animated.Image
+        ref={ref}
+        style={StyleSheet.flatten([
+          imageStyles({ expandToFill, size, height, width }),
+          variation && generateImageRadiusStyles(variation),
+          sx && (generateElementStyles(sx) as ImageStyle),
+          style,
+        ])}
+        {...props}
+      />
+    );
+  },
+);
 
 Image.displayName = 'Image';

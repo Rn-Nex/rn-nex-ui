@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Box } from '../Box';
 import { DEFAULT_ITEM_BOTTOM_SPACE, DEFAULT_ITEM_SPACING, DEFAULT_ITEMS } from './constants';
 import { ImageListItemProps } from './Image.types';
-import { generateImageListItemStyles } from './utils';
+import { generateImageListItemStyles } from './Image.styles';
 
 export const ImageListItem = React.forwardRef<View, ImageListItemProps>(
   (

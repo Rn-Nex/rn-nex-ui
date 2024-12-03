@@ -48,15 +48,16 @@ describe('Box Component', () => {
     const styles: ViewStyle = { backgroundColor: 'red', borderRadius: 10, margin: 10, padding: 20 };
     const { getByTestId } = render(<Box testID={mockTestId} style={styles} />);
     const box = getByTestId(mockTestId);
-    expect(box.props.style).toContain(styles);
+    expect(box.props.style).toEqual(expect.objectContaining(styles));
   });
 
   it('should apply the sx styles when sx prop is passed', () => {
     const sx: BaseStyles = { bg: 'red', r: 10, m: 10, p: 20 };
     const { getByTestId } = render(<Box testID={mockTestId} sx={sx} />);
     const box = getByTestId(mockTestId);
-    const generatedStyles: ViewStyle = { backgroundColor: 'red', borderRadius: 10, margin: 10, padding: 20 };
-    expect(box.props.style).toEqual(expect.arrayContaining([expect.objectContaining(generatedStyles)]));
+    expect(box.props.style).toEqual(
+      expect.objectContaining({ backgroundColor: 'red', borderRadius: 10, margin: 10, padding: 20 }),
+    );
   });
 
   it('should combine the sx and styles props correctly', () => {
@@ -66,12 +67,9 @@ describe('Box Component', () => {
     const { getByTestId } = render(<Box testID={mockTestId} sx={mockSx} style={mockStyles} />);
     const box = getByTestId(mockTestId);
 
-    const expectedStyles: StyleProp<ViewStyle> = [
-      { backgroundColor: 'red', borderRadius: 10, margin: 10, padding: 20 },
-      { backgroundColor: 'pink', borderRadius: 30 },
-    ];
-
-    expect(box.props.style).toEqual(expectedStyles);
+    expect(box.props.style).toEqual(
+      expect.objectContaining({ backgroundColor: 'pink', borderRadius: 30, margin: 10, padding: 20 }),
+    );
   });
 
   it('renders children correctly', () => {
@@ -97,6 +95,6 @@ describe('Box Component', () => {
   it('should position child elements correctly', () => {
     const { getByTestId } = render(<Box testID={mockTestId} style={{ flexDirection: 'row', display: 'flex' }} />);
     const box = getByTestId(mockTestId);
-    expect(box.props.style).toEqual(expect.arrayContaining([{ flexDirection: 'row', display: 'flex' }]));
+    expect(box.props.style).toEqual(expect.objectContaining({ flexDirection: 'row', display: 'flex' }));
   });
 });

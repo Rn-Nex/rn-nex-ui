@@ -11,7 +11,7 @@ export type ChipVariant = 'outlined' | 'filled';
 /**
  * Defines the color variations available for the chip.
  */
-export interface ChipProps extends Omit<BaseButtonProps, 'children' | 'sx'> {
+export interface ChipProps extends Omit<BaseButtonProps, 'sx'> {
   /**
    * The label text to display inside the chip.
    */

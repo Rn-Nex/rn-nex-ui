@@ -1,58 +1,45 @@
-import React, { useMemo } from 'react';
-import { TextInputProps, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, TextInputProps, View, ViewStyle } from 'react-native';
 import { useTheme } from '../../libraries';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { Box } from '../Box';
-import { BoxProps } from '../Box/Box.types';
+import { BoxProps } from '../types';
 import { BaseInput } from './BaseInput';
 
-/**
- * IconInputProps interface extends the properties of a TextInput component
- * to include additional props for customizing the input with adornments
- * and wrapper properties.
- */
-export interface IconInputProps extends TextInputProps {
+export interface IconInputProps extends TextInputProps, Pick<BoxProps, 'sx'> {
   /**
    * Props to be applied to the wrapper around the TextInput component.
-   * This can be used to style and position the input element.
    */
-  inputWrapperProps?: BoxProps;
-
+  inputWrapperStyles?: ViewStyle;
   /**
    * A React node to be displayed at the end of the input field.
    * This is typically used for icons or other interactive elements.
    */
   endAdornment?: React.ReactNode;
-
   /**
    * Props to be applied to the container of the end adornment.
-   * Allows for additional styling and positioning of the end adornment.
-   * Note: The `children` prop is omitted as it is handled internally.
    */
-  endAdornmentContainerProps?: Omit<BoxProps, 'children'>;
-
+  endAdornmentContainerStyles?: ViewStyle;
   /**
    * A React node to be displayed at the start of the input field.
    * This is typically used for icons or other interactive elements.
    */
   startAdornment?: React.ReactNode;
-
   /**
    * Props to be applied to the container of the start adornment.
-   * Allows for additional styling and positioning of the start adornment.
-   * Note: The `children` prop is omitted as it is handled internally.
    */
-  startAdornmentContainerProps?: Omit<BoxProps, 'children'>;
+  startAdornmentContainerStyles?: ViewStyle;
 }
 
 export const IconInput: React.FC<IconInputProps> = React.forwardRef<View, IconInputProps>(
   (
     {
-      inputWrapperProps,
+      sx,
+      inputWrapperStyles,
       endAdornment,
-      endAdornmentContainerProps,
+      endAdornmentContainerStyles,
       startAdornment,
-      startAdornmentContainerProps,
+      startAdornmentContainerStyles,
       style,
       ...props
     },
@@ -60,43 +47,42 @@ export const IconInput: React.FC<IconInputProps> = React.forwardRef<View, IconIn
   ) => {
     const { theme } = useTheme();
 
-    const defaultInputStyles: BaseStyles = useMemo(() => {
-      const styles: BaseStyles = {
-        w: '100%',
-        bg: theme.colors.grey[300],
-        px: 10,
-        py: 5,
-        r: 6,
-        bColor: theme.colors.grey[300],
-        bWidth: 1,
-        d: 'flex',
-        fDirection: 'row',
-        items: 'center',
-        ...inputWrapperProps?.sx,
-      };
-      return styles;
-    }, [inputWrapperProps?.sx, theme]);
+    const defaultIconInputContainerStyles: BaseStyles = {
+      bg: theme.colors.grey[300],
+      bColor: theme.colors.grey[300],
+    };
 
     return (
-      <Box sx={defaultInputStyles} {...inputWrapperProps} ref={ref}>
+      <Box
+        sx={{ ...defaultIconInputContainerStyles, ...sx }}
+        style={StyleSheet.flatten([styles.inputContainer, inputWrapperStyles])}
+        ref={ref}>
         {startAdornment && (
-          <Box style={{ marginRight: 8 }} {...startAdornmentContainerProps}>
-            {startAdornment}
-          </Box>
+          <Box style={StyleSheet.flatten([{ marginRight: 8 }, startAdornmentContainerStyles])}>{startAdornment}</Box>
         )}
         <BaseInput
           placeholder="Base input"
-          style={[{ color: theme.colors.white[900], flex: 1 }, style]}
+          style={StyleSheet.flatten([{ color: theme.colors.white[900], flex: 1 }, style])}
           placeholderTextColor={theme.colors.grey[600]}
           {...props}
         />
-        {endAdornment && (
-          <Box style={{ marginLeft: 8 }} {...endAdornmentContainerProps}>
-            {endAdornment}
-          </Box>
-        )}
+        {endAdornment && <Box style={StyleSheet.flatten([{ marginLeft: 8 }, endAdornmentContainerStyles])}>{endAdornment}</Box>}
       </Box>
     );
   },
 );
+
+const styles = StyleSheet.create({
+  inputContainer: {
+    width: '100%',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 6,
+    borderWidth: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+});
+
 IconInput.displayName = 'IconInput';

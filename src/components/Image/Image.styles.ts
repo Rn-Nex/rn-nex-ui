@@ -1,4 +1,4 @@
-import { ViewStyle } from 'react-native';
+import { ImageStyle, StyleSheet, ViewStyle } from 'react-native';
 import { ElementRadius } from '../../libraries/style/styleTypes';
 import { generateStyle } from '../../utils';
 import {
@@ -10,9 +10,9 @@ import {
   IMAGE_ROUNDED_XL_RADIUS,
   IMAGE_SQUARE_RADIUS,
 } from './constants';
-import { GenerateImageListItemStylesProps, ImageVariant } from './Image.types';
+import { GenerateImageListItemStylesProps, ImageStyleInterface, ImageVariant } from './Image.types';
 
-export const generateImageRadiusStyles = (variation: ImageVariant) => {
+export const generateImageRadiusStyles = (variation: ImageVariant): ImageStyle => {
   let styles: ElementRadius = {};
 
   if (variation === 'rounded') {
@@ -30,6 +30,17 @@ export const generateImageRadiusStyles = (variation: ImageVariant) => {
   }
 
   return generateStyle({ propertyName: 'borderRadius', value: styles['borderRadius'] });
+};
+
+export const imageStyles = ({ expandToFill, size, width, height }: ImageStyleInterface): ImageStyle => {
+  if (expandToFill) {
+    return StyleSheet.absoluteFill as ImageStyle;
+  }
+
+  return {
+    width: size ?? width,
+    height: size ?? height,
+  };
 };
 
 export const generateImageListItemStyles = ({

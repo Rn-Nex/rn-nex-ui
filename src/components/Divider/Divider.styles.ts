@@ -1,6 +1,7 @@
-import { StyleSheet, ViewStyle } from 'react-native';
+import { ColorValue, StyleSheet, ViewStyle } from 'react-native';
 import { DividerLineStyles, DividerRootContainerStyles } from './Divider';
 import { grey } from '../../libraries';
+import { getVariant } from '../../utils';
 
 export const styles = StyleSheet.create({
   rootContainer: {
@@ -13,9 +14,16 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const dividerLineStyles = ({ mode, borderColor, textAlign, lineType }: DividerLineStyles) => {
+export const dividerLineStyles = ({ theme, mode, borderColor, textAlign, lineType, color }: DividerLineStyles) => {
+  let borderColorValue: ColorValue;
+
+  if (borderColor) borderColorValue = borderColor;
+  else if (color) borderColorValue = getVariant({ theme, variant: color });
+  else if (mode === 'light') borderColorValue = grey[400];
+  else borderColorValue = grey[700];
+
   let baseStyles: ViewStyle = {
-    borderColor: borderColor ? borderColor : mode === 'light' ? grey[400] : grey[700],
+    borderColor: borderColorValue,
   };
   const isStartLine = lineType === 'start';
 
