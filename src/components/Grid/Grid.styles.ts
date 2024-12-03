@@ -1,5 +1,5 @@
 import { DimensionValue, StyleSheet, ViewStyle } from 'react-native';
-import { GridContainerStylesInterface, GridItemContainerStylesInterface, GridSize } from './Grid';
+import { GridContainerStylesInterface, GridItemContainerStylesInterface } from './Grid';
 
 export const styles = StyleSheet.create({
   gridContainer: {
@@ -27,7 +27,7 @@ export const gridItemContainerStyles = ({
   const calculateWidth: DimensionValue = !!size && size > 0 ? `${(size / 12) * 100}%` : 'auto';
   return {
     width: calculateWidth,
-    ...(topSpacing && { paddingTop: topSpacing }),
+    ...(topSpacing && { marginTop: topSpacing }),
     ...(bottomSpacing && { paddingBottom: bottomSpacing }),
     ...(leftSpacing && { paddingLeft: leftSpacing }),
     ...(rightSpacing && { paddingRight: rightSpacing }),

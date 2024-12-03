@@ -6,6 +6,7 @@ A sophisticated UI library crafted to enhance your React Native development work
 
 ## Table of Contents
 
+- [Grid](https://github.com/Rn-Nex/rn-nex-ui/blob/master/docs/components/grid.md)
 - [Dropdown](https://github.com/Rn-Nex/rn-nex-ui/blob/master/docs/components/drop-down.md)
 - [ActivityIndicator](https://github.com/Rn-Nex/rn-nex-ui/blob/master/docs/components/activity-indicator.md)
 - [Transition](https://github.com/Rn-Nex/rn-nex-ui/blob/master/docs/components/transition.md)
