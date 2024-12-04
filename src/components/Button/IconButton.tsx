@@ -17,7 +17,6 @@ export const IconButton = React.forwardRef<View, IconButtonProps>(
         ref={ref}
         style={StyleSheet.flatten([iconButtonStyles, style])}
         baseButtonContainerStyle={{ flexDirection: 'column' }}
-        disableBaseButtonContainerFlex
         {...props}>
         {children}
       </BaseButton>

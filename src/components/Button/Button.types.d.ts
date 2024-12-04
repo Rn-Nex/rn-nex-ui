@@ -31,11 +31,6 @@ export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof Touc
   scaleAnimationValue?: number;
 
   baseButtonContainerStyle?: ViewStyle;
-
-  /**
-   * Remove the flex styles form the button container
-   */
-  disableBaseButtonContainerFlex?: boolean;
 }
 
 /**
@@ -119,5 +114,3 @@ export interface GetButtonStylesProps extends Omit<ButtonProps, 'sx' | 'children
   theme: ThemeType;
   variation?: ButtonVariationsType;
 }
-
-export interface ButtonContainerStylesInterface extends Pick<BaseButtonProps, 'disableBaseButtonContainerFlex'> {}

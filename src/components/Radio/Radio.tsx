@@ -236,7 +236,6 @@ export const Radio = React.forwardRef<View, RadioProps>(
             onPress={radioOnPressHandler}
             disabled={disabled}
             disableRipple={true}
-            disableBaseButtonContainerFlex
             style={StyleSheet.flatten([styles.baseButton, baseButtonStyles])}
             disableScaleAnimation={true}
             testID={radioBaseButtonTestId}>

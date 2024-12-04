@@ -1,11 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { grey, useTheme } from '../../libraries';
 import { getVariant } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
 import { Text } from '../Typography';
 import { BaseButton } from './BaseButton';
-import { buttonRootContainerStyles, getButtonStyles, styles } from './Button.styles';
+import { buttonRootContainerStyles, getButtonStyles } from './Button.styles';
 import { ButtonProps } from './Button.types';
 
 export const Button = React.forwardRef<View, ButtonProps>(
@@ -30,11 +30,6 @@ export const Button = React.forwardRef<View, ButtonProps>(
     const { theme } = useTheme();
     const isContainedButton = variation === 'contained';
 
-    const baseButtonS = useMemo(() => {
-      const styles = getButtonStyles({ theme, variation, disabled, buttonColor, square });
-      return StyleSheet.create({ generated: styles });
-    }, [theme, variation, disabled, buttonColor, square]);
-
     const renderChild = useCallback(() => {
       if (loading) {
         return <ActivityIndicator />;
@@ -48,16 +43,14 @@ export const Button = React.forwardRef<View, ButtonProps>(
     }, [loading, children, labelStyles, theme, variation, buttonColor, labelColor, label]);
 
     return (
-      <View style={StyleSheet.flatten([styles.rootContainer, buttonRootContainerStyles({ flex }), style])}>
-        <View style={[styles.innerContainer]}>
-          <BaseButton
-            disabled={loading || disabled}
-            ref={ref}
-            style={StyleSheet.flatten([baseButtonS.generated, baseButtonStyles])}
-            {...props}>
-            {renderChild()}
-          </BaseButton>
-        </View>
+      <View style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), style])}>
+        <BaseButton
+          disabled={loading || disabled}
+          ref={ref}
+          style={StyleSheet.flatten([getButtonStyles({ theme, variation, disabled, buttonColor, square }), baseButtonStyles])}
+          {...props}>
+          {renderChild()}
+        </BaseButton>
       </View>
     );
   },

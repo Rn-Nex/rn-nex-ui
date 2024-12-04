@@ -89,11 +89,7 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
           <View style={[styles.flexContainer, styles.listItemInnerContainer]}>
             {renderAdornment('start', startAdornment)}
             <View style={{ flex: 1 }}>
-              <BaseButton
-                disableRipple={disableRipple}
-                disableBaseButtonContainerFlex
-                style={StyleSheet.flatten([styles.baseButton, style])}
-                {...props}>
+              <BaseButton disableRipple={disableRipple} style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
                 <View style={[styles.flexContainer]}>{children}</View>
               </BaseButton>
             </View>

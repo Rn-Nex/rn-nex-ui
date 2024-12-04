@@ -1,30 +1,13 @@
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { ThemeType } from '../../libraries/themes/v1/theme';
 import { getVariant } from '../../utils';
-import {
-  ButtonContainerStylesInterface,
-  ButtonRootContainerStylesInterface,
-  ButtonVariationsType,
-  GetButtonStylesProps,
-} from './Button.types';
+import { ButtonRootContainerStylesInterface, ButtonVariationsType, GetButtonStylesProps } from './Button.types';
 
 export const styles = StyleSheet.create({
   buttonGroupContainer: {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
-  },
-  rootContainer: {
-    width: '100%',
-    flexDirection: 'row',
-  },
-  innerContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flex: 1,
-  },
-  baseButtonContainer: {
-    flexDirection: 'row',
+    minWidth: 100,
   },
   iconButton: {
     display: 'flex',
@@ -95,13 +78,5 @@ export const getButtonStyles = ({
     ...(!isContainedVariation && { borderColor: getVariant({ variant: buttonColor, theme }) }),
     ...(disabled && disabledStyles),
     ...(square && { borderRadius: 0 }),
-  };
-};
-
-export const buttonContainerStyles = ({
-  disableBaseButtonContainerFlex,
-}: ButtonContainerStylesInterface): StyleProp<ViewStyle> => {
-  return {
-    ...(!disableBaseButtonContainerFlex && { flex: 1 }),
   };
 };

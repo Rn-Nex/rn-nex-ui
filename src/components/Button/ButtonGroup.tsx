@@ -66,7 +66,6 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
 
         if (React.isValidElement(child)) {
           return React.cloneElement(child, {
-            style: { flex: 1 },
             baseButtonStyles: _.merge({}, borderStyles, baseButtonStyles),
             disableScaleAnimation: true,
             variation,
