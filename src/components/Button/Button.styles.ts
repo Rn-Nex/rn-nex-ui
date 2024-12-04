@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   buttonGroupContainer: {
     display: 'flex',
     flexDirection: 'row',
-    minWidth: 100,
+    alignSelf: 'flex-start',
   },
   iconButton: {
     display: 'flex',

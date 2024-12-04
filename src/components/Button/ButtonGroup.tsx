@@ -12,6 +12,12 @@ export interface ButtonGroupProps extends ViewProps, Pick<ButtonProps, 'disableR
   removeBorders?: boolean;
   variation?: ButtonVariations;
   buttonColor?: VariantTypes;
+  childFullWidth?: boolean;
+}
+interface GetBorderWidthInterface extends Pick<ButtonGroupProps, 'removeBorders' | 'borderWidth'> {
+  position: 'left' | 'right';
+  isFirst?: boolean;
+  isLast?: boolean;
 }
 
 export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
@@ -20,6 +26,7 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
       style,
       children,
       baseButtonStyles,
+      childFullWidth = false,
       disableRipple = false,
       variation = 'contained',
       buttonColor = 'secondary',
@@ -32,53 +39,61 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
   ) => {
     const childrenCount = React.Children.count(children);
     const { theme } = useTheme();
+    const isOutlinedButton = variation === 'outlined';
+    const isTextButton = variation === 'text';
+
+    const getBorderWidth = ({ position, isFirst, isLast, removeBorders, borderWidth }: GetBorderWidthInterface) => {
+      if (removeBorders) return 0;
+      const isLeftPosition = position === 'left';
+
+      if (isFirst && childrenCount === 1 && isTextButton) return 0;
+
+      if (childrenCount === 2 && isLast && isLeftPosition) {
+        return isOutlinedButton ? 0 : borderWidth;
+      }
+
+      if (childrenCount > 2) {
+        if (isFirst && !isLeftPosition) return 0;
+        if (!isFirst && !isLast) return isLeftPosition ? borderWidth : 0;
+        if (isLast && isLeftPosition) return borderWidth;
+      }
+    };
 
     const renderElements = useCallback(() => {
       return React.Children.map(children, (child, index) => {
         const isFirst = index === 0;
         const isLast = index === React.Children.count(children) - 1;
-        const isOutlinedButton = variation === 'outlined';
 
         const borderStyles: ViewStyle = {
           borderTopLeftRadius: isFirst ? roundSize : 0,
           borderBottomLeftRadius: isFirst ? roundSize : 0,
           borderTopRightRadius: isLast ? roundSize : 0,
           borderBottomRightRadius: isLast ? roundSize : 0,
-          borderLeftWidth: removeBorders ? 0 : borderWidth,
-          borderRightWidth: removeBorders ? 0 : borderWidth,
           borderColor: isOutlinedButton ? getVariant({ variant: buttonColor, theme }) : grey[300],
+          borderLeftWidth: getBorderWidth({ position: 'left', isFirst, isLast, borderWidth, removeBorders }),
+          borderRightWidth: getBorderWidth({ position: 'right', isFirst, isLast, borderWidth, removeBorders }),
         };
 
-        if (!removeBorders) {
-          if (isFirst && childrenCount > 1) {
-            borderStyles.borderRightWidth = 0;
-            if (!isOutlinedButton) {
-              borderStyles.borderLeftWidth = 0;
-            }
-          } else if (childrenCount === 2 && isLast) {
-            borderStyles.borderLeftWidth = borderWidth;
-          } else if (!isLast) {
-            borderStyles.borderRightWidth = 0;
-          } else if (isLast && !isOutlinedButton) {
-            borderStyles.borderRightWidth = 0;
-          }
-        }
-
         if (React.isValidElement(child)) {
-          return React.cloneElement(child, {
+          const childProps: ButtonProps = {
             baseButtonStyles: _.merge({}, borderStyles, baseButtonStyles),
             disableScaleAnimation: true,
             variation,
             buttonColor,
             disableRipple,
-            ...child.props,
-          } as ButtonProps);
+            ...child?.props,
+          };
+
+          if (childFullWidth) {
+            childProps.style = { flex: 1 };
+          }
+
+          return React.cloneElement(child, childProps);
         }
         return child;
       });
     }, [
       roundSize,
-      childrenCount,
       children,
       borderWidth,
       removeBorders,
@@ -87,6 +102,7 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
       theme,
       disableRipple,
       baseButtonStyles,
+      childFullWidth,
     ]);
 
     return (

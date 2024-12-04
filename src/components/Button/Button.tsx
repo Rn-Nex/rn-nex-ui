@@ -43,10 +43,9 @@ export const Button = React.forwardRef<View, ButtonProps>(
     }, [loading, children, labelStyles, theme, variation, buttonColor, labelColor, label]);
 
     return (
-      <View style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), style])}>
+      <View style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), style])} ref={ref}>
         <BaseButton
           disabled={loading || disabled}
-          ref={ref}
           style={StyleSheet.flatten([getButtonStyles({ theme, variation, disabled, buttonColor, square }), baseButtonStyles])}
           {...props}>
           {renderChild()}
