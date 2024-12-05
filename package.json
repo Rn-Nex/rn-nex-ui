@@ -1,19 +1,19 @@
 {
-  "name": "rn-nex-ui",
-  "description": "rn-nex-ui is a sophisticated UI library crafted to enhance your React Native development workflow. Designed for simplicity and elegance, nex-ui provides a rich collection of components and utilities to effortlessly create polished mobile applications. Whether you're a seasoned developer or new to React Native, nex-ui empowers you to build stunning user interfaces with ease. Elevate your projects to new levels of sophistication and tranquility with rn-nex-ui.",
-  "version": "1.1.5",
+  "name": "react-native-material-elements",
+  "description": "React native material elements is a sophisticated UI library crafted to enhance your React Native development workflow. Designed for simplicity and elegance, nex-ui provides a rich collection of components and utilities to effortlessly create polished mobile applications.",
+  "version": "1.0.0",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rn-Nex/rn-nex-ui/tree/master"
+    "url": "git+https://github.com/material-elements/react-native-material-elements/tree/master"
   },
-  "author": "RN-NEX-UI Team",
+  "author": "RN M-ELEMENTS Team",
   "license": "MIT",
   "main": "index.js",
   "bugs": {
-    "url": "https://github.com/Rn-Nex/rn-nex-ui/issues"
+    "url": "https://github.com/material-elements/react-native-material-elements/issues"
   },
-  "homepage": "https://github.com/Rn-Nex/rn-nex-ui/tree/master#readme",
+  "homepage": "https://github.com/material-elements/react-native-material-elements",
   "scripts": {
     "build": "babel src --out-dir lib",
     "lint": "eslint .",
@@ -46,7 +46,8 @@
     "performance",
     "developer-friendly",
     "mobile-app",
-    "visual-design"
+    "visual-design",
+    "material-elements"
   ],
   "devDependencies": {
     "@babel/runtime": "^7.20.0",
