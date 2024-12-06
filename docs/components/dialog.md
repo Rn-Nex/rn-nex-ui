@@ -40,39 +40,37 @@ export const Ex1: React.FC = () => {
   const [showDialog, setShowDialog] = useState(false);
 
   return (
-    <PortalProvider key="un">
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingHorizontal: 10,
-        }}>
-        <Dialog visible={showDialog} portalKey="modal_key" onClose={() => setShowDialog(false)}>
-          <DialogTitle>Subscribe</DialogTitle>
-          <DialogContent>
-            <DialogContentText gutterBottom>
-              To subscribe to this website, please enter your email address here. We will send updates occasionally.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              style={{
-                paddingHorizontal: 30,
-                paddingVertical: 8,
-                borderRadius: 0,
-              }}
-              variation="text"
-              onPress={() => setShowDialog(false)}>
-              <Text>Close</Text>
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Button fullWidth onPress={() => setShowDialog(!showDialog)}>
-          <Text>Open</Text>
-        </Button>
-      </View>
-    </PortalProvider>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+      }}>
+      <Dialog visible={showDialog} onClose={() => setShowDialog(false)}>
+        <DialogTitle>Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText gutterBottom>
+            To subscribe to this website, please enter your email address here. We will send updates occasionally.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            style={{
+              paddingHorizontal: 30,
+              paddingVertical: 8,
+              borderRadius: 0,
+            }}
+            variation="text"
+            onPress={() => setShowDialog(false)}>
+            <Text>Close</Text>
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Button fullWidth onPress={() => setShowDialog(!showDialog)}>
+        <Text>Open</Text>
+      </Button>
+    </View>
   );
 };
 ```

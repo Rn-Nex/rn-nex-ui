@@ -41,17 +41,8 @@ Props for the `Portal` component that manages portal creation and visibility. Ex
 #### Properties
 
 - `children` (React.ReactNode): The content to render inside the portal.
-- `portalKey` (string): Unique identifier for the portal.
 - `modalContainerProps` (ModalContainerProps, optional): Props for the container around the modal content.
 - `onClose` (function, optional): Function which is used to hide the modal.
-
-### PortalProviderProps
-
-Props for the `PortalProvider` component that manages portal state.
-
-#### Properties
-
-- `children` (React.ReactNode): Child components to be wrapped by the `PortalProvider`.
 
 ## Examples
 
@@ -74,7 +65,6 @@ const PortalExample1: React.FC = () => {
       </TouchableOpacity>
 
       <Portal
-        portalKey="PortalExample1"
         visible={portalVisible}
         onDismiss={togglePortal}
         modalContainerProps={{

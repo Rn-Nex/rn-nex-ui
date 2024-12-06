@@ -16,7 +16,6 @@ const PortalExample1: React.FC = () => {
       </TouchableOpacity>
 
       <Portal
-        portalKey="PortalExample1"
         visible={portalVisible}
         onDismiss={togglePortal}
         modalContainerProps={{
