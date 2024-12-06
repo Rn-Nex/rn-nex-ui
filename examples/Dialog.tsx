@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  ButtonGroup,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  PortalProvider,
-} from '../src';
+import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '../src';
 
 export const Ex1: React.FC = () => {
   const [showDialog, setShowDialog] = useState(false);
 
   return (
-    <PortalProvider key="un">
-      <Dialog maxWidth="lg" visible={showDialog} portalKey="modal_key" onClose={() => setShowDialog(false)}>
+    <>
+      <Dialog maxWidth="lg" visible={showDialog} onClose={() => setShowDialog(false)}>
         <DialogTitle>Subscribe</DialogTitle>
         <DialogContent>
           <DialogContentText gutterBottom>
@@ -30,6 +21,6 @@ export const Ex1: React.FC = () => {
         </DialogActions>
       </Dialog>
       <Button onPress={() => setShowDialog(!showDialog)} label="Open" />
-    </PortalProvider>
+    </>
   );
 };

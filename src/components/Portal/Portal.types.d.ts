@@ -44,10 +44,6 @@ export interface ModalContainerProps extends BoxProps {
  */
 export interface PortalProps extends ModalProps {
   /**
-   * Unique identifier for the portal.
-   */
-  portalKey: string;
-  /**
    * Props for the container around the modal content.
    */
   modalContainerProps?: ModalContainerProps;
@@ -55,14 +51,4 @@ export interface PortalProps extends ModalProps {
    * function which is used to hide the modal
    */
   onClose?: () => void;
-}
-
-/**
- * Props for the PortalProvider component that manages portal state.
- */
-export interface PortalProviderProps {
-  /**
-   *  Child components to be wrapped by the PortalProvider.
-   */
-  children: ReactNode;
 }

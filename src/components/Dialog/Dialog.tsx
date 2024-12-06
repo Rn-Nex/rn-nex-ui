@@ -15,20 +15,21 @@ export const Dialog: React.FC<DialogProps> = ({
   ...props
 }) => {
   const { theme } = useTheme();
+  const { style: modalContainerStyles, ...rest } = modalContainerProps || {};
+  const { style: dialogContainerStyle, ...dialogOtherProps } = dialogContainerProps || {};
 
   return (
     <Portal
       animationType="fade"
-      modalContainerProps={{ ...modalContainerProps, style: [styles.dialogRootContainer, modalContainerProps?.style] }}
+      modalContainerProps={{ style: [styles.dialogRootContainer, modalContainerStyles], ...rest }}
       {...props}>
       <Box
         style={StyleSheet.flatten([
           styles.dialogContainer,
           dialogContainerStyles({ theme, fullWidth, maxWidth }),
-          dialogContainerProps?.style,
+          dialogContainerStyle,
         ])}
-        sx={dialogContainerProps?.sx}
-        {...dialogContainerProps}>
+        {...dialogOtherProps}>
         {children}
       </Box>
     </Portal>

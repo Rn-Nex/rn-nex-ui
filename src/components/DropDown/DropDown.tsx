@@ -18,7 +18,7 @@ import { grey, useTheme } from '../../libraries';
 import { MeasureElementRect } from '../../types';
 import { Box } from '../Box';
 import { ListItem, ListItemText } from '../List';
-import { Portal, PortalProvider } from '../Portal';
+import { Portal } from '../Portal';
 import { IconInput, IconInputProps, TextField } from '../TextField';
 import { BoxProps, ListItemTextProps, TextFieldProps, TextFiledVariation } from '../types';
 import { styles } from './DropDown.styles';
@@ -520,49 +520,42 @@ const DropDownListContainer = <T extends DropDownData>({
   }, [selectedListItems, data, open]);
 
   return (
-    <PortalProvider>
-      <Portal
-        portalKey="drop-down-portal-key"
-        animationType="fade"
-        visible={open}
-        onClose={onClose}
-        modalContainerProps={{ style: [styles.dropDownModal] }}>
-        <Animated.View
-          style={StyleSheet.flatten([
-            styles.listContainer,
-            {
-              backgroundColor: theme.colors.grey[300],
-              maxHeight,
-              top: dropDownContainerRect.pageY + inputLayoutRectangle.height,
-            },
-            style,
-          ])}
-          {...props}>
-          {search && (
-            <Box sx={{ px: 5, py: 4 }} {...searchContainerProps}>
-              <IconInput
-                onChangeText={searchHandler}
-                inputWrapperProps={{ style: { borderColor: theme.colors.grey[600], borderWidth: 0.7, height: 30 } }}
-                placeholder={searchPlaceholder ?? 'Search'}
-                {...searchProps}
-              />
-            </Box>
-          )}
-          <FlatList
-            ref={flatListRef}
-            style={[styles.listContainerScrollView]}
-            data={filteredData ?? data}
-            renderItem={renderListItem}
-            keyExtractor={item => item.id}
-            collapsable={collapsable}
-            nestedScrollEnabled
-            overScrollMode="always"
-            keyboardShouldPersistTaps="handled"
-            scrollEnabled={true}
-          />
-        </Animated.View>
-      </Portal>
-    </PortalProvider>
+    <Portal animationType="fade" visible={open} onClose={onClose} modalContainerProps={{ style: [styles.dropDownModal] }}>
+      <Animated.View
+        style={StyleSheet.flatten([
+          styles.listContainer,
+          {
+            backgroundColor: theme.colors.grey[300],
+            maxHeight,
+            top: dropDownContainerRect.pageY + inputLayoutRectangle.height,
+          },
+          style,
+        ])}
+        {...props}>
+        {search && (
+          <Box sx={{ px: 5, py: 4 }} {...searchContainerProps}>
+            <IconInput
+              onChangeText={searchHandler}
+              inputWrapperStyles={{ borderColor: theme.colors.grey[600], borderWidth: 0.7, height: 30 }}
+              placeholder={searchPlaceholder ?? 'Search'}
+              {...searchProps}
+            />
+          </Box>
+        )}
+        <FlatList
+          ref={flatListRef}
+          style={[styles.listContainerScrollView]}
+          data={filteredData ?? data}
+          renderItem={renderListItem}
+          keyExtractor={item => item.id}
+          collapsable={collapsable}
+          nestedScrollEnabled
+          overScrollMode="always"
+          keyboardShouldPersistTaps="handled"
+          scrollEnabled={true}
+        />
+      </Animated.View>
+    </Portal>
   );
 };
 
