@@ -4,11 +4,14 @@ import {
   GestureResponderEvent,
   LayoutChangeEvent,
   LayoutRectangle,
+  StyleSheet,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import { Box } from '../Box';
 import { Ripple } from '../Ripple';
 import { RippleInterface } from '../Ripple/Ripple.types';
+import { styles } from './Button.styles';
 import { BaseButtonProps } from './Button.types';
 
 export const BaseButton = React.forwardRef<View, BaseButtonProps>(
@@ -20,6 +23,7 @@ export const BaseButton = React.forwardRef<View, BaseButtonProps>(
       rippleProps,
       rippleEdge,
       style,
+      sx,
       baseButtonContainerStyle,
       onLayout: onLayoutHandler,
       onPress: onPressHandler,
@@ -88,7 +92,7 @@ export const BaseButton = React.forwardRef<View, BaseButtonProps>(
     );
 
     return (
-      <View ref={ref} style={baseButtonContainerStyle}>
+      <Box ref={ref} sx={sx} style={StyleSheet.flatten([styles.baseButtonContainer, baseButtonContainerStyle])}>
         <TouchableWithoutFeedback
           onPress={buttonPressHandler}
           onLongPress={buttonLongPressHandler}
@@ -100,7 +104,7 @@ export const BaseButton = React.forwardRef<View, BaseButtonProps>(
             {disableRipple ? null : <Ripple ref={rippleRef} {...rippleProps} />}
           </Animated.View>
         </TouchableWithoutFeedback>
-      </View>
+      </Box>
     );
   },
 );

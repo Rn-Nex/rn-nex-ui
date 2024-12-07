@@ -1,9 +1,12 @@
 import { StyleSheet, ViewStyle } from 'react-native';
-import { Theme, ThemeDimensions, ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme, ThemeDimensions } from '../../libraries/themes/v1/theme';
 import { getVariant } from '../../utils';
 import { ButtonRootContainerStylesInterface, ButtonVariationsType, GetButtonStylesProps } from './Button.types';
 
 export const styles = StyleSheet.create({
+  baseButtonContainer: {
+    alignSelf: 'auto',
+  },
   buttonGroupContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -14,7 +17,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    alignSelf: 'flex-start',
+    alignSelf: 'auto',
     padding: 5,
     aspectRatio: 1,
     borderRadius: 100,

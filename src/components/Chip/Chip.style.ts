@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 20,
     overflow: 'hidden',
-    alignSelf: 'flex-start',
+    alignSelf: 'auto',
   },
   chipWrapper: {
     display: 'flex',

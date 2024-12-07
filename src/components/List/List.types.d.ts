@@ -52,7 +52,7 @@ export interface ListProps extends React.ComponentPropsWithRef<typeof View> {
  * Interface for the ListItem component properties, extending from BaseButtonProps
  * This interface defines the props that can be passed to a ListItem component.
  */
-export interface ListItemProps extends BaseButtonProps {
+export interface ListItemProps extends Omit<BaseButtonProps, 'sx'> {
   /**
    * Optional styles for the container of the ListItem.
    * This can be used to apply additional styling to the ListItem container.

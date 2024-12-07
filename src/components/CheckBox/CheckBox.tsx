@@ -152,7 +152,7 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: 'flex-start',
+    alignSelf: 'auto',
     display: 'flex',
     flexDirection: 'row',
   },

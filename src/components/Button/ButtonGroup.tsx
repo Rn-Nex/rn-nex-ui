@@ -1,18 +1,18 @@
+import _ from 'lodash';
 import React, { useCallback } from 'react';
 import { View, ViewProps, ViewStyle } from 'react-native';
-import { grey, useTheme } from '../../libraries';
+import { grey, themeButtonGroupConfigSelector, themeColorsSelector } from '../../libraries';
 import { getVariant, VariantTypes } from '../../utils';
+import { Box } from '../Box';
 import { styles } from './Button.styles';
 import { ButtonProps, ButtonVariations } from './Button.types';
-import _ from 'lodash';
 
-export interface ButtonGroupProps extends ViewProps, Pick<ButtonProps, 'disableRipple' | 'baseButtonStyles'> {
+export interface ButtonGroupProps extends ViewProps, Pick<ButtonProps, 'disableRipple' | 'baseButtonStyles' | 'sx'> {
   roundSize?: number;
   borderWidth?: number;
   removeBorders?: boolean;
   variation?: ButtonVariations;
   buttonColor?: VariantTypes;
-  childFullWidth?: boolean;
 }
 interface GetBorderWidthInterface extends Pick<ButtonGroupProps, 'removeBorders' | 'borderWidth'> {
   position: 'left' | 'right';
@@ -26,7 +26,7 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
       style,
       children,
       baseButtonStyles,
-      childFullWidth = false,
+      sx,
       disableRipple = false,
       variation = 'contained',
       buttonColor = 'secondary',
@@ -37,26 +37,47 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
     },
     ref,
   ) => {
+    const themeColors = themeColorsSelector();
+    const themeButtonGroupConfig = themeButtonGroupConfigSelector();
+
     const childrenCount = React.Children.count(children);
-    const { theme } = useTheme();
     const isOutlinedButton = variation === 'outlined';
     const isTextButton = variation === 'text';
 
+    if (!themeColors) {
+      throw new Error(
+        'Theme colors are unavailable. Please ensure the ThemeProvider is correctly wrapped around the application.',
+      );
+    }
+
+    const {
+      roundSize: applyButtonGroupRoundSize = roundSize,
+      borderWidth: applyBorderWidth = borderWidth,
+      removeBorders: applyRemoveBorders = removeBorders,
+      disableRipple: applyDisableRipple = disableRipple,
+      baseButtonStyles: applyBaseButtonStyles = baseButtonStyles,
+      style: applyStyles = style,
+      sx: applySx = sx,
+    } = themeButtonGroupConfig || {};
+
     const getBorderWidth = ({ position, isFirst, isLast, removeBorders, borderWidth }: GetBorderWidthInterface) => {
-      if (removeBorders) return 0;
       const isLeftPosition = position === 'left';
 
-      if (isFirst && childrenCount === 1 && isTextButton) return 0;
+      if (!isFirst && !isLast && removeBorders) return 0;
+      if (isLast && removeBorders && isLeftPosition) return 0;
 
-      if (childrenCount === 2 && isLast && isLeftPosition) {
-        return isOutlinedButton ? 0 : borderWidth;
-      }
+      if (isFirst && !isTextButton && isLeftPosition) return borderWidth;
+      if (isLast && !isTextButton && !isLeftPosition) return borderWidth;
+
+      if (childrenCount === 2 && isLast && isLeftPosition) return borderWidth;
 
       if (childrenCount > 2) {
         if (isFirst && !isLeftPosition) return 0;
         if (!isFirst && !isLast) return isLeftPosition ? borderWidth : 0;
         if (isLast && isLeftPosition) return borderWidth;
       }
+
+      return 0;
     };
 
     const renderElements = useCallback(() => {
@@ -65,50 +86,59 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
         const isLast = index === React.Children.count(children) - 1;
 
         const borderStyles: ViewStyle = {
-          borderTopLeftRadius: isFirst ? roundSize : 0,
-          borderBottomLeftRadius: isFirst ? roundSize : 0,
-          borderTopRightRadius: isLast ? roundSize : 0,
-          borderBottomRightRadius: isLast ? roundSize : 0,
-          borderColor: isOutlinedButton ? getVariant({ variant: buttonColor, theme }) : grey[300],
-          borderLeftWidth: getBorderWidth({ position: 'left', isFirst, isLast, borderWidth, removeBorders }),
-          borderRightWidth: getBorderWidth({ position: 'right', isFirst, isLast, borderWidth, removeBorders }),
+          borderTopLeftRadius: isFirst ? applyButtonGroupRoundSize : 0,
+          borderBottomLeftRadius: isFirst ? applyButtonGroupRoundSize : 0,
+          borderTopRightRadius: isLast ? applyButtonGroupRoundSize : 0,
+          borderBottomRightRadius: isLast ? applyButtonGroupRoundSize : 0,
+          borderColor: isOutlinedButton ? getVariant({ variant: buttonColor, colors: themeColors }) : grey[300],
+          borderLeftWidth: getBorderWidth({
+            position: 'left',
+            isFirst,
+            isLast,
+            borderWidth: applyBorderWidth,
+            removeBorders: applyRemoveBorders,
+          }),
+          borderRightWidth: getBorderWidth({
+            position: 'right',
+            isFirst,
+            isLast,
+            borderWidth: applyBorderWidth,
+            removeBorders: applyRemoveBorders,
+          }),
+          ...(borderWidth && !isTextButton && { borderTopWidth: applyBorderWidth }),
+          ...(borderWidth && !isTextButton && { borderBottomWidth: applyBorderWidth }),
         };
 
         if (React.isValidElement(child)) {
           const childProps: ButtonProps = {
-            baseButtonStyles: _.merge({}, borderStyles, baseButtonStyles),
+            baseButtonStyles: _.merge({}, borderStyles, applyBaseButtonStyles),
             disableScaleAnimation: true,
             variation,
             buttonColor,
-            disableRipple,
+            disableRipple: applyDisableRipple,
             ...child?.props,
           };
-
-          if (childFullWidth) {
-            childProps.style = { flex: 1 };
-          }
 
           return React.cloneElement(child, childProps);
         }
         return child;
       });
     }, [
-      roundSize,
+      applyButtonGroupRoundSize,
       children,
-      borderWidth,
-      removeBorders,
+      applyBorderWidth,
+      applyRemoveBorders,
       variation,
       buttonColor,
-      theme,
-      disableRipple,
-      baseButtonStyles,
-      childFullWidth,
+      themeColors,
+      applyDisableRipple,
+      applyBaseButtonStyles,
     ]);
 
     return (
-      <View style={[styles.buttonGroupContainer, style]} {...props} ref={ref}>
+      <Box style={[styles.buttonGroupContainer, applyStyles]} sx={applySx} {...props} ref={ref}>
         {renderElements()}
-      </View>
+      </Box>
     );
   },
 );

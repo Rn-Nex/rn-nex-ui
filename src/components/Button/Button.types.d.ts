@@ -3,8 +3,13 @@ import { ColorValue, TextStyle, TouchableWithoutFeedback, ViewStyle } from 'reac
 import { Theme, ThemeType } from '../../libraries/themes/v1/theme';
 import { VariantTypes } from '../../utils';
 import { RipplePosition, RippleProps } from '../Ripple/Ripple.types';
+import { BaseStyles } from '../../libraries/style/styleTypes';
 
 export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof TouchableWithoutFeedback> {
+  /**
+   * Custom styles to apply to the Box component.
+   */
+  sx?: BaseStyles;
   /**
    * Determines whether the ripple effect is disabled.
    */
@@ -43,7 +48,11 @@ export type ButtonVariations = 'contained' | 'outlined' | 'text';
  * Define the properties that can be passed to the Button component,
  * extending from React's TouchableWithoutFeedback component props.
  */
-export interface ButtonProps extends BaseButtonProps {
+export interface ButtonProps extends Omit<BaseButtonProps, 'sx'> {
+  /**
+   * Custom styles to apply to the Box component.
+   */
+  sx?: BaseStyles;
   /**
    * Optional property to specify the visual style variation of the button.
    * Can only accept values defined in ButtonVariations type.
@@ -88,6 +97,10 @@ export interface ButtonProps extends BaseButtonProps {
    * Button container flex style
    */
   flex?: number;
+  /**
+   * Base button sx styles
+   */
+  baseButtonSx?: BaseButtonProps['sx'];
 }
 export interface ButtonRootContainerStylesInterface extends Pick<ButtonProps, 'flex'> {}
 
@@ -101,7 +114,7 @@ export type IconButtonVariations = 'roundedIconButton' | 'squareIconButton';
  * Defines the props interface for the IconButton component.
  * Extends React's ComponentPropsWithRef<typeof TouchableWithoutFeedback>.
  */
-export interface IconButtonProps extends BaseButtonProps {
+export interface IconButtonProps extends Omit<BaseButtonProps, 'sx'> {
   /**
    * Specifies the variation of the IconButton.
    * Can be either 'roundedIconButton' or 'squareIconButton'.

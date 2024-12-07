@@ -1,7 +1,9 @@
+import { ButtonGroupProps } from '../../../components';
 import {
   BadgeProps,
   BadgeVariationThemeConfig,
   ButtonProps,
+  IconButtonProps,
   TextProps,
   TextVariationThemeConfig,
 } from '../../../components/types';
@@ -101,7 +103,7 @@ export type CreateColorShadesInterface = { shades: Partial<ColorShades>; themePr
  * These configurations allow for easy styling adjustments for various components.
  */
 export type ThemeComponentConfig = {
-  textProps: Pick<TextProps, 'gutterBottomSpace' | 'maxLength' | 'errorColor' | 'activeColor' | 'color'> &
+  textProps: Pick<TextProps, 'gutterBottomSpace' | 'maxLength' | 'errorColor' | 'activeColor' | 'color' | 'style'> &
     TextVariationThemeConfig;
   badgeProps: Pick<BadgeProps, 'max' | 'badgeAnimationDuration' | 'anchorOrigin' | 'style'> & BadgeVariationThemeConfig;
   buttonProps: Pick<
@@ -116,6 +118,17 @@ export type ThemeComponentConfig = {
     | 'rippleEdge'
     | 'baseButtonContainerStyle'
     | 'rippleProps'
+    | 'sx'
+    | 'baseButtonSx'
+    | 'style'
+  >;
+  iconButtonProps: Pick<
+    IconButtonProps,
+    'variation' | 'disableRipple' | 'rippleProps' | 'rippleEdge' | 'baseButtonContainerStyle' | 'style'
+  >;
+  buttonGroupProps: Pick<
+    ButtonGroupProps,
+    'roundSize' | 'borderWidth' | 'removeBorders' | 'disableRipple' | 'baseButtonStyles' | 'style' | 'sx'
   >;
 };
 /**

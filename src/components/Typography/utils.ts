@@ -34,7 +34,6 @@ export const generateTextStyles = ({
   }
 
   const textColor = color ?? baseColor;
-  const bottomSpace = gutterBottomSpace ?? themeComponentConfig?.gutterBottomSpace;
 
   let fontSize: number;
 
@@ -85,7 +84,7 @@ export const generateTextStyles = ({
   return {
     ...(textColor && { color: textColor }),
     ...(variation && { fontSize }),
-    ...(gutterBottom && gutter('marginBottom', bottomSpace)),
+    ...(gutterBottom && gutter('marginBottom', gutterBottomSpace)),
     ...(isActive && { color: textActiveColor }),
     ...(disabled && { opacity: 0.3 }),
     ...(error && { color: textErrorColor }),

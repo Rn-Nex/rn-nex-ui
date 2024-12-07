@@ -105,5 +105,13 @@ export const themeColorsSelector = () => useContextSelector(ThemeContext, values
 export const themeSpacingSelector = () => useContextSelector(ThemeContext, values => values?.theme?.spacing);
 
 export const themeTextConfigSelector = () => useContextSelector(ThemeContext, values => values?.components?.textProps);
+
 export const themeBadgeConfigSelector = () => useContextSelector(ThemeContext, values => values?.components?.badgeProps);
+
 export const themeButtonConfigSelector = () => useContextSelector(ThemeContext, values => values?.components?.buttonProps);
+export const themeIconButtonConfigSelector = () => {
+  return useContextSelector(ThemeContext, values => values?.components?.iconButtonProps);
+};
+export const themeButtonGroupConfigSelector = () => {
+  return useContextSelector(ThemeContext, values => values?.components?.buttonGroupProps);
+};

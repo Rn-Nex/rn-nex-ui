@@ -123,13 +123,13 @@ const styles = StyleSheet.create({
   container: {
     minWidth: 40,
     minHeight: 40,
-    alignSelf: 'flex-start',
+    alignSelf: 'auto',
   },
   badgeContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'flex-start',
+    alignSelf: 'auto',
   },
   badge: {
     paddingLeft: 5,

@@ -28,4 +28,4 @@ export interface CardHeaderProps extends React.ComponentPropsWithRef<typeof View
 }
 
 export interface CardContentProps extends CardHeaderProps {}
-export interface CardActionProps extends BaseButtonProps {}
+export interface CardActionProps extends Omit<BaseButtonProps, 'sx'> {}

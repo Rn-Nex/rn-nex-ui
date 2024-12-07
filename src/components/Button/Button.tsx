@@ -3,6 +3,7 @@ import { ColorValue, StyleSheet, View } from 'react-native';
 import { grey, themeButtonConfigSelector, themeColorsSelector, themeSpacingSelector } from '../../libraries';
 import { getVariant } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
+import { Box } from '../Box';
 import { Text } from '../Typography';
 import { BaseButton } from './BaseButton';
 import { buttonRootContainerStyles, getButtonStyles } from './Button.styles';
@@ -26,6 +27,8 @@ export const Button = React.forwardRef<View, ButtonProps>(
       baseButtonContainerStyle,
       rippleEdge,
       rippleProps,
+      sx,
+      baseButtonSx,
       buttonColor = 'secondary',
       variation = 'contained',
       square = false,
@@ -49,10 +52,19 @@ export const Button = React.forwardRef<View, ButtonProps>(
       );
     }
 
-    const shouldDisableScaleAnimation = buttonThemeConfig?.disableScaleAnimation ?? disableScaleAnimation;
-    const applyScaleAnimationValue = buttonThemeConfig?.scaleAnimationValue ?? scaleAnimationValue;
-    const applyBaseButtonContainerStyles = buttonThemeConfig?.baseButtonContainerStyle ?? baseButtonContainerStyle;
-    const applyRippleProps = buttonThemeConfig?.rippleProps ?? rippleProps;
+    const {
+      disableScaleAnimation: shouldDisableScaleAnimation = disableScaleAnimation,
+      scaleAnimationValue: applyScaleAnimationValue = scaleAnimationValue,
+      baseButtonContainerStyle: applyBaseButtonContainerStyles = baseButtonContainerStyle,
+      rippleProps: applyRippleProps = rippleProps,
+      square: applySquare = square,
+      baseButtonStyles: applyBaseButtonStyles = baseButtonStyles,
+      rippleEdge: applyRippleEdge = rippleEdge,
+      disableRipple: shouldDisableRipple = disableRipple,
+      sx: applySx = sx,
+      baseButtonSx: applyBaseButtonSx = baseButtonSx,
+      style: applyStyle = style,
+    } = buttonThemeConfig || {};
 
     const renderChild = useCallback(() => {
       if (loading) {
@@ -89,7 +101,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
     ]);
 
     return (
-      <View style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), style])} ref={ref}>
+      <Box style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), applyStyle])} sx={applySx} ref={ref}>
         <BaseButton
           disabled={loading || disabled}
           style={StyleSheet.flatten([
@@ -99,20 +111,21 @@ export const Button = React.forwardRef<View, ButtonProps>(
               variation,
               disabled,
               buttonColor,
-              square: buttonThemeConfig?.square ?? square,
+              square: applySquare,
             }),
-            buttonThemeConfig?.baseButtonStyles ?? baseButtonStyles,
+            applyBaseButtonStyles,
           ])}
-          disableRipple={buttonThemeConfig?.disableRipple ?? disableRipple}
+          disableRipple={shouldDisableRipple}
           disableScaleAnimation={shouldDisableScaleAnimation}
           scaleAnimationValue={applyScaleAnimationValue}
-          rippleEdge={buttonThemeConfig?.rippleEdge ?? rippleEdge}
+          rippleEdge={applyRippleEdge}
           baseButtonContainerStyle={applyBaseButtonContainerStyles}
           rippleProps={applyRippleProps}
+          sx={applyBaseButtonSx}
           {...props}>
           {renderChild()}
         </BaseButton>
-      </View>
+      </Box>
     );
   },
 );

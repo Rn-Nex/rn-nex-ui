@@ -56,7 +56,7 @@ export const dividerRootContainerStyles = ({
   const baseStyles: ViewStyle = isVertical
     ? {
         paddingHorizontal: 2,
-        alignSelf: 'flex-start',
+        alignSelf: 'auto',
         flex: 1,
         flexDirection: 'column',
       }

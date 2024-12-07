@@ -12,7 +12,7 @@ type PaginationVariant = 'outlined' | 'text';
 /**
  * Props for a single pagination item.
  */
-export interface PaginationItemProps extends Omit<BaseButtonProps, 'children' | 'ref'> {
+export interface PaginationItemProps extends Omit<BaseButtonProps, 'children' | 'ref' | 'sx'> {
   /**
    * The page number or a special string value like 'start-dots' or 'end-dots'.
    * This determines what will be displayed on the pagination item.
