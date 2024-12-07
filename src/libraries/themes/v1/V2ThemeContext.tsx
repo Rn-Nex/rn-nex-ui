@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useColorScheme } from 'react-native';
+import { createContext, useContext, useContextSelector } from 'use-context-selector';
 import { initialDarkTheme, initialLightTheme } from './colors';
 import { font, fontWeight, latterSpacing, lineHeight, spacing } from './sizes';
 import {
@@ -15,6 +16,7 @@ import {
   ThemeInterface,
   ThemeProviderProps,
   ThemeSpacingType,
+  ThemeType,
 } from './theme';
 
 export const themeDimensions: ThemeDimensions = {
@@ -33,7 +35,7 @@ export const defaultDarkTheme = {
   colors: initialDarkTheme,
 };
 
-export const ThemeContext = React.createContext<ThemeInterface<any> | undefined>(undefined);
+export const ThemeContext = createContext<ThemeInterface<ThemeType> | undefined>(undefined);
 
 /**
  * Function to create color shades by merging default theme colors with custom shades
@@ -64,28 +66,41 @@ export const createTheme = function (mode: ThemMode, theme: CreateThemeType): Cr
   return generatedTheme;
 };
 
-export const ThemeProvider = <T extends Object>({ children, lightTheme, darkTheme, dimensions }: ThemeProviderProps<T>) => {
+export const ThemeProvider = <T extends Object>({
+  children,
+  lightTheme,
+  darkTheme,
+  dimensions,
+  components = {},
+}: ThemeProviderProps<T>) => {
   const colorScheme = useColorScheme();
 
   const initialTheme = useMemo(() => {
     if (colorScheme === 'dark') {
-      return darkTheme || defaultDarkTheme;
+      return darkTheme ?? defaultDarkTheme;
     }
-    return lightTheme || defaultLightTheme;
+    return lightTheme ?? defaultLightTheme;
   }, [lightTheme, darkTheme, colorScheme]);
 
-  const mergedTheme: ThemeSpacingType = useMemo(
+  const mergedTheme = useMemo(
     () => ({ ...initialTheme, ...(dimensions || themeDimensions) }),
     [initialTheme, dimensions, themeDimensions],
   );
 
-  return <ThemeContext.Provider value={{ theme: mergedTheme }}>{children}</ThemeContext.Provider>;
+  const themeValues: ThemeInterface<any> = useMemo(() => ({ theme: mergedTheme, components }), [mergedTheme, components]);
+
+  return <ThemeContext.Provider value={themeValues}>{children}</ThemeContext.Provider>;
 };
 
-export const useTheme = <T extends object>(): ThemeInterface<T> => {
+export const useTheme = <T extends object>(): ThemeInterface<T | any> => {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error('Theme context must be used within a ThemeProvider');
   }
   return context;
 };
+
+export const themeSelector = () => useContextSelector(ThemeContext, values => values?.theme);
+export const themeFontSelector = () => useContextSelector(ThemeContext, values => values?.theme?.font);
+export const themeModeSelector = () => useContextSelector(ThemeContext, values => values?.theme?.colors?.mode) as ThemMode;
+export const themeTextConfigSelector = () => useContextSelector(ThemeContext, values => values?.components?.textProps);

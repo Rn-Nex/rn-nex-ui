@@ -22,7 +22,8 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "lodash": "^4.17.21"
+    "lodash": "*",
+    "use-context-selector": "*"
   },
   "keywords": [
     "react native material ui",

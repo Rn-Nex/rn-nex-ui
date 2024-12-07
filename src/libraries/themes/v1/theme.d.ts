@@ -1,3 +1,4 @@
+import { TextProps, TextVariationConfigInterface } from '../../../components/types';
 import { initialLightTheme } from './colors';
 import { font, fontWeight, latterSpacing, lineHeight, spacing } from './sizes';
 import { themeDimensions } from './V2ThemeContext';
@@ -60,6 +61,15 @@ export type CreateThemeDimensions = InnerPartial<ThemeDimensions>;
 export type CreateThemeDimensionsReturnValues = ThemeDimensions & InnerPartial<ThemeDimensions>;
 export type CreateColorShadesInterface = { shades: Partial<ColorShades>; themePropertyName: ThemeKeys };
 
+export interface ThemeComponentConfig {
+  textProps: Pick<TextProps, 'gutterBottomSpace' | 'maxLength' | 'errorColor' | 'activeColor' | 'color'> &
+    TextVariationConfigInterface;
+}
+
+export type WithThemeComponentConfig<K extends keyof ThemeComponentConfig, T> = T & {
+  themeComponentConfig?: ThemeComponentConfig[K];
+};
+
 /**
  * Interface representing the theme context, including the current theme and a function to change the theme mode.
  */
@@ -68,6 +78,10 @@ export interface ThemeInterface<T extends object> {
    * The current theme, extended with any additional properties
    */
   theme: ThemeType & T;
+  /**
+   * Component configurations
+   */
+  components?: InnerPartial<ThemeComponentConfig>;
 }
 
 /**
@@ -77,9 +91,6 @@ export interface ThemeContextType {
   theme: ThemeInterface;
 }
 
-/**
- * Interface for the ThemeProvider component props.
- */
 export interface ThemeProviderProps<T extends Object> {
   /**
    * Child components to be wrapped by the provider
@@ -93,9 +104,12 @@ export interface ThemeProviderProps<T extends Object> {
    * Optional dark theme, extended with additional properties
    */
   darkTheme?: Pick<ThemeType, 'mode' | 'colors'> & T;
-
   /**
    * Optional theme dimensions values
    */
   dimensions?: ThemeDimensions;
+  /**
+   * Component configurations
+   */
+  components?: InnerPartial<ThemeComponentConfig>;
 }

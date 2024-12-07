@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Animated, Text as RnText, StyleSheet } from 'react-native';
-import { useTheme } from '../../libraries';
+import { themeFontSelector, themeModeSelector, themeSelector, themeTextConfigSelector } from '../../libraries';
 import { maxLength as maxLengthUtile } from '../../utils';
 import { TextProps } from './Text.types';
 import { generateTextStyles } from './utils';
@@ -26,38 +26,58 @@ export const Text = React.forwardRef<RnText, TextProps>(
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeTextConfig = themeTextConfigSelector();
+    const themeFontConfig = themeFontSelector();
+    const themeMode = themeModeSelector();
+
+    const hasMaxLength = maxLength ?? themeTextConfig?.maxLength;
 
     const textStyles = useMemo(
       () =>
-        StyleSheet.create({
-          generated: generateTextStyles({
-            theme,
-            variation,
-            gutterBottom,
-            gutterBottomSpace,
-            isActive,
-            activeColor,
-            disabled,
-            error,
-            errorColor,
-            sx,
-            mode,
-            color,
-          }),
+        generateTextStyles({
+          variation,
+          gutterBottom,
+          gutterBottomSpace,
+          isActive,
+          activeColor,
+          disabled,
+          error,
+          errorColor,
+          sx,
+          mode,
+          color,
+          themeComponentConfig: themeTextConfig,
+          themeFonts: themeFontConfig,
+          themeMode,
         }),
-      [theme, variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, mode, color, gutterBottomSpace],
+      [
+        themeSelector,
+        variation,
+        gutterBottom,
+        isActive,
+        activeColor,
+        disabled,
+        error,
+        errorColor,
+        sx,
+        mode,
+        color,
+        gutterBottomSpace,
+        themeTextConfigSelector,
+        themeFontConfig,
+        themeMode,
+      ],
     );
 
     const renderedChildren = useMemo(() => {
-      if (typeof children === 'string' && maxLength) {
-        return maxLengthUtile(children, maxLength);
-      } else if (maxLength && typeof children !== 'string') throw new Error('maxLength props must be used with string');
+      if (typeof children === 'string' && hasMaxLength) {
+        return maxLengthUtile(children, hasMaxLength);
+      } else if (hasMaxLength && typeof children !== 'string') throw new Error('maxLength props must be used with string');
       return children;
-    }, [children, maxLength]);
+    }, [children, hasMaxLength]);
 
     return (
-      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles.generated, style])} {...props}>
+      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles, style])} {...props}>
         {renderedChildren}
       </Animated.Text>
     );

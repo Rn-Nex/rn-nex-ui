@@ -1,12 +1,25 @@
 import React from 'react';
-import { ColorValue, Text } from 'react-native';
+import { ColorSchemeName, ColorValue, Text } from 'react-native';
 import { BaseStyles, ElementTextStyleProps } from '../../libraries/style/styleTypes';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { ThemeDimensions, ThemeType, ThemMode, WithThemeComponentConfig } from '../../libraries/themes/v1/theme';
 /**
  * Defines the possible variations for text components.
  * These variations include different typographic styles such as headings, body text, buttons, etc.
  */
 export type TextVariation = 'body1' | 'body2' | 'caption' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+type TextFontSize = { fontSize: number };
+export interface TextVariationConfigInterface {
+  body1?: TextFontSize;
+  body2?: TextFontSize;
+  caption?: TextFontSize;
+  h1?: TextFontSize;
+  h2?: TextFontSize;
+  h3?: TextFontSize;
+  h4?: TextFontSize;
+  h5?: TextFontSize;
+  h6?: TextFontSize;
+}
 
 /**
  * Interface for the properties that can be passed to a text component.
@@ -79,8 +92,9 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
   color?: ColorValue;
 }
 
-export interface TextStylesArgs
-  extends Pick<
+export type TextStylesArgs = WithThemeComponentConfig<
+  'textProps',
+  Pick<
     TextProps,
     | 'variation'
     | 'gutterBottom'
@@ -93,6 +107,8 @@ export interface TextStylesArgs
     | 'mode'
     | 'color'
     | 'gutterBottomSpace'
-  > {
-  theme: ThemeType;
-}
+  > & {
+    themeFonts?: ThemeDimensions['font'];
+    themeMode?: ThemMode;
+  }
+>;
