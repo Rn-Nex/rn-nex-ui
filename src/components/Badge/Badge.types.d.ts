@@ -1,12 +1,12 @@
 import React from 'react';
-import { Animated, LayoutRectangle, TextProps, TextStyle, View, ViewStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Animated, TextStyle, View, ViewStyle } from 'react-native';
+import { Theme, WithThemeComponentConfig } from '../../libraries/themes/v1/theme';
+import { DefaultVariationOptions, VariantTypes, VariationThemeConfig } from '../../utils';
 import { BoxProps } from '../Box/Box.types';
 
-/**
- * Defines the available variations for the badge.
- */
-export type BadgeVariations = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+export type BadgeVariationThemeConfig = {
+  colors?: VariationThemeConfig<DefaultVariationOptions>;
+};
 
 /**
  * Defines the available variants for the badge.
@@ -38,7 +38,7 @@ export interface BadgeProps extends React.ComponentPropsWithRef<typeof View> {
   /**
    * Style variation of the badge.
    */
-  variation?: BadgeVariations;
+  variation?: VariantTypes;
   /**
    * Style variant of the badge.
    */
@@ -71,6 +71,10 @@ export interface BadgeProps extends React.ComponentPropsWithRef<typeof View> {
    * Badge root container styles
    */
   containerStyles?: ViewStyle;
+  /**
+   * Override root config
+   */
+  overrideRootConfig?: boolean;
 }
 
 /**
@@ -81,16 +85,17 @@ export interface BadgeContainerProps extends Pick<BadgeProps, 'overlap'>, BoxPro
 /**
  * Props used for generating badge styles.
  */
-export interface GenerateBadgeStylesProps extends Pick<BadgeProps, 'variation' | 'variant' | 'anchorOrigin'> {
-  theme: ThemeType;
-  /**
-   * Animated value controlling the visibility of the badge.
-   */
-  badgeVisibility?: Animated.Value;
-}
+export type GenerateBadgeStylesProps = WithThemeComponentConfig<
+  'badgeProps',
+  Pick<BadgeProps, 'variation' | 'variant' | 'anchorOrigin' | 'overrideRootConfig'> & {
+    themeColors: Theme;
+    /** Animated value controlling the visibility of the badge. */
+    badgeVisibility?: Animated.Value;
+  }
+>;
 
 export interface PlaceBadgeBasedPosition extends Pick<GenerateBadgeStylesProps, 'anchorOrigin' | 'variant'> {}
 export interface GenerateBadgeContainerStylesProps extends Pick<BadgeContainerProps, 'overlap'> {}
 export interface BadgeContentDefaultStylesProps {
-  variation?: BadgeVariations;
+  variation?: VariantTypes;
 }

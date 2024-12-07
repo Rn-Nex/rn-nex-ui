@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme, ThemeDimensions, ThemeType } from '../../libraries/themes/v1/theme';
 import { getVariant } from '../../utils';
 import { ButtonRootContainerStylesInterface, ButtonVariationsType, GetButtonStylesProps } from './Button.types';
 
@@ -26,34 +26,34 @@ export const buttonRootContainerStyles = ({ flex }: ButtonRootContainerStylesInt
   ...(flex && { flex }),
 });
 
-export const containedButtonDefaultStyles = (theme: ThemeType): ViewStyle => ({
-  padding: theme.spacing.lg,
+export const containedButtonDefaultStyles = (spacing: ThemeDimensions['spacing']): ViewStyle => ({
+  padding: spacing.lg,
   alignItems: 'center',
   borderRadius: 8,
   overflow: 'hidden',
 });
 
-export const textButtonDefaultStyles = (theme: ThemeType): ViewStyle => ({
-  ...containedButtonDefaultStyles(theme),
+export const textButtonDefaultStyles = (spacing: ThemeDimensions['spacing']): ViewStyle => ({
+  ...containedButtonDefaultStyles(spacing),
   elevation: 0,
   backgroundColor: 'transparent',
 });
 
-export const outlinedButtonDefaultStyles = (theme: ThemeType): ViewStyle => ({
-  ...textButtonDefaultStyles(theme),
+export const outlinedButtonDefaultStyles = (colors: Theme, spacing: ThemeDimensions['spacing']): ViewStyle => ({
+  ...textButtonDefaultStyles(spacing),
   borderWidth: 1,
-  borderColor: theme.colors.grey[400],
+  borderColor: colors.grey[400],
 });
 
 export const disabledStyles: ViewStyle = {
   opacity: 0.7,
 };
 
-export const buttonVariationStyles = (theme: ThemeType, variation: ButtonVariationsType) => {
+export const buttonVariationStyles = (spacing: ThemeDimensions['spacing'], colors: Theme, variation: ButtonVariationsType) => {
   const variations: Record<ButtonVariationsType, ViewStyle> = {
-    outlined: outlinedButtonDefaultStyles(theme),
-    contained: containedButtonDefaultStyles(theme),
-    text: textButtonDefaultStyles(theme),
+    outlined: outlinedButtonDefaultStyles(colors, spacing),
+    contained: containedButtonDefaultStyles(spacing),
+    text: textButtonDefaultStyles(spacing),
     roundedIconButton: styles.iconButton,
     squareIconButton: {
       ...styles.iconButton,
@@ -64,18 +64,19 @@ export const buttonVariationStyles = (theme: ThemeType, variation: ButtonVariati
 };
 
 export const getButtonStyles = ({
-  theme,
+  themeColors,
   buttonColor,
   disabled,
   square,
+  spacing,
   variation = 'contained',
 }: GetButtonStylesProps): ViewStyle => {
   const isContainedVariation = variation === 'contained';
 
   return {
-    ...(buttonColor && { backgroundColor: getVariant({ variant: buttonColor, theme }) }),
-    ...buttonVariationStyles(theme, variation),
-    ...(!isContainedVariation && { borderColor: getVariant({ variant: buttonColor, theme }) }),
+    ...(buttonColor && { backgroundColor: getVariant({ variant: buttonColor, colors: themeColors }) }),
+    ...buttonVariationStyles(spacing, themeColors, variation),
+    ...(!isContainedVariation && { borderColor: getVariant({ variant: buttonColor, colors: themeColors }) }),
     ...(disabled && disabledStyles),
     ...(square && { borderRadius: 0 }),
   };

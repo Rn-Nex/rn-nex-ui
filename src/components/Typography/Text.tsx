@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Animated, Text as RnText, StyleSheet } from 'react-native';
-import { themeFontSelector, themeModeSelector, themeSelector, themeTextConfigSelector } from '../../libraries';
+import { themeFontSelector, themeModeSelector, themeTextConfigSelector } from '../../libraries';
 import { maxLength as maxLengthUtile } from '../../utils';
 import { TextProps } from './Text.types';
 import { generateTextStyles } from './utils';
@@ -51,7 +51,6 @@ export const Text = React.forwardRef<RnText, TextProps>(
           themeMode,
         }),
       [
-        themeSelector,
         variation,
         gutterBottom,
         isActive,

@@ -15,7 +15,6 @@ import {
   ThemeDimensions,
   ThemeInterface,
   ThemeProviderProps,
-  ThemeSpacingType,
   ThemeType,
 } from './theme';
 
@@ -100,7 +99,11 @@ export const useTheme = <T extends object>(): ThemeInterface<T | any> => {
   return context;
 };
 
-export const themeSelector = () => useContextSelector(ThemeContext, values => values?.theme);
 export const themeFontSelector = () => useContextSelector(ThemeContext, values => values?.theme?.font);
 export const themeModeSelector = () => useContextSelector(ThemeContext, values => values?.theme?.colors?.mode) as ThemMode;
+export const themeColorsSelector = () => useContextSelector(ThemeContext, values => values?.theme?.colors);
+export const themeSpacingSelector = () => useContextSelector(ThemeContext, values => values?.theme?.spacing);
+
 export const themeTextConfigSelector = () => useContextSelector(ThemeContext, values => values?.components?.textProps);
+export const themeBadgeConfigSelector = () => useContextSelector(ThemeContext, values => values?.components?.badgeProps);
+export const themeButtonConfigSelector = () => useContextSelector(ThemeContext, values => values?.components?.buttonProps);

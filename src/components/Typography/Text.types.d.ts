@@ -9,17 +9,7 @@ import { ThemeDimensions, ThemeType, ThemMode, WithThemeComponentConfig } from '
 export type TextVariation = 'body1' | 'body2' | 'caption' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 type TextFontSize = { fontSize: number };
-export interface TextVariationConfigInterface {
-  body1?: TextFontSize;
-  body2?: TextFontSize;
-  caption?: TextFontSize;
-  h1?: TextFontSize;
-  h2?: TextFontSize;
-  h3?: TextFontSize;
-  h4?: TextFontSize;
-  h5?: TextFontSize;
-  h6?: TextFontSize;
-}
+export type TextVariationThemeConfig = Partial<Record<TextVariation, TextFontSize | undefined>>;
 
 /**
  * Interface for the properties that can be passed to a text component.

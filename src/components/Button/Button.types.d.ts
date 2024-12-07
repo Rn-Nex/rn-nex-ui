@@ -1,6 +1,6 @@
 import React from 'react';
 import { ColorValue, TextStyle, TouchableWithoutFeedback, ViewStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme, ThemeType } from '../../libraries/themes/v1/theme';
 import { VariantTypes } from '../../utils';
 import { RipplePosition, RippleProps } from '../Ripple/Ripple.types';
 
@@ -111,6 +111,7 @@ export interface IconButtonProps extends BaseButtonProps {
 
 export type ButtonVariationsType = ButtonVariations | IconButtonVariations;
 export interface GetButtonStylesProps extends Omit<ButtonProps, 'sx' | 'children' | 'ripple'> {
-  theme: ThemeType;
+  themeColors: Theme;
+  spacing: ThemeDimensions['spacing'];
   variation?: ButtonVariationsType;
 }
