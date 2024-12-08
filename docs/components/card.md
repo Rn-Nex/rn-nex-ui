@@ -41,7 +41,7 @@ The `CardActionProps` interface extends from `BaseButtonProps` and defines the p
 
 ```tsx
 import React from 'react';
-import { Avatar, Box, Card, CardHeader, CardMedia, CardContent, Text, useTheme } from 'rn-nex-ui/src';
+import { Avatar, Box, Card, CardHeader, CardMedia, CardContent, Text, useTheme } from 'react-native-material-elements/src';
 
 export const Ex1: React.FC = () => {
   const { theme } = useTheme();

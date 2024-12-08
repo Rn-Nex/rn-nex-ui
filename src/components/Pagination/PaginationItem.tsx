@@ -13,6 +13,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
   page,
   active,
   disabled,
+  themeColorScheme,
   color,
   testID = 'pagination-item-test-id',
   shape = 'circular',
@@ -40,8 +41,8 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
   }, [active]);
 
   const paginationItemS = useMemo(
-    () => paginationItemStyles({ color, isActive, colors: themeColors, shape, variant, disabled }),
-    [color, isActive, themeColors, shape, variant, disabled],
+    () => paginationItemStyles({ color, isActive, colors: themeColors, shape, variant, disabled, themeColorScheme }),
+    [color, isActive, themeColors, shape, variant, disabled, themeColorScheme],
   );
 
   return (

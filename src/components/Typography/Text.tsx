@@ -32,14 +32,15 @@ export const Text = React.forwardRef<RnText, TextProps>(
 
     const hasMaxLength = maxLength ?? themeTextConfig?.maxLength;
 
-    const { style: applyStyle = style, gutterBottomSpace: applyGutterBottomSpace = gutterBottomSpace } = themeTextConfig || {};
+    const { style: themeTextStyle = style, gutterBottomSpace: themeGutterBottomSpace = gutterBottomSpace } =
+      themeTextConfig || {};
 
     const textStyles = useMemo(
       () =>
         generateTextStyles({
           variation,
           gutterBottom,
-          gutterBottomSpace: applyGutterBottomSpace,
+          gutterBottomSpace: themeGutterBottomSpace,
           isActive,
           activeColor,
           disabled,
@@ -63,7 +64,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
         sx,
         mode,
         color,
-        applyGutterBottomSpace,
+        themeGutterBottomSpace,
         useThemeTextConfigSelector,
         themeFontConfig,
         themeMode,
@@ -78,7 +79,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
     }, [children, hasMaxLength]);
 
     return (
-      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles, applyStyle])} {...props}>
+      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles, themeTextStyle])} {...props}>
         {renderedChildren}
       </Animated.Text>
     );

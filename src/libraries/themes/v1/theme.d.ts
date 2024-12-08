@@ -1,9 +1,29 @@
-import { ButtonGroupProps } from '../../../components';
+import {
+  ButtonGroupProps,
+  DividerColorThemeConfig,
+  DividerProps,
+  IconInputProps,
+  RadioProps,
+  RadioThemeConfig,
+  SwitchProps,
+  SwitchThemeConfig,
+} from '../../../components';
 import {
   BadgeProps,
   BadgeVariationThemeConfig,
   ButtonProps,
+  CardHeaderProps,
+  CardProps,
+  CheckBoxProps,
+  CheckBoxVariationThemeConfig,
+  ChipColorThemeConfig,
+  ChipProps,
   IconButtonProps,
+  ListItemProps,
+  ListProps,
+  PaginationProps,
+  PaginationThemeConfig,
+  TextFieldProps,
   TextProps,
   TextVariationThemeConfig,
 } from '../../../components/types';
@@ -130,6 +150,62 @@ export type ThemeComponentConfig = {
     ButtonGroupProps,
     'roundSize' | 'borderWidth' | 'removeBorders' | 'disableRipple' | 'baseButtonStyles' | 'style' | 'sx'
   >;
+  cardProps?: Pick<CardProps, 'sx' | 'style'>;
+  cardHeaderProps?: Pick<CardHeaderProps, 'sx' | 'style'>;
+  checkBoxProps?: Pick<
+    CheckBoxProps,
+    | 'checkBoxColor'
+    | 'checkBoxWrapperStyles'
+    | 'adornmentContainerStyles'
+    | 'labelStyles'
+    | 'subLabelStyles'
+    | 'labelContainerStyles'
+    | 'actionType'
+  > &
+    CheckBoxVariationThemeConfig;
+  chipProps?: Pick<ChipProps, 'chipWrapperContainerStyles' | 'square' | 'labelColor' | 'syncBorderAndLabelColor'> &
+    ChipColorThemeConfig;
+  dividerProps?: Pick<DividerProps, 'startLineStyles' | 'endLineStyles' | 'borderColor' | 'gap' | 'variantSpacing'> &
+    DividerColorThemeConfig;
+  listProps?: Pick<ListProps, 'sx' | 'subheaderContainerStyles' | 'disablePadding'>;
+  listItemProps?: Pick<
+    ListItemProps,
+    | 'listContainerStyles'
+    | 'endAdornmentContainerStyles'
+    | 'startAdornmentContainerStyles'
+    | 'selectedColor'
+    | 'disableBottomSpacing'
+    | 'actionType'
+    | 'outlineColor'
+    | 'softRadius'
+  >;
+  paginationProps?: Pick<PaginationProps, 'dotStyles' | 'itemShape'> & PaginationThemeConfig;
+  radioProps?: Pick<RadioProps, 'labelContainerStyles' | 'radioItemContainerStyles' | 'baseButtonStyles' | 'sizeConfig'> &
+    RadioThemeConfig;
+  switchProps?: Pick<
+    SwitchProps,
+    | 'toggleDuration'
+    | 'toggleWrapperBgDuration'
+    | 'wrapperDefaultBgColor'
+    | 'wrapperActiveBgColor'
+    | 'thumbStyles'
+    | 'style'
+    | 'sx'
+  > &
+    SwitchThemeConfig;
+  textFieldProps?: Pick<
+    TextFieldProps,
+    | 'animatedDuration'
+    | 'inputStyles'
+    | 'style'
+    | 'sx'
+    | 'hideLabel'
+    | 'activeColor'
+    | 'errorColor'
+    | 'ignoreOpacityOnNonEditable'
+    | 'square'
+  >;
+  iconInputProps?: Pick<IconInputProps, 'inputWrapperStyles' | 'endAdornmentContainerStyles' | 'startAdornmentContainerStyles'>;
 };
 /**
  * A higher-order type that allows adding component-specific configurations to a given component type.

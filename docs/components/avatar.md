@@ -16,7 +16,7 @@ The `Avatar` component accepts all props from the React Native `Image` component
 
 ```tsx
 import React from 'react';
-import { Avatar, Box } from 'rn-nex-ui/src';
+import { Avatar, Box } from 'react-native-material-elements/src';
 
 export const Ex1: React.FC = () => {
   return (

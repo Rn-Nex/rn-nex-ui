@@ -13,7 +13,7 @@ The `ActivityIndicator` component accepts all props from the React Native `Activ
 
 ```tsx
 import React from 'react';
-import { Box, ActivityIndicator } from 'rn-nex-ui/src';
+import { Box, ActivityIndicator } from 'react-native-material-elements/src';
 
 export const Ex1: React.FC = () => {
   return (

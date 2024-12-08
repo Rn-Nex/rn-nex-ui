@@ -1,21 +1,12 @@
 import React from 'react';
 import { TextStyle, TouchableWithoutFeedback, ViewProps, ViewStyle } from 'react-native';
-import { BoxProps } from '../Box/Box.types';
-import { VariantTypes } from '../../utils';
+import { DefaultVariationOptions, VariantTypes, VariationThemeConfig } from '../../utils';
+
+export type CheckBoxVariationThemeConfig = {
+  colors?: VariationThemeConfig<DefaultVariationOptions>;
+};
 
 export interface CheckBoxProps extends React.ComponentPropsWithoutRef<typeof TouchableWithoutFeedback> {
-  /**
-   * Image to display when the checkbox is checked.
-   * This can be any React node, such as an icon or an image.
-   */
-  checkedImage?: React.ReactNode;
-
-  /**
-   * Image to display when the checkbox is unchecked.
-   * This can be any React node, such as an icon or an image.
-   */
-  unCheckedImage?: React.ReactNode;
-
   /**
    * Boolean value indicating whether the checkbox is checked.
    * This is a required prop.

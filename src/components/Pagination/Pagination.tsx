@@ -5,6 +5,7 @@ import { Text } from '../Typography';
 import { styles } from './Pagination.style';
 import { PaginationProps } from './Pagination.types';
 import { PaginationItem } from './PaginationItem';
+import { useThemePaginationConfigSelector } from '../../libraries';
 
 const MAX_PAGINATION_ITEM_VISIBLE = 5;
 
@@ -13,7 +14,7 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
     {
       onPageChange,
       dotContainerProps,
-      dotStylesProps,
+      dotStyles,
       paginationItemProps,
       style,
       disabled,
@@ -27,9 +28,16 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
     },
     ref,
   ) => {
+    const paginationThemeConfig = useThemePaginationConfigSelector();
     const [activeCount, setActiveCount] = useState<number>(1);
 
     const items = useMemo(() => Array.from({ length: count }, (_, index) => index + 1), [count]);
+
+    const {
+      dotStyles: themeDotStyles = dotStyles,
+      itemShape: themeItemShape = itemShape,
+      colors: themeColorScheme,
+    } = paginationThemeConfig || {};
 
     const pageChangeHandler = (event: GestureResponderEvent, page: number | string) => {
       setActiveCount(+page);
@@ -91,7 +99,7 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
           if (item === 'start-dots' || item === 'end-dots') {
             return (
               <Box key={`pagination_dots_${index}`} {...dotContainerProps}>
-                <Text variation="h2" style={[{ marginHorizontal: 5, opacity: disabled ? 0.4 : 1 }, dotStylesProps]}>
+                <Text variation="h2" style={[{ marginHorizontal: 5, opacity: disabled ? 0.4 : 1 }, themeDotStyles]}>
                   ···
                 </Text>
               </Box>
@@ -109,8 +117,9 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
               active={activeCount === item}
               disabled={disabled}
               color={color}
-              shape={itemShape}
+              shape={themeItemShape}
               variant={variant}
+              themeColorScheme={themeColorScheme}
               {...paginationItemProps}
             />
           );

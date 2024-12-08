@@ -43,16 +43,16 @@ export const Button = React.forwardRef<View, ButtonProps>(
 
     const {
       disableScaleAnimation: shouldDisableScaleAnimation = disableScaleAnimation,
-      scaleAnimationValue: applyScaleAnimationValue = scaleAnimationValue,
-      baseButtonContainerStyle: applyBaseButtonContainerStyles = baseButtonContainerStyle,
-      rippleProps: applyRippleProps = rippleProps,
-      square: applySquare = square,
-      baseButtonStyles: applyBaseButtonStyles = baseButtonStyles,
-      rippleEdge: applyRippleEdge = rippleEdge,
+      scaleAnimationValue: themeScaleAnimationValue = scaleAnimationValue,
+      baseButtonContainerStyle: themeBaseButtonContainerStyles = baseButtonContainerStyle,
+      rippleProps: themeRippleProps = rippleProps,
+      square: themeSquare = square,
+      baseButtonStyles: themeBaseButtonStyles = baseButtonStyles,
+      rippleEdge: themeRippleEdge = rippleEdge,
       disableRipple: shouldDisableRipple = disableRipple,
-      sx: applySx = sx,
-      baseButtonSx: applyBaseButtonSx = baseButtonSx,
-      style: applyStyle = style,
+      sx: themeButtonSx = sx,
+      baseButtonSx: themeBaseButtonSx = baseButtonSx,
+      style: themeStyle = style,
     } = buttonThemeConfig || {};
 
     const renderChild = useCallback(() => {
@@ -90,7 +90,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
     ]);
 
     return (
-      <Box style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), applyStyle])} sx={applySx} ref={ref}>
+      <Box style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), themeStyle])} sx={themeButtonSx} ref={ref}>
         <BaseButton
           disabled={loading || disabled}
           style={StyleSheet.flatten([
@@ -100,17 +100,17 @@ export const Button = React.forwardRef<View, ButtonProps>(
               variation,
               disabled,
               buttonColor,
-              square: applySquare,
+              square: themeSquare,
             }),
-            applyBaseButtonStyles,
+            themeBaseButtonStyles,
           ])}
           disableRipple={shouldDisableRipple}
           disableScaleAnimation={shouldDisableScaleAnimation}
-          scaleAnimationValue={applyScaleAnimationValue}
-          rippleEdge={applyRippleEdge}
-          baseButtonContainerStyle={applyBaseButtonContainerStyles}
-          rippleProps={applyRippleProps}
-          sx={applyBaseButtonSx}
+          scaleAnimationValue={themeScaleAnimationValue}
+          rippleEdge={themeRippleEdge}
+          baseButtonContainerStyle={themeBaseButtonContainerStyles}
+          rippleProps={themeRippleProps}
+          sx={themeBaseButtonSx}
           {...props}>
           {renderChild()}
         </BaseButton>

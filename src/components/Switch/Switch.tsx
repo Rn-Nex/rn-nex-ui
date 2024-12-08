@@ -1,16 +1,20 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, LayoutChangeEvent, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
-import { useThemeColorsSelector } from '../../libraries';
+import { useThemeColorsSelector, useThemeSwitchConfigSelector } from '../../libraries';
 import { BaseStyles } from '../../libraries/style/styleTypes';
-import { generateElementStyles, getVariant, VariantTypes } from '../../utils';
+import { DefaultVariationOptions, generateElementStyles, getVariant, VariantTypes, VariationThemeConfig } from '../../utils';
 import { getSwitchSizes } from './utils';
+
+export type SwitchThemeConfig = {
+  colors?: VariationThemeConfig<DefaultVariationOptions>;
+};
 
 /**
  * Define a union type for the possible size of a switch component
  */
 export type SwitchSize = 'small' | 'medium' | 'large';
 
-interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof TouchableWithoutFeedback>, 'onPress' | 'style'> {
+export interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof TouchableWithoutFeedback>, 'onPress' | 'style'> {
   /**
    * Indicates the initial toggle state of the switch.
    * If true, the switch will be in the "on" position initially. Defaults to false.
@@ -113,6 +117,18 @@ export const Switch = React.forwardRef<View, SwitchProps>(
     const [thumbWidth, setThumbWidth] = useState(0);
 
     const themeColors = useThemeColorsSelector();
+    const switchThemeConfig = useThemeSwitchConfigSelector();
+
+    const {
+      toggleDuration: themeToggleDuration = toggleDuration,
+      toggleWrapperBgDuration: themeToggleWrapperBgDuration = toggleWrapperBgDuration,
+      wrapperDefaultBgColor: themeWrapperDefaultBgColor = wrapperDefaultBgColor,
+      wrapperActiveBgColor: themeWrapperActiveBgColor = wrapperActiveBgColor,
+      thumbStyles: themeThumbStyles = thumbStyles,
+      style: themeStyle = style,
+      sx: themeSx = sx,
+      colors: themeColorScheme,
+    } = switchThemeConfig || {};
 
     useEffect(() => {
       setIsToggled(initialToggleState);
@@ -122,12 +138,12 @@ export const Switch = React.forwardRef<View, SwitchProps>(
       Animated.parallel([
         Animated.timing(animatedValue, {
           toValue: isToggled ? 1 : 0,
-          duration: toggleDuration,
+          duration: themeToggleDuration,
           useNativeDriver: false,
         }),
         Animated.timing(switchWrapperBgAnimatedValue, {
           toValue: isToggled ? 1 : 0,
-          duration: toggleWrapperBgDuration,
+          duration: themeToggleWrapperBgDuration,
           useNativeDriver: false,
         }),
       ]).start();
@@ -159,12 +175,16 @@ export const Switch = React.forwardRef<View, SwitchProps>(
       ],
     };
 
-    const colorVariation = useMemo(() => getVariant({ variant, colors: themeColors }), [variant, themeColors]) as string;
+    const colorVariation = useMemo(
+      () => getVariant({ variant, colors: themeColors, config: themeColorScheme }),
+      [variant, themeColors, themeColorScheme],
+    ) as string;
+
     const switchSizeVariation = useMemo(() => getSwitchSizes({ size }), [size]);
 
     const backgroundColorInterpolation = switchWrapperBgAnimatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [wrapperDefaultBgColor ?? themeColors.grey[300], wrapperActiveBgColor ?? colorVariation],
+      outputRange: [themeWrapperDefaultBgColor ?? themeColors.grey[300], themeWrapperActiveBgColor ?? colorVariation],
     });
 
     return (
@@ -175,13 +195,13 @@ export const Switch = React.forwardRef<View, SwitchProps>(
               styles.switchContainer,
               switchSizeVariation.thumbContainerStyles,
               { backgroundColor: backgroundColorInterpolation },
-              style,
-              sx && generateElementStyles(sx),
+              themeStyle,
+              themeSx && generateElementStyles(themeSx),
             ])}
             onLayout={handleContainerLayout}
             testID={containerTestID}>
             <Animated.View
-              style={StyleSheet.flatten([styles.thumb, switchSizeVariation.thumbStyles, switchStyles, thumbStyles])}
+              style={StyleSheet.flatten([styles.thumb, switchSizeVariation.thumbStyles, switchStyles, themeThumbStyles])}
               onLayout={handleThumbLayout}
               testID={thumbTestID}
             />

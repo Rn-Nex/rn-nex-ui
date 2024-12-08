@@ -14,11 +14,19 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const dividerLineStyles = ({ colors, mode, borderColor, textAlign, lineType, color }: DividerLineStyles) => {
+export const dividerLineStyles = ({
+  colors,
+  mode,
+  borderColor,
+  textAlign,
+  lineType,
+  color,
+  themeColorSchemeConfig,
+}: DividerLineStyles) => {
   let borderColorValue: ColorValue;
 
   if (borderColor) borderColorValue = borderColor;
-  else if (color) borderColorValue = getVariant({ colors, variant: color });
+  else if (color) borderColorValue = getVariant({ colors, variant: color, config: themeColorSchemeConfig });
   else if (mode === 'light') borderColorValue = grey[400];
   else borderColorValue = grey[700];
 

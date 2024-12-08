@@ -9,14 +9,18 @@ import {
   ViewProps,
   ViewStyle,
 } from 'react-native';
-import { useThemeColorsSelector } from '../../libraries';
-import { getVariant, VariantTypes } from '../../utils';
+import { useThemeColorsSelector, useThemeRadioConfigSelector } from '../../libraries';
+import { DefaultVariationOptions, getVariant, VariantTypes, VariationThemeConfig } from '../../utils';
 import { BaseButton } from '../Button';
 import { Divider, DividerProps } from '../Divider';
 import { Text } from '../Typography';
 import { TextProps } from '../types';
 import { styles } from './Radio.styles';
 import { RADIO_LARGE, RADIO_MEDIUM, RADIO_SMALL } from './constants';
+
+export type RadioThemeConfig = {
+  colors?: VariationThemeConfig<DefaultVariationOptions>;
+};
 
 export interface SizeConfig {
   small: number;
@@ -164,6 +168,15 @@ export const Radio = React.forwardRef<View, RadioProps>(
     },
     ref,
   ) => {
+    const radioThemeConfig = useThemeRadioConfigSelector();
+
+    const {
+      labelContainerStyles: themeLabelContainerStyles = labelContainerStyles,
+      radioItemContainerStyles: themeRadioItemContainerStyles = radioItemContainerStyles,
+      baseButtonStyles: themeBaseButtonStyles = baseButtonStyles,
+      sizeConfig: themeSizeConfig = sizeConfig,
+    } = radioThemeConfig || {};
+
     const radioOnPressHandler = (event: GestureResponderEvent) => {
       if (!!onPress && typeof onPress === 'function') {
         onPress(event);
@@ -182,7 +195,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
         const element = adornment ? (
           <View style={[adornmentContainerStyles]}>{adornment}</View>
         ) : (
-          <View style={[labelContainerStyles]}>
+          <View style={[themeLabelContainerStyles]}>
             {label && (
               <Text variation="h4" sx={labelSx} {...restLabelProps}>
                 {label}
@@ -208,7 +221,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
       label,
       description,
       labelProps,
-      labelContainerStyles,
+      themeLabelContainerStyles,
       descriptionProps,
       actionType,
       isActive,
@@ -236,12 +249,12 @@ export const Radio = React.forwardRef<View, RadioProps>(
             onPress={radioOnPressHandler}
             disabled={disabled}
             disableRipple={true}
-            style={StyleSheet.flatten([styles.baseButton, baseButtonStyles])}
+            style={StyleSheet.flatten([styles.baseButton, themeBaseButtonStyles])}
             disableScaleAnimation={true}
             testID={radioBaseButtonTestId}>
             <RadioOutline isActive={isActive} animationDuration={animationDuration}>
               {radioItem ? (
-                <View style={StyleSheet.flatten([styles.radioItemContainer, radioItemContainerStyles])}>
+                <View style={StyleSheet.flatten([styles.radioItemContainer, themeRadioItemContainerStyles])}>
                   {isActive ? radioItem : null}
                 </View>
               ) : (
@@ -250,7 +263,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
                   variant={variant}
                   animationDuration={animationDuration}
                   size={size}
-                  sizeConfig={sizeConfig}
+                  sizeConfig={themeSizeConfig}
                   activeColor={activeColor}
                 />
               )}
@@ -305,7 +318,11 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
   const scaleValue = useRef(new Animated.Value(0)).current;
   const opacityValue = useRef(new Animated.Value(0)).current;
   const backgroundColorValue = useRef(new Animated.Value(0)).current;
+
   const themeColors = useThemeColorsSelector();
+  const radioThemeConfig = useThemeRadioConfigSelector();
+
+  const { colors: themeVariantConfig } = radioThemeConfig || {};
 
   useEffect(() => {
     Animated.parallel([
@@ -326,7 +343,11 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
     ]).start();
   }, [isActive, animationDuration]);
 
-  const colorVariation = useMemo(() => getVariant({ variant, colors: themeColors }), [variant, themeColors]) as string;
+  const colorVariation = useMemo(
+    () => getVariant({ variant, colors: themeColors, config: themeVariantConfig }),
+    [variant, themeColors, themeVariantConfig],
+  ) as string;
+
   const backgroundOutputRange = activeColor || colorVariation;
 
   const getSize = useMemo(() => {

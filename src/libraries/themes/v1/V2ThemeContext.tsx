@@ -91,7 +91,7 @@ export const ThemeProvider = <T extends Object>({
   return <ThemeContext.Provider value={themeValues}>{children}</ThemeContext.Provider>;
 };
 
-export const useTheme = <T extends object>(): ThemeInterface<T | any> => {
+export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error('Theme context must be used within a ThemeProvider');

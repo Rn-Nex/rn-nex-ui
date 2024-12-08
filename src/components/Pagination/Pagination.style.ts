@@ -29,8 +29,9 @@ export const paginationItemStyles = ({
   shape,
   variant,
   disabled,
+  themeColorScheme,
 }: PaginationItemStylesProps): ViewStyle => {
-  const backgroundCl = getVariant({ variant: color, colors }) as string;
+  const backgroundCl = getVariant({ variant: color, colors, config: themeColorScheme }) as string;
 
   const backgroundColorInterpolation = isActive.interpolate({
     inputRange: [0, 1],

@@ -80,7 +80,14 @@ The `initialLightTheme` object defines the color palette for the light mode of t
 ```tsx
 import React from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Button, Container, ThemeProvider, createColorShades, createTheme, createThemeDimensions } from 'rn-nex-ui/src';
+import {
+  Button,
+  Container,
+  ThemeProvider,
+  createColorShades,
+  createTheme,
+  createThemeDimensions,
+} from 'react-native-material-elements/src';
 
 const lightTheme = createTheme('light', {
   colors: {

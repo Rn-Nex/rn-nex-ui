@@ -1,9 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
 import { ColorSchemeName, ColorValue, StyleProp, StyleSheet, useColorScheme, View, ViewProps, ViewStyle } from 'react-native';
-import { useThemeColorsSelector, useThemeSpacingSelector } from '../../libraries';
+import { useThemeColorsSelector, useThemeDividerConfigSelector, useThemeSpacingSelector } from '../../libraries';
 import { Theme, ThemeDimensions } from '../../libraries/themes/v1/theme';
-import { VariantTypes } from '../../utils';
+import { DefaultVariationOptions, GetVariantArgs, VariantTypes, VariationThemeConfig } from '../../utils';
 import { dividerLineStyles, dividerRootContainerStyles, styles } from './Divider.styles';
+
+export type DividerColorThemeConfig = {
+  colors?: VariationThemeConfig<DefaultVariationOptions>;
+};
 
 export interface DividerProps extends ViewProps {
   /**
@@ -83,6 +87,10 @@ export interface DividerLineStyles extends Pick<DividerProps, 'borderColor' | 't
    * Specifies whether the style is applied to the start or end line.
    */
   lineType: LineType;
+  /**
+   * Divider line theme scheme configuration
+   */
+  themeColorSchemeConfig?: GetVariantArgs<DividerColorThemeConfig>['config'];
 }
 
 export const Divider = React.forwardRef<View, DividerProps>(
@@ -110,28 +118,48 @@ export const Divider = React.forwardRef<View, DividerProps>(
     const colorScheme = useColorScheme();
     const hasChild = Boolean(children);
 
-    if (!themeSpacing) {
-      throw new Error(
-        'Theme spacing are unavailable. Please ensure the ThemeProvider is correctly wrapped around the application.',
-      );
-    }
+    const dividerThemeConfig = useThemeDividerConfigSelector();
+
+    const {
+      startLineStyles: themeDividerStartStyles = startLineStyles,
+      endLineStyles: themeDividerEndStyles = endLineStyles,
+      borderColor: themeBorderColor = borderColor,
+      gap: themeGap = gap,
+      variantSpacing: themeVariantSpacing = variantSpacing,
+      colors: themeVariantColors,
+    } = dividerThemeConfig || {};
 
     const containerStyles = useMemo(() => {
-      return dividerRootContainerStyles({ spacing: themeSpacing, variant, orientation, gap, hasChild, variantSpacing });
-    }, [themeColors, variant, orientation, gap, hasChild, variantSpacing]);
+      return dividerRootContainerStyles({
+        spacing: themeSpacing,
+        variant,
+        orientation,
+        gap: themeGap,
+        hasChild,
+        variantSpacing: themeVariantSpacing,
+      });
+    }, [themeColors, variant, orientation, themeGap, hasChild, themeVariantSpacing]);
 
     const lineStyles = useCallback(
       (lineType: LineType) => {
-        return dividerLineStyles({ colors: themeColors, mode: colorScheme, borderColor, textAlign, lineType, color });
+        return dividerLineStyles({
+          colors: themeColors,
+          mode: colorScheme,
+          borderColor: themeBorderColor,
+          textAlign,
+          lineType,
+          color,
+          themeColorSchemeConfig: themeVariantColors,
+        });
       },
-      [borderColor, colorScheme, textAlign, color, themeColors],
+      [themeBorderColor, colorScheme, textAlign, color, themeColors, themeVariantColors],
     );
 
     return (
       <View ref={ref} style={StyleSheet.flatten([styles.rootContainer, containerStyles, style])} {...props}>
-        <View style={StyleSheet.flatten([styles.line, lineStyles('start'), startLineStyles])} testID={startLineTestId} />
+        <View style={StyleSheet.flatten([styles.line, lineStyles('start'), themeDividerStartStyles])} testID={startLineTestId} />
         {children}
-        <View style={StyleSheet.flatten([styles.line, lineStyles('end'), endLineStyles])} testID={endLineTestId} />
+        <View style={StyleSheet.flatten([styles.line, lineStyles('end'), themeDividerEndStyles])} testID={endLineTestId} />
       </View>
     );
   },

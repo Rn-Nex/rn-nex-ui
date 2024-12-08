@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 20,
     overflow: 'hidden',
-    alignSelf: 'auto',
+    alignSelf: 'flex-start',
   },
   chipWrapper: {
     display: 'flex',
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const generateChipStyles = ({ variant, disabled, color, colors }: GenerateChipStylesProps) => {
+export const generateChipStyles = ({ variant, disabled, color, colors, colorSchemeConfig }: GenerateChipStylesProps) => {
   let styles: ViewStyle = {};
 
   if (disabled) {
@@ -41,10 +41,10 @@ export const generateChipStyles = ({ variant, disabled, color, colors }: Generat
     styles = {
       ...styles,
       borderWidth: 1,
-      borderColor: getVariant({ variant: color, colors }),
+      borderColor: getVariant({ variant: color, colors, config: colorSchemeConfig }),
     };
   } else {
-    styles.backgroundColor = getVariant({ variant: color, colors });
+    styles.backgroundColor = getVariant({ variant: color, colors, config: colorSchemeConfig });
   }
 
   return styles;
@@ -56,6 +56,7 @@ export const labelStyles = ({
   color,
   colors,
   syncBorderAndLabelColor,
+  colorSchemeConfig,
 }: LabelStylesInterface): TextStyle => {
   let textColor: ColorValue;
 
@@ -73,7 +74,7 @@ export const labelStyles = ({
   let resolvedColor;
 
   if (syncBorderAndLabelColor) {
-    resolvedColor = getVariant({ variant: color, colors });
+    resolvedColor = getVariant({ variant: color, colors, config: colorSchemeConfig });
   } else if (labelColor) {
     resolvedColor = labelColor;
   } else {

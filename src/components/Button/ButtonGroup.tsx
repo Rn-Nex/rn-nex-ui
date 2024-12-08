@@ -45,13 +45,13 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
     const isTextButton = variation === 'text';
 
     const {
-      roundSize: applyButtonGroupRoundSize = roundSize,
-      borderWidth: applyBorderWidth = borderWidth,
-      removeBorders: applyRemoveBorders = removeBorders,
-      disableRipple: applyDisableRipple = disableRipple,
-      baseButtonStyles: applyBaseButtonStyles = baseButtonStyles,
-      style: applyStyles = style,
-      sx: applySx = sx,
+      roundSize: themeButtonGroupRoundSize = roundSize,
+      borderWidth: themeBorderWidth = borderWidth,
+      removeBorders: themeRemoveBorders = removeBorders,
+      disableRipple: themeDisableRipple = disableRipple,
+      baseButtonStyles: themeBaseButtonStyles = baseButtonStyles,
+      style: themeStyles = style,
+      sx: themeSx = sx,
     } = themeButtonGroupConfig || {};
 
     const getBorderWidth = ({ position, isFirst, isLast, removeBorders, borderWidth }: GetBorderWidthInterface) => {
@@ -80,36 +80,36 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
         const isLast = index === React.Children.count(children) - 1;
 
         const borderStyles: ViewStyle = {
-          borderTopLeftRadius: isFirst ? applyButtonGroupRoundSize : 0,
-          borderBottomLeftRadius: isFirst ? applyButtonGroupRoundSize : 0,
-          borderTopRightRadius: isLast ? applyButtonGroupRoundSize : 0,
-          borderBottomRightRadius: isLast ? applyButtonGroupRoundSize : 0,
+          borderTopLeftRadius: isFirst ? themeButtonGroupRoundSize : 0,
+          borderBottomLeftRadius: isFirst ? themeButtonGroupRoundSize : 0,
+          borderTopRightRadius: isLast ? themeButtonGroupRoundSize : 0,
+          borderBottomRightRadius: isLast ? themeButtonGroupRoundSize : 0,
           borderColor: isOutlinedButton ? getVariant({ variant: buttonColor, colors: themeColors }) : grey[300],
           borderLeftWidth: getBorderWidth({
             position: 'left',
             isFirst,
             isLast,
-            borderWidth: applyBorderWidth,
-            removeBorders: applyRemoveBorders,
+            borderWidth: themeBorderWidth,
+            removeBorders: themeRemoveBorders,
           }),
           borderRightWidth: getBorderWidth({
             position: 'right',
             isFirst,
             isLast,
-            borderWidth: applyBorderWidth,
-            removeBorders: applyRemoveBorders,
+            borderWidth: themeBorderWidth,
+            removeBorders: themeRemoveBorders,
           }),
-          ...(borderWidth && !isTextButton && { borderTopWidth: applyBorderWidth }),
-          ...(borderWidth && !isTextButton && { borderBottomWidth: applyBorderWidth }),
+          ...(borderWidth && !isTextButton && { borderTopWidth: themeBorderWidth }),
+          ...(borderWidth && !isTextButton && { borderBottomWidth: themeBorderWidth }),
         };
 
         if (React.isValidElement(child)) {
           const childProps: ButtonProps = {
-            baseButtonStyles: _.merge({}, borderStyles, applyBaseButtonStyles),
+            baseButtonStyles: _.merge({}, borderStyles, themeBaseButtonStyles),
             disableScaleAnimation: true,
             variation,
             buttonColor,
-            disableRipple: applyDisableRipple,
+            disableRipple: themeDisableRipple,
             ...child?.props,
           };
 
@@ -118,19 +118,19 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
         return child;
       });
     }, [
-      applyButtonGroupRoundSize,
+      themeButtonGroupRoundSize,
       children,
-      applyBorderWidth,
-      applyRemoveBorders,
+      themeBorderWidth,
+      themeRemoveBorders,
       variation,
       buttonColor,
       themeColors,
-      applyDisableRipple,
-      applyBaseButtonStyles,
+      themeDisableRipple,
+      themeBaseButtonStyles,
     ]);
 
     return (
-      <Box style={[styles.buttonGroupContainer, applyStyles]} sx={applySx} {...props} ref={ref}>
+      <Box style={[styles.buttonGroupContainer, themeStyles]} sx={themeSx} {...props} ref={ref}>
         {renderElements()}
       </Box>
     );

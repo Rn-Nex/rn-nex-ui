@@ -24,18 +24,12 @@ export const IconButton = React.forwardRef<View, IconButtonProps>(
     const themeSpacing = useThemeSpacingSelector();
     const iconButtonThemeConfig = useThemeIconButtonConfigSelector();
 
-    if (!themeSpacing) {
-      throw new Error(
-        'Theme spacing are unavailable. Please ensure the ThemeProvider is correctly wrapped around the application.',
-      );
-    }
-
     const {
-      rippleEdge: applyRippleEdge = rippleEdge,
-      disableRipple: applyDisabledRipple = disableRipple,
-      rippleProps: applyRippleProps = rippleProps,
-      baseButtonContainerStyle: applyContainerStyles = baseButtonContainerStyle,
-      style: applyIconButtonStyles = style,
+      rippleEdge: themeRippleEdge = rippleEdge,
+      disableRipple: themeDisabledRipple = disableRipple,
+      rippleProps: themeRippleProps = rippleProps,
+      baseButtonContainerStyle: themeContainerStyles = baseButtonContainerStyle,
+      style: themeIconButtonStyles = style,
     } = iconButtonThemeConfig || {};
 
     const iconButtonStyles = useMemo(
@@ -52,11 +46,11 @@ export const IconButton = React.forwardRef<View, IconButtonProps>(
     return (
       <BaseButton
         ref={ref}
-        style={StyleSheet.flatten([iconButtonStyles, applyIconButtonStyles])}
-        baseButtonContainerStyle={applyContainerStyles}
-        rippleProps={applyRippleProps}
-        disableRipple={applyDisabledRipple}
-        rippleEdge={applyRippleEdge}
+        style={StyleSheet.flatten([iconButtonStyles, themeIconButtonStyles])}
+        baseButtonContainerStyle={themeContainerStyles}
+        rippleProps={themeRippleProps}
+        disableRipple={themeDisabledRipple}
+        rippleEdge={themeRippleEdge}
         {...props}>
         {children}
       </BaseButton>
