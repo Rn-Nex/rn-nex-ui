@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Box } from '../Box';
-import { styles, dialogActionsContainerStyles as dialogActionsContainerS } from './Dialog.styles';
+import { dialogActionsContainerStyles as dialogActionsContainerS, styles } from './Dialog.styles';
 import { DialogActionsProps } from './Dialog.types';
 
 export const DialogActions = React.forwardRef<View, DialogActionsProps>(

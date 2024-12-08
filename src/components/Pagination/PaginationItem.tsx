@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
 import { paginationItemStyles, styles } from './Pagination.style';
@@ -13,6 +13,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
   page,
   active,
   disabled,
+  themeColorScheme,
   color,
   testID = 'pagination-item-test-id',
   shape = 'circular',
@@ -21,7 +22,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
   ...props
 }) => {
   const isActive = useRef(new Animated.Value(0)).current;
-  const { theme } = useTheme();
+  const themeColors = useThemeColorsSelector();
 
   useEffect(() => {
     if (active) {
@@ -40,8 +41,8 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
   }, [active]);
 
   const paginationItemS = useMemo(
-    () => paginationItemStyles({ color, isActive, theme, shape, variant, disabled }),
-    [color, isActive, theme, shape, variant, disabled],
+    () => paginationItemStyles({ color, isActive, colors: themeColors, shape, variant, disabled, themeColorScheme }),
+    [color, isActive, themeColors, shape, variant, disabled, themeColorScheme],
   );
 
   return (

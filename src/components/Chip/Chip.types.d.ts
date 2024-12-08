@@ -1,8 +1,12 @@
-import { ColorValue, StyleProp, TouchableOpacityProps, ViewStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
-import { BaseButtonProps } from '../Button/Button.types';
-import { VariantTypes } from '../../utils';
 import React from 'react';
+import { ColorValue, StyleProp, TouchableOpacityProps, ViewStyle } from 'react-native';
+import { Theme } from '../../libraries/themes/v1/theme';
+import { DefaultVariationOptions, GetVariantArgs, VariantTypes, VariationThemeConfig } from '../../utils';
+import { BaseButtonProps } from '../Button/Button.types';
+
+export type ChipColorThemeConfig = {
+  colors?: VariationThemeConfig<DefaultVariationOptions>;
+};
 
 /**
  * Defines the variant of the chip.
@@ -58,9 +62,11 @@ export interface ChipProps extends Omit<BaseButtonProps, 'sx'> {
   endIconProps?: Omit<TouchableOpacityProps, 'children'>;
 }
 export interface GenerateChipStylesProps extends Pick<ChipProps, 'variant' | 'disabled' | 'color'> {
-  theme: ThemeType;
+  colors: Theme;
+  colorSchemeConfig?: GetVariantArgs<ChipColorThemeConfig>['config'];
 }
 export interface LabelStylesInterface extends Pick<ChipProps, 'labelColor' | 'color' | 'syncBorderAndLabelColor'> {
   isOutlinedVariant: boolean;
-  theme: ThemeType;
+  colors: Theme;
+  colorSchemeConfig?: GetVariantArgs<ChipColorThemeConfig>['config'];
 }

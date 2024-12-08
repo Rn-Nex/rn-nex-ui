@@ -33,7 +33,7 @@ Below are examples demonstrating the usage of the `Chip` component:
 
 ```tsx
 import React from 'react';
-import { Box, Chip } from 'rn-nex-ui/src';
+import { Box, Chip } from 'react-native-material-elements/src';
 
 const ChipExamples: React.FC = () => {
   return (

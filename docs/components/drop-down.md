@@ -59,7 +59,7 @@ The primary props interface for the dropdown component, extending from `View` an
 ```tsx
 import React from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Avatar, Container, DropDown, ThemeProvider } from 'rn-nex-ui/src';
+import { Avatar, Container, DropDown, ThemeProvider } from 'react-native-material-elements/src';
 
 const DATA = [
   { id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba', title: 'First Item' },

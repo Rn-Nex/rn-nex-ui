@@ -8,8 +8,6 @@ The `CheckBox` component is a customizable checkbox for React Native application
 
 | Property                       | Description                                                                 | Usage                                                                     |
 | ------------------------------ | --------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `checkedImage`                 | Image to display when the checkbox is checked.                              | Can be any React node, such as an icon or an image.                       |
-| `unCheckedImage`               | Image to display when the checkbox is unchecked.                            | Can be any React node, such as an icon or an image.                       |
 | `isChecked`                    | Boolean value indicating whether the checkbox is checked.                   | This is a required prop.                                                  |
 | `isIndeterminate`              | Boolean value indicating whether the checkbox is in an indeterminate state. | Represents a mixed selection, often used in hierarchical checkboxes.      |
 | `checkBoxColor`                | Color of the checkbox border when it is not checked.                        | Accepts any valid color string.                                           |

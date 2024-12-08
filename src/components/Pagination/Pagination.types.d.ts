@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated, ColorValue, GestureResponderEvent, StyleProp, TextStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
-import { VariantTypes } from '../../utils';
+import { Theme } from '../../libraries/themes/v1/theme';
+import { DefaultVariationOptions, VariantTypes, VariationThemeConfig } from '../../utils';
 import { BoxProps } from '../Box/Box.types';
 import { BaseButtonProps } from '../Button/Button.types';
 
@@ -9,10 +9,14 @@ type PaginationItemColor = 'primary' | 'secondary' | 'standard' | 'error';
 type PaginationShape = 'circular' | 'rounded';
 type PaginationVariant = 'outlined' | 'text';
 
+export type PaginationThemeConfig = {
+  colors?: VariationThemeConfig<DefaultVariationOptions>;
+};
+
 /**
  * Props for a single pagination item.
  */
-export interface PaginationItemProps extends Omit<BaseButtonProps, 'children' | 'ref'> {
+export interface PaginationItemProps extends Omit<BaseButtonProps, 'children' | 'ref' | 'sx'> {
   /**
    * The page number or a special string value like 'start-dots' or 'end-dots'.
    * This determines what will be displayed on the pagination item.
@@ -46,15 +50,18 @@ export interface PaginationItemProps extends Omit<BaseButtonProps, 'children' | 
    * If true, the component is disabled.
    */
   disabled?: boolean;
+
+  themeColorScheme?: PaginationThemeConfig['colors'];
 }
 
 /**
  * Styles props for a single pagination item.
  * It extends from PaginationItemProps to reuse its properties for styling purposes.
  */
-export interface PaginationItemStylesProps extends Pick<PaginationItemProps, 'color' | 'shape' | 'variant' | 'disabled'> {
+export interface PaginationItemStylesProps
+  extends Pick<PaginationItemProps, 'color' | 'shape' | 'variant' | 'disabled' | 'themeColorScheme'> {
   isActive: Animated.Value;
-  theme: ThemeType;
+  colors: Theme;
 }
 
 /**
@@ -82,7 +89,7 @@ export interface PaginationProps extends BoxProps, Pick<PaginationItemProps, 'co
   /**
    * Additional styles to be applied to the dot elements (e.g., 'start-dots', 'end-dots').
    */
-  dotStylesProps?: StyleProp<TextStyle>;
+  dotStyles?: StyleProp<TextStyle>;
 
   /**
    * Additional props to be passed to each pagination item.

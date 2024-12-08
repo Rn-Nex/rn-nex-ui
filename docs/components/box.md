@@ -11,7 +11,7 @@ The `Box` component is a versatile container element that allows for easy layout
 
 ```tsx
 import React from 'react';
-import { Box, Text, useTheme } from 'rn-nex-ui/src';
+import { Box, Text, useTheme } from 'react-native-material-elements/src';
 
 export const Ex1: React.FC = () => {
   return (

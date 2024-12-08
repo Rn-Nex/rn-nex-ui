@@ -49,7 +49,7 @@ Props for the `Portal` component that manages portal creation and visibility. Ex
 ```tsx
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Portal } from 'rn-nex-ui/src';
+import { Portal } from 'react-native-material-elements/src';
 
 const PortalExample1: React.FC = () => {
   const [portalVisible, setPortalVisible] = useState(false);

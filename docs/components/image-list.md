@@ -23,7 +23,7 @@ Interface for properties that can be passed to an individual item (`ImageListIte
 
 ```tsx
 import React from 'react';
-import { Avatar, Box, Image, ImageList, ImageListItem, ImageListItemBar } from 'rn-nex-ui/src';
+import { Avatar, Box, Image, ImageList, ImageListItem, ImageListItemBar } from 'react-native-material-elements/src';
 
 export const App: React.FC = () => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ColorValue, TextStyle, View, ViewProps } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/Box.types';
 import { BaseButtonProps } from '../Button/Button.types';
 import { TextProps } from '../Typography/Text.types';
@@ -52,7 +52,7 @@ export interface ListProps extends React.ComponentPropsWithRef<typeof View> {
  * Interface for the ListItem component properties, extending from BaseButtonProps
  * This interface defines the props that can be passed to a ListItem component.
  */
-export interface ListItemProps extends BaseButtonProps {
+export interface ListItemProps extends Omit<BaseButtonProps, 'sx'> {
   /**
    * Optional styles for the container of the ListItem.
    * This can be used to apply additional styling to the ListItem container.
@@ -143,7 +143,9 @@ export interface ListItemProps extends BaseButtonProps {
 /**
  * Interface for ListItemIcon component properties, extending the properties of ViewProps
  */
-export interface ListItemIconProps extends ViewProps {}
+export interface ListItemIconProps extends ViewProps {
+  sx?: BaseStyles;
+}
 
 /**
  * Interface for ListItemText component properties, extending ListProps but omitting the 'children' property
@@ -216,7 +218,7 @@ export interface ListItemContainerStylesProps
     ListItemProps,
     'selected' | 'selectedColor' | 'showOutline' | 'outlineWidth' | 'outlineColor' | 'showDefaultBg' | 'softRadius'
   > {
-  theme: ThemeType;
+  colors: Theme;
 }
 
 /**

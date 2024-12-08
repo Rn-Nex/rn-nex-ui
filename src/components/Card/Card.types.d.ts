@@ -21,11 +21,11 @@ export interface CardProps extends React.ComponentPropsWithRef<typeof View> {
   variation?: CardVariations;
 }
 
-export interface CardMediaProps extends ImageProps {}
+export type CardMediaProps = ImageProps;
 
 export interface CardHeaderProps extends React.ComponentPropsWithRef<typeof View> {
   sx?: BaseStyles;
 }
 
-export interface CardContentProps extends CardHeaderProps {}
-export interface CardActionProps extends BaseButtonProps {}
+export type CardContentProps = CardHeaderProps;
+export type CardActionProps = BaseButtonProps;

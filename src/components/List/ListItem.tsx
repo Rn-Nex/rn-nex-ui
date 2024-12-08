@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector, useThemeListItemConfigSelector } from '../../libraries';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
 import { listItemContainerStyles, styles } from './List.style';
@@ -33,25 +33,37 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeColors = useThemeColorsSelector();
+    const listItemThemeConfig = useThemeListItemConfigSelector();
+
+    const {
+      listContainerStyles: themeListContainerStyles = listContainerStyles,
+      endAdornmentContainerStyles: themeEndAdornmentContainerStyles = endAdornmentContainerStyles,
+      startAdornmentContainerStyles: themeStartAdornmentContainerStyles = startAdornmentContainerStyles,
+      selectedColor: themeSelectedColor = selectedColor,
+      disableBottomSpacing: shouldDisableBottomSpacing = disableBottomSpacing,
+      actionType: themeActionType = actionType,
+      outlineColor: themeOutlineColor = outlineColor,
+      softRadius: themeSoftRadius = softRadius,
+    } = listItemThemeConfig || {};
 
     const containerStyles = useMemo(
       () =>
         listItemContainerStyles({
           selected,
-          theme,
-          selectedColor,
+          colors: themeColors,
+          selectedColor: themeSelectedColor,
           showOutline,
           outlineWidth,
-          outlineColor,
+          outlineColor: themeOutlineColor,
           showDefaultBg,
-          softRadius,
+          softRadius: themeSoftRadius,
         }),
-      [selected, theme, selectedColor, showOutline, outlineWidth, outlineColor, showDefaultBg, softRadius],
+      [selected, themeColors, themeSelectedColor, showOutline, outlineWidth, themeOutlineColor, showDefaultBg, themeSoftRadius],
     );
 
     const spacingStyles = useMemo(() => {
-      if (disableBottomSpacing) {
+      if (shouldDisableBottomSpacing) {
         return { marginBottom: 'auto' } as ViewStyle;
       }
 
@@ -64,15 +76,17 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
       return {
         marginBottom: spacingMap[bottomSpacingType] ?? 10,
       } as ViewStyle;
-    }, [bottomSpacingType, disableBottomSpacing]);
+    }, [bottomSpacingType, shouldDisableBottomSpacing]);
 
     const renderAdornment = useCallback(
       (type: 'start' | 'end', adornment?: React.ReactNode) => {
         if (!adornment) return null;
 
         const isStartAdornment = type === 'start';
-        const adornmentSx = isStartAdornment ? startAdornmentContainerStyles?.sx : endAdornmentContainerStyles?.sx;
-        const adornmentStyles = isStartAdornment ? startAdornmentContainerStyles?.style : endAdornmentContainerStyles?.style;
+        const adornmentSx = isStartAdornment ? themeStartAdornmentContainerStyles?.sx : themeEndAdornmentContainerStyles?.sx;
+        const adornmentStyles = isStartAdornment
+          ? themeStartAdornmentContainerStyles?.style
+          : themeEndAdornmentContainerStyles?.style;
 
         return (
           <Box sx={adornmentSx} style={StyleSheet.flatten([styles.adornment, adornmentStyles])}>
@@ -80,11 +94,11 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
           </Box>
         );
       },
-      [startAdornment, endAdornment, startAdornmentContainerStyles, endAdornmentContainerStyles],
+      [startAdornment, endAdornment, themeStartAdornmentContainerStyles, themeEndAdornmentContainerStyles],
     );
 
     const renderListItem = useCallback(() => {
-      if (actionType === 'list') {
+      if (themeActionType === 'list') {
         return (
           <View style={[styles.flexContainer, styles.listItemInnerContainer]}>
             {renderAdornment('start', startAdornment)}
@@ -96,7 +110,7 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
             {renderAdornment('end', endAdornment)}
           </View>
         );
-      } else if (actionType === 'root') {
+      } else if (themeActionType === 'root') {
         return (
           <View style={{ flex: 1 }}>
             <BaseButton disableRipple={disableRipple} style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
@@ -109,12 +123,12 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
           </View>
         );
       } else return null;
-    }, [actionType, startAdornment, endAdornment, props, style, disableRipple]);
+    }, [themeActionType, startAdornment, endAdornment, props, style, disableRipple]);
 
     return (
       <Box
-        sx={listContainerStyles?.sx}
-        style={StyleSheet.flatten([styles.listItemContainer, spacingStyles, containerStyles, listContainerStyles?.style])}
+        sx={themeListContainerStyles?.sx}
+        style={StyleSheet.flatten([styles.listItemContainer, spacingStyles, containerStyles, themeListContainerStyles?.style])}
         ref={ref}
         testID={listItemContainerTestId}>
         {renderListItem()}

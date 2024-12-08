@@ -1,9 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
 import { ColorSchemeName, ColorValue, StyleProp, StyleSheet, useColorScheme, View, ViewProps, ViewStyle } from 'react-native';
-import { useTheme } from '../../libraries';
-import { RequiredTheme, ThemeType } from '../../libraries/themes/v1/theme';
+import { useThemeColorsSelector, useThemeDividerConfigSelector, useThemeSpacingSelector } from '../../libraries';
+import { Theme, ThemeDimensions } from '../../libraries/themes/v1/theme';
+import { DefaultVariationOptions, GetVariantArgs, VariantTypes, VariationThemeConfig } from '../../utils';
 import { dividerLineStyles, dividerRootContainerStyles, styles } from './Divider.styles';
-import { VariantTypes } from '../../utils';
+
+export type DividerColorThemeConfig = {
+  colors?: VariationThemeConfig<DefaultVariationOptions>;
+};
 
 export interface DividerProps extends ViewProps {
   /**
@@ -62,9 +66,8 @@ export interface DividerProps extends ViewProps {
 }
 
 export type LineType = 'start' | 'end';
-export interface DividerRootContainerStyles
-  extends Pick<DividerProps, 'variant' | 'orientation' | 'gap' | 'variantSpacing'>,
-    RequiredTheme {
+export interface DividerRootContainerStyles extends Pick<DividerProps, 'variant' | 'orientation' | 'gap' | 'variantSpacing'> {
+  spacing: ThemeDimensions['spacing'];
   /**
    * Indicates if there are child elements within the divider component.
    * This can influence layout and styling decisions.
@@ -75,7 +78,7 @@ export interface DividerLineStyles extends Pick<DividerProps, 'borderColor' | 't
   /**
    * Theme configuration for the divider line
    */
-  theme: ThemeType;
+  colors: Theme;
   /**
    * The color scheme used in the divider, such as 'light' or 'dark'.
    */
@@ -84,6 +87,10 @@ export interface DividerLineStyles extends Pick<DividerProps, 'borderColor' | 't
    * Specifies whether the style is applied to the start or end line.
    */
   lineType: LineType;
+  /**
+   * Divider line theme scheme configuration
+   */
+  themeColorSchemeConfig?: GetVariantArgs<DividerColorThemeConfig>['config'];
 }
 
 export const Divider = React.forwardRef<View, DividerProps>(
@@ -106,26 +113,53 @@ export const Divider = React.forwardRef<View, DividerProps>(
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeColors = useThemeColorsSelector();
+    const themeSpacing = useThemeSpacingSelector();
     const colorScheme = useColorScheme();
     const hasChild = Boolean(children);
 
+    const dividerThemeConfig = useThemeDividerConfigSelector();
+
+    const {
+      startLineStyles: themeDividerStartStyles = startLineStyles,
+      endLineStyles: themeDividerEndStyles = endLineStyles,
+      borderColor: themeBorderColor = borderColor,
+      gap: themeGap = gap,
+      variantSpacing: themeVariantSpacing = variantSpacing,
+      colors: themeVariantColors,
+    } = dividerThemeConfig || {};
+
     const containerStyles = useMemo(() => {
-      return dividerRootContainerStyles({ theme, variant, orientation, gap, hasChild, variantSpacing });
-    }, [theme, variant, orientation, gap, hasChild, variantSpacing]);
+      return dividerRootContainerStyles({
+        spacing: themeSpacing,
+        variant,
+        orientation,
+        gap: themeGap,
+        hasChild,
+        variantSpacing: themeVariantSpacing,
+      });
+    }, [themeColors, variant, orientation, themeGap, hasChild, themeVariantSpacing]);
 
     const lineStyles = useCallback(
       (lineType: LineType) => {
-        return dividerLineStyles({ theme, mode: colorScheme, borderColor, textAlign, lineType, color });
+        return dividerLineStyles({
+          colors: themeColors,
+          mode: colorScheme,
+          borderColor: themeBorderColor,
+          textAlign,
+          lineType,
+          color,
+          themeColorSchemeConfig: themeVariantColors,
+        });
       },
-      [borderColor, colorScheme, textAlign, color, theme],
+      [themeBorderColor, colorScheme, textAlign, color, themeColors, themeVariantColors],
     );
 
     return (
       <View ref={ref} style={StyleSheet.flatten([styles.rootContainer, containerStyles, style])} {...props}>
-        <View style={StyleSheet.flatten([styles.line, lineStyles('start'), startLineStyles])} testID={startLineTestId} />
+        <View style={StyleSheet.flatten([styles.line, lineStyles('start'), themeDividerStartStyles])} testID={startLineTestId} />
         {children}
-        <View style={StyleSheet.flatten([styles.line, lineStyles('end'), endLineStyles])} testID={endLineTestId} />
+        <View style={StyleSheet.flatten([styles.line, lineStyles('end'), themeDividerEndStyles])} testID={endLineTestId} />
       </View>
     );
   },

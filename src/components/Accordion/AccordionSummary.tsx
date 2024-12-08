@@ -9,7 +9,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { Box } from '../Box';
 import { accordionSummaryStyles } from './Accordion.style';
 import { AccordionSummaryProps } from './Accordion.types';
@@ -55,22 +55,22 @@ export const AccordionSummary = React.forwardRef<View, AccordionSummaryProps>(
     const [isActive, setIsActive] = useState<boolean>(false);
     const [measuredHeight, setMeasuredHeight] = useState<number | null>(null);
     const accordionContentRef = useRef<View>(null);
-    const { theme } = useTheme();
+    const themeColor = useThemeColorsSelector();
 
     const summaryWrapperStyles = useMemo(() => {
       let styles: ViewStyle = {};
       if (topBorder) {
         styles.borderTopWidth = 1;
-        styles.borderTopColor = theme.colors.grey[300];
+        styles.borderTopColor = themeColor.grey[300];
       }
 
       if (bottomBorder) {
-        styles.borderBottomColor = theme.colors.grey[300];
+        styles.borderBottomColor = themeColor.grey[300];
         styles.borderBottomWidth = 1;
       }
 
       return styles;
-    }, [topBorder, bottomBorder, theme]);
+    }, [topBorder, bottomBorder, themeColor]);
 
     useEffect(() => {
       const animations: Animated.CompositeAnimation[] = [];

@@ -55,7 +55,7 @@ export const listStyles = ({ disablePadding }: ListStylesProps): ViewStyle => {
 
 export const listItemContainerStyles = ({
   selected,
-  theme,
+  colors,
   selectedColor,
   showOutline,
   outlineWidth,
@@ -63,8 +63,8 @@ export const listItemContainerStyles = ({
   showDefaultBg,
   softRadius,
 }: ListItemContainerStylesProps): ViewStyle => {
-  const defaultBgColor = theme.colors.grey[50];
-  const selectedBgColor = selectedColor || theme.colors.grey[100];
+  const defaultBgColor = colors.grey[50];
+  const selectedBgColor = selectedColor || colors.grey[100];
 
   let styles: ViewStyle = {
     backgroundColor: selected ? selectedBgColor : showDefaultBg ? defaultBgColor : 'transparent',
@@ -72,7 +72,7 @@ export const listItemContainerStyles = ({
 
   if (showOutline) {
     styles.borderWidth = outlineWidth ?? 1;
-    styles.borderColor = outlineColor ?? theme.colors.grey[400];
+    styles.borderColor = outlineColor ?? colors.grey[400];
   }
 
   if (softRadius) {

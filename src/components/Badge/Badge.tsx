@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeBadgeConfigSelector, useThemeColorsSelector } from '../../libraries';
 import { Box } from '../Box';
 import { Text } from '../Typography';
+import { badgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './Badge.styles';
 import { BadgeContainerProps, BadgeProps } from './Badge.types';
 import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE, BADGE_TOP_RIGHT_POSITION } from './constants';
-import { badgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './utils';
 
 const BadgeContainer = React.forwardRef<View, BadgeContainerProps>(({ children, style, overlap, ...props }, ref) => {
   return (
@@ -29,52 +29,74 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       anchorOrigin = BADGE_TOP_RIGHT_POSITION,
       badgeContainerProps,
       containerStyles,
+      overrideRootConfig = false,
       variation = 'secondary',
       overlap = 'rectangular',
       ...props
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeBadgeConfig = useThemeBadgeConfigSelector();
     const badgeVisibility = useRef(new Animated.Value(0)).current;
+    const themeColors = useThemeColorsSelector();
+
+    const animationDuration = themeBadgeConfig?.badgeAnimationDuration ?? badgeAnimationDuration;
+
+    if (!themeColors) throw new Error('theme colors are not available');
 
     const badgeStyles = useMemo(() => {
       return generateBadgeStyles({
+        themeComponentConfig: themeBadgeConfig,
         variation,
         badgeVisibility,
         variant,
         anchorOrigin,
-        theme,
+        themeColors,
+        overrideRootConfig,
       });
-    }, [variation, badgeVisibility, variant, anchorOrigin, theme]);
+    }, [variation, badgeVisibility, variant, anchorOrigin, themeColors, themeBadgeConfig, overrideRootConfig]);
 
-    const renderBadgeContent = function (content: BadgeProps['badgeContent']) {
-      if (variant === 'dot') return null;
+    const getDisplayBadgeContent = (badgeNumber: number, max: number): string | number => {
+      return badgeNumber >= max ? `${max - 1}+` : badgeNumber;
+    };
 
-      if (typeof content === 'string' || typeof content === 'number') {
-        const badgeNumber = Number(badgeContent);
+    const renderBadgeContent = useCallback(
+      (content: BadgeProps['badgeContent']) => {
+        if (variant === 'dot') return null;
 
-        if (isNaN(badgeNumber)) {
-          return (
-            <Text style={StyleSheet.flatten([styles.badgeContent, badgeContentDefaultStyles({ variation }), badgeContentStyle])}>
-              {content}
-            </Text>
-          );
+        if (typeof content === 'string' || typeof content === 'number') {
+          return renderTextBadgeContent(content);
         }
 
-        return (
-          <Text style={StyleSheet.flatten([styles.badgeContent, badgeContentDefaultStyles({ variation }), badgeContentStyle])}>
-            {badgeNumber >= max ? max - 1 + '+' : badgeNumber}
-          </Text>
-        );
-      } else if (typeof content === 'object') throw new Error('Badge content must be a string or number');
-    };
+        if (typeof content === 'object') {
+          throw new Error('Badge content must be a string or number');
+        }
+      },
+      [badgeContent, max, themeBadgeConfig, overrideRootConfig],
+    );
+
+    const renderTextBadgeContent = useCallback(
+      (content: string | number) => {
+        const badgeNumber = Number(content);
+
+        const textStyles = StyleSheet.flatten([styles.badgeContent, badgeContentDefaultStyles({ variation }), badgeContentStyle]);
+
+        if (isNaN(badgeNumber)) {
+          return <Text style={textStyles}>{content}</Text>;
+        }
+
+        const maxBadgeNumber = themeBadgeConfig?.max ?? max;
+
+        return <Text style={textStyles}>{getDisplayBadgeContent(badgeNumber, overrideRootConfig ? max : maxBadgeNumber)}</Text>;
+      },
+      [badgeContent, max, themeBadgeConfig, overrideRootConfig],
+    );
 
     useEffect(() => {
       badgeVisibility.stopAnimation();
       Animated.timing(badgeVisibility, {
         toValue: badgeContent && !invisible ? 1 : 0,
-        duration: badgeAnimationDuration,
+        duration: overrideRootConfig ? badgeAnimationDuration : animationDuration,
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
       }).start();
@@ -85,7 +107,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
         <BadgeContainer overlap={overlap} {...badgeContainerProps}>
           {children}
         </BadgeContainer>
-        <Animated.View style={StyleSheet.flatten([styles.badge, badgeStyles, style])} {...props}>
+        <Animated.View style={StyleSheet.flatten([styles.badge, badgeStyles, themeBadgeConfig?.style ?? style])} {...props}>
           {renderBadgeContent(badgeContent)}
         </Animated.View>
       </View>
@@ -101,17 +123,19 @@ const styles = StyleSheet.create({
   container: {
     minWidth: 40,
     minHeight: 40,
-    alignSelf: 'flex-start',
+    alignSelf: 'auto',
   },
   badgeContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'flex-start',
+    alignSelf: 'auto',
   },
   badge: {
-    paddingHorizontal: 5,
-    paddingVertical: 3,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 3,
+    paddingBottom: 3,
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',

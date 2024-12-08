@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TextInputProps, View, ViewStyle } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector, useThemeIconInputConfigSelector } from '../../libraries';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { Box } from '../Box';
 import { BoxProps } from '../types';
@@ -45,28 +45,37 @@ export const IconInput: React.FC<IconInputProps> = React.forwardRef<View, IconIn
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeColors = useThemeColorsSelector();
+    const iconInputThemeConfig = useThemeIconInputConfigSelector();
+
+    const {
+      inputWrapperStyles: themeInputWrapperStyles = inputWrapperStyles,
+      endAdornmentContainerStyles: themeEndAdornmentContainerStyles = endAdornmentContainerStyles,
+      startAdornmentContainerStyles: themeStartAdornmentContainerStyles = startAdornmentContainerStyles,
+    } = iconInputThemeConfig || {};
 
     const defaultIconInputContainerStyles: BaseStyles = {
-      bg: theme.colors.grey[300],
-      bColor: theme.colors.grey[300],
+      bg: themeColors.grey[300],
+      bColor: themeColors.grey[300],
     };
 
     return (
       <Box
         sx={{ ...defaultIconInputContainerStyles, ...sx }}
-        style={StyleSheet.flatten([styles.inputContainer, inputWrapperStyles])}
+        style={StyleSheet.flatten([styles.inputContainer, themeInputWrapperStyles])}
         ref={ref}>
         {startAdornment && (
-          <Box style={StyleSheet.flatten([{ marginRight: 8 }, startAdornmentContainerStyles])}>{startAdornment}</Box>
+          <Box style={StyleSheet.flatten([{ marginRight: 8 }, themeStartAdornmentContainerStyles])}>{startAdornment}</Box>
         )}
         <BaseInput
           placeholder="Base input"
-          style={StyleSheet.flatten([{ color: theme.colors.white[900], flex: 1 }, style])}
-          placeholderTextColor={theme.colors.grey[600]}
+          style={StyleSheet.flatten([{ color: themeColors.white[900], flex: 1 }, style])}
+          placeholderTextColor={themeColors.grey[600]}
           {...props}
         />
-        {endAdornment && <Box style={StyleSheet.flatten([{ marginLeft: 8 }, endAdornmentContainerStyles])}>{endAdornment}</Box>}
+        {endAdornment && (
+          <Box style={StyleSheet.flatten([{ marginLeft: 8 }, themeEndAdornmentContainerStyles])}>{endAdornment}</Box>
+        )}
       </Box>
     );
   },

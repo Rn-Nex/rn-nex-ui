@@ -1,13 +1,18 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { generateElementStyles } from '../../utils';
+import { View } from 'react-native';
+import { useThemeCardHeaderConfigSelector } from '../../libraries';
+import { Box } from '../Box';
 import { CardHeaderProps } from './Card.types';
 
-export const CardHeader = React.forwardRef<View, CardHeaderProps>(({ children, style, sx, ...props }, ref) => {
+export const CardHeader = React.forwardRef<View, CardHeaderProps>(({ children, sx, style, ...props }, ref) => {
+  const cardHeaderThemeConfig = useThemeCardHeaderConfigSelector();
+
+  const { sx: themeCardHeaderSx = sx, style: themeStyle = style } = cardHeaderThemeConfig || {};
+
   return (
-    <View ref={ref} style={StyleSheet.flatten([sx && generateElementStyles(sx), style])} {...props}>
+    <Box ref={ref} style={themeStyle} sx={themeCardHeaderSx} {...props}>
       {children}
-    </View>
+    </Box>
   );
 });
 

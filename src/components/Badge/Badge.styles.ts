@@ -33,27 +33,39 @@ export const generateBadgeContainerStyles = ({ overlap }: GenerateBadgeContainer
   const isCircles = overlap === 'circular';
   const isRectangular = overlap === 'rectangular';
 
-  const BadgeContainerDefaultStyles: ViewStyle = {
-    borderRadius: isCircles ? 100 : isRectangular ? 5 : 0,
-  };
+  let borderRadius: number;
 
-  return BadgeContainerDefaultStyles;
+  if (isCircles) borderRadius = 100;
+  else if (isRectangular) borderRadius = 5;
+  else borderRadius = 0;
+
+  return {
+    borderRadius,
+  };
 };
 
 export const generateBadgeStyles = ({
-  theme,
+  themeComponentConfig,
+  themeColors,
   variation,
   badgeVisibility,
   variant,
   anchorOrigin,
+  overrideRootConfig,
 }: GenerateBadgeStylesProps): ViewStyle => {
   const isDotVariation = variant === 'dot';
   let styles: ViewStyle = {};
 
+  const badgePosition = themeComponentConfig?.anchorOrigin ?? anchorOrigin;
+
   styles = {
     ...styles,
-    ...placeBadgeBasedPosition({ anchorOrigin, variant }),
-    backgroundColor: getVariant({ variant: variation, theme }),
+    ...placeBadgeBasedPosition({ anchorOrigin: overrideRootConfig ? anchorOrigin : badgePosition, variant }),
+    backgroundColor: getVariant({
+      variant: variation,
+      colors: themeColors,
+      config: themeComponentConfig?.colors,
+    }),
   };
 
   styles = {

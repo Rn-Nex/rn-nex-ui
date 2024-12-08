@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated, ColorValue, StyleProp, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme, ThemeType } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/Box.types';
 import { TextProps } from '../Typography/Text.types';
 
@@ -138,7 +138,7 @@ export interface OutlineProps
  */
 export interface LabelTransformStyleProps
   extends Pick<InputLabelProps, 'labelAnimatedValue' | 'translateYAnimatedPosition' | 'variant' | 'placeholderLeftPosition'> {
-  theme: ThemeType;
+  colors: Theme;
   /**
    * Height of the text input.
    */
@@ -153,7 +153,7 @@ export interface OutlineStyles
     OutlineProps,
     'error' | 'errorColor' | 'isFocused' | 'activeColor' | 'editable' | 'variant' | 'ignoreOpacityOnNonEditable' | 'square'
   > {
-  theme: ThemeType;
+  colors: Theme;
 }
 
 /**
@@ -177,9 +177,9 @@ export interface TextInputStylesProps {
 export interface LabelTextStylesProps
   extends Pick<TextInputStylesProps, 'variant'>,
     Pick<BaseInputProps, 'ignoreOpacityOnNonEditable'> {
-  theme: ThemeType;
+  colors: Theme;
 }
 
 export interface BaseInputStylesProps extends Pick<BaseInputProps, 'variant'> {
-  theme: ThemeType;
+  colors: Theme;
 }

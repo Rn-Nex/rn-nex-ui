@@ -29,12 +29,12 @@ assignees: ''
 
 ### Environment
 
-| Software     | Version |
-| ------------ | ------- |
-| iOS          | x       |
-| Android      | x       |
-| React Native | x.x.x   |
-| rn-nex-ui    | x.x.x   |
-| Node         | x.x.x   |
-| npm or yarn  | x.x.x   |
-| Expo SDK     | x.x.x   |
+| Software                       | Version |
+| ------------------------------ | ------- |
+| iOS                            | x       |
+| Android                        | x       |
+| React Native                   | x.x.x   |
+| react-native-material-elements | x.x.x   |
+| Node                           | x.x.x   |
+| npm or yarn                    | x.x.x   |
+| Expo SDK                       | x.x.x   |

@@ -14,11 +14,19 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const dividerLineStyles = ({ theme, mode, borderColor, textAlign, lineType, color }: DividerLineStyles) => {
+export const dividerLineStyles = ({
+  colors,
+  mode,
+  borderColor,
+  textAlign,
+  lineType,
+  color,
+  themeColorSchemeConfig,
+}: DividerLineStyles) => {
   let borderColorValue: ColorValue;
 
   if (borderColor) borderColorValue = borderColor;
-  else if (color) borderColorValue = getVariant({ theme, variant: color });
+  else if (color) borderColorValue = getVariant({ colors, variant: color, config: themeColorSchemeConfig });
   else if (mode === 'light') borderColorValue = grey[400];
   else borderColorValue = grey[700];
 
@@ -43,20 +51,19 @@ export const dividerLineStyles = ({ theme, mode, borderColor, textAlign, lineTyp
 };
 
 export const dividerRootContainerStyles = ({
-  theme,
+  spacing,
   variant,
   orientation,
   gap,
   hasChild,
   variantSpacing,
 }: DividerRootContainerStyles): ViewStyle => {
-  const { spacing } = theme;
   const isVertical = orientation === 'vertical';
 
   const baseStyles: ViewStyle = isVertical
     ? {
         paddingHorizontal: 2,
-        alignSelf: 'flex-start',
+        alignSelf: 'auto',
         flex: 1,
         flexDirection: 'column',
       }

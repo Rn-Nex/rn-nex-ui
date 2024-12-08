@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { Animated, Text as RnText, StyleSheet } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeFontSelector, useThemeModeSelector, useThemeTextConfigSelector } from '../../libraries';
 import { maxLength as maxLengthUtile } from '../../utils';
+import { generateTextStyles } from './Text.styles';
 import { TextProps } from './Text.types';
-import { generateTextStyles } from './utils';
 
 export const Text = React.forwardRef<RnText, TextProps>(
   (
@@ -26,38 +26,60 @@ export const Text = React.forwardRef<RnText, TextProps>(
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeTextConfig = useThemeTextConfigSelector();
+    const themeFontConfig = useThemeFontSelector();
+    const themeMode = useThemeModeSelector();
+
+    const hasMaxLength = maxLength ?? themeTextConfig?.maxLength;
+
+    const { style: themeTextStyle = style, gutterBottomSpace: themeGutterBottomSpace = gutterBottomSpace } =
+      themeTextConfig || {};
 
     const textStyles = useMemo(
       () =>
-        StyleSheet.create({
-          generated: generateTextStyles({
-            theme,
-            variation,
-            gutterBottom,
-            gutterBottomSpace,
-            isActive,
-            activeColor,
-            disabled,
-            error,
-            errorColor,
-            sx,
-            mode,
-            color,
-          }),
+        generateTextStyles({
+          variation,
+          gutterBottom,
+          gutterBottomSpace: themeGutterBottomSpace,
+          isActive,
+          activeColor,
+          disabled,
+          error,
+          errorColor,
+          sx,
+          mode,
+          color,
+          themeComponentConfig: themeTextConfig,
+          themeFonts: themeFontConfig,
+          themeMode,
         }),
-      [theme, variation, gutterBottom, isActive, activeColor, disabled, error, errorColor, sx, mode, color, gutterBottomSpace],
+      [
+        variation,
+        gutterBottom,
+        isActive,
+        activeColor,
+        disabled,
+        error,
+        errorColor,
+        sx,
+        mode,
+        color,
+        themeGutterBottomSpace,
+        useThemeTextConfigSelector,
+        themeFontConfig,
+        themeMode,
+      ],
     );
 
     const renderedChildren = useMemo(() => {
-      if (typeof children === 'string' && maxLength) {
-        return maxLengthUtile(children, maxLength);
-      } else if (maxLength && typeof children !== 'string') throw new Error('maxLength props must be used with string');
+      if (typeof children === 'string' && hasMaxLength) {
+        return maxLengthUtile(children, hasMaxLength);
+      } else if (hasMaxLength && typeof children !== 'string') throw new Error('maxLength props must be used with string');
       return children;
-    }, [children, maxLength]);
+    }, [children, hasMaxLength]);
 
     return (
-      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles.generated, style])} {...props}>
+      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles, themeTextStyle])} {...props}>
         {renderedChildren}
       </Animated.Text>
     );

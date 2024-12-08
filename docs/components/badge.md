@@ -25,7 +25,7 @@ The `Badge` component accepts all props from the React Native `View` component, 
 
 ```tsx
 import React from 'react';
-import { Badge, Box, useTheme } from 'rn-nex-ui/src';
+import { Badge, Box, useTheme } from 'react-native-material-elements/src';
 
 export const Ex1: React.FC = () => {
   const { theme } = useTheme();

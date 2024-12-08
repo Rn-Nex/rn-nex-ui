@@ -1,5 +1,5 @@
 import { DimensionValue, StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme } from '../../libraries/themes/v1/theme';
 import { DialogActionsContainerStylesInterface, DialogContainerStylesInterface } from './Dialog.types';
 
 export const styles = StyleSheet.create({
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const dialogContainerStyles = ({ theme, fullWidth, maxWidth }: DialogContainerStylesInterface): ViewStyle => {
+export const dialogContainerStyles = ({ colors, fullWidth, maxWidth }: DialogContainerStylesInterface): ViewStyle => {
   let width: DimensionValue;
 
   switch (maxWidth) {
@@ -60,18 +60,18 @@ export const dialogContainerStyles = ({ theme, fullWidth, maxWidth }: DialogCont
   const mW = fullWidth ? '100%' : width;
 
   return {
-    backgroundColor: theme.colors.grey[800],
+    backgroundColor: colors.grey[800],
     maxWidth: mW,
   };
 };
 
-export const dialogTitleStyles = (theme: ThemeType): TextStyle => ({
+export const dialogTitleStyles = (colors: Theme): TextStyle => ({
   padding: 15,
-  color: theme.colors.grey[100],
+  color: colors.grey[100],
 });
 
-export const dialogContentTextStyles = (theme: ThemeType): TextStyle => ({
-  color: theme.colors.grey[100],
+export const dialogContentTextStyles = (colors: Theme): TextStyle => ({
+  color: colors.grey[100],
 });
 
 export const dialogActionsContainerStyles = ({ maxWidth, fullWidth }: DialogActionsContainerStylesInterface): ViewStyle => ({

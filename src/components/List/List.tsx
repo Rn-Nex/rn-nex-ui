@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useThemeListConfigSelector } from '../../libraries';
 import { Box } from '../Box';
 import { Text } from '../Typography';
 import { listStyles, styles } from './List.style';
@@ -20,14 +21,25 @@ export const List = React.forwardRef<View, ListProps>(
     },
     ref,
   ) => {
-    const listContainerStyles = useMemo(() => ({ generated: listStyles({ disablePadding }) }), [disablePadding]);
+    const listThemeConfig = useThemeListConfigSelector();
+
+    const {
+      sx: themeListSx = sx,
+      subheaderContainerStyles: themeSubHeaderContainerStyles = subheaderContainerStyles,
+      disablePadding: shouldApplyDisablePadding = disablePadding,
+    } = listThemeConfig || {};
+
+    const listContainerStyles = useMemo(
+      () => listStyles({ disablePadding: shouldApplyDisablePadding }),
+      [shouldApplyDisablePadding],
+    );
 
     return (
-      <Box sx={sx} style={StyleSheet.flatten([listContainerStyles.generated, style])} ref={ref} {...props}>
+      <Box sx={themeListSx} style={StyleSheet.flatten([listContainerStyles, style])} ref={ref} {...props}>
         {subheader && (
           <Box
-            sx={subheaderContainerStyles?.sx}
-            style={StyleSheet.flatten([styles.headerContainer, subheaderContainerStyles?.style])}
+            sx={themeSubHeaderContainerStyles?.sx}
+            style={StyleSheet.flatten([styles.headerContainer, themeSubHeaderContainerStyles?.style])}
             testID={subHeaderContainerTestId}>
             <Text variation="h4" {...subheaderProps}>
               {subheader}

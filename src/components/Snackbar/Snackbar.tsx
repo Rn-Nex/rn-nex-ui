@@ -14,8 +14,8 @@ import {
   ViewProps,
   ViewStyle,
 } from 'react-native';
-import { useTheme } from '../../libraries';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { useThemeColorsSelector } from '../../libraries';
+import { Theme } from '../../libraries/themes/v1/theme';
 import { maxLength as maxLengthUtile, screenHeight, VariantTypes } from '../../utils';
 import { Button } from '../Button';
 import { ButtonProps, TextProps } from '../types';
@@ -95,7 +95,7 @@ export interface SnackbarRootContainerStylesInterface extends Pick<SnackbarProps
   opacityValue?: Animated.Value;
 }
 export interface SnackbarContainerStylesInterface extends Pick<SnackbarProperties, 'variant'> {
-  theme: ThemeType;
+  colors: Theme;
 }
 
 const defaultSuccessImage = require('./images/success.png');
@@ -127,7 +127,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   const opacityValue = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(position === 'top' ? -100 : screenHeight)).current;
 
-  const { theme } = useTheme();
+  const themeColors = useThemeColorsSelector();
 
   const [snackbarConfig, setSnackbarConfig] = useState<SnackbarProperties | null>(null);
   const [snackbarRootRectangle, setSnackbarRootRectangle] = useState<LayoutRectangle | null>(null);
@@ -273,7 +273,11 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       onLayout={snackbarRootContainerOnLayout}
       pointerEvents="box-none"
       {...props}>
-      <View style={StyleSheet.flatten([styles.snackbar, snackbarContainerStyles({ theme, variant: snackbarConfig?.variant })])}>
+      <View
+        style={StyleSheet.flatten([
+          styles.snackbar,
+          snackbarContainerStyles({ colors: themeColors, variant: snackbarConfig?.variant }),
+        ])}>
         <View style={styles.snackbarLabelWrapper}>
           {renderAdornment()}
           <View

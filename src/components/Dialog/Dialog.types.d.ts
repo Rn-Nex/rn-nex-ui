@@ -1,8 +1,8 @@
 import { ViewStyle } from 'react-native';
+import { Theme } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/Box.types';
 import { PortalProps } from '../Portal/Portal.types';
 import { TextProps } from '../types';
-import { ThemeType } from '../../libraries/themes/v1/theme';
 
 export interface DialogTitleProps extends TextProps {}
 export interface DialogProps extends PortalProps {
@@ -11,7 +11,7 @@ export interface DialogProps extends PortalProps {
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 export interface DialogContainerStylesInterface extends Pick<DialogProps, 'fullWidth' | 'maxWidth'> {
-  theme: ThemeType;
+  colors: Theme;
 }
 export interface DialogActionsProps extends BoxProps {
   dialogActionsContainerStyles?: ViewStyle;
