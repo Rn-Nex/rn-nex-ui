@@ -9,14 +9,14 @@ import {
   ViewProps,
   ViewStyle,
 } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { getVariant, VariantTypes } from '../../utils';
 import { BaseButton } from '../Button';
+import { Divider, DividerProps } from '../Divider';
 import { Text } from '../Typography';
 import { TextProps } from '../types';
 import { styles } from './Radio.styles';
 import { RADIO_LARGE, RADIO_MEDIUM, RADIO_SMALL } from './constants';
-import { Divider, DividerProps } from '../Divider';
 
 export interface SizeConfig {
   small: number;
@@ -270,7 +270,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
 
 const RadioOutline: React.FC<RadioOutlineProps> = ({ style, isActive, children, animationDuration, ...props }) => {
   const borderColorValue = useRef(new Animated.Value(0)).current;
-  const { theme } = useTheme();
+  const themeColors = useThemeColorsSelector();
 
   useEffect(() => {
     Animated.timing(borderColorValue, {
@@ -282,7 +282,7 @@ const RadioOutline: React.FC<RadioOutlineProps> = ({ style, isActive, children, 
 
   const borderColorInterpolation = borderColorValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [theme.colors.grey[400], theme.colors.grey[800]],
+    outputRange: [themeColors.grey[400], themeColors.grey[800]],
   });
 
   return (
@@ -305,7 +305,7 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
   const scaleValue = useRef(new Animated.Value(0)).current;
   const opacityValue = useRef(new Animated.Value(0)).current;
   const backgroundColorValue = useRef(new Animated.Value(0)).current;
-  const { theme } = useTheme();
+  const themeColors = useThemeColorsSelector();
 
   useEffect(() => {
     Animated.parallel([
@@ -326,7 +326,7 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
     ]).start();
   }, [isActive, animationDuration]);
 
-  const colorVariation = useMemo(() => getVariant({ variant, theme }), [variant, theme]);
+  const colorVariation = useMemo(() => getVariant({ variant, colors: themeColors }), [variant, themeColors]) as string;
   const backgroundOutputRange = activeColor || colorVariation;
 
   const getSize = useMemo(() => {

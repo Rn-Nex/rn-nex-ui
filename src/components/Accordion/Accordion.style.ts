@@ -52,10 +52,10 @@ export const accordionStyles = StyleSheet.create({
   },
 });
 
-export const accordionWrapperStyles = ({ theme, disable, square }: AccordionWrapperStylesInterface): ViewStyle => {
+export const accordionWrapperStyles = ({ colors, disable, square }: AccordionWrapperStylesInterface): ViewStyle => {
   return {
     width: '100%',
-    backgroundColor: theme.colors.grey[200],
+    backgroundColor: colors.grey[200],
     opacity: disable ? 0.5 : 1,
     ...(!square && { borderRadius: 8 }),
   };

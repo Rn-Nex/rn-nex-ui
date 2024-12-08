@@ -1,19 +1,17 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { generateElementStyles } from '../../utils';
+import { useThemeColorsSelector } from '../../libraries';
+import { Box } from '../Box';
 import { CardProps } from './Card.types';
-import { cardVariation } from './utils';
-import { useTheme } from '../../libraries';
+import { cardVariation } from './Card.styles';
 
 export const Card = React.forwardRef<View, CardProps>(({ children, variation, style, sx, ...props }, ref) => {
-  const { theme } = useTheme();
-
-  const cardStyle = useMemo(() => sx && generateElementStyles(sx), [sx, theme]);
+  const themeColors = useThemeColorsSelector();
 
   return (
-    <View ref={ref} style={StyleSheet.flatten([variation && cardVariation(variation, theme), cardStyle, style])} {...props}>
+    <Box ref={ref} style={StyleSheet.flatten([variation && cardVariation(variation, themeColors), style])} sx={sx} {...props}>
       {children}
-    </View>
+    </Box>
   );
 });
 

@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import {
+  ColorValue,
   GestureResponderEvent,
   Image,
   ImageSourcePropType,
@@ -9,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { getVariant } from '../../utils';
 import { Text } from '../Typography';
 import { CheckBoxProps } from './CheckBox.types';
@@ -51,7 +52,7 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeColors = useThemeColorsSelector();
     const hasAdornment = Boolean(adornment);
     const shouldRenderAdornment = adornmentType === 'start' && (hasAdornment || label || subLabel);
     const shouldRenderEndAdornment = adornmentType === 'end' && (hasAdornment || label || subLabel);
@@ -71,14 +72,14 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
         height: isSmallCheckBox ? CHECKBOX_SMALL_SIZE : CHECKBOX_MEDIUM_SIZE,
       };
 
-      let tintColor: string;
+      let tintColor: ColorValue;
 
       if (checkBoxColor && isChecked) tintColor = checkBoxColor;
-      else if (isChecked) tintColor = getVariant({ variant, theme });
-      else tintColor = theme.colors.grey[600];
+      else if (isChecked) tintColor = getVariant({ variant, colors: themeColors });
+      else tintColor = themeColors.grey[600];
 
       return <Image source={source} style={StyleSheet.flatten([{ tintColor }, sizeStyles])} testID={checkBoxImageTestId} />;
-    }, [isChecked, variant, theme, checkBoxColor, size, checkBoxImageTestId]);
+    }, [isChecked, variant, themeColors, checkBoxColor, size, checkBoxImageTestId]);
 
     const elementOnPressHandler = (event: GestureResponderEvent) => {
       if (onPress && typeof onPress === 'function' && actionType === 'root') {
@@ -134,7 +135,7 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
       }
 
       return unCheckedImage ?? displayCheckedImage();
-    }, [isChecked, variant, theme, checkBoxColor, size]);
+    }, [isChecked, variant, themeColors, checkBoxColor, size]);
 
     return (
       <View ref={ref} style={StyleSheet.flatten([styles.container, style, { opacity: disabled ? 0.5 : 1 }])} {...containerProps}>

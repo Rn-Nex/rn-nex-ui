@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleProp, TouchableWithoutFeedback, ViewStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme, ThemeType } from '../../libraries/themes/v1/theme';
 import { AccordionProps } from './Accordion';
 
 /**
@@ -89,5 +89,5 @@ export interface AccordionSummaryProps extends React.ComponentPropsWithRef<typeo
 }
 
 export interface AccordionWrapperStylesInterface extends Pick<AccordionProps, 'disable' | 'square'> {
-  theme: ThemeType;
+  colors: Theme;
 }

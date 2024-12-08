@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { ColorSchemeName, ColorValue, StyleProp, StyleSheet, useColorScheme, View, ViewProps, ViewStyle } from 'react-native';
-import { useTheme } from '../../libraries';
-import { RequiredTheme, ThemeType } from '../../libraries/themes/v1/theme';
-import { dividerLineStyles, dividerRootContainerStyles, styles } from './Divider.styles';
+import { useThemeColorsSelector, useThemeSpacingSelector } from '../../libraries';
+import { Theme, ThemeDimensions } from '../../libraries/themes/v1/theme';
 import { VariantTypes } from '../../utils';
+import { dividerLineStyles, dividerRootContainerStyles, styles } from './Divider.styles';
 
 export interface DividerProps extends ViewProps {
   /**
@@ -62,9 +62,8 @@ export interface DividerProps extends ViewProps {
 }
 
 export type LineType = 'start' | 'end';
-export interface DividerRootContainerStyles
-  extends Pick<DividerProps, 'variant' | 'orientation' | 'gap' | 'variantSpacing'>,
-    RequiredTheme {
+export interface DividerRootContainerStyles extends Pick<DividerProps, 'variant' | 'orientation' | 'gap' | 'variantSpacing'> {
+  spacing: ThemeDimensions['spacing'];
   /**
    * Indicates if there are child elements within the divider component.
    * This can influence layout and styling decisions.
@@ -75,7 +74,7 @@ export interface DividerLineStyles extends Pick<DividerProps, 'borderColor' | 't
   /**
    * Theme configuration for the divider line
    */
-  theme: ThemeType;
+  colors: Theme;
   /**
    * The color scheme used in the divider, such as 'light' or 'dark'.
    */
@@ -106,19 +105,26 @@ export const Divider = React.forwardRef<View, DividerProps>(
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeColors = useThemeColorsSelector();
+    const themeSpacing = useThemeSpacingSelector();
     const colorScheme = useColorScheme();
     const hasChild = Boolean(children);
 
+    if (!themeSpacing) {
+      throw new Error(
+        'Theme spacing are unavailable. Please ensure the ThemeProvider is correctly wrapped around the application.',
+      );
+    }
+
     const containerStyles = useMemo(() => {
-      return dividerRootContainerStyles({ theme, variant, orientation, gap, hasChild, variantSpacing });
-    }, [theme, variant, orientation, gap, hasChild, variantSpacing]);
+      return dividerRootContainerStyles({ spacing: themeSpacing, variant, orientation, gap, hasChild, variantSpacing });
+    }, [themeColors, variant, orientation, gap, hasChild, variantSpacing]);
 
     const lineStyles = useCallback(
       (lineType: LineType) => {
-        return dividerLineStyles({ theme, mode: colorScheme, borderColor, textAlign, lineType, color });
+        return dividerLineStyles({ colors: themeColors, mode: colorScheme, borderColor, textAlign, lineType, color });
       },
-      [borderColor, colorScheme, textAlign, color, theme],
+      [borderColor, colorScheme, textAlign, color, themeColors],
     );
 
     return (

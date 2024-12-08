@@ -14,7 +14,7 @@ import {
   View,
   ViewProps,
 } from 'react-native';
-import { grey, useTheme } from '../../libraries';
+import { grey, useThemeColorsSelector } from '../../libraries';
 import { MeasureElementRect } from '../../types';
 import { Box } from '../Box';
 import { ListItem, ListItemText } from '../List';
@@ -412,7 +412,7 @@ const DropDownListContainer = <T extends DropDownData>({
   ...props
 }: DropDownListContainerProps<T>) => {
   const flatListRef = useRef<FlatList>(null);
-  const { theme } = useTheme();
+  const themeColors = useThemeColorsSelector();
   const colorScheme = useColorScheme();
   const [filteredData, setFilteredData] = useState<DropDownData[] | null>(null);
 
@@ -463,7 +463,7 @@ const DropDownListContainer = <T extends DropDownData>({
       let listItemTextColor: string;
 
       if (colorScheme === 'dark') {
-        listItemTextColor = theme.colors.grey[900];
+        listItemTextColor = themeColors.grey[900];
       } else if (isSelected) {
         listItemTextColor = grey[50];
       } else {
@@ -473,7 +473,7 @@ const DropDownListContainer = <T extends DropDownData>({
       return (
         <ListItem
           startAdornment={startAdornment}
-          selectedColor={activeItemColor ?? theme.colors.secondary[500]}
+          selectedColor={activeItemColor ?? themeColors.secondary[500]}
           selected={isSelected}
           onPress={() => itemOnPressHandler(item)}
           endAdornment={endAdornment}
@@ -493,7 +493,7 @@ const DropDownListContainer = <T extends DropDownData>({
       selectedListItems,
       showSelectedItem,
       listItemEndAdornment,
-      theme,
+      themeColors,
       listItemTextProps,
       listItemMinHeight,
       displaySelectedAdornment,
@@ -525,7 +525,7 @@ const DropDownListContainer = <T extends DropDownData>({
         style={StyleSheet.flatten([
           styles.listContainer,
           {
-            backgroundColor: theme.colors.grey[300],
+            backgroundColor: themeColors.grey[300],
             maxHeight,
             top: dropDownContainerRect.pageY + inputLayoutRectangle.height,
           },
@@ -536,7 +536,7 @@ const DropDownListContainer = <T extends DropDownData>({
           <Box sx={{ px: 5, py: 4 }} {...searchContainerProps}>
             <IconInput
               onChangeText={searchHandler}
-              inputWrapperStyles={{ borderColor: theme.colors.grey[600], borderWidth: 0.7, height: 30 }}
+              inputWrapperStyles={{ borderColor: themeColors.grey[600], borderWidth: 0.7, height: 30 }}
               placeholder={searchPlaceholder ?? 'Search'}
               {...searchProps}
             />

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { Text } from '../Typography';
 import { QuantityStepperProps } from './Stepper.types';
 import { iconStyle, styles } from './styles';
@@ -34,7 +34,7 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeColors = useThemeColorsSelector();
 
     const isBelowMinimum = value <= minDecrement;
     const isAboveMaximum = value >= maxIncrement;
@@ -45,7 +45,7 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
     const stepperOptionsStyles = useCallback(
       (type: 'INC' | 'DEC', buttonType: QuantityStepperProps['buttonType']): ViewStyle => {
         let styles: ViewStyle = {
-          borderColor: theme.colors.grey[800],
+          borderColor: themeColors.grey[800],
           opacity: 1,
           borderRadius: buttonType === 'round' ? DEFAULT_ROUND_RADIUS : DEFAULT_SQUARE_RADIUS,
         };
@@ -57,7 +57,7 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
         return styles;
       },
       [
-        theme,
+        themeColors,
         disabledDecrement,
         disabledIncrement,
         minDecrement,
@@ -79,7 +79,7 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
               stepperOptionsStyles('DEC', buttonType),
               decrementButtonStyle,
             ])}>
-            {decrementIcon ?? <View style={StyleSheet.flatten([styles.horizontalLine, iconStyle(theme)])} />}
+            {decrementIcon ?? <View style={StyleSheet.flatten([styles.horizontalLine, iconStyle(themeColors)])} />}
           </View>
         </TouchableWithoutFeedback>
         <View style={[styles.item]} {...labelWrapperProps}>
@@ -97,8 +97,8 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
             ])}>
             {incrementIcon ?? (
               <React.Fragment>
-                <View style={StyleSheet.flatten([styles.horizontalLine, iconStyle(theme)])} />
-                <View style={StyleSheet.flatten([styles.verticalLine, iconStyle(theme)])} />
+                <View style={StyleSheet.flatten([styles.horizontalLine, iconStyle(themeColors)])} />
+                <View style={StyleSheet.flatten([styles.verticalLine, iconStyle(themeColors)])} />
               </React.Fragment>
             )}
           </View>

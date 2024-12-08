@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { OutlineProps } from './Input.types';
 import { inputOutlineVariationStyles, outlineStyles } from './TextField.style';
 
@@ -20,18 +20,19 @@ export const Outline = React.forwardRef<View, OutlineProps>(
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeColors = useThemeColorsSelector();
+
     const outlineGeneratedStyles = useMemo(
       () =>
         StyleSheet.create({
           generated: {
-            ...inputOutlineVariationStyles(variant, theme),
+            ...inputOutlineVariationStyles(variant, themeColors),
             ...outlineStyles({
               error,
               errorColor,
               isFocused,
               activeColor,
-              theme,
+              colors: themeColors,
               editable,
               variant,
               ignoreOpacityOnNonEditable,
@@ -39,7 +40,7 @@ export const Outline = React.forwardRef<View, OutlineProps>(
             }),
           },
         }),
-      [error, errorColor, isFocused, activeColor, theme, editable, variant, ignoreOpacityOnNonEditable, square],
+      [error, errorColor, isFocused, activeColor, themeColors, editable, variant, ignoreOpacityOnNonEditable, square],
     );
 
     return <View ref={ref} style={StyleSheet.flatten([outlineGeneratedStyles.generated, style])} {...props} />;

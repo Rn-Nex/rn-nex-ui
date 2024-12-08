@@ -8,7 +8,6 @@ import { ListItemTextProps } from './List.types';
 export const ListItemText = React.forwardRef<View, ListItemTextProps>(
   (
     {
-      sx,
       style,
       primary,
       primaryLabelStyles,
@@ -24,14 +23,12 @@ export const ListItemText = React.forwardRef<View, ListItemTextProps>(
     ref,
   ) => {
     const listItemGeneratedStyles = useMemo(
-      () => ({
-        generated: listItemTextStyles({ disablePadding, alignItems, disableLeftPadding }),
-      }),
+      () => listItemTextStyles({ disablePadding, alignItems, disableLeftPadding }),
       [disablePadding, alignItems, disableLeftPadding],
     );
 
     return (
-      <Box sx={sx} ref={ref} style={[styles.listItemText, listItemGeneratedStyles.generated, style]} {...props}>
+      <Box ref={ref} style={[styles.listItemText, listItemGeneratedStyles, style]} {...props}>
         {primary && (
           <Text variation="h3" style={primaryLabelStyles} {...primaryLabelProps}>
             {primary}

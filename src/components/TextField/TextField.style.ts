@@ -1,5 +1,5 @@
 import { ColorValue, StyleProp, TextStyle, ViewStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme } from '../../libraries/themes/v1/theme';
 import {
   INPUT_DEFAULT_BORDER_RADIUS,
   INPUT_DEFAULT_BORDER_WIDTH,
@@ -36,9 +36,9 @@ export const textInputStyles = ({ variant, endAdornment, startAdornment }: TextI
   return baseInputDefaultStyles;
 };
 
-export const labelTextStyles = ({ theme, variant, ignoreOpacityOnNonEditable }: LabelTextStylesProps): TextStyle => {
+export const labelTextStyles = ({ colors, variant, ignoreOpacityOnNonEditable }: LabelTextStylesProps): TextStyle => {
   const baseStyles: TextStyle = {
-    color: variant === 'outlined' ? theme.colors.grey[800] : theme.colors.white[50],
+    color: variant === 'outlined' ? colors.grey[800] : colors.white[50],
   };
 
   if (ignoreOpacityOnNonEditable) baseStyles.opacity = 1;
@@ -46,9 +46,9 @@ export const labelTextStyles = ({ theme, variant, ignoreOpacityOnNonEditable }: 
   return baseStyles;
 };
 
-export const baseInputStyles = ({ theme, variant }: BaseInputStylesProps): TextStyle => {
+export const baseInputStyles = ({ colors, variant }: BaseInputStylesProps): TextStyle => {
   const baseStyles: TextStyle = {
-    color: variant === 'outlined' ? theme.colors.grey[800] : theme.colors.grey[200],
+    color: variant === 'outlined' ? colors.grey[800] : colors.grey[200],
     minHeight: 30,
     width: '100%',
   };
@@ -60,7 +60,7 @@ export const outlineStyles = ({
   errorColor,
   isFocused,
   activeColor,
-  theme,
+  colors,
   editable,
   variant,
   ignoreOpacityOnNonEditable,
@@ -68,7 +68,7 @@ export const outlineStyles = ({
 }: OutlineStyles): ViewStyle => {
   const baseStyles: ViewStyle = {
     borderWidth: variant === 'outlined' ? 0.6 : 0,
-    borderColor: theme.colors.grey[400],
+    borderColor: colors.grey[400],
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -79,22 +79,22 @@ export const outlineStyles = ({
   let borderColor: ColorValue;
 
   if (error) {
-    borderColor = errorColor ?? theme.colors.red[500];
+    borderColor = errorColor ?? colors.red[500];
   } else if (isFocused) {
-    borderColor = activeColor ?? theme.colors.lightBlue[500];
+    borderColor = activeColor ?? colors.lightBlue[500];
   } else {
-    borderColor = theme.colors.grey[400];
+    borderColor = colors.grey[400];
   }
 
   return { ...baseStyles, borderColor };
 };
 
-export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme: ThemeType): ViewStyle => {
+export const inputOutlineVariationStyles = (variation: TextFiledVariation, colors: Theme): ViewStyle => {
   const outlineDefaultStyles: ViewStyle = {
     width: '100%',
     borderRadius: 6,
     borderWidth: INPUT_DEFAULT_BORDER_WIDTH,
-    borderColor: theme.colors.grey[500],
+    borderColor: colors.grey[500],
     paddingHorizontal: 14,
     position: 'relative',
     backgroundColor: 'transparent',
@@ -108,7 +108,7 @@ export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme
         ...outlineDefaultStyles,
         borderWidth: 0,
         borderColor: 'transparent',
-        backgroundColor: theme.colors.grey[500],
+        backgroundColor: colors.grey[500],
         borderBottomRightRadius: 0,
         borderBottomLeftRadius: 0,
         borderBottomWidth: INPUT_DEFAULT_BORDER_WIDTH,
@@ -117,7 +117,7 @@ export const inputOutlineVariationStyles = (variation: TextFiledVariation, theme
 };
 
 export const labelTransformStyle = ({
-  theme,
+  colors,
   textHeight,
   labelAnimatedValue,
   variant,
@@ -143,7 +143,7 @@ export const labelTransformStyle = ({
   return {
     position: 'absolute',
     zIndex: 10,
-    backgroundColor: isOutlinedVariant ? theme.colors.white[50] : 'transparent',
+    backgroundColor: isOutlinedVariant ? colors.white[50] : 'transparent',
     left: placeholderLeftPosition ?? 0,
     paddingHorizontal: 8,
     top: '50%',

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
 import { listItemContainerStyles, styles } from './List.style';
@@ -33,13 +33,13 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeColors = useThemeColorsSelector();
 
     const containerStyles = useMemo(
       () =>
         listItemContainerStyles({
           selected,
-          theme,
+          colors: themeColors,
           selectedColor,
           showOutline,
           outlineWidth,
@@ -47,7 +47,7 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
           showDefaultBg,
           softRadius,
         }),
-      [selected, theme, selectedColor, showOutline, outlineWidth, outlineColor, showDefaultBg, softRadius],
+      [selected, themeColors, selectedColor, showOutline, outlineWidth, outlineColor, showDefaultBg, softRadius],
     );
 
     const spacingStyles = useMemo(() => {

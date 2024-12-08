@@ -1,6 +1,6 @@
 import { StyleSheet, ViewStyle } from 'react-native';
-import { PaginationItemStylesProps } from './Pagination.types';
 import { getVariant } from '../../utils';
+import { PaginationItemStylesProps } from './Pagination.types';
 
 export const styles = StyleSheet.create({
   paginationContainer: {
@@ -25,12 +25,12 @@ export const styles = StyleSheet.create({
 export const paginationItemStyles = ({
   color,
   isActive,
-  theme,
+  colors,
   shape,
   variant,
   disabled,
 }: PaginationItemStylesProps): ViewStyle => {
-  const backgroundCl = getVariant({ variant: color, theme });
+  const backgroundCl = getVariant({ variant: color, colors }) as string;
 
   const backgroundColorInterpolation = isActive.interpolate({
     inputRange: [0, 1],
@@ -39,7 +39,7 @@ export const paginationItemStyles = ({
 
   const baseStyles: ViewStyle = {
     borderWidth: variant === 'outlined' ? 0.8 : 0,
-    borderColor: variant === 'outlined' ? theme.colors.grey[200] : 'transparent',
+    borderColor: variant === 'outlined' ? colors.grey[200] : 'transparent',
     borderRadius: shape === 'circular' ? 100 : 5,
     opacity: disabled ? 0.4 : 1,
     backgroundColor: backgroundColorInterpolation as any,

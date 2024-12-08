@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { useMemo } from 'react';
 import { useColorScheme } from 'react-native';
-import { createContext, useContext, useContextSelector } from 'use-context-selector';
+import { createContext, useContext } from 'use-context-selector';
 import { initialDarkTheme, initialLightTheme } from './colors';
 import { font, fontWeight, latterSpacing, lineHeight, spacing } from './sizes';
 import {
@@ -97,21 +97,4 @@ export const useTheme = <T extends object>(): ThemeInterface<T | any> => {
     throw new Error('Theme context must be used within a ThemeProvider');
   }
   return context;
-};
-
-export const themeFontSelector = () => useContextSelector(ThemeContext, values => values?.theme?.font);
-export const themeModeSelector = () => useContextSelector(ThemeContext, values => values?.theme?.colors?.mode) as ThemMode;
-export const themeColorsSelector = () => useContextSelector(ThemeContext, values => values?.theme?.colors);
-export const themeSpacingSelector = () => useContextSelector(ThemeContext, values => values?.theme?.spacing);
-
-export const themeTextConfigSelector = () => useContextSelector(ThemeContext, values => values?.components?.textProps);
-
-export const themeBadgeConfigSelector = () => useContextSelector(ThemeContext, values => values?.components?.badgeProps);
-
-export const themeButtonConfigSelector = () => useContextSelector(ThemeContext, values => values?.components?.buttonProps);
-export const themeIconButtonConfigSelector = () => {
-  return useContextSelector(ThemeContext, values => values?.components?.iconButtonProps);
-};
-export const themeButtonGroupConfigSelector = () => {
-  return useContextSelector(ThemeContext, values => values?.components?.buttonGroupProps);
 };

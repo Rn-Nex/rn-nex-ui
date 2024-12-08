@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { ColorValue, StyleSheet, View } from 'react-native';
-import { grey, themeButtonConfigSelector, themeColorsSelector, themeSpacingSelector } from '../../libraries';
+import { grey, useThemeButtonConfigSelector, useThemeColorsSelector, useThemeSpacingSelector } from '../../libraries';
 import { getVariant } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
 import { Box } from '../Box';
@@ -36,21 +36,10 @@ export const Button = React.forwardRef<View, ButtonProps>(
     },
     ref,
   ) => {
-    const themeColors = themeColorsSelector();
-    const themeSpacing = themeSpacingSelector();
-    const buttonThemeConfig = themeButtonConfigSelector();
+    const themeColors = useThemeColorsSelector();
+    const themeSpacing = useThemeSpacingSelector();
+    const buttonThemeConfig = useThemeButtonConfigSelector();
     const isContainedButton = variation === 'contained';
-
-    if (!themeColors) {
-      throw new Error(
-        'Theme colors are unavailable. Please ensure the ThemeProvider is correctly wrapped around the application.',
-      );
-    }
-    if (!themeSpacing) {
-      throw new Error(
-        'Theme spacing are unavailable. Please ensure the ThemeProvider is correctly wrapped around the application.',
-      );
-    }
 
     const {
       disableScaleAnimation: shouldDisableScaleAnimation = disableScaleAnimation,

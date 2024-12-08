@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { Animated, Text as RnText, StyleSheet } from 'react-native';
-import { themeFontSelector, themeModeSelector, themeTextConfigSelector } from '../../libraries';
+import { useThemeFontSelector, useThemeModeSelector, useThemeTextConfigSelector } from '../../libraries';
 import { maxLength as maxLengthUtile } from '../../utils';
+import { generateTextStyles } from './Text.styles';
 import { TextProps } from './Text.types';
-import { generateTextStyles } from './utils';
 
 export const Text = React.forwardRef<RnText, TextProps>(
   (
@@ -26,9 +26,9 @@ export const Text = React.forwardRef<RnText, TextProps>(
     },
     ref,
   ) => {
-    const themeTextConfig = themeTextConfigSelector();
-    const themeFontConfig = themeFontSelector();
-    const themeMode = themeModeSelector();
+    const themeTextConfig = useThemeTextConfigSelector();
+    const themeFontConfig = useThemeFontSelector();
+    const themeMode = useThemeModeSelector();
 
     const hasMaxLength = maxLength ?? themeTextConfig?.maxLength;
 
@@ -64,7 +64,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
         mode,
         color,
         applyGutterBottomSpace,
-        themeTextConfigSelector,
+        useThemeTextConfigSelector,
         themeFontConfig,
         themeMode,
       ],

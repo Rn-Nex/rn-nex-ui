@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, LayoutChangeEvent, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { generateElementStyles, getVariant, VariantTypes } from '../../utils';
 import { getSwitchSizes } from './utils';
@@ -112,7 +112,7 @@ export const Switch = React.forwardRef<View, SwitchProps>(
     const [containerWidth, setContainerWidth] = useState(0);
     const [thumbWidth, setThumbWidth] = useState(0);
 
-    const { theme } = useTheme();
+    const themeColors = useThemeColorsSelector();
 
     useEffect(() => {
       setIsToggled(initialToggleState);
@@ -159,12 +159,12 @@ export const Switch = React.forwardRef<View, SwitchProps>(
       ],
     };
 
-    const colorVariation = useMemo(() => getVariant({ variant, theme }), [variant, theme]);
+    const colorVariation = useMemo(() => getVariant({ variant, colors: themeColors }), [variant, themeColors]) as string;
     const switchSizeVariation = useMemo(() => getSwitchSizes({ size }), [size]);
 
     const backgroundColorInterpolation = switchWrapperBgAnimatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [wrapperDefaultBgColor ?? theme.colors.grey[300], wrapperActiveBgColor ?? colorVariation],
+      outputRange: [wrapperDefaultBgColor ?? themeColors.grey[300], wrapperActiveBgColor ?? colorVariation],
     });
 
     return (

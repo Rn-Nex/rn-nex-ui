@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { themeColorsSelector, themeIconButtonConfigSelector, themeSpacingSelector } from '../../libraries';
+import { useThemeColorsSelector, useThemeIconButtonConfigSelector, useThemeSpacingSelector } from '../../libraries';
 import { BaseButton } from './BaseButton';
 import { getButtonStyles } from './Button.styles';
 import { IconButtonProps } from './Button.types';
@@ -20,26 +20,23 @@ export const IconButton = React.forwardRef<View, IconButtonProps>(
     },
     ref,
   ) => {
-    const themeColors = themeColorsSelector();
-    const themeSpacing = themeSpacingSelector();
-    const iconButtonThemeConfig = themeIconButtonConfigSelector();
+    const themeColors = useThemeColorsSelector();
+    const themeSpacing = useThemeSpacingSelector();
+    const iconButtonThemeConfig = useThemeIconButtonConfigSelector();
 
-    if (!themeColors) {
-      throw new Error(
-        'Theme colors are unavailable. Please ensure the ThemeProvider is correctly wrapped around the application.',
-      );
-    }
     if (!themeSpacing) {
       throw new Error(
         'Theme spacing are unavailable. Please ensure the ThemeProvider is correctly wrapped around the application.',
       );
     }
 
-    const applyRippleEdge = iconButtonThemeConfig?.rippleEdge ?? rippleEdge;
-    const applyDisabledRipple = iconButtonThemeConfig?.disableRipple ?? disableRipple;
-    const applyRippleProps = iconButtonThemeConfig?.rippleProps ?? rippleProps;
-    const applyContainerStyles = iconButtonThemeConfig?.baseButtonContainerStyle ?? baseButtonContainerStyle;
-    const applyIconButtonStyles = iconButtonThemeConfig?.style ?? style;
+    const {
+      rippleEdge: applyRippleEdge = rippleEdge,
+      disableRipple: applyDisabledRipple = disableRipple,
+      rippleProps: applyRippleProps = rippleProps,
+      baseButtonContainerStyle: applyContainerStyles = baseButtonContainerStyle,
+      style: applyIconButtonStyles = style,
+    } = iconButtonThemeConfig || {};
 
     const iconButtonStyles = useMemo(
       () =>

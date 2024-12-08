@@ -1,5 +1,5 @@
 import { ColorValue, StyleProp, TouchableOpacityProps, ViewStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme, ThemeType } from '../../libraries/themes/v1/theme';
 import { BaseButtonProps } from '../Button/Button.types';
 import { VariantTypes } from '../../utils';
 import React from 'react';
@@ -58,9 +58,9 @@ export interface ChipProps extends Omit<BaseButtonProps, 'sx'> {
   endIconProps?: Omit<TouchableOpacityProps, 'children'>;
 }
 export interface GenerateChipStylesProps extends Pick<ChipProps, 'variant' | 'disabled' | 'color'> {
-  theme: ThemeType;
+  colors: Theme;
 }
 export interface LabelStylesInterface extends Pick<ChipProps, 'labelColor' | 'color' | 'syncBorderAndLabelColor'> {
   isOutlinedVariant: boolean;
-  theme: ThemeType;
+  colors: Theme;
 }

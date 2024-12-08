@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme } from '../../libraries/themes/v1/theme';
 
 export const styles = StyleSheet.create({
   stepperContainer: {
@@ -32,6 +32,6 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const iconStyle = (theme: ThemeType) => {
-  return { backgroundColor: theme.colors.grey[800] };
+export const iconStyle = (colors: Theme) => {
+  return { backgroundColor: colors.grey[800] };
 };

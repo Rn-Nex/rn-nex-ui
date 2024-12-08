@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, TouchableOpacity, useColorScheme, View } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
@@ -30,20 +30,25 @@ export const Chip = React.forwardRef<View, ChipProps>(
     },
     ref,
   ) => {
-    const { theme } = useTheme();
+    const themeColors = useThemeColorsSelector();
     const isOutlinedVariant = variant === 'outlined';
     const colorScheme = useColorScheme();
     const hasIcon = Boolean(startIcon) || Boolean(endIcon);
 
-    const chipStyles = useMemo(() => generateChipStyles({ variant, disabled, color, theme }), [variant, disabled, color, theme]);
+    const chipStyles = useMemo(
+      () => generateChipStyles({ variant, disabled, color, colors: themeColors }),
+      [variant, disabled, color, themeColors],
+    );
 
     const renderLabel = useCallback(() => {
       return (
-        <Text style={labelStyles({ isOutlinedVariant, theme, labelColor, color, syncBorderAndLabelColor })} variation="h4">
+        <Text
+          style={labelStyles({ isOutlinedVariant, colors: themeColors, labelColor, color, syncBorderAndLabelColor })}
+          variation="h4">
           {label}
         </Text>
       );
-    }, [theme, label, isOutlinedVariant, colorScheme, labelColor, color, syncBorderAndLabelColor]);
+    }, [themeColors, label, isOutlinedVariant, colorScheme, labelColor, color, syncBorderAndLabelColor]);
 
     if (hasIcon && !children) {
       return (

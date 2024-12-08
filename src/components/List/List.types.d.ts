@@ -1,7 +1,7 @@
 import React from 'react';
 import { ColorValue, TextStyle, View, ViewProps } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/Box.types';
 import { BaseButtonProps } from '../Button/Button.types';
 import { TextProps } from '../Typography/Text.types';
@@ -143,7 +143,9 @@ export interface ListItemProps extends Omit<BaseButtonProps, 'sx'> {
 /**
  * Interface for ListItemIcon component properties, extending the properties of ViewProps
  */
-export interface ListItemIconProps extends ViewProps {}
+export interface ListItemIconProps extends ViewProps {
+  sx?: BaseStyles;
+}
 
 /**
  * Interface for ListItemText component properties, extending ListProps but omitting the 'children' property
@@ -216,7 +218,7 @@ export interface ListItemContainerStylesProps
     ListItemProps,
     'selected' | 'selectedColor' | 'showOutline' | 'outlineWidth' | 'outlineColor' | 'showDefaultBg' | 'softRadius'
   > {
-  theme: ThemeType;
+  colors: Theme;
 }
 
 /**

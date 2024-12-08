@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { useCallback } from 'react';
 import { View, ViewProps, ViewStyle } from 'react-native';
-import { grey, themeButtonGroupConfigSelector, themeColorsSelector } from '../../libraries';
+import { grey, useThemeButtonGroupConfigSelector, useThemeColorsSelector } from '../../libraries';
 import { getVariant, VariantTypes } from '../../utils';
 import { Box } from '../Box';
 import { styles } from './Button.styles';
@@ -37,18 +37,12 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
     },
     ref,
   ) => {
-    const themeColors = themeColorsSelector();
-    const themeButtonGroupConfig = themeButtonGroupConfigSelector();
+    const themeColors = useThemeColorsSelector();
+    const themeButtonGroupConfig = useThemeButtonGroupConfigSelector();
 
     const childrenCount = React.Children.count(children);
     const isOutlinedButton = variation === 'outlined';
     const isTextButton = variation === 'text';
-
-    if (!themeColors) {
-      throw new Error(
-        'Theme colors are unavailable. Please ensure the ThemeProvider is correctly wrapped around the application.',
-      );
-    }
 
     const {
       roundSize: applyButtonGroupRoundSize = roundSize,

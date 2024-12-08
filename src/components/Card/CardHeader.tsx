@@ -1,13 +1,13 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { generateElementStyles } from '../../utils';
+import { View } from 'react-native';
+import { Box } from '../Box';
 import { CardHeaderProps } from './Card.types';
 
-export const CardHeader = React.forwardRef<View, CardHeaderProps>(({ children, style, sx, ...props }, ref) => {
+export const CardHeader = React.forwardRef<View, CardHeaderProps>(({ children, sx, ...props }, ref) => {
   return (
-    <View ref={ref} style={StyleSheet.flatten([sx && generateElementStyles(sx), style])} {...props}>
+    <Box ref={ref} sx={sx} {...props}>
       {children}
-    </View>
+    </Box>
   );
 });
 

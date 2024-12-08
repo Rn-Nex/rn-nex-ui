@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Animated, LayoutChangeEvent, LayoutRectangle } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { Text } from '../Typography';
 import { InputLabelProps } from './Input.types';
 import { labelTextStyles, labelTransformStyle } from './TextField.style';
@@ -18,26 +18,27 @@ export const InputLabel: React.FC<InputLabelProps> = function ({
   variant = 'outlined',
   ...props
 }) {
-  const { theme } = useTheme();
+  const themeColors = useThemeColorsSelector();
+
   const [textLayoutRect, setTextLayoutRect] = useState<LayoutRectangle>();
   const textHeight = textLayoutRect?.height ? textLayoutRect.height : TEXT_FONT_DEFAULT_HEIGHT;
 
   const styles = useMemo(
     () =>
       labelTransformStyle({
-        theme,
+        colors: themeColors,
         textHeight,
         translateYAnimatedPosition,
         labelAnimatedValue,
         variant,
         placeholderLeftPosition: placeholderLeftPosition ?? PLACEHOLDER_OUTLINE_LEFT_POSITION,
       }),
-    [theme, textHeight, translateYAnimatedPosition, labelAnimatedValue, variant, placeholderLeftPosition],
+    [themeColors, textHeight, translateYAnimatedPosition, labelAnimatedValue, variant, placeholderLeftPosition],
   );
 
   const labelStyles = useMemo(
-    () => labelTextStyles({ theme, variant, ignoreOpacityOnNonEditable }),
-    [theme, variant, ignoreOpacityOnNonEditable],
+    () => labelTextStyles({ colors: themeColors, variant, ignoreOpacityOnNonEditable }),
+    [themeColors, variant, ignoreOpacityOnNonEditable],
   );
 
   const onTextLayoutHandler = (event: LayoutChangeEvent) => {

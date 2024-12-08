@@ -1,8 +1,8 @@
 import { ColorValue, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { grey } from '../../libraries';
 import { getVariant } from '../../utils';
 import { GenerateChipStylesProps, LabelStylesInterface } from './Chip.types';
 import { ADORNMENT_WRAPPER_SPACE } from './constants';
-import { grey } from '../../libraries';
 
 export const styles = StyleSheet.create({
   chip: {
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const generateChipStyles = ({ variant, disabled, color, theme }: GenerateChipStylesProps) => {
+export const generateChipStyles = ({ variant, disabled, color, colors }: GenerateChipStylesProps) => {
   let styles: ViewStyle = {};
 
   if (disabled) {
@@ -41,10 +41,10 @@ export const generateChipStyles = ({ variant, disabled, color, theme }: Generate
     styles = {
       ...styles,
       borderWidth: 1,
-      borderColor: getVariant({ variant: color, theme }),
+      borderColor: getVariant({ variant: color, colors }),
     };
   } else {
-    styles.backgroundColor = getVariant({ variant: color, theme });
+    styles.backgroundColor = getVariant({ variant: color, colors });
   }
 
   return styles;
@@ -52,9 +52,9 @@ export const generateChipStyles = ({ variant, disabled, color, theme }: Generate
 
 export const labelStyles = ({
   isOutlinedVariant,
-  theme,
   labelColor,
   color,
+  colors,
   syncBorderAndLabelColor,
 }: LabelStylesInterface): TextStyle => {
   let textColor: ColorValue;
@@ -67,17 +67,17 @@ export const labelStyles = ({
       textColor = grey[50];
       break;
     default:
-      textColor = theme.colors.grey[50];
+      textColor = colors.grey[50];
   }
 
   let resolvedColor;
 
   if (syncBorderAndLabelColor) {
-    resolvedColor = getVariant({ variant: color, theme });
+    resolvedColor = getVariant({ variant: color, colors });
   } else if (labelColor) {
     resolvedColor = labelColor;
   } else {
-    resolvedColor = isOutlinedVariant ? theme.colors.grey[900] : textColor;
+    resolvedColor = isOutlinedVariant ? colors.grey[900] : textColor;
   }
 
   return {

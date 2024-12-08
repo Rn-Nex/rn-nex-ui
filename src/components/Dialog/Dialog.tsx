@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { useTheme } from '../../libraries';
+import { useThemeColorsSelector } from '../../libraries';
 import { Box } from '../Box';
 import { Portal } from '../Portal';
 import { dialogContainerStyles, styles } from './Dialog.styles';
@@ -14,7 +14,7 @@ export const Dialog: React.FC<DialogProps> = ({
   fullWidth = false,
   ...props
 }) => {
-  const { theme } = useTheme();
+  const themeColors = useThemeColorsSelector();
   const { style: modalContainerStyles, ...rest } = modalContainerProps || {};
   const { style: dialogContainerStyle, ...dialogOtherProps } = dialogContainerProps || {};
 
@@ -26,7 +26,7 @@ export const Dialog: React.FC<DialogProps> = ({
       <Box
         style={StyleSheet.flatten([
           styles.dialogContainer,
-          dialogContainerStyles({ theme, fullWidth, maxWidth }),
+          dialogContainerStyles({ colors: themeColors, fullWidth, maxWidth }),
           dialogContainerStyle,
         ])}
         {...dialogOtherProps}>

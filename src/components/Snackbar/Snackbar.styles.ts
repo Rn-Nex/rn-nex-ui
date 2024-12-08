@@ -78,8 +78,8 @@ export const snackbarRootContainerStyle = ({
   };
 };
 
-export const snackbarContainerStyles = ({ theme, variant }: SnackbarContainerStylesInterface): ViewStyle => {
+export const snackbarContainerStyles = ({ colors, variant }: SnackbarContainerStylesInterface): ViewStyle => {
   return {
-    backgroundColor: variant ? getVariant({ variant: variant, theme }) : grey[900],
+    backgroundColor: variant ? getVariant({ variant: variant, colors }) : grey[900],
   };
 };

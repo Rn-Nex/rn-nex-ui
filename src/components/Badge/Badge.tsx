@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
-import { themeBadgeConfigSelector, themeColorsSelector } from '../../libraries';
+import { useThemeBadgeConfigSelector, useThemeColorsSelector } from '../../libraries';
 import { Box } from '../Box';
 import { Text } from '../Typography';
 import { badgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './Badge.styles';
@@ -36,9 +36,9 @@ export const Badge = React.forwardRef<View, BadgeProps>(
     },
     ref,
   ) => {
-    const themeBadgeConfig = themeBadgeConfigSelector();
+    const themeBadgeConfig = useThemeBadgeConfigSelector();
     const badgeVisibility = useRef(new Animated.Value(0)).current;
-    const themeColors = themeColorsSelector();
+    const themeColors = useThemeColorsSelector();
 
     const animationDuration = themeBadgeConfig?.badgeAnimationDuration ?? badgeAnimationDuration;
 

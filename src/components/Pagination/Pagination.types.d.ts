@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, ColorValue, GestureResponderEvent, StyleProp, TextStyle } from 'react-native';
-import { ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme } from '../../libraries/themes/v1/theme';
 import { VariantTypes } from '../../utils';
 import { BoxProps } from '../Box/Box.types';
 import { BaseButtonProps } from '../Button/Button.types';
@@ -54,7 +54,7 @@ export interface PaginationItemProps extends Omit<BaseButtonProps, 'children' | 
  */
 export interface PaginationItemStylesProps extends Pick<PaginationItemProps, 'color' | 'shape' | 'variant' | 'disabled'> {
   isActive: Animated.Value;
-  theme: ThemeType;
+  colors: Theme;
 }
 
 /**
