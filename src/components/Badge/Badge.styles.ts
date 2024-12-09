@@ -1,6 +1,7 @@
 import { TextStyle, ViewStyle } from 'react-native';
 import { getVariant } from '../../utils';
 import {
+  AnchorOrigin,
   BadgeContentDefaultStylesProps,
   GenerateBadgeContainerStylesProps,
   GenerateBadgeStylesProps,
@@ -56,11 +57,17 @@ export const generateBadgeStyles = ({
   variant,
   anchorOrigin,
   overrideRootConfig,
+  shouldOverrideRootAnchor,
 }: GenerateBadgeStylesProps): ViewStyle => {
   const isDotVariation = variant === 'dot';
   let styles: ViewStyle = {};
 
-  const badgePosition = themeComponentConfig?.anchorOrigin ?? anchorOrigin;
+  let badgePosition: AnchorOrigin | undefined;
+  if (shouldOverrideRootAnchor) {
+    badgePosition = anchorOrigin;
+  } else {
+    badgePosition = themeComponentConfig?.anchorOrigin ?? anchorOrigin;
+  }
 
   styles = {
     ...styles,

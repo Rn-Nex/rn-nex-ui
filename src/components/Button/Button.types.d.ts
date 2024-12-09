@@ -86,6 +86,10 @@ export interface ButtonProps extends Omit<BaseButtonProps, 'sx'> {
    */
   square?: boolean;
   /**
+   * Override square root configuration
+   */
+  overrideRootSquareConfig?: boolean;
+  /**
    * Change the button label color
    */
   labelColor?: ColorValue;
@@ -101,6 +105,18 @@ export interface ButtonProps extends Omit<BaseButtonProps, 'sx'> {
    * Base button sx styles
    */
   baseButtonSx?: BaseButtonProps['sx'];
+  /**
+   * Override root disable scale animation
+   */
+  overrideRootDisableScaleAnimation?: boolean;
+  /**
+   * Override root scale animation value
+   */
+  overrideRootScaleAnimationValue?: boolean;
+  /**
+   * Override root ripple edge
+   */
+  overrideRootRippleEdge?: boolean;
 }
 export interface ButtonRootContainerStylesInterface extends Pick<ButtonProps, 'flex'> {}
 

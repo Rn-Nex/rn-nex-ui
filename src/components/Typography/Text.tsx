@@ -1,8 +1,7 @@
-import _ from 'lodash';
 import React, { useMemo } from 'react';
 import { Animated, Text as RnText, StyleSheet } from 'react-native';
 import { useThemeFontSelector, useThemeModeSelector, useThemeTextConfigSelector } from '../../libraries';
-import { maxLength as maxLengthUtile } from '../../utils';
+import { maxLength as maxLengthUtile, merge } from '../../utils';
 import { generateTextStyles } from './Text.styles';
 import { TextProps } from './Text.types';
 
@@ -32,7 +31,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
     const themeMode = useThemeModeSelector();
 
     const mergedStyle = useMemo(() => {
-      return _.mergeWith(themeTextConfig?.style, style);
+      return merge(themeTextConfig?.style, style);
     }, [themeTextConfig?.style, style]);
 
     const hasMaxLength = maxLength ?? themeTextConfig?.maxLength;

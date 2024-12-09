@@ -84,7 +84,15 @@ export interface SnackbarProps extends ViewProps {
   /** Source URI for the warning image, if any. */
   warningImageSource?: string;
   /** Additional props for the action button. */
-  actionButtonProps?: Omit<ButtonProps, 'children' | 'ref'>;
+  actionButtonProps?: Omit<
+    ButtonProps,
+    | 'children'
+    | 'ref'
+    | 'overrideRootSquareConfig'
+    | 'overrideRootDisableScaleAnimation'
+    | 'overrideRootScaleAnimationValue'
+    | 'overrideRootRippleEdge'
+  >;
   /** Max length of the snackbar component message */
   messageMaxLength?: number;
   /** Extra space from top or bottom */

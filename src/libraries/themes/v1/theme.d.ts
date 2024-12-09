@@ -138,8 +138,6 @@ export type ThemeComponentConfig = {
     | 'rippleEdge'
     | 'baseButtonContainerStyle'
     | 'rippleProps'
-    | 'sx'
-    | 'baseButtonSx'
     | 'style'
   >;
   iconButtonProps: Pick<
