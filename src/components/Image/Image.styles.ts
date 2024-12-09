@@ -16,20 +16,20 @@ export const generateImageRadiusStyles = (variation: ImageVariant): ImageStyle =
   let styles: ElementRadius = {};
 
   if (variation === 'rounded') {
-    styles['borderRadius'] = IMAGE_ROUNDED_RADIUS;
+    styles.borderRadius = IMAGE_ROUNDED_RADIUS;
   } else if (variation === 'square') {
-    styles['borderRadius'] = IMAGE_SQUARE_RADIUS;
+    styles.borderRadius = IMAGE_SQUARE_RADIUS;
   } else if (variation === 'rounded-sm') {
-    styles['borderRadius'] = IMAGE_ROUNDED_SM_RADIUS;
+    styles.borderRadius = IMAGE_ROUNDED_SM_RADIUS;
   } else if (variation === 'rounded-md') {
-    styles['borderRadius'] = IMAGE_ROUNDED_MD_RADIUS;
+    styles.borderRadius = IMAGE_ROUNDED_MD_RADIUS;
   } else if (variation === 'rounded-lg') {
-    styles['borderRadius'] = IMAGE_ROUNDED_LG_RADIUS;
+    styles.borderRadius = IMAGE_ROUNDED_LG_RADIUS;
   } else if (variation === 'rounded-xl') {
-    styles['borderRadius'] = IMAGE_ROUNDED_XL_RADIUS;
+    styles.borderRadius = IMAGE_ROUNDED_XL_RADIUS;
   }
 
-  return generateStyle({ propertyName: 'borderRadius', value: styles['borderRadius'] });
+  return generateStyle({ propertyName: 'borderRadius', value: styles.borderRadius });
 };
 
 export const imageStyles = ({ expandToFill, size, width, height }: ImageStyleInterface): ImageStyle => {

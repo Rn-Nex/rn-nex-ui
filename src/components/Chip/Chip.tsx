@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useThemeChipConfigSelector, useThemeColorsSelector } from '../../libraries';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
@@ -32,7 +32,6 @@ export const Chip = React.forwardRef<View, ChipProps>(
   ) => {
     const themeColors = useThemeColorsSelector();
     const isOutlinedVariant = variant === 'outlined';
-    const colorScheme = useColorScheme();
     const hasIcon = Boolean(startIcon) || Boolean(endIcon);
 
     const chipThemeConfig = useThemeChipConfigSelector();
@@ -65,16 +64,7 @@ export const Chip = React.forwardRef<View, ChipProps>(
           {label}
         </Text>
       );
-    }, [
-      themeColors,
-      label,
-      isOutlinedVariant,
-      colorScheme,
-      themeChipLabelColor,
-      color,
-      themeColorScheme,
-      themeSyncBorderAndLabelColor,
-    ]);
+    }, [themeColors, label, isOutlinedVariant, themeChipLabelColor, color, themeColorScheme, themeSyncBorderAndLabelColor]);
 
     if (hasIcon && !children) {
       return (

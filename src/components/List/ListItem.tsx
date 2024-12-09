@@ -80,7 +80,9 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
 
     const renderAdornment = useCallback(
       (type: 'start' | 'end', adornment?: React.ReactNode) => {
-        if (!adornment) return null;
+        if (!adornment) {
+          return null;
+        }
 
         const isStartAdornment = type === 'start';
         const adornmentSx = isStartAdornment ? themeStartAdornmentContainerStyles?.sx : themeEndAdornmentContainerStyles?.sx;
@@ -94,6 +96,7 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
           </Box>
         );
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [startAdornment, endAdornment, themeStartAdornmentContainerStyles, themeEndAdornmentContainerStyles],
     );
 
@@ -102,17 +105,17 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
         return (
           <View style={[styles.flexContainer, styles.listItemInnerContainer]}>
             {renderAdornment('start', startAdornment)}
-            <View style={{ flex: 1 }}>
+            <Box sx={{ f: 1 }}>
               <BaseButton disableRipple={disableRipple} style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
                 <View style={[styles.flexContainer]}>{children}</View>
               </BaseButton>
-            </View>
+            </Box>
             {renderAdornment('end', endAdornment)}
           </View>
         );
       } else if (themeActionType === 'root') {
         return (
-          <View style={{ flex: 1 }}>
+          <Box sx={{ f: 1 }}>
             <BaseButton disableRipple={disableRipple} style={StyleSheet.flatten([styles.baseButton, style])} {...props}>
               <View style={[styles.flexContainer]}>
                 {renderAdornment('start', startAdornment)}
@@ -120,9 +123,12 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
                 {renderAdornment('end', endAdornment)}
               </View>
             </BaseButton>
-          </View>
+          </Box>
         );
-      } else return null;
+      } else {
+        return null;
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [themeActionType, startAdornment, endAdornment, props, style, disableRipple]);
 
     return (

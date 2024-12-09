@@ -8,7 +8,7 @@ export const Ex1: React.FC = () => {
       <Pagination count={10} onPageChange={(_, page) => console.log(page)} />
       <Pagination count={10} activeCount={6} />
       <Pagination count={10} disabled />
-      <Pagination count={10} dotStylesProps={{ backgroundColor: 'red' }} />
+      <Pagination count={10} dotStyles={{ backgroundColor: 'red' }} />
       <Pagination
         count={10}
         renderItem={
@@ -27,7 +27,7 @@ export const Ex1: React.FC = () => {
       <Pagination count={10} paginationItemProps={{ color: 'error' }} />
       <Pagination count={10} paginationItemProps={{ color: 'primary' }} />
       <Pagination count={10} paginationItemProps={{ color: 'secondary' }} />
-      <Pagination count={10} paginationItemProps={{ color: 'standard' }} />
+      <Pagination count={10} paginationItemProps={{ color: 'grey' }} />
       <Pagination count={10} paginationItemProps={{ variant: 'outlined' }} />
       <Pagination count={10} paginationItemProps={{ rippleBackgroundColor: 'red' }} />
       <Pagination count={10} paginationItemProps={{ disableRipple: true }} />

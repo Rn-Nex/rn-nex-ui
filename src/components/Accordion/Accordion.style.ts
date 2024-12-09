@@ -39,6 +39,9 @@ export const accordionSummaryStyles = StyleSheet.create({
     opacity: 0,
     zIndex: -1,
   },
+  accordionDetailsContainer: {
+    overflow: 'hidden',
+  },
 });
 
 export const accordionStyles = StyleSheet.create({

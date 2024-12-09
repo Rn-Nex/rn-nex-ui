@@ -38,6 +38,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
         useNativeDriver: true,
       }).start();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   const paginationItemS = useMemo(

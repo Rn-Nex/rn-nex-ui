@@ -147,6 +147,7 @@ export const Switch = React.forwardRef<View, SwitchProps>(
           useNativeDriver: false,
         }),
       ]).start();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isToggled]);
 
     const toggleSwitch = () => {

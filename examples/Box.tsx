@@ -49,7 +49,8 @@ export const Ex3: React.FC = () => {
         bg: theme.colors.grey[400],
         ret: 10,
         p: 10,
-      }}></Box>
+      }}
+    />
   );
 };
 
@@ -64,7 +65,8 @@ export const Ex4: React.FC = () => {
         bg: theme.colors.grey[400],
         reb: 10,
         p: 10,
-      }}></Box>
+      }}
+    />
   );
 };
 
@@ -79,7 +81,8 @@ export const Ex5: React.FC = () => {
         bg: theme.colors.grey[400],
         rsb: 10,
         p: 10,
-      }}></Box>
+      }}
+    />
   );
 };
 
@@ -94,7 +97,8 @@ export const Ex6: React.FC = () => {
         bg: theme.colors.grey[400],
         rst: 10,
         p: 10,
-      }}></Box>
+      }}
+    />
   );
 };
 
@@ -112,7 +116,8 @@ export const Ex7: React.FC = () => {
         reb: 6,
         ret: 10,
         p: 10,
-      }}></Box>
+      }}
+    />
   );
 };
 
@@ -133,7 +138,8 @@ export const Ex8: React.FC = () => {
         pos: 'absolute',
         posT: 10,
         posL: 10,
-      }}></Box>
+      }}
+    />
   );
 };
 
@@ -154,7 +160,8 @@ export const Ex9: React.FC = () => {
         pos: 'absolute',
         posR: 10,
         posB: 10,
-      }}></Box>
+      }}
+    />
   );
 };
 
@@ -174,6 +181,7 @@ export const Ex10: React.FC = () => {
         p: 10,
         ms: 100,
         mt: 200,
-      }}></Box>
+      }}
+    />
   );
 };

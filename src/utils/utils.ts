@@ -17,19 +17,28 @@ export interface GetVariantArgs<T> {
 }
 
 export const getVariant = <T>({ variant, colors, config }: GetVariantArgs<T>): ColorValue | string => {
-  if (variant === 'primary') return config?.primary?.color ?? colors.primary[500];
-  else if (variant === 'secondary') return config?.secondary?.color ?? colors.secondary[500];
-  else if (variant === 'error') return config?.error?.color ?? colors.red[500];
-  else if (variant === 'info') return config?.info?.color ?? colors.lightBlue[500];
-  else if (variant === 'success') return config?.success?.color ?? colors.green[500];
-  else if (variant === 'warning') return config?.warning?.color ?? colors.yellow[500];
-  else if (variant === 'grey') return config?.grey?.color ?? colors.grey[500];
-  else if (variant === 'lightGrey') return config?.lightGrey?.color ?? colors.grey[200];
+  if (variant === 'primary') {
+    return config?.primary?.color ?? colors.primary[500];
+  } else if (variant === 'secondary') {
+    return config?.secondary?.color ?? colors.secondary[500];
+  } else if (variant === 'error') {
+    return config?.error?.color ?? colors.red[500];
+  } else if (variant === 'info') {
+    return config?.info?.color ?? colors.lightBlue[500];
+  } else if (variant === 'success') {
+    return config?.success?.color ?? colors.green[500];
+  } else if (variant === 'warning') {
+    return config?.warning?.color ?? colors.yellow[500];
+  } else if (variant === 'grey') {
+    return config?.grey?.color ?? colors.grey[500];
+  } else if (variant === 'lightGrey') {
+    return config?.lightGrey?.color ?? colors.grey[200];
+  }
   return colors.secondary[500];
 };
 
-export const maxLength = function (text: string, maxLength: number): string {
-  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+export const maxLength = function (text: string, maxLengthNumber: number): string {
+  return text.length > maxLengthNumber ? `${text.slice(0, maxLengthNumber)}...` : text;
 };
 
 export const gutter = <T extends keyof SpacingStyle, U extends StylePalette[T]>(property: T, value: U): SpacingStyle => {

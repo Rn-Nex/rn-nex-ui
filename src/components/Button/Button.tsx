@@ -65,8 +65,9 @@ export const Button = React.forwardRef<View, ButtonProps>(
 
         if (buttonThemeConfig?.labelColor) {
           textColor = buttonThemeConfig.labelColor;
-        } else if (labelColor) textColor = labelColor;
-        else if (isContainedButton) {
+        } else if (labelColor) {
+          textColor = labelColor;
+        } else if (isContainedButton) {
           textColor = grey[50];
         } else {
           textColor = getVariant({ variant: buttonColor, colors: themeColors });
@@ -76,6 +77,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
           <Text style={StyleSheet.flatten([{ color: textColor }, buttonThemeConfig?.labelStyles ?? labelStyles])}>{label}</Text>
         );
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       loading,
       children,

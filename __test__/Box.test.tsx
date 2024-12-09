@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import { Box, Text } from '../src';
 import { BaseStyles } from '../src/libraries/style/styleTypes';
 import { render } from './test-utils';

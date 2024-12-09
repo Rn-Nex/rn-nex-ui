@@ -31,23 +31,23 @@ export const styles = StyleSheet.create({
 });
 
 export const generateChipStyles = ({ variant, disabled, color, colors, colorSchemeConfig }: GenerateChipStylesProps) => {
-  let styles: ViewStyle = {};
+  let baseStyles: ViewStyle = {};
 
   if (disabled) {
-    styles = { ...styles, opacity: 0.5 };
+    baseStyles = { ...baseStyles, opacity: 0.5 };
   }
 
   if (variant === 'outlined') {
-    styles = {
-      ...styles,
+    baseStyles = {
+      ...baseStyles,
       borderWidth: 1,
       borderColor: getVariant({ variant: color, colors, config: colorSchemeConfig }),
     };
   } else {
-    styles.backgroundColor = getVariant({ variant: color, colors, config: colorSchemeConfig });
+    baseStyles.backgroundColor = getVariant({ variant: color, colors, config: colorSchemeConfig });
   }
 
-  return styles;
+  return baseStyles;
 };
 
 export const labelStyles = ({

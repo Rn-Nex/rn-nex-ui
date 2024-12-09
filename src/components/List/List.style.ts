@@ -39,18 +39,18 @@ export const styles = StyleSheet.create({
 });
 
 export const listStyles = ({ disablePadding }: ListStylesProps): ViewStyle => {
-  let styles: ViewStyle = {
+  let baseStyles: ViewStyle = {
     display: 'flex',
     flexDirection: 'column',
   };
 
   if (!disablePadding) {
     return {
-      ...styles,
+      ...baseStyles,
       paddingVertical: 3,
     };
   }
-  return styles;
+  return baseStyles;
 };
 
 export const listItemContainerStyles = ({
@@ -64,22 +64,22 @@ export const listItemContainerStyles = ({
   softRadius,
 }: ListItemContainerStylesProps): ViewStyle => {
   const defaultBgColor = colors.grey[50];
-  const selectedBgColor = selectedColor || colors.grey[100];
+  const selectedBgColor = selectedColor ?? colors.grey[100];
 
-  let styles: ViewStyle = {
+  let baseStyles: ViewStyle = {
     backgroundColor: selected ? selectedBgColor : showDefaultBg ? defaultBgColor : 'transparent',
   };
 
   if (showOutline) {
-    styles.borderWidth = outlineWidth ?? 1;
-    styles.borderColor = outlineColor ?? colors.grey[400];
+    baseStyles.borderWidth = outlineWidth ?? 1;
+    baseStyles.borderColor = outlineColor ?? colors.grey[400];
   }
 
   if (softRadius) {
-    styles.borderRadius = 10;
+    baseStyles.borderRadius = 10;
   }
 
-  return styles;
+  return baseStyles;
 };
 
 export const listItemTextStyles = ({ disablePadding, alignItems, disableLeftPadding }: ListItemTextStylesProps): ViewStyle => {
@@ -100,13 +100,13 @@ export const listItemTextStyles = ({ disablePadding, alignItems, disableLeftPadd
       break;
   }
 
-  let styles: ViewStyle = {
+  let baseStyles: ViewStyle = {
     alignItems: alignItemsStyle,
   };
 
   if (!disablePadding) {
     return {
-      ...styles,
+      ...baseStyles,
       ...(!disableLeftPadding && { paddingLeft: 15 }),
       paddingRight: 15,
       paddingTop: 5,
@@ -114,5 +114,5 @@ export const listItemTextStyles = ({ disablePadding, alignItems, disableLeftPadd
     };
   }
 
-  return styles;
+  return baseStyles;
 };

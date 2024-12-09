@@ -25,10 +25,15 @@ export const dividerLineStyles = ({
 }: DividerLineStyles) => {
   let borderColorValue: ColorValue;
 
-  if (borderColor) borderColorValue = borderColor;
-  else if (color) borderColorValue = getVariant({ colors, variant: color, config: themeColorSchemeConfig });
-  else if (mode === 'light') borderColorValue = grey[400];
-  else borderColorValue = grey[700];
+  if (borderColor) {
+    borderColorValue = borderColor;
+  } else if (color) {
+    borderColorValue = getVariant({ colors, variant: color, config: themeColorSchemeConfig });
+  } else if (mode === 'light') {
+    borderColorValue = grey[400];
+  } else {
+    borderColorValue = grey[700];
+  }
 
   let baseStyles: ViewStyle = {
     borderColor: borderColorValue,
@@ -60,7 +65,7 @@ export const dividerRootContainerStyles = ({
 }: DividerRootContainerStyles): ViewStyle => {
   const isVertical = orientation === 'vertical';
 
-  const baseStyles: ViewStyle = isVertical
+  const defaultStyles: ViewStyle = isVertical
     ? {
         paddingHorizontal: 2,
         alignSelf: 'auto',
@@ -69,20 +74,20 @@ export const dividerRootContainerStyles = ({
       }
     : { paddingVertical: 2 };
 
-  const styles: ViewStyle = { ...baseStyles, gap: gap || hasChild ? 10 : 0 };
-  const elementSpacing = variantSpacing || spacing.lg;
+  const baseStyles: ViewStyle = { ...defaultStyles, gap: gap || hasChild ? 10 : 0 };
+  const elementSpacing = variantSpacing ?? spacing.lg;
 
   switch (variant) {
     case 'middle':
-      isVertical ? (styles.paddingVertical = elementSpacing) : (styles.paddingHorizontal = elementSpacing);
+      isVertical ? (baseStyles.paddingVertical = elementSpacing) : (baseStyles.paddingHorizontal = elementSpacing);
       break;
     case 'startSpacing':
-      isVertical ? (styles.paddingTop = elementSpacing) : (styles.paddingLeft = elementSpacing);
+      isVertical ? (baseStyles.paddingTop = elementSpacing) : (baseStyles.paddingLeft = elementSpacing);
       break;
     case 'endSpacing':
-      isVertical ? (styles.paddingBottom = elementSpacing) : (styles.paddingRight = elementSpacing);
+      isVertical ? (baseStyles.paddingBottom = elementSpacing) : (baseStyles.paddingRight = elementSpacing);
       break;
   }
 
-  return styles;
+  return baseStyles;
 };

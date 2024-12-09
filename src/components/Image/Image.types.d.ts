@@ -1,8 +1,6 @@
 import React from 'react';
-import { ColorValue, DimensionValue, Image, ImageProps as RnImageProps, ScrollView, View, ViewStyle } from 'react-native';
+import { DimensionValue, Image, ImageProps as RnImageProps, ScrollView, View, ViewStyle } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
-import { BoxProps } from '../Box/Box.types';
-import { TextProps } from '../Typography/Text.types';
 
 /**
  * Define the type for the variant of the image.

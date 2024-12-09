@@ -138,7 +138,7 @@ export const Divider = React.forwardRef<View, DividerProps>(
         hasChild,
         variantSpacing: themeVariantSpacing,
       });
-    }, [themeColors, variant, orientation, themeGap, hasChild, themeVariantSpacing]);
+    }, [themeSpacing, variant, orientation, themeGap, hasChild, themeVariantSpacing]);
 
     const lineStyles = useCallback(
       (lineType: LineType) => {

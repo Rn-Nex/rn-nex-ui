@@ -40,6 +40,7 @@ export const IconButton = React.forwardRef<View, IconButtonProps>(
           themeColors,
           spacing: themeSpacing,
         }),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [variation, iconButtonThemeConfig?.variation, disabled, themeColors],
     );
 

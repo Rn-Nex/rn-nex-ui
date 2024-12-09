@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import { ActivityIndicator, Avatar, Button, Container, SNACK_BAR, snackbar, Snackbar, ThemeProvider } from '../../src';
 
 function App(): React.JSX.Element {

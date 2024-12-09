@@ -6,16 +6,16 @@ export interface AccordionDetailsProps extends React.ComponentPropsWithRef<typeo
 }
 
 export const AccordionDetails = React.forwardRef<View, AccordionDetailsProps>(({ style, disable, children, ...props }, ref) => {
-  const accordionStyle = useMemo(() => {
-    const style: ViewStyle = {
+  const accordionStyle: ViewStyle = useMemo(
+    () => ({
       width: '100%',
       opacity: disable ? 0.5 : 1,
       paddingTop: 8,
       paddingHorizontal: 12,
       paddingBottom: 15,
-    };
-    return style;
-  }, [disable]);
+    }),
+    [disable],
+  );
 
   return (
     <View style={StyleSheet.flatten([accordionStyle, style])} {...props} ref={ref}>

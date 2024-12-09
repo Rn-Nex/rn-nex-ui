@@ -43,30 +43,20 @@ export const QuantityStepper = React.forwardRef<View, QuantityStepperProps>(
     const shouldDisableIncrement = disabledIncrement || (isAboveMaximum && !allowInfiniteIncrement);
 
     const stepperOptionsStyles = useCallback(
-      (type: 'INC' | 'DEC', buttonType: QuantityStepperProps['buttonType']): ViewStyle => {
-        let styles: ViewStyle = {
+      (type: 'INC' | 'DEC', stepperButtonType: QuantityStepperProps['buttonType']): ViewStyle => {
+        let baseStyles: ViewStyle = {
           borderColor: themeColors.grey[800],
           opacity: 1,
-          borderRadius: buttonType === 'round' ? DEFAULT_ROUND_RADIUS : DEFAULT_SQUARE_RADIUS,
+          borderRadius: stepperButtonType === 'round' ? DEFAULT_ROUND_RADIUS : DEFAULT_SQUARE_RADIUS,
         };
 
         if ((type === 'INC' && shouldDisableIncrement) || (type === 'DEC' && shouldDisableDecrement)) {
-          styles.opacity = 0.4;
+          baseStyles.opacity = 0.4;
         }
 
-        return styles;
+        return baseStyles;
       },
-      [
-        themeColors,
-        disabledDecrement,
-        disabledIncrement,
-        minDecrement,
-        maxIncrement,
-        value,
-        buttonType,
-        allowInfiniteIncrement,
-        allowInfiniteDecrement,
-      ],
+      [themeColors.grey, shouldDisableIncrement, shouldDisableDecrement],
     );
 
     return (

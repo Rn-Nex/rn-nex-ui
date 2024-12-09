@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback } from 'react';
+import React, { forwardRef } from 'react';
 import { DimensionValue, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { Box } from '../Box';
 import { BoxProps } from '../types';
@@ -110,44 +110,41 @@ export const Grid = forwardRef<View, GridProps>(
     },
     ref,
   ) => {
-    if (!container && !item) return null;
+    if (!container && !item) {
+      console.warn('Grid container or grid item is not defined');
+      return null;
+    }
 
     const childArray = React.Children.toArray(children);
 
-    const getNextRowItemSize = useCallback(
-      (index: number): number => {
-        const nextRowItemIndex = index + 1;
-        const nextRowItem = childArray[nextRowItemIndex];
-        return React.isValidElement(nextRowItem) ? (nextRowItem.props.size as number) : 0;
-      },
-      [childArray.length, size],
-    );
+    const getNextRowItemSize = (index: number): number => {
+      const nextRowItemIndex = index + 1;
+      const nextRowItem = childArray[nextRowItemIndex];
+      return React.isValidElement(nextRowItem) ? (nextRowItem.props.size as number) : 0;
+    };
 
-    const itemSizes = React.useMemo(
-      () => childArray.map(child => (React.isValidElement(child) && child.props.size ? child.props.size : 1)),
-      [childArray],
-    );
-
-    const renderChild = useCallback(() => {
+    const renderChild = () => {
       const totalColumns = 12;
       let currentRowTotalSize = 0;
       let currentRowIndex = 1;
       let isLastInRow = false;
 
       return childArray.map((child, index) => {
-        if (!React.isValidElement(child)) return child;
-        const size = child.props.size || 1;
+        if (!React.isValidElement(child)) {
+          return child;
+        }
+        const childSize = child.props.size || 1;
 
         const isFirstInRow = currentRowTotalSize === 0;
         const isFirstRow = currentRowIndex === 1;
         const nextRowItemSize = getNextRowItemSize(index);
 
-        if (currentRowTotalSize + size > totalColumns) {
+        if (currentRowTotalSize + childSize > totalColumns) {
           isLastInRow = true;
-          currentRowTotalSize = size;
+          currentRowTotalSize = childSize;
           currentRowIndex += 1;
         } else {
-          currentRowTotalSize += size;
+          currentRowTotalSize += childSize;
           if (currentRowTotalSize + nextRowItemSize > totalColumns) {
             isLastInRow = true;
             currentRowTotalSize = 0;
@@ -169,7 +166,7 @@ export const Grid = forwardRef<View, GridProps>(
         const halfColSpacing =
           typeof columnSpacing === 'number' && columnSpacing && columnSpacing > 0 ? columnSpacing / 2 : undefined;
         const gap = halfSpacing ?? halfColSpacing;
-        const topSpacing = typeof rowSpacing === 'number' && rowSpacing > 0 ? rowSpacing : spacing;
+        const childTopSpacing = typeof rowSpacing === 'number' && rowSpacing > 0 ? rowSpacing : spacing;
 
         /**
          * Determines if the current item should have both left and right spacing applied.
@@ -185,8 +182,8 @@ export const Grid = forwardRef<View, GridProps>(
          */
         const hasRightSpacing =
           (isFirstInRow && !isLastInRow) ||
-          (isFirstInRow && isLastInRow && size < totalColumns) ||
-          (!isLastInRow && size + nextRowItemSize > totalColumns);
+          (isFirstInRow && isLastInRow && childSize < totalColumns) ||
+          (!isLastInRow && childSize + nextRowItemSize > totalColumns);
         /**
          * Determines if the current item should have only left spacing applied.
          * This applies when the item is the last in the row but not the first.
@@ -197,12 +194,12 @@ export const Grid = forwardRef<View, GridProps>(
           ...(hasLeftSpacing && { leftSpacing: gap }),
           ...(hasLeftAndRightSpacing && { leftSpacing: gap, rightSpacing: gap }),
           ...(hasRightSpacing && { rightSpacing: gap }),
-          ...(!isFirstRow && { topSpacing: topSpacing }),
+          ...(!isFirstRow && { topSpacing: childTopSpacing }),
         };
 
         return React.cloneElement(child, { ...childProps, ...child.props } as GridItemProps);
       });
-    }, [childArray.length, spacing, itemSizes, columnSpacing]);
+    };
 
     if (item) {
       return (

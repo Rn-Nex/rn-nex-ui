@@ -86,7 +86,9 @@ export const BaseButton = React.forwardRef<View, BaseButtonProps>(
       (event: LayoutChangeEvent) => {
         const { layout } = event.nativeEvent;
         setButtonLayoutRectangle(layout);
-        if (onLayoutHandler && typeof onLayoutHandler === 'function') onLayoutHandler(event);
+        if (onLayoutHandler && typeof onLayoutHandler === 'function') {
+          onLayoutHandler(event);
+        }
       },
       [onLayoutHandler],
     );

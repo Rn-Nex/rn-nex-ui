@@ -35,9 +35,13 @@ export const generateBadgeContainerStyles = ({ overlap }: GenerateBadgeContainer
 
   let borderRadius: number;
 
-  if (isCircles) borderRadius = 100;
-  else if (isRectangular) borderRadius = 5;
-  else borderRadius = 0;
+  if (isCircles) {
+    borderRadius = 100;
+  } else if (isRectangular) {
+    borderRadius = 5;
+  } else {
+    borderRadius = 0;
+  }
 
   return {
     borderRadius,

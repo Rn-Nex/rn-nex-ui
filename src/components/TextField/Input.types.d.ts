@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated, ColorValue, StyleProp, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
-import { Theme, ThemeType } from '../../libraries/themes/v1/theme';
+import { Theme } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/Box.types';
 import { TextProps } from '../Typography/Text.types';
 

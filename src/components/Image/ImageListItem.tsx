@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Box } from '../Box';
 import { DEFAULT_ITEM_BOTTOM_SPACE, DEFAULT_ITEM_SPACING, DEFAULT_ITEMS } from './constants';
-import { ImageListItemProps } from './Image.types';
 import { generateImageListItemStyles } from './Image.styles';
+import { ImageListItemProps } from './Image.types';
 
 export const ImageListItem = React.forwardRef<View, ImageListItemProps>(
   (
@@ -20,10 +20,13 @@ export const ImageListItem = React.forwardRef<View, ImageListItemProps>(
     },
     ref,
   ) => {
-    if (items < 0) throw new Error('Image list item must be at greater then zero');
+    if (items < 0) {
+      throw new Error('Image list item must be at greater then zero');
+    }
 
     const imageListItemStyles = useMemo(
       () => generateImageListItemStyles({ index, items, itemSpace, itemBottomSpace }),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [items, itemSpace, itemBottomSpace],
     );
 

@@ -31,8 +31,11 @@ export const textInputStyles = ({ variant, endAdornment, startAdornment }: TextI
     adornmentStyles.width = '90%';
   }
 
-  if (variant === 'outlined' || variant === 'filled') return { ...baseInputDefaultStyles, ...adornmentStyles };
-  else if (variant === 'standard') return { ...baseInputDefaultStyles, ...adornmentStyles, marginBottom: -10 };
+  if (variant === 'outlined' || variant === 'filled') {
+    return { ...baseInputDefaultStyles, ...adornmentStyles };
+  } else if (variant === 'standard') {
+    return { ...baseInputDefaultStyles, ...adornmentStyles, marginBottom: -10 };
+  }
   return baseInputDefaultStyles;
 };
 
@@ -41,7 +44,9 @@ export const labelTextStyles = ({ colors, variant, ignoreOpacityOnNonEditable }:
     color: variant === 'outlined' ? colors.grey[800] : colors.white[50],
   };
 
-  if (ignoreOpacityOnNonEditable) baseStyles.opacity = 1;
+  if (ignoreOpacityOnNonEditable) {
+    baseStyles.opacity = 1;
+  }
 
   return baseStyles;
 };

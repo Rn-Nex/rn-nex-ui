@@ -1,9 +1,9 @@
 import React from 'react';
 import { ColorValue, TextStyle, TouchableWithoutFeedback, ViewStyle } from 'react-native';
-import { Theme, ThemeType } from '../../libraries/themes/v1/theme';
+import { BaseStyles } from '../../libraries/style/styleTypes';
+import { Theme } from '../../libraries/themes/v1/theme';
 import { VariantTypes } from '../../utils';
 import { RipplePosition, RippleProps } from '../Ripple/Ripple.types';
-import { BaseStyles } from '../../libraries/style/styleTypes';
 
 export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof TouchableWithoutFeedback> {
   /**

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { GestureResponderEvent, TouchableWithoutFeedback, View } from 'react-native';
+import { GestureResponderEvent, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Box } from '../Box';
 import { Text } from '../Typography';
 import { styles } from './Pagination.style';
@@ -99,7 +99,9 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
           if (item === 'start-dots' || item === 'end-dots') {
             return (
               <Box key={`pagination_dots_${index}`} {...dotContainerProps}>
-                <Text variation="h2" style={[{ marginHorizontal: 5, opacity: disabled ? 0.4 : 1 }, themeDotStyles]}>
+                <Text
+                  variation="h2"
+                  style={StyleSheet.flatten([{ marginHorizontal: 5, opacity: disabled ? 0.4 : 1 }, themeDotStyles])}>
                   ···
                 </Text>
               </Box>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from './test-utils';
-import { Accordion, AccordionDetails, AccordionSummary, Text } from '../src';
+import { Accordion, AccordionSummary, Text } from '../src';
 import { View } from 'react-native';
 
 describe('Accordion Component', () => {

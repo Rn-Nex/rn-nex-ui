@@ -17,7 +17,10 @@ export const generateStyle = <T extends KeyOfStylePalette>({ propertyName, value
 
 export const generateSortStyles = (args: StylePalette, elementPropertyName: keyof typeof styles) => {
   const propertyName = styles[elementPropertyName];
-  if (!propertyName) return;
+  if (!propertyName) {
+    console.warn(`Style property name ${elementPropertyName} is not defined`);
+    return;
+  }
   return generateStyle({ propertyName, value: args[elementPropertyName] });
 };
 
@@ -32,7 +35,10 @@ export const generateElementStyles = (args: StylePalette) => {
 
   for (let property of keys) {
     const elementPropertyName = property as keyof typeof styles;
-    if (args[elementPropertyName] === undefined) continue;
+    if (args[elementPropertyName] === undefined) {
+      console.warn(`Invalid element property name: ${args[elementPropertyName]}`);
+      continue;
+    }
     nativeStyles = {
       ...nativeStyles,
       ...generateSortStyles(args, elementPropertyName),

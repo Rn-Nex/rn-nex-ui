@@ -1,7 +1,7 @@
 import React from 'react';
-import { ColorSchemeName, ColorValue, Text } from 'react-native';
+import { ColorValue, Text } from 'react-native';
 import { BaseStyles, ElementTextStyleProps } from '../../libraries/style/styleTypes';
-import { ThemeDimensions, ThemeType, ThemMode, WithThemeComponentConfig } from '../../libraries/themes/v1/theme';
+import { ThemeDimensions, ThemMode, WithThemeComponentConfig } from '../../libraries/themes/v1/theme';
 /**
  * Defines the possible variations for text components.
  * These variations include different typographic styles such as headings, body text, buttons, etc.

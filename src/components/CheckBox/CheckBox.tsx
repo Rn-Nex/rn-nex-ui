@@ -85,9 +85,13 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
 
       let tintColor: ColorValue;
 
-      if (themeCheckBoxColor && isChecked) tintColor = themeCheckBoxColor;
-      else if (isChecked) tintColor = getVariant({ variant, colors: themeColors, config: themeVariantColors });
-      else tintColor = themeColors.grey[600];
+      if (themeCheckBoxColor && isChecked) {
+        tintColor = themeCheckBoxColor;
+      } else if (isChecked) {
+        tintColor = getVariant({ variant, colors: themeColors, config: themeVariantColors });
+      } else {
+        tintColor = themeColors.grey[600];
+      }
 
       return <Image source={source} style={StyleSheet.flatten([{ tintColor }, sizeStyles])} testID={checkBoxImageTestId} />;
     }, [isChecked, variant, themeVariantColors, themeColors, themeCheckBoxColor, size, checkBoxImageTestId]);
@@ -100,8 +104,9 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
 
     const renderAdornment = useCallback(() => {
       let element: React.ReactNode;
-      if (hasAdornment) element = adornment;
-      else {
+      if (hasAdornment) {
+        element = adornment;
+      } else {
         element = (
           <React.Fragment>
             <Text variation="h4" style={themeLabelStyles}>
@@ -125,6 +130,7 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
           </Pressable>
         </View>
       );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       adornment,
       themeAdornmentContainerStyles,
@@ -146,6 +152,7 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
       }
 
       return displayCheckedImage();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isChecked, variant, themeColors, themeCheckBoxColor, size]);
 
     return (

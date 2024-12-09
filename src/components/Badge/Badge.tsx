@@ -42,8 +42,6 @@ export const Badge = React.forwardRef<View, BadgeProps>(
 
     const animationDuration = themeBadgeConfig?.badgeAnimationDuration ?? badgeAnimationDuration;
 
-    if (!themeColors) throw new Error('theme colors are not available');
-
     const badgeStyles = useMemo(() => {
       return generateBadgeStyles({
         themeComponentConfig: themeBadgeConfig,
@@ -56,13 +54,15 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       });
     }, [variation, badgeVisibility, variant, anchorOrigin, themeColors, themeBadgeConfig, overrideRootConfig]);
 
-    const getDisplayBadgeContent = (badgeNumber: number, max: number): string | number => {
-      return badgeNumber >= max ? `${max - 1}+` : badgeNumber;
+    const getDisplayBadgeContent = (badgeNumber: number, maxBadgeCount: number): string | number => {
+      return badgeNumber >= maxBadgeCount ? `${maxBadgeCount - 1}+` : badgeNumber;
     };
 
     const renderBadgeContent = useCallback(
       (content: BadgeProps['badgeContent']) => {
-        if (variant === 'dot') return null;
+        if (variant === 'dot') {
+          return null;
+        }
 
         if (typeof content === 'string' || typeof content === 'number') {
           return renderTextBadgeContent(content);
@@ -72,6 +72,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
           throw new Error('Badge content must be a string or number');
         }
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [badgeContent, max, themeBadgeConfig, overrideRootConfig],
     );
 
@@ -89,6 +90,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
 
         return <Text style={textStyles}>{getDisplayBadgeContent(badgeNumber, overrideRootConfig ? max : maxBadgeNumber)}</Text>;
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [badgeContent, max, themeBadgeConfig, overrideRootConfig],
     );
 
@@ -100,6 +102,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
       }).start();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [invisible, badgeContent]);
 
     return (
