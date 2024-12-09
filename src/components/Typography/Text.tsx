@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { useMemo } from 'react';
 import { Animated, Text as RnText, StyleSheet } from 'react-native';
 import { useThemeFontSelector, useThemeModeSelector, useThemeTextConfigSelector } from '../../libraries';
@@ -30,10 +31,12 @@ export const Text = React.forwardRef<RnText, TextProps>(
     const themeFontConfig = useThemeFontSelector();
     const themeMode = useThemeModeSelector();
 
-    const hasMaxLength = maxLength ?? themeTextConfig?.maxLength;
+    const mergedStyle = useMemo(() => {
+      return _.mergeWith(themeTextConfig?.style, style);
+    }, [themeTextConfig?.style, style]);
 
-    const { style: themeTextStyle = style, gutterBottomSpace: themeGutterBottomSpace = gutterBottomSpace } =
-      themeTextConfig || {};
+    const hasMaxLength = maxLength ?? themeTextConfig?.maxLength;
+    const themeGutterBottomSpace = gutterBottomSpace ?? themeTextConfig?.gutterBottomSpace;
 
     const textStyles = useMemo(
       () =>
@@ -79,7 +82,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
     }, [children, hasMaxLength]);
 
     return (
-      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles, themeTextStyle])} {...props}>
+      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles, mergedStyle])} {...props}>
         {renderedChildren}
       </Animated.Text>
     );
