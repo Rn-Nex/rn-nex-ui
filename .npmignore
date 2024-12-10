@@ -4,7 +4,7 @@ coverage
 *.log
 .env
 /examples
-./__tests__
+/__tests__
 *.test.tsx
 *.test.ts
 *.snap
@@ -13,4 +13,4 @@ coverage
 *.md
 *.config.js
 .github
-./docs
+/docs

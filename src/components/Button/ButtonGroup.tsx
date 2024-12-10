@@ -1,22 +1,41 @@
 import _ from 'lodash';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, ViewProps, ViewStyle } from 'react-native';
 import { grey, useThemeButtonGroupConfigSelector, useThemeColorsSelector } from '../../libraries';
-import { getVariant, VariantTypes } from '../../utils';
+import { getVariant, merge, VariantTypes } from '../../utils';
 import { Box } from '../Box';
 import { styles } from './Button.styles';
 import { ButtonProps, ButtonVariations } from './Button.types';
 
 export interface ButtonGroupProps extends ViewProps, Pick<ButtonProps, 'disableRipple' | 'baseButtonStyles' | 'sx'> {
+  /** The size of the rounded corners for the buttons. */
   roundSize?: number;
+  /** The width of the border around each button. */
   borderWidth?: number;
+  /** Whether to remove borders from the buttons. */
   removeBorders?: boolean;
+  /** The variation style of the buttons (e.g., primary, secondary). */
   variation?: ButtonVariations;
+  /** The color type of the buttons (e.g., default, custom). */
   buttonColor?: VariantTypes;
+  /**
+   * If true, overrides the default border width configuration
+   * for the root of the button group.
+   */
+  overrideRootBorderWidthConfig?: boolean;
+  /**
+   * If true, overrides the default configuration to remove borders
+   * from the root of the button group.
+   */
+  overrideRootBorderRemoveConfig?: boolean;
 }
+
 interface GetBorderWidthInterface extends Pick<ButtonGroupProps, 'removeBorders' | 'borderWidth'> {
+  /** Specifies the position of the button (left or right). */
   position: 'left' | 'right';
+  /** Indicates if the button is the first in the group. */
   isFirst?: boolean;
+  /** Indicates if the button is the last in the group. */
   isLast?: boolean;
 }
 
@@ -27,12 +46,14 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
       children,
       baseButtonStyles,
       sx,
-      disableRipple = false,
+      disableRipple,
       variation = 'contained',
       buttonColor = 'secondary',
       removeBorders = false,
-      roundSize = 6,
+      roundSize,
       borderWidth = 1,
+      overrideRootBorderWidthConfig = false,
+      overrideRootBorderRemoveConfig = false,
       ...props
     },
     ref,
@@ -40,19 +61,34 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
     const themeColors = useThemeColorsSelector();
     const themeButtonGroupConfig = useThemeButtonGroupConfigSelector();
 
+    const buttonGroupRoundSize = roundSize ?? themeButtonGroupConfig?.roundSize;
+    const buttonGroupDisableRipple = disableRipple ?? themeButtonGroupConfig?.disableRipple;
+
+    const buttonGroupBorderWidth = () => {
+      if (overrideRootBorderWidthConfig) {
+        return borderWidth;
+      }
+      return themeButtonGroupConfig?.borderWidth ?? borderWidth;
+    };
+
+    const buttonGroupRemoveBorder = () => {
+      if (overrideRootBorderRemoveConfig) {
+        return removeBorders;
+      }
+      return themeButtonGroupConfig?.removeBorders ?? removeBorders;
+    };
+
+    const mergeBaseButtonStyles = useMemo(() => {
+      return merge(themeButtonGroupConfig?.baseButtonStyles, baseButtonStyles);
+    }, [themeButtonGroupConfig?.baseButtonStyles, baseButtonStyles]);
+
+    const mergeStyles = useMemo(() => {
+      return merge(themeButtonGroupConfig?.style, style);
+    }, [themeButtonGroupConfig?.style, style]);
+
     const childrenCount = React.Children.count(children);
     const isOutlinedButton = variation === 'outlined';
     const isTextButton = variation === 'text';
-
-    const {
-      roundSize: themeButtonGroupRoundSize = roundSize,
-      borderWidth: themeBorderWidth = borderWidth,
-      removeBorders: themeRemoveBorders = removeBorders,
-      disableRipple: themeDisableRipple = disableRipple,
-      baseButtonStyles: themeBaseButtonStyles = baseButtonStyles,
-      style: themeStyles = style,
-      sx: themeSx = sx,
-    } = themeButtonGroupConfig || {};
 
     const getBorderWidth = ({
       position,
@@ -102,36 +138,36 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
         const isLast = index === React.Children.count(children) - 1;
 
         const borderStyles: ViewStyle = {
-          borderTopLeftRadius: isFirst ? themeButtonGroupRoundSize : 0,
-          borderBottomLeftRadius: isFirst ? themeButtonGroupRoundSize : 0,
-          borderTopRightRadius: isLast ? themeButtonGroupRoundSize : 0,
-          borderBottomRightRadius: isLast ? themeButtonGroupRoundSize : 0,
+          borderTopLeftRadius: isFirst ? buttonGroupRoundSize : 0,
+          borderBottomLeftRadius: isFirst ? buttonGroupRoundSize : 0,
+          borderTopRightRadius: isLast ? buttonGroupRoundSize : 0,
+          borderBottomRightRadius: isLast ? buttonGroupRoundSize : 0,
           borderColor: isOutlinedButton ? getVariant({ variant: buttonColor, colors: themeColors }) : grey[300],
           borderLeftWidth: getBorderWidth({
             position: 'left',
             isFirst,
             isLast,
-            borderWidth: themeBorderWidth,
-            removeBorders: themeRemoveBorders,
+            borderWidth: buttonGroupBorderWidth(),
+            removeBorders: buttonGroupRemoveBorder(),
           }),
           borderRightWidth: getBorderWidth({
             position: 'right',
             isFirst,
             isLast,
-            borderWidth: themeBorderWidth,
-            removeBorders: themeRemoveBorders,
+            borderWidth: buttonGroupBorderWidth(),
+            removeBorders: buttonGroupRemoveBorder(),
           }),
-          ...(borderWidth && !isTextButton && { borderTopWidth: themeBorderWidth }),
-          ...(borderWidth && !isTextButton && { borderBottomWidth: themeBorderWidth }),
+          ...(borderWidth && !isTextButton && { borderTopWidth: buttonGroupBorderWidth() }),
+          ...(borderWidth && !isTextButton && { borderBottomWidth: buttonGroupBorderWidth() }),
         };
 
         if (React.isValidElement(child)) {
           const childProps: ButtonProps = {
-            baseButtonStyles: _.merge({}, borderStyles, themeBaseButtonStyles),
+            baseButtonStyles: _.merge({}, borderStyles, mergeBaseButtonStyles),
             disableScaleAnimation: true,
             variation,
             buttonColor,
-            disableRipple: themeDisableRipple,
+            disableRipple: buttonGroupDisableRipple,
             ...child?.props,
           };
 
@@ -141,19 +177,21 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-      themeButtonGroupRoundSize,
+      buttonGroupRoundSize,
       children,
-      themeBorderWidth,
-      themeRemoveBorders,
+      borderWidth,
+      removeBorders,
+      themeButtonGroupConfig?.borderWidth,
+      themeButtonGroupConfig?.removeBorders,
       variation,
       buttonColor,
       themeColors,
-      themeDisableRipple,
-      themeBaseButtonStyles,
+      buttonGroupDisableRipple,
+      mergeBaseButtonStyles,
     ]);
 
     return (
-      <Box style={[styles.buttonGroupContainer, themeStyles]} sx={themeSx} {...props} ref={ref}>
+      <Box style={[styles.buttonGroupContainer, mergeStyles]} sx={sx} {...props} ref={ref}>
         {renderElements()}
       </Box>
     );

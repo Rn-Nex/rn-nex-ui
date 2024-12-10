@@ -146,7 +146,7 @@ export type ThemeComponentConfig = {
   >;
   buttonGroupProps: Pick<
     ButtonGroupProps,
-    'roundSize' | 'borderWidth' | 'removeBorders' | 'disableRipple' | 'baseButtonStyles' | 'style' | 'sx'
+    'roundSize' | 'borderWidth' | 'removeBorders' | 'disableRipple' | 'baseButtonStyles' | 'style'
   >;
   cardProps?: Pick<CardProps, 'sx' | 'style'>;
   cardHeaderProps?: Pick<CardHeaderProps, 'sx' | 'style'>;
