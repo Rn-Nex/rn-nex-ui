@@ -81,26 +81,26 @@ const mergeArraysToObject = <T extends Record<string, any>>(array: T[]): T => {
  * It handles different cases based on whether the arguments are arrays or objects.
  * If the arguments are arrays, they are merged into objects first before merging them.
  */
-export const merge = <T1, T2>(params1: T1, params2: T2): T1 & T2 => {
-  if (!Array.isArray(params1) && !Array.isArray(params2)) {
-    return mergeObjects(params1, params2);
+export const merge = <T1, T2>(param1: T1, param2: T2): T1 & T2 => {
+  if (!Array.isArray(param1) && !Array.isArray(param2)) {
+    return mergeObjects(param1, param2);
   }
 
-  if (Array.isArray(params1) && Array.isArray(params2)) {
-    const mergedArray1 = mergeArraysToObject(params1);
-    const mergedArray2 = mergeArraysToObject(params2);
+  if (Array.isArray(param1) && Array.isArray(param2)) {
+    const mergedArray1 = mergeArraysToObject(param1);
+    const mergedArray2 = mergeArraysToObject(param2);
     return mergeObjects(mergedArray1, mergedArray2);
   }
 
-  if (Array.isArray(params1) && !Array.isArray(params2)) {
-    const mergedArray1 = mergeArraysToObject(params1);
-    return mergeObjects(mergedArray1, params2);
+  if (Array.isArray(param1) && !Array.isArray(param2)) {
+    const mergedArray1 = mergeArraysToObject(param1);
+    return mergeObjects(mergedArray1, param2);
   }
 
-  if (!Array.isArray(params1) && Array.isArray(params2)) {
-    const mergedArray2 = mergeArraysToObject(params2);
-    return mergeObjects(params1, mergedArray2);
+  if (!Array.isArray(param1) && Array.isArray(param2)) {
+    const mergedArray2 = mergeArraysToObject(param2);
+    return mergeObjects(param1, mergedArray2);
   }
 
-  return mergeObjects(params1, params2);
+  return mergeObjects(param1, param2);
 };

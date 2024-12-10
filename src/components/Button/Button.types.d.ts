@@ -136,6 +136,18 @@ export interface IconButtonProps extends Omit<BaseButtonProps, 'sx'> {
    * Can be either 'roundedIconButton' or 'squareIconButton'.
    */
   variation?: IconButtonVariations;
+  /**
+   * Override the root variation config
+   */
+  overrideRootVariation?: boolean;
+  /**
+   * Override root disable ripple effect
+   */
+  overrideRootDisableRippleEffect?: boolean;
+  /**
+   * Override root ripple edge
+   */
+  overrideRootRippleEdge?: boolean;
 }
 
 export type ButtonVariationsType = ButtonVariations | IconButtonVariations;
