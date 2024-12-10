@@ -1,9 +1,9 @@
 import React from 'react';
 import { ColorValue, TextStyle, TouchableWithoutFeedback, ViewStyle } from 'react-native';
-import { Theme, ThemeType } from '../../libraries/themes/v1/theme';
+import { BaseStyles } from '../../libraries/style/styleTypes';
+import { Theme } from '../../libraries/themes/v1/theme';
 import { VariantTypes } from '../../utils';
 import { RipplePosition, RippleProps } from '../Ripple/Ripple.types';
-import { BaseStyles } from '../../libraries/style/styleTypes';
 
 export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof TouchableWithoutFeedback> {
   /**
@@ -86,6 +86,10 @@ export interface ButtonProps extends Omit<BaseButtonProps, 'sx'> {
    */
   square?: boolean;
   /**
+   * Override square root configuration
+   */
+  overrideRootSquareConfig?: boolean;
+  /**
    * Change the button label color
    */
   labelColor?: ColorValue;
@@ -101,6 +105,18 @@ export interface ButtonProps extends Omit<BaseButtonProps, 'sx'> {
    * Base button sx styles
    */
   baseButtonSx?: BaseButtonProps['sx'];
+  /**
+   * Override root disable scale animation
+   */
+  overrideRootDisableScaleAnimation?: boolean;
+  /**
+   * Override root scale animation value
+   */
+  overrideRootScaleAnimationValue?: boolean;
+  /**
+   * Override root ripple edge
+   */
+  overrideRootRippleEdge?: boolean;
 }
 export interface ButtonRootContainerStylesInterface extends Pick<ButtonProps, 'flex'> {}
 
@@ -120,6 +136,18 @@ export interface IconButtonProps extends Omit<BaseButtonProps, 'sx'> {
    * Can be either 'roundedIconButton' or 'squareIconButton'.
    */
   variation?: IconButtonVariations;
+  /**
+   * Override the root variation config
+   */
+  overrideRootVariation?: boolean;
+  /**
+   * Override root disable ripple effect
+   */
+  overrideRootDisableRippleEffect?: boolean;
+  /**
+   * Override root ripple edge
+   */
+  overrideRootRippleEdge?: boolean;
 }
 
 export type ButtonVariationsType = ButtonVariations | IconButtonVariations;

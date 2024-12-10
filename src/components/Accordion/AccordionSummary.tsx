@@ -109,6 +109,7 @@ export const AccordionSummary = React.forwardRef<View, AccordionSummaryProps>(
       if (isActive && !!onExpand && typeof onExpand === 'function') {
         onExpand();
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isActive, rotationValue, heightValue, accordionDetailsOpacityValue, measuredHeight]);
 
     useEffect(() => {
@@ -163,7 +164,11 @@ export const AccordionSummary = React.forwardRef<View, AccordionSummaryProps>(
             </Animated.View>
           </View>
         </TouchableWithoutFeedback>
-        <Animated.View style={{ height: heightValue, opacity: accordionDetailsOpacityValue, overflow: 'hidden' }}>
+        <Animated.View
+          style={StyleSheet.flatten([
+            { height: heightValue, opacity: accordionDetailsOpacityValue },
+            accordionSummaryStyles.accordionDetailsContainer,
+          ])}>
           <View
             ref={accordionContentRef}
             style={StyleSheet.flatten([

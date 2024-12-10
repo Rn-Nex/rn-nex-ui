@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ColorValue, StyleSheet, View } from 'react-native';
 import { grey, useThemeButtonConfigSelector, useThemeColorsSelector, useThemeSpacingSelector } from '../../libraries';
-import { getVariant } from '../../utils';
+import { getVariant, merge } from '../../utils';
 import { ActivityIndicator } from '../ActivityIndicator';
 import { Box } from '../Box';
 import { Text } from '../Typography';
@@ -29,9 +29,13 @@ export const Button = React.forwardRef<View, ButtonProps>(
       rippleProps,
       sx,
       baseButtonSx,
+      overrideRootDisableScaleAnimation = false,
+      overrideRootScaleAnimationValue = false,
+      overrideRootRippleEdge = false,
       buttonColor = 'secondary',
       variation = 'contained',
       square = false,
+      overrideRootSquareConfig = false,
       ...props
     },
     ref,
@@ -41,19 +45,77 @@ export const Button = React.forwardRef<View, ButtonProps>(
     const buttonThemeConfig = useThemeButtonConfigSelector();
     const isContainedButton = variation === 'contained';
 
-    const {
-      disableScaleAnimation: shouldDisableScaleAnimation = disableScaleAnimation,
-      scaleAnimationValue: themeScaleAnimationValue = scaleAnimationValue,
-      baseButtonContainerStyle: themeBaseButtonContainerStyles = baseButtonContainerStyle,
-      rippleProps: themeRippleProps = rippleProps,
-      square: themeSquare = square,
-      baseButtonStyles: themeBaseButtonStyles = baseButtonStyles,
-      rippleEdge: themeRippleEdge = rippleEdge,
-      disableRipple: shouldDisableRipple = disableRipple,
-      sx: themeButtonSx = sx,
-      baseButtonSx: themeBaseButtonSx = baseButtonSx,
-      style: themeStyle = style,
-    } = buttonThemeConfig || {};
+    const shouldDisableRipple = disableRipple ?? buttonThemeConfig?.disableRipple;
+
+    const shouldDisableScaleAnimation = () => {
+      if (overrideRootDisableScaleAnimation) {
+        return disableScaleAnimation;
+      }
+      return buttonThemeConfig?.disableScaleAnimation ?? disableScaleAnimation;
+    };
+
+    const buttonScaleAnimationValue = () => {
+      if (overrideRootScaleAnimationValue) {
+        return scaleAnimationValue;
+      }
+      return buttonThemeConfig?.scaleAnimationValue ?? scaleAnimationValue;
+    };
+
+    const buttonRippleEdge = () => {
+      if (overrideRootRippleEdge) {
+        return rippleEdge;
+      }
+      return buttonThemeConfig?.rippleEdge ?? rippleEdge;
+    };
+
+    const themeLabelStyles = useMemo(
+      () => merge(buttonThemeConfig?.labelStyles, labelStyles),
+      [buttonThemeConfig?.labelStyles, labelStyles],
+    );
+
+    const mergeBaseButtonStyles = useMemo(() => {
+      return merge(buttonThemeConfig?.baseButtonStyles, baseButtonStyles);
+    }, [buttonThemeConfig?.baseButtonStyles, baseButtonStyles]);
+
+    const mergeBaseButtonContainerStyles = useMemo(() => {
+      return merge(buttonThemeConfig?.baseButtonContainerStyle, baseButtonContainerStyle);
+    }, [buttonThemeConfig?.baseButtonContainerStyle, baseButtonContainerStyle]);
+
+    const mergeRippleProps = useMemo(() => {
+      return merge(buttonThemeConfig?.rippleProps, rippleProps);
+    }, [buttonThemeConfig?.rippleProps, rippleProps]);
+
+    const mergeStyles = useMemo(() => {
+      return merge(buttonThemeConfig?.style, style);
+    }, [buttonThemeConfig?.style, style]);
+
+    const buttonStyles = useMemo(() => {
+      let applySquareStyle = false;
+
+      if (overrideRootSquareConfig) {
+        applySquareStyle = square;
+      } else {
+        applySquareStyle = buttonThemeConfig?.square ?? square;
+      }
+
+      return getButtonStyles({
+        spacing: themeSpacing,
+        themeColors,
+        variation,
+        disabled,
+        buttonColor,
+        square: applySquareStyle,
+      });
+    }, [
+      overrideRootSquareConfig,
+      themeSpacing,
+      themeColors,
+      variation,
+      disabled,
+      buttonColor,
+      square,
+      buttonThemeConfig?.square,
+    ]);
 
     const renderChild = useCallback(() => {
       if (loading) {
@@ -63,19 +125,19 @@ export const Button = React.forwardRef<View, ButtonProps>(
       } else {
         let textColor: ColorValue;
 
-        if (buttonThemeConfig?.labelColor) {
+        if (labelColor) {
+          textColor = labelColor;
+        } else if (buttonThemeConfig?.labelColor) {
           textColor = buttonThemeConfig.labelColor;
-        } else if (labelColor) textColor = labelColor;
-        else if (isContainedButton) {
+        } else if (isContainedButton) {
           textColor = grey[50];
         } else {
           textColor = getVariant({ variant: buttonColor, colors: themeColors });
         }
 
-        return (
-          <Text style={StyleSheet.flatten([{ color: textColor }, buttonThemeConfig?.labelStyles ?? labelStyles])}>{label}</Text>
-        );
+        return <Text style={StyleSheet.flatten([{ color: textColor }, themeLabelStyles])}>{label}</Text>;
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       loading,
       children,
@@ -86,31 +148,21 @@ export const Button = React.forwardRef<View, ButtonProps>(
       labelColor,
       label,
       buttonThemeConfig?.labelColor,
-      buttonThemeConfig?.labelStyles,
+      themeLabelStyles,
     ]);
 
     return (
-      <Box style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), themeStyle])} sx={themeButtonSx} ref={ref}>
+      <Box style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), mergeStyles])} sx={sx} ref={ref}>
         <BaseButton
           disabled={loading || disabled}
-          style={StyleSheet.flatten([
-            getButtonStyles({
-              spacing: themeSpacing,
-              themeColors,
-              variation,
-              disabled,
-              buttonColor,
-              square: themeSquare,
-            }),
-            themeBaseButtonStyles,
-          ])}
+          style={StyleSheet.flatten([buttonStyles, mergeBaseButtonStyles])}
           disableRipple={shouldDisableRipple}
-          disableScaleAnimation={shouldDisableScaleAnimation}
-          scaleAnimationValue={themeScaleAnimationValue}
-          rippleEdge={themeRippleEdge}
-          baseButtonContainerStyle={themeBaseButtonContainerStyles}
-          rippleProps={themeRippleProps}
-          sx={themeBaseButtonSx}
+          disableScaleAnimation={shouldDisableScaleAnimation()}
+          scaleAnimationValue={buttonScaleAnimationValue()}
+          rippleEdge={buttonRippleEdge()}
+          baseButtonContainerStyle={mergeBaseButtonContainerStyles}
+          rippleProps={mergeRippleProps}
+          sx={baseButtonSx}
           {...props}>
           {renderChild()}
         </BaseButton>

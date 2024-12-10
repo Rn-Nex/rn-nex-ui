@@ -15,5 +15,4 @@ export * from './Portal/Portal.types';
 export * from './Ripple/Ripple.types';
 export * from './Stepper/Stepper.types';
 export * from './TextField/Input.types';
-export * from './Transitions/Transitions.types';
 export * from './Typography/Text.types';

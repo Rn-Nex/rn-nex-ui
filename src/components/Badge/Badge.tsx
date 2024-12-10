@@ -6,6 +6,7 @@ import { Text } from '../Typography';
 import { badgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './Badge.styles';
 import { BadgeContainerProps, BadgeProps } from './Badge.types';
 import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE, BADGE_TOP_RIGHT_POSITION } from './constants';
+import { merge } from '../../utils';
 
 const BadgeContainer = React.forwardRef<View, BadgeContainerProps>(({ children, style, overlap, ...props }, ref) => {
   return (
@@ -24,9 +25,11 @@ export const Badge = React.forwardRef<View, BadgeProps>(
       invisible,
       badgeContentStyle,
       max = BADGE_MAX_DEFAULT_VALUE,
+      shouldOverrideRootMaxValue = false,
       badgeAnimationDuration = BADGE_ANIMATION_DURATION,
       variant = 'badge',
       anchorOrigin = BADGE_TOP_RIGHT_POSITION,
+      shouldOverrideRootAnchor = false,
       badgeContainerProps,
       containerStyles,
       overrideRootConfig = false,
@@ -40,9 +43,9 @@ export const Badge = React.forwardRef<View, BadgeProps>(
     const badgeVisibility = useRef(new Animated.Value(0)).current;
     const themeColors = useThemeColorsSelector();
 
-    const animationDuration = themeBadgeConfig?.badgeAnimationDuration ?? badgeAnimationDuration;
+    const animationDuration = badgeAnimationDuration ?? themeBadgeConfig?.badgeAnimationDuration;
 
-    if (!themeColors) throw new Error('theme colors are not available');
+    const mergeStyles = useMemo(() => merge(themeBadgeConfig?.style, style), [themeBadgeConfig?.style, style]);
 
     const badgeStyles = useMemo(() => {
       return generateBadgeStyles({
@@ -53,16 +56,28 @@ export const Badge = React.forwardRef<View, BadgeProps>(
         anchorOrigin,
         themeColors,
         overrideRootConfig,
+        shouldOverrideRootAnchor,
       });
-    }, [variation, badgeVisibility, variant, anchorOrigin, themeColors, themeBadgeConfig, overrideRootConfig]);
+    }, [
+      variation,
+      badgeVisibility,
+      variant,
+      anchorOrigin,
+      themeColors,
+      themeBadgeConfig,
+      overrideRootConfig,
+      shouldOverrideRootAnchor,
+    ]);
 
-    const getDisplayBadgeContent = (badgeNumber: number, max: number): string | number => {
-      return badgeNumber >= max ? `${max - 1}+` : badgeNumber;
+    const getDisplayBadgeContent = (badgeNumber: number, maxBadgeCount: number): string | number => {
+      return badgeNumber >= maxBadgeCount ? `${maxBadgeCount - 1}+` : badgeNumber;
     };
 
     const renderBadgeContent = useCallback(
       (content: BadgeProps['badgeContent']) => {
-        if (variant === 'dot') return null;
+        if (variant === 'dot') {
+          return null;
+        }
 
         if (typeof content === 'string' || typeof content === 'number') {
           return renderTextBadgeContent(content);
@@ -72,6 +87,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
           throw new Error('Badge content must be a string or number');
         }
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [badgeContent, max, themeBadgeConfig, overrideRootConfig],
     );
 
@@ -85,11 +101,18 @@ export const Badge = React.forwardRef<View, BadgeProps>(
           return <Text style={textStyles}>{content}</Text>;
         }
 
-        const maxBadgeNumber = themeBadgeConfig?.max ?? max;
+        let maxBadgeNumber: number;
+
+        if (shouldOverrideRootMaxValue) {
+          maxBadgeNumber = max;
+        } else {
+          maxBadgeNumber = themeBadgeConfig?.max ?? max;
+        }
 
         return <Text style={textStyles}>{getDisplayBadgeContent(badgeNumber, overrideRootConfig ? max : maxBadgeNumber)}</Text>;
       },
-      [badgeContent, max, themeBadgeConfig, overrideRootConfig],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [badgeContent, max, themeBadgeConfig, shouldOverrideRootMaxValue, overrideRootConfig],
     );
 
     useEffect(() => {
@@ -100,6 +123,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
       }).start();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [invisible, badgeContent]);
 
     return (
@@ -107,7 +131,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
         <BadgeContainer overlap={overlap} {...badgeContainerProps}>
           {children}
         </BadgeContainer>
-        <Animated.View style={StyleSheet.flatten([styles.badge, badgeStyles, themeBadgeConfig?.style ?? style])} {...props}>
+        <Animated.View style={StyleSheet.flatten([styles.badge, badgeStyles, mergeStyles])} {...props}>
           {renderBadgeContent(badgeContent)}
         </Animated.View>
       </View>
@@ -123,7 +147,7 @@ const styles = StyleSheet.create({
   container: {
     minWidth: 40,
     minHeight: 40,
-    alignSelf: 'auto',
+    alignSelf: 'flex-start',
   },
   badgeContainer: {
     display: 'flex',

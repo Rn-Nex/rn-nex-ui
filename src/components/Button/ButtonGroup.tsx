@@ -54,21 +54,43 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
       sx: themeSx = sx,
     } = themeButtonGroupConfig || {};
 
-    const getBorderWidth = ({ position, isFirst, isLast, removeBorders, borderWidth }: GetBorderWidthInterface) => {
+    const getBorderWidth = ({
+      position,
+      isFirst,
+      isLast,
+      removeBorders: removeChildBorders,
+      borderWidth: childBorderWidth,
+    }: GetBorderWidthInterface) => {
       const isLeftPosition = position === 'left';
 
-      if (!isFirst && !isLast && removeBorders) return 0;
-      if (isLast && removeBorders && isLeftPosition) return 0;
+      if (!isFirst && !isLast && removeChildBorders) {
+        return 0;
+      }
+      if (isLast && removeChildBorders && isLeftPosition) {
+        return 0;
+      }
 
-      if (isFirst && !isTextButton && isLeftPosition) return borderWidth;
-      if (isLast && !isTextButton && !isLeftPosition) return borderWidth;
+      if (isFirst && !isTextButton && isLeftPosition) {
+        return childBorderWidth;
+      }
+      if (isLast && !isTextButton && !isLeftPosition) {
+        return childBorderWidth;
+      }
 
-      if (childrenCount === 2 && isLast && isLeftPosition) return borderWidth;
+      if (childrenCount === 2 && isLast && isLeftPosition) {
+        return childBorderWidth;
+      }
 
       if (childrenCount > 2) {
-        if (isFirst && !isLeftPosition) return 0;
-        if (!isFirst && !isLast) return isLeftPosition ? borderWidth : 0;
-        if (isLast && isLeftPosition) return borderWidth;
+        if (isFirst && !isLeftPosition) {
+          return 0;
+        }
+        if (!isFirst && !isLast) {
+          return isLeftPosition ? childBorderWidth : 0;
+        }
+        if (isLast && isLeftPosition) {
+          return childBorderWidth;
+        }
       }
 
       return 0;
@@ -117,6 +139,7 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
         }
         return child;
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       themeButtonGroupRoundSize,
       children,

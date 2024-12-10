@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Animated, Text as RnText, StyleSheet } from 'react-native';
 import { useThemeFontSelector, useThemeModeSelector, useThemeTextConfigSelector } from '../../libraries';
-import { maxLength as maxLengthUtile } from '../../utils';
+import { maxLength as maxLengthUtile, merge } from '../../utils';
 import { generateTextStyles } from './Text.styles';
 import { TextProps } from './Text.types';
 
@@ -30,10 +30,12 @@ export const Text = React.forwardRef<RnText, TextProps>(
     const themeFontConfig = useThemeFontSelector();
     const themeMode = useThemeModeSelector();
 
-    const hasMaxLength = maxLength ?? themeTextConfig?.maxLength;
+    const mergedStyle = useMemo(() => {
+      return merge(themeTextConfig?.style, style);
+    }, [themeTextConfig?.style, style]);
 
-    const { style: themeTextStyle = style, gutterBottomSpace: themeGutterBottomSpace = gutterBottomSpace } =
-      themeTextConfig || {};
+    const hasMaxLength = maxLength ?? themeTextConfig?.maxLength;
+    const themeGutterBottomSpace = gutterBottomSpace ?? themeTextConfig?.gutterBottomSpace;
 
     const textStyles = useMemo(
       () =>
@@ -56,6 +58,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
       [
         variation,
         gutterBottom,
+        themeGutterBottomSpace,
         isActive,
         activeColor,
         disabled,
@@ -64,22 +67,25 @@ export const Text = React.forwardRef<RnText, TextProps>(
         sx,
         mode,
         color,
-        themeGutterBottomSpace,
-        useThemeTextConfigSelector,
+        themeTextConfig,
         themeFontConfig,
         themeMode,
       ],
     );
 
     const renderedChildren = useMemo(() => {
+      if (hasMaxLength && typeof children !== 'string') {
+        throw new Error('maxLength props must be used with string');
+      }
+
       if (typeof children === 'string' && hasMaxLength) {
         return maxLengthUtile(children, hasMaxLength);
-      } else if (hasMaxLength && typeof children !== 'string') throw new Error('maxLength props must be used with string');
+      }
       return children;
     }, [children, hasMaxLength]);
 
     return (
-      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles, themeTextStyle])} {...props}>
+      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles, mergedStyle])} {...props}>
         {renderedChildren}
       </Animated.Text>
     );

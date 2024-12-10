@@ -23,7 +23,7 @@ export const generateTextStyles = ({
     throw new Error('Theme font configuration is not available now please first configure the theme fonts.');
   }
 
-  let baseColor: ColorValue | undefined = undefined;
+  let baseColor: ColorValue | undefined;
 
   if (themeComponentConfig?.color) {
     baseColor = themeComponentConfig.color;
@@ -71,15 +71,23 @@ export const generateTextStyles = ({
 
   let textActiveColor: ColorValue;
 
-  if (activeColor) textActiveColor = activeColor;
-  else if (themeComponentConfig?.activeColor) textActiveColor = themeComponentConfig.activeColor;
-  else textActiveColor = secondary[200];
+  if (activeColor) {
+    textActiveColor = activeColor;
+  } else if (themeComponentConfig?.activeColor) {
+    textActiveColor = themeComponentConfig.activeColor;
+  } else {
+    textActiveColor = secondary[200];
+  }
 
   let textErrorColor: ColorValue;
 
-  if (errorColor) textErrorColor = errorColor;
-  else if (themeComponentConfig?.errorColor) textErrorColor = themeComponentConfig.errorColor;
-  else textErrorColor = red[600];
+  if (errorColor) {
+    textErrorColor = errorColor;
+  } else if (themeComponentConfig?.errorColor) {
+    textErrorColor = themeComponentConfig.errorColor;
+  } else {
+    textErrorColor = red[600];
+  }
 
   return {
     ...(textColor && { color: textColor }),

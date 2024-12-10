@@ -23,6 +23,9 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     overflow: 'hidden',
   },
+  iconBaseButtonContainer: {
+    alignSelf: 'flex-start',
+  },
 });
 
 export const buttonRootContainerStyles = ({ flex }: ButtonRootContainerStylesInterface) => ({

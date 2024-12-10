@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Animated, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { useThemeColorsSelector } from '../../libraries';
 import { Text } from '../Typography';

@@ -1,6 +1,7 @@
 import { TextStyle, ViewStyle } from 'react-native';
 import { getVariant } from '../../utils';
 import {
+  AnchorOrigin,
   BadgeContentDefaultStylesProps,
   GenerateBadgeContainerStylesProps,
   GenerateBadgeStylesProps,
@@ -35,9 +36,13 @@ export const generateBadgeContainerStyles = ({ overlap }: GenerateBadgeContainer
 
   let borderRadius: number;
 
-  if (isCircles) borderRadius = 100;
-  else if (isRectangular) borderRadius = 5;
-  else borderRadius = 0;
+  if (isCircles) {
+    borderRadius = 100;
+  } else if (isRectangular) {
+    borderRadius = 5;
+  } else {
+    borderRadius = 0;
+  }
 
   return {
     borderRadius,
@@ -52,11 +57,17 @@ export const generateBadgeStyles = ({
   variant,
   anchorOrigin,
   overrideRootConfig,
+  shouldOverrideRootAnchor,
 }: GenerateBadgeStylesProps): ViewStyle => {
   const isDotVariation = variant === 'dot';
   let styles: ViewStyle = {};
 
-  const badgePosition = themeComponentConfig?.anchorOrigin ?? anchorOrigin;
+  let badgePosition: AnchorOrigin | undefined;
+  if (shouldOverrideRootAnchor) {
+    badgePosition = anchorOrigin;
+  } else {
+    badgePosition = themeComponentConfig?.anchorOrigin ?? anchorOrigin;
+  }
 
   styles = {
     ...styles,

@@ -84,6 +84,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       }
 
       setTextInputLayoutRectangle(layout);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onFocus = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -102,10 +103,14 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
 
     const getLabelTranslatePos = useCallback(() => {
       if (textInputLayoutRectangle?.width && textInputLayoutRectangle?.height) {
-        if (variant === 'outlined') return (textInputLayoutRectangle.height / 2) * -1;
-        else if (variant === 'filled') return ((textInputLayoutRectangle.height - 19) / 2) * -1;
+        if (variant === 'outlined') {
+          return (textInputLayoutRectangle.height / 2) * -1;
+        } else if (variant === 'filled') {
+          return ((textInputLayoutRectangle.height - 19) / 2) * -1;
+        }
       }
       return TRANSLATE_Y_ANIMATED_DEFAULT_POSITION;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [textInputLayoutRectangle]);
 
     const textInputStyles = useMemo(
@@ -130,6 +135,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
           useNativeDriver: true,
         }).start();
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFocused, inputIsFocused, value, startAdornment, endAdornment]);
 
     return (
@@ -163,7 +169,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
           />
         )}
         {startAdornment && (
-          <Box style={{ marginRight: 8 }} {...startAdornmentContainerProps}>
+          <Box sx={{ me: 8 }} {...startAdornmentContainerProps}>
             {startAdornment}
           </Box>
         )}
@@ -179,7 +185,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
           {...props}
         />
         {endAdornment && (
-          <Box style={{ marginLeft: 8 }} {...endAdornmentContainerProps}>
+          <Box sx={{ me: 8 }} {...endAdornmentContainerProps}>
             {endAdornment}
           </Box>
         )}

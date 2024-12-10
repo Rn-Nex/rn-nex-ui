@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Chip, Divider, Text, useTheme } from '../src';
+import { Box, Chip, Divider, Text, useTheme } from '../src';
 
 export const Ex1: React.FC = () => {
   const { theme } = useTheme();
@@ -53,25 +53,13 @@ export const Ex1: React.FC = () => {
           <Text>Other line</Text>
         </Box>
         <Divider>
-          <Chip label="Custom chip" variant="outlined" labelContainerProps={{ style: { color: 'green' } }} />
+          <Chip label="Custom chip" variant="outlined" />
         </Divider>
         <Box sx={{ p: 10 }}>
           <Text>Other line</Text>
         </Box>
         <Divider>
-          <Chip
-            label="Chip with start adornment chip"
-            variant="outlined"
-            startAdornment={
-              <Avatar
-                source={{
-                  uri: 'https://imgs.search.brave.com/vRrTws13r9jDY4EkNZTe6uV6WhoBaE5Y2Q6QOUE6OFc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE0/OTQ3OTAxMDgzNzct/YmU5YzI5YjI5MzMw/P3E9ODAmdz0xMDAw/JmF1dG89Zm9ybWF0/JmZpdD1jcm9wJml4/bGliPXJiLTQuMC4z/Jml4aWQ9TTN3eE1q/QTNmREI4TUh4elpX/RnlZMmg4TW54OGRY/TmxjaVV5TUhCeWIy/WnBiR1Y4Wlc1OE1I/eDhNSHg4ZkRBPQ.jpeg',
-                }}
-                size={25}
-                variation="rounded"
-              />
-            }
-          />
+          <Chip label="Chip with start adornment chip" variant="outlined" />
         </Divider>
         <Box sx={{ p: 10 }}>
           <Text>Other line</Text>
@@ -173,7 +161,7 @@ export const Ex2: React.FC = () => {
           <Text>1</Text>
         </Box>
         <Divider orientation="vertical" variant="middle" textAlign="left">
-          <Chip label="Custom chip" variant="outlined" labelContainerProps={{ style: { color: 'green' } }} />
+          <Chip label="Custom chip" variant="outlined" />
         </Divider>
         <Box sx={{ w: 70, d: 'flex', items: 'center', content: 'center' }}>
           <Text>2</Text>

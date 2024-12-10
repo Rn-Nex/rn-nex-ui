@@ -17,4 +17,5 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   },
+  dropDownInputWrapper: { borderWidth: 0.7, height: 30 },
 });

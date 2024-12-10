@@ -49,7 +49,8 @@ export const Ex1: React.FC = () => {
             d: 'flex',
             items: 'center',
             content: 'flex-end',
-          }}></Box>
+          }}
+        />
       </Card>
     </Box>
   );
@@ -92,7 +93,8 @@ export const Ex2: React.FC = () => {
             d: 'flex',
             items: 'center',
             content: 'flex-end',
-          }}></Box>
+          }}
+        />
       </Card>
     </Box>
   );

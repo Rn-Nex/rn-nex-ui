@@ -13,7 +13,9 @@ export const useThemeFontSelector = () => {
 };
 export const useThemeModeSelector = () => {
   const themeMode = useContextSelector(ThemeContext, values => values?.theme?.colors?.mode) as ThemMode | undefined;
-  if (!themeMode) throw new Error(`Theme mode are unavailable. ${msg}`);
+  if (!themeMode) {
+    throw new Error(`Theme mode are unavailable. ${msg}`);
+  }
   return themeMode;
 };
 export const useThemeColorsSelector = () => {

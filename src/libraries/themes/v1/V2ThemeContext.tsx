@@ -81,10 +81,7 @@ export const ThemeProvider = <T extends Object>({
     return lightTheme ?? defaultLightTheme;
   }, [lightTheme, darkTheme, colorScheme]);
 
-  const mergedTheme = useMemo(
-    () => ({ ...initialTheme, ...(dimensions || themeDimensions) }),
-    [initialTheme, dimensions, themeDimensions],
-  );
+  const mergedTheme = useMemo(() => ({ ...initialTheme, ...(dimensions || themeDimensions) }), [initialTheme, dimensions]);
 
   const themeValues: ThemeInterface<any> = useMemo(() => ({ theme: mergedTheme, components }), [mergedTheme, components]);
 

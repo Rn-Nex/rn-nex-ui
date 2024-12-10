@@ -36,6 +36,10 @@ export interface BadgeProps extends React.ComponentPropsWithRef<typeof View> {
    */
   max?: number;
   /**
+   * Override the root max value
+   */
+  shouldOverrideRootMaxValue?: boolean;
+  /**
    * Style variation of the badge.
    */
   variation?: VariantTypes;
@@ -59,6 +63,10 @@ export interface BadgeProps extends React.ComponentPropsWithRef<typeof View> {
    * Anchor origin configuration to position the badge.
    */
   anchorOrigin?: AnchorOrigin;
+  /**
+   * Override the root anchor configuration
+   */
+  shouldOverrideRootAnchor?: boolean;
   /**
    * badger container props for customizing the badge wrapper element.
    */
@@ -87,7 +95,7 @@ export interface BadgeContainerProps extends Pick<BadgeProps, 'overlap'>, BoxPro
  */
 export type GenerateBadgeStylesProps = WithThemeComponentConfig<
   'badgeProps',
-  Pick<BadgeProps, 'variation' | 'variant' | 'anchorOrigin' | 'overrideRootConfig'> & {
+  Pick<BadgeProps, 'variation' | 'variant' | 'anchorOrigin' | 'overrideRootConfig' | 'shouldOverrideRootAnchor'> & {
     themeColors: Theme;
     /** Animated value controlling the visibility of the badge. */
     badgeVisibility?: Animated.Value;

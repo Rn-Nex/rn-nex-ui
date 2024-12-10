@@ -84,7 +84,15 @@ export interface SnackbarProps extends ViewProps {
   /** Source URI for the warning image, if any. */
   warningImageSource?: string;
   /** Additional props for the action button. */
-  actionButtonProps?: Omit<ButtonProps, 'children' | 'ref'>;
+  actionButtonProps?: Omit<
+    ButtonProps,
+    | 'children'
+    | 'ref'
+    | 'overrideRootSquareConfig'
+    | 'overrideRootDisableScaleAnimation'
+    | 'overrideRootScaleAnimationValue'
+    | 'overrideRootRippleEdge'
+  >;
   /** Max length of the snackbar component message */
   messageMaxLength?: number;
   /** Extra space from top or bottom */
@@ -144,8 +152,12 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   }, [autoHide]);
 
   useEffect(() => {
-    if (position === 'top') translateY.setValue(-100);
-    else translateY.setValue(screenHeight);
+    if (position === 'top') {
+      translateY.setValue(-100);
+    } else {
+      translateY.setValue(screenHeight);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [position, screenHeight]);
 
   const snackbarRootContainerOnLayout = (event: LayoutChangeEvent) => {
@@ -176,6 +188,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
         setSnackbarConfig(null);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [snackbarConfig, opacityValue, positionRef, snackbarRootRectangle, translateY, screenHeight, autoHideRef]);
 
   const startAnimation = useCallback(() => {
@@ -201,6 +214,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
         }, hideDuration);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [snackbarConfig, opacityValue, positionRef, snackbarRootRectangle, translateY, screenHeight, autoHideRef, extraSpace]);
 
   useEffect(() => {
@@ -217,6 +231,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       DeviceEventEmitter.removeAllListeners(SHOW_SNACK_BAR_MESSAGE);
       DeviceEventEmitter.removeAllListeners(HIDE_SNACK_BAR_MESSAGE);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [extraSpace]);
 
   const actionButtonOnPressHandler = useCallback(
@@ -230,11 +245,14 @@ export const Snackbar: React.FC<SnackbarProps> = ({
         snackbarConfig.actionButtonOnPress(event);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [snackbarConfig],
   );
 
   const renderAdornment = useCallback(() => {
-    if (snackbarConfig?.hideAdornment) return null;
+    if (snackbarConfig?.hideAdornment) {
+      return null;
+    }
 
     let source: ImageSourcePropType = defaultInfoImage;
 
@@ -258,10 +276,15 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       return maxLengthUtile(snackbarConfig.message, snackbarConfig.messageMaxLength);
     } else if (messageMaxLength && snackbarConfig?.message) {
       return maxLengthUtile(snackbarConfig.message, messageMaxLength);
-    } else return snackbarConfig?.message;
+    } else {
+      return snackbarConfig?.message;
+    }
   }, [messageMaxLength, snackbarConfig]);
 
-  if (!snackbarConfig?.message) return null;
+  if (!snackbarConfig?.message) {
+    console.warn('Snack bar message is missing');
+    return null;
+  }
 
   return (
     <Animated.View

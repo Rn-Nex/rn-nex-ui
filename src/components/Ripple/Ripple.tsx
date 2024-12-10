@@ -104,12 +104,17 @@ export const Ripple = React.forwardRef<RippleInterface, RippleProps>(
       );
     };
 
-    useImperativeHandle(ref, () => {
-      return {
-        startRipple,
-        createRippleFromPosition,
-      } as RippleInterface;
-    }, []);
+    useImperativeHandle(
+      ref,
+      () => {
+        return {
+          startRipple,
+          createRippleFromPosition,
+        } as RippleInterface;
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [],
+    );
 
     return (
       <View ref={ref} style={[rippleContainerDefaultStyles, rippleContainerStyles]} {...props}>

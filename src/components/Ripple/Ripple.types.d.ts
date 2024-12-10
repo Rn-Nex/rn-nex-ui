@@ -1,4 +1,4 @@
-import { Animated, LayoutRectangle, StyleProp, View, ViewProps, ViewStyle } from 'react-native';
+import { Animated, LayoutRectangle, View, ViewStyle } from 'react-native';
 
 /**
  * Interface defining the properties of a Ripple effect object.

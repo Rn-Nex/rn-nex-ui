@@ -333,6 +333,7 @@ export const DropDown = <T extends DropDownData>({
       default:
         return null;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     variation,
     placeholder,
@@ -428,10 +429,10 @@ const DropDownListContainer = <T extends DropDownData>({
     }
   };
 
-  const searchHandler = (search: string) => {
-    if (search) {
+  const searchHandler = (searchString: string) => {
+    if (searchString) {
       const newData = (data as unknown as Array<DropDownData>).filter(item =>
-        item.title.toLowerCase().includes(search.toLowerCase()),
+        item.title.toLowerCase().includes(searchString.toLowerCase()),
       );
       setFilteredData(newData);
     } else {
@@ -489,6 +490,7 @@ const DropDownListContainer = <T extends DropDownData>({
         </ListItem>
       );
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       selectedListItems,
       showSelectedItem,
@@ -536,7 +538,7 @@ const DropDownListContainer = <T extends DropDownData>({
           <Box sx={{ px: 5, py: 4 }} {...searchContainerProps}>
             <IconInput
               onChangeText={searchHandler}
-              inputWrapperStyles={{ borderColor: themeColors.grey[600], borderWidth: 0.7, height: 30 }}
+              inputWrapperStyles={{ borderColor: themeColors.grey[600], ...styles.dropDownInputWrapper }}
               placeholder={searchPlaceholder ?? 'Search'}
               {...searchProps}
             />

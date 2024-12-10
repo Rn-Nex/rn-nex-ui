@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from './test-utils';
-import { Grid, GridSize } from '../src';
 import { View } from 'react-native';
+import { Grid, GridSize } from '../src';
+import { render } from './test-utils';
 
 describe('Grid component', () => {
   const mockGridTestId = 'grid-test-id';
@@ -195,7 +195,6 @@ describe('Grid component', () => {
 
   it('should apply the vertical spacing between grid item when rowSpacing prop passed (first item will not add the left spacing and last item will not add the right spacing)', () => {
     const spacing = 10;
-    const halfSpacing = spacing / 2;
 
     const { getByTestId } = render(
       <Grid container rowSpacing={spacing}>

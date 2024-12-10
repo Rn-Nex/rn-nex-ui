@@ -184,7 +184,9 @@ export const Radio = React.forwardRef<View, RadioProps>(
     };
 
     const adornmentOnPressHandler = (event: GestureResponderEvent) => {
-      if (actionType === 'root') radioOnPressHandler(event);
+      if (actionType === 'root') {
+        radioOnPressHandler(event);
+      }
     };
 
     const renderAdornment = useCallback(() => {
@@ -214,7 +216,10 @@ export const Radio = React.forwardRef<View, RadioProps>(
             <TouchableWithoutFeedback onPress={adornmentOnPressHandler}>{element}</TouchableWithoutFeedback>
           </View>
         );
-      } else return null;
+      } else {
+        return null;
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       adornment,
       adornmentContainerStyles,
@@ -234,6 +239,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
           <Divider orientation="vertical" variant="middle" variantSpacing={10} {...dividerProps} />
         </View>
       );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showDivider, dividerProps]);
 
     return (
@@ -291,6 +297,7 @@ const RadioOutline: React.FC<RadioOutlineProps> = ({ style, isActive, children, 
       duration: animationDuration,
       useNativeDriver: true,
     }).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 
   const borderColorInterpolation = borderColorValue.interpolate({
@@ -341,6 +348,7 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
         useNativeDriver: true,
       }),
     ]).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive, animationDuration]);
 
   const colorVariation = useMemo(
@@ -348,13 +356,18 @@ const RadioCircle: React.FC<RadioCircleProps> = ({
     [variant, themeColors, themeVariantConfig],
   ) as string;
 
-  const backgroundOutputRange = activeColor || colorVariation;
+  const backgroundOutputRange = activeColor ?? colorVariation;
 
   const getSize = useMemo(() => {
-    if (size === 'small') return sizeConfig?.small ?? RADIO_SMALL;
-    else if (size === 'medium') return sizeConfig?.medium ?? RADIO_MEDIUM;
-    else if (size === 'large') return sizeConfig?.large ?? RADIO_LARGE;
-    else return RADIO_SMALL;
+    if (size === 'small') {
+      return sizeConfig?.small ?? RADIO_SMALL;
+    } else if (size === 'medium') {
+      return sizeConfig?.medium ?? RADIO_MEDIUM;
+    } else if (size === 'large') {
+      return sizeConfig?.large ?? RADIO_LARGE;
+    } else {
+      return RADIO_SMALL;
+    }
   }, [size, sizeConfig]);
 
   const backgroundColorInterpolation = backgroundColorValue.interpolate({
