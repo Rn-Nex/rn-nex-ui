@@ -34,10 +34,20 @@ export interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof 
   toggleDuration?: number;
 
   /**
+   * Override root toggle duration config
+   */
+  overrideRootToggleDuration?: boolean;
+
+  /**
    * Duration of the toggle wrapper animation in milliseconds.
    * Controls how long the animation takes to transition from one state to another. Defaults to 200ms.
    */
   toggleWrapperBgDuration?: number;
+
+  /**
+   * Override root toggle bg duration config
+   */
+  overrideRootToggleBgDuration?: boolean;
 
   /**
    * Active background color of the switch component
@@ -104,31 +114,42 @@ export const Switch = React.forwardRef<View, SwitchProps>(
       variant = 'primary',
       size = 'medium',
       initialToggleState = false,
+      overrideRootToggleBgDuration = false,
       toggleWrapperBgDuration = 200,
       toggleDuration = 220,
+      overrideRootToggleDuration = false,
       ...props
     },
     ref,
   ) => {
-    const [isToggled, setIsToggled] = useState(false);
     const animatedValue = useRef(new Animated.Value(initialToggleState ? 1 : 0)).current;
     const switchWrapperBgAnimatedValue = useRef(new Animated.Value(0)).current;
+
+    const [isToggled, setIsToggled] = useState(false);
     const [containerWidth, setContainerWidth] = useState(0);
     const [thumbWidth, setThumbWidth] = useState(0);
 
     const themeColors = useThemeColorsSelector();
     const switchThemeConfig = useThemeSwitchConfigSelector();
 
-    const {
-      toggleDuration: themeToggleDuration = toggleDuration,
-      toggleWrapperBgDuration: themeToggleWrapperBgDuration = toggleWrapperBgDuration,
-      wrapperDefaultBgColor: themeWrapperDefaultBgColor = wrapperDefaultBgColor,
-      wrapperActiveBgColor: themeWrapperActiveBgColor = wrapperActiveBgColor,
-      thumbStyles: themeThumbStyles = thumbStyles,
-      style: themeStyle = style,
-      sx: themeSx = sx,
-      colors: themeColorScheme,
-    } = switchThemeConfig || {};
+    const switchWrapperDefaultBgColor = wrapperDefaultBgColor ?? switchThemeConfig?.wrapperDefaultBgColor;
+    const switchWrapperActiveBgColor = wrapperActiveBgColor ?? switchThemeConfig?.wrapperActiveBgColor;
+
+    const switchToggleBgDuration = () => {
+      if (overrideRootToggleBgDuration) {
+        return toggleDuration;
+      }
+      return switchThemeConfig?.toggleWrapperBgDuration ?? toggleWrapperBgDuration;
+    };
+
+    const switchToggleDuration = () => {
+      if (overrideRootToggleDuration) {
+        return toggleDuration;
+      }
+      return switchThemeConfig?.toggleDuration ?? toggleDuration;
+    };
+
+    const { colors: themeColorScheme } = switchThemeConfig || {};
 
     useEffect(() => {
       setIsToggled(initialToggleState);
@@ -138,12 +159,12 @@ export const Switch = React.forwardRef<View, SwitchProps>(
       Animated.parallel([
         Animated.timing(animatedValue, {
           toValue: isToggled ? 1 : 0,
-          duration: themeToggleDuration,
+          duration: switchToggleDuration(),
           useNativeDriver: false,
         }),
         Animated.timing(switchWrapperBgAnimatedValue, {
           toValue: isToggled ? 1 : 0,
-          duration: themeToggleWrapperBgDuration,
+          duration: switchToggleBgDuration(),
           useNativeDriver: false,
         }),
       ]).start();
@@ -165,7 +186,7 @@ export const Switch = React.forwardRef<View, SwitchProps>(
       setThumbWidth(event.nativeEvent.layout.width);
     };
 
-    const switchStyles: ViewStyle = {
+    const switchThumbAnimationStyles: ViewStyle = {
       transform: [
         {
           translateX: animatedValue.interpolate({
@@ -185,7 +206,7 @@ export const Switch = React.forwardRef<View, SwitchProps>(
 
     const backgroundColorInterpolation = switchWrapperBgAnimatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [themeWrapperDefaultBgColor ?? themeColors.grey[300], themeWrapperActiveBgColor ?? colorVariation],
+      outputRange: [switchWrapperDefaultBgColor ?? themeColors.grey[300], switchWrapperActiveBgColor ?? colorVariation],
     });
 
     return (
@@ -196,13 +217,20 @@ export const Switch = React.forwardRef<View, SwitchProps>(
               styles.switchContainer,
               switchSizeVariation.thumbContainerStyles,
               { backgroundColor: backgroundColorInterpolation },
-              themeStyle,
-              themeSx && generateElementStyles(themeSx),
+              switchThemeConfig?.style,
+              style,
+              sx && generateElementStyles(sx),
             ])}
             onLayout={handleContainerLayout}
             testID={containerTestID}>
             <Animated.View
-              style={StyleSheet.flatten([styles.thumb, switchSizeVariation.thumbStyles, switchStyles, themeThumbStyles])}
+              style={StyleSheet.flatten([
+                styles.thumb,
+                switchSizeVariation.thumbStyles,
+                switchThumbAnimationStyles,
+                switchThemeConfig?.thumbStyles,
+                thumbStyles,
+              ])}
               onLayout={handleThumbLayout}
               testID={thumbTestID}
             />

@@ -174,18 +174,15 @@ export type ThemeComponentConfig = {
     | 'outlineColor'
     | 'style'
   >;
-  paginationProps?: Pick<PaginationProps, 'dotStyles' | 'itemShape'> & PaginationThemeConfig;
-  radioProps?: Pick<RadioProps, 'labelContainerStyles' | 'radioItemContainerStyles' | 'baseButtonStyles' | 'sizeConfig'> &
+  paginationProps?: Pick<PaginationProps, 'dotStyles' | 'itemShape' | 'style'> & PaginationThemeConfig;
+  radioProps?: Pick<
+    RadioProps,
+    'labelContainerStyles' | 'radioItemContainerStyles' | 'baseButtonStyles' | 'sizeConfig' | 'style'
+  > &
     RadioThemeConfig;
   switchProps?: Pick<
     SwitchProps,
-    | 'toggleDuration'
-    | 'toggleWrapperBgDuration'
-    | 'wrapperDefaultBgColor'
-    | 'wrapperActiveBgColor'
-    | 'thumbStyles'
-    | 'style'
-    | 'sx'
+    'toggleDuration' | 'toggleWrapperBgDuration' | 'wrapperDefaultBgColor' | 'wrapperActiveBgColor' | 'thumbStyles' | 'style'
   > &
     SwitchThemeConfig;
   textFieldProps?: Pick<
@@ -193,7 +190,6 @@ export type ThemeComponentConfig = {
     | 'animatedDuration'
     | 'inputStyles'
     | 'style'
-    | 'sx'
     | 'hideLabel'
     | 'activeColor'
     | 'errorColor'

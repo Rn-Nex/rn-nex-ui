@@ -10,7 +10,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { useThemeColorsSelector, useThemeRadioConfigSelector } from '../../libraries';
-import { DefaultVariationOptions, getVariant, VariantTypes, VariationThemeConfig } from '../../utils';
+import { DefaultVariationOptions, getVariant, merge, VariantTypes, VariationThemeConfig } from '../../utils';
 import { BaseButton } from '../Button';
 import { Divider, DividerProps } from '../Divider';
 import { Text } from '../Typography';
@@ -170,12 +170,15 @@ export const Radio = React.forwardRef<View, RadioProps>(
   ) => {
     const radioThemeConfig = useThemeRadioConfigSelector();
 
-    const {
-      labelContainerStyles: themeLabelContainerStyles = labelContainerStyles,
-      radioItemContainerStyles: themeRadioItemContainerStyles = radioItemContainerStyles,
-      baseButtonStyles: themeBaseButtonStyles = baseButtonStyles,
-      sizeConfig: themeSizeConfig = sizeConfig,
-    } = radioThemeConfig || {};
+    const mergeLabelContainerStyles = useMemo(() => {
+      return merge(radioThemeConfig?.labelContainerStyles, labelContainerStyles);
+    }, [radioThemeConfig?.labelContainerStyles, labelContainerStyles]);
+
+    const mergeRadioItemContainerStyles = useMemo(() => {
+      return merge(radioThemeConfig?.radioItemContainerStyles, radioItemContainerStyles);
+    }, [radioThemeConfig?.radioItemContainerStyles, radioItemContainerStyles]);
+
+    const { sizeConfig: themeSizeConfig = sizeConfig } = radioThemeConfig || {};
 
     const radioOnPressHandler = (event: GestureResponderEvent) => {
       if (!!onPress && typeof onPress === 'function') {
@@ -197,7 +200,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
         const element = adornment ? (
           <View style={[adornmentContainerStyles]}>{adornment}</View>
         ) : (
-          <View style={[themeLabelContainerStyles]}>
+          <View style={mergeLabelContainerStyles}>
             {label && (
               <Text variation="h4" sx={labelSx} {...restLabelProps}>
                 {label}
@@ -226,7 +229,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
       label,
       description,
       labelProps,
-      themeLabelContainerStyles,
+      mergeLabelContainerStyles,
       descriptionProps,
       actionType,
       isActive,
@@ -243,7 +246,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
     }, [showDivider, dividerProps]);
 
     return (
-      <View ref={ref} style={StyleSheet.flatten([styles.radioRootContainer, style])} {...props}>
+      <View ref={ref} style={StyleSheet.flatten([styles.radioRootContainer, radioThemeConfig?.style, style])} {...props}>
         {adornmentType === 'start' && (
           <React.Fragment>
             {renderAdornment()}
@@ -255,12 +258,12 @@ export const Radio = React.forwardRef<View, RadioProps>(
             onPress={radioOnPressHandler}
             disabled={disabled}
             disableRipple={true}
-            style={StyleSheet.flatten([styles.baseButton, themeBaseButtonStyles])}
+            style={StyleSheet.flatten([styles.baseButton, radioThemeConfig?.baseButtonStyles, baseButtonStyles])}
             disableScaleAnimation={true}
             testID={radioBaseButtonTestId}>
             <RadioOutline isActive={isActive} animationDuration={animationDuration}>
               {radioItem ? (
-                <View style={StyleSheet.flatten([styles.radioItemContainer, themeRadioItemContainerStyles])}>
+                <View style={StyleSheet.flatten([styles.radioItemContainer, mergeRadioItemContainerStyles])}>
                   {isActive ? radioItem : null}
                 </View>
               ) : (

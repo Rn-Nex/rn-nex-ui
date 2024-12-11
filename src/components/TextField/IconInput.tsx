@@ -48,12 +48,6 @@ export const IconInput: React.FC<IconInputProps> = React.forwardRef<View, IconIn
     const themeColors = useThemeColorsSelector();
     const iconInputThemeConfig = useThemeIconInputConfigSelector();
 
-    const {
-      inputWrapperStyles: themeInputWrapperStyles = inputWrapperStyles,
-      endAdornmentContainerStyles: themeEndAdornmentContainerStyles = endAdornmentContainerStyles,
-      startAdornmentContainerStyles: themeStartAdornmentContainerStyles = startAdornmentContainerStyles,
-    } = iconInputThemeConfig || {};
-
     const defaultIconInputContainerStyles: BaseStyles = {
       bg: themeColors.grey[300],
       bColor: themeColors.grey[300],
@@ -62,10 +56,17 @@ export const IconInput: React.FC<IconInputProps> = React.forwardRef<View, IconIn
     return (
       <Box
         sx={{ ...defaultIconInputContainerStyles, ...sx }}
-        style={StyleSheet.flatten([styles.inputContainer, themeInputWrapperStyles])}
+        style={StyleSheet.flatten([styles.inputContainer, iconInputThemeConfig?.inputWrapperStyles, inputWrapperStyles])}
         ref={ref}>
         {startAdornment && (
-          <Box style={StyleSheet.flatten([{ marginRight: 8 }, themeStartAdornmentContainerStyles])}>{startAdornment}</Box>
+          <Box
+            style={StyleSheet.flatten([
+              { marginRight: 8 },
+              iconInputThemeConfig?.startAdornmentContainerStyles,
+              startAdornmentContainerStyles,
+            ])}>
+            {startAdornment}
+          </Box>
         )}
         <BaseInput
           placeholder="Base input"
@@ -74,7 +75,14 @@ export const IconInput: React.FC<IconInputProps> = React.forwardRef<View, IconIn
           {...props}
         />
         {endAdornment && (
-          <Box style={StyleSheet.flatten([{ marginLeft: 8 }, themeEndAdornmentContainerStyles])}>{endAdornment}</Box>
+          <Box
+            style={StyleSheet.flatten([
+              { marginLeft: 8 },
+              iconInputThemeConfig?.endAdornmentContainerStyles,
+              endAdornmentContainerStyles,
+            ])}>
+            {endAdornment}
+          </Box>
         )}
       </Box>
     );

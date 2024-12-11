@@ -46,12 +46,15 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       onBlur: onTextInputBlurHandler,
       onLayout: onTextInputLayoutHandler,
       animatedDuration = LABELED_ANIMATION_DURATION,
+      overrideRootAnimationDuration = false,
       hideLabel = false,
-      square = false,
+      overrideRootHideLabel = false,
+      square,
       editable = true,
       placeholder = 'Outlined',
       variant = 'outlined',
       ignoreOpacityOnNonEditable = false,
+      overrideRootIgnoreOpacity = false,
       ...props
     },
     ref,
@@ -62,17 +65,31 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
 
     const textFieldThemeConfig = useThemeTextFieldConfigSelector();
 
-    const {
-      animatedDuration: themeAnimatedDuration = animatedDuration,
-      inputStyles: themeInputStyles = inputStyles,
-      style: themeStyle = style,
-      sx: themeSx = sx,
-      hideLabel: shouldHideLabel = hideLabel,
-      activeColor: themeActiveColor = activeColor,
-      errorColor: themeErrorColor = errorColor,
-      ignoreOpacityOnNonEditable: shouldIgnoreOpacityOnNonEditable = ignoreOpacityOnNonEditable,
-      square: shouldApplySquare = square,
-    } = textFieldThemeConfig || {};
+    const textFieldActiveColor = activeColor ?? textFieldThemeConfig?.activeColor;
+    const textFieldErrorColor = errorColor ?? textFieldThemeConfig?.errorColor;
+
+    const textFieldAnimationDuration = () => {
+      if (overrideRootAnimationDuration) {
+        return animatedDuration;
+      }
+      return textFieldThemeConfig?.animatedDuration ?? animatedDuration;
+    };
+
+    const shouldHideLabel = () => {
+      if (overrideRootHideLabel) {
+        return hideLabel;
+      }
+      return textFieldThemeConfig?.hideLabel ?? hideLabel;
+    };
+
+    const shouldIgnoreOpacityOnNonEditable = () => {
+      if (overrideRootIgnoreOpacity) {
+        return ignoreOpacityOnNonEditable;
+      }
+      return textFieldThemeConfig?.ignoreOpacityOnNonEditable;
+    };
+
+    const shouldApplySquare = square ?? textFieldThemeConfig?.square ?? false;
 
     const placeHolderLeftPos = variant === 'filled' ? PLACEHOLDER_FILED_INPUT_LEFT_POSITION : PLACEHOLDER_OUTLINE_LEFT_POSITION;
 
@@ -123,14 +140,14 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       if (isFocused || value || !!startAdornment || inputIsFocused) {
         Animated.timing(inputLabelAnimatedValue, {
           toValue: 1,
-          duration: themeAnimatedDuration,
+          duration: textFieldAnimationDuration(),
           easing: Easing.out(Easing.ease),
           useNativeDriver: true,
         }).start();
       } else {
         Animated.timing(inputLabelAnimatedValue, {
           toValue: 0,
-          duration: themeAnimatedDuration,
+          duration: textFieldAnimationDuration(),
           easing: Easing.out(Easing.ease),
           useNativeDriver: true,
         }).start();
@@ -142,29 +159,29 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       <Outline
         editable={editable}
         variant={variant}
-        activeColor={themeActiveColor}
-        errorColor={themeErrorColor}
-        style={StyleSheet.flatten([themeSx && generateElementStyles(themeSx), themeStyle])}
+        activeColor={textFieldActiveColor}
+        errorColor={textFieldErrorColor}
+        style={StyleSheet.flatten([sx && generateElementStyles(sx), textFieldThemeConfig?.style, style])}
         isFocused={isFocused}
         error={error}
-        ignoreOpacityOnNonEditable={shouldIgnoreOpacityOnNonEditable}
+        ignoreOpacityOnNonEditable={shouldIgnoreOpacityOnNonEditable()}
         square={shouldApplySquare}
         ref={ref}
         testID={outlineContainerTestId}
         {...outlineProps}>
-        {!shouldHideLabel && (
+        {!shouldHideLabel() && (
           <InputLabel
             disabled={!editable}
             variant={variant}
             isActive={isFocused}
-            activeColor={themeActiveColor}
-            errorColor={themeErrorColor}
+            activeColor={textFieldActiveColor}
+            errorColor={textFieldErrorColor}
             placeholder={placeholder}
             labelAnimatedValue={inputLabelAnimatedValue}
             translateYAnimatedPosition={getLabelTranslatePos()}
             placeholderLeftPosition={placeHolderLeftPos}
             error={error}
-            ignoreOpacityOnNonEditable={shouldIgnoreOpacityOnNonEditable}
+            ignoreOpacityOnNonEditable={shouldIgnoreOpacityOnNonEditable()}
             {...inputLabelProps}
           />
         )}
@@ -179,9 +196,9 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
           onBlur={onBlur}
           onFocus={onFocus}
           onLayout={onLayout}
-          style={StyleSheet.flatten([textInputStyles, themeInputStyles])}
+          style={StyleSheet.flatten([textInputStyles, textFieldThemeConfig?.inputStyles, inputStyles])}
           variant={variant}
-          placeholder={shouldHideLabel ? placeholder : undefined}
+          placeholder={shouldHideLabel() ? placeholder : undefined}
           {...props}
         />
         {endAdornment && (
