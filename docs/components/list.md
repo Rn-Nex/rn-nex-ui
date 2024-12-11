@@ -14,7 +14,7 @@ Interface for the List component properties, extending the properties of a View 
 
 - `sx?: BaseStyles`: Optional custom styles for the List component.
 - `subheader?: string | number`: The content of the subheader, normally ListSubheader.
-- `subheaderContainerStyles?: Pick<BoxProps, 'style' | 'sx'>`: Styles for the container of the subheader.
+- `subheaderContainerStyles?: ViewStyles : Styles for the container of the subheader.
 - `subheaderProps?: Omit<TextProps, 'children'>`: Properties for the subheader text component.
 - `disablePadding?: boolean`: If true, vertical padding is removed from the list.
 
@@ -24,9 +24,9 @@ Interface for the ListItem component properties, extending from BaseButtonProps.
 
 #### Props
 
-- `listContainerStyles?: Pick<BoxProps, 'style' | 'sx'>`: Optional styles for the container of the ListItem.
+- `listContainerStyles?: ViewStyles: Optional styles for the container of the ListItem.
 - `endAdornment?: React.ReactNode`: Optional element to be displayed at the end of the ListItem.
-- `endAdornmentContainerStyles?: Pick<BoxProps, 'style' | 'sx'>`: Optional styles for the container of the endAdornment.
+- `endAdornmentContainerStyles?: ViewStyles: Optional styles for the container of the endAdornment.
 - `selected?: boolean`: Use to apply selected styling.
 
 ### `ListItemIconProps`

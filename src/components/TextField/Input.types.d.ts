@@ -34,12 +34,14 @@ export interface BaseInputProps extends TextInputProps {
    * The variation type of the text field.
    */
   variant?: TextFiledVariation;
-
   /**
    * the opacity styles won't be applied when the input is non-editable
    */
   ignoreOpacityOnNonEditable?: boolean;
-
+  /**
+   * Override the root ignore opacity styles
+   */
+  overrideRootIgnoreOpacity?: boolean;
   /**
    * Change the shape of the input
    */
@@ -86,6 +88,10 @@ export interface TextFieldProps extends BaseInputProps {
    */
   animatedDuration?: number;
   /**
+   * Override root config animation duration
+   */
+  overrideRootAnimationDuration?: boolean;
+  /**
    * React node for the end adornment.
    */
   endAdornment?: React.ReactNode;
@@ -113,6 +119,10 @@ export interface TextFieldProps extends BaseInputProps {
    * Hide the text input label
    */
   hideLabel?: boolean;
+  /**
+   * Override root hide label configuration
+   */
+  overrideRootHideLabel?: boolean;
   /**
    * Test id for outline container
    */

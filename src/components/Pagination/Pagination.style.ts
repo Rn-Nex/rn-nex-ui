@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 5,
+    alignSelf: 'flex-start',
   },
   paginationItem: {
     minWidth: 30,

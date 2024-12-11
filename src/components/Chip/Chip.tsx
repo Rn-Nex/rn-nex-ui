@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useThemeChipConfigSelector, useThemeColorsSelector } from '../../libraries';
+import { merge } from '../../utils';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
@@ -26,6 +27,7 @@ export const Chip = React.forwardRef<View, ChipProps>(
       color = 'secondary',
       square = false,
       syncBorderAndLabelColor = false,
+      overrideRootSquareConfig = false,
       ...props
     },
     ref,
@@ -33,16 +35,26 @@ export const Chip = React.forwardRef<View, ChipProps>(
     const themeColors = useThemeColorsSelector();
     const isOutlinedVariant = variant === 'outlined';
     const hasIcon = Boolean(startIcon) || Boolean(endIcon);
-
     const chipThemeConfig = useThemeChipConfigSelector();
 
-    const {
-      chipWrapperContainerStyles: themeChipWrapperContainerStyles = chipWrapperContainerStyles,
-      square: themeSquareShape = square,
-      labelColor: themeChipLabelColor = labelColor,
-      syncBorderAndLabelColor: themeSyncBorderAndLabelColor = syncBorderAndLabelColor,
-      colors: themeColorScheme,
-    } = chipThemeConfig || {};
+    const chipLabelColor = labelColor ?? chipThemeConfig?.labelColor;
+
+    const chipSquareHandler = () => {
+      if (overrideRootSquareConfig) {
+        return square;
+      }
+      return chipThemeConfig?.square ?? square;
+    };
+
+    const mergeChipWrapperContainerStyles = useMemo(() => {
+      return merge(chipThemeConfig?.chipWrapperContainerStyles, chipWrapperContainerStyles);
+    }, [chipThemeConfig?.chipWrapperContainerStyles, chipWrapperContainerStyles]);
+
+    const mergeStyles = useMemo(() => {
+      return merge(chipThemeConfig?.style, style);
+    }, [chipThemeConfig?.style, style]);
+
+    const { colors: themeColorScheme } = chipThemeConfig || {};
 
     const chipStyles = useMemo(
       () => generateChipStyles({ variant, disabled, color, colors: themeColors, colorSchemeConfig: themeColorScheme }),
@@ -55,21 +67,23 @@ export const Chip = React.forwardRef<View, ChipProps>(
           style={labelStyles({
             isOutlinedVariant,
             colors: themeColors,
-            labelColor: themeChipLabelColor,
+            labelColor: chipLabelColor,
             color,
-            syncBorderAndLabelColor: themeSyncBorderAndLabelColor,
+            syncBorderAndLabelColor,
             colorSchemeConfig: themeColorScheme,
           })}
           variation="h4">
           {label}
         </Text>
       );
-    }, [themeColors, label, isOutlinedVariant, themeChipLabelColor, color, themeColorScheme, themeSyncBorderAndLabelColor]);
+    }, [themeColors, label, isOutlinedVariant, chipLabelColor, color, themeColorScheme, syncBorderAndLabelColor]);
 
     if (hasIcon && !children) {
       return (
-        <Box style={StyleSheet.flatten([styles.chip, chipStyles, style, { borderRadius: themeSquareShape ? 5 : 20 }])} ref={ref}>
-          <Box style={StyleSheet.flatten([styles.chipWrapper, themeChipWrapperContainerStyles])}>
+        <Box
+          style={StyleSheet.flatten([styles.chip, chipStyles, style, { borderRadius: chipSquareHandler() ? 5 : 20 }])}
+          ref={ref}>
+          <Box style={StyleSheet.flatten([styles.chipWrapper, mergeChipWrapperContainerStyles])}>
             {startIcon && <TouchableOpacity {...startIconProps}>{startIcon}</TouchableOpacity>}
             {renderLabel()}
             {endIcon && <TouchableOpacity {...endIconProps}>{endIcon}</TouchableOpacity>}
@@ -85,12 +99,12 @@ export const Chip = React.forwardRef<View, ChipProps>(
         style={StyleSheet.flatten([
           styles.chip,
           chipStyles,
-          style,
-          { borderRadius: themeSquareShape ? SQUARE_BORDER_RADIUS : DEFAULT_BORDER_RADIUS },
+          { borderRadius: chipSquareHandler() ? SQUARE_BORDER_RADIUS : DEFAULT_BORDER_RADIUS },
+          mergeStyles,
         ])}
         ref={ref}
         {...props}>
-        <Box style={StyleSheet.flatten([styles.chipWrapper, themeChipWrapperContainerStyles])}>{children ?? renderLabel()}</Box>
+        <Box style={StyleSheet.flatten([styles.chipWrapper, mergeChipWrapperContainerStyles])}>{children ?? renderLabel()}</Box>
       </BaseButton>
     );
   },

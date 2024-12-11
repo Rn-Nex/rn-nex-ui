@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { GestureResponderEvent, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { useThemePaginationConfigSelector } from '../../libraries';
+import { merge } from '../../utils';
 import { Box } from '../Box';
 import { Text } from '../Typography';
 import { styles } from './Pagination.style';
 import { PaginationProps } from './Pagination.types';
 import { PaginationItem } from './PaginationItem';
-import { useThemePaginationConfigSelector } from '../../libraries';
 
 const MAX_PAGINATION_ITEM_VISIBLE = 5;
 
@@ -30,14 +31,19 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
   ) => {
     const paginationThemeConfig = useThemePaginationConfigSelector();
     const [activeCount, setActiveCount] = useState<number>(1);
+    const paginationItemShape = itemShape ?? paginationThemeConfig?.itemShape;
 
     const items = useMemo(() => Array.from({ length: count }, (_, index) => index + 1), [count]);
 
-    const {
-      dotStyles: themeDotStyles = dotStyles,
-      itemShape: themeItemShape = itemShape,
-      colors: themeColorScheme,
-    } = paginationThemeConfig || {};
+    const mergeStyles = useMemo(() => {
+      return merge(paginationThemeConfig?.style, style);
+    }, [paginationThemeConfig?.style, style]);
+
+    const mergePaginationDotStyles = useMemo(() => {
+      return merge(paginationThemeConfig?.dotStyles, dotStyles);
+    }, [paginationThemeConfig?.dotStyles, dotStyles]);
+
+    const { colors: themeColorScheme } = paginationThemeConfig || {};
 
     const pageChangeHandler = (event: GestureResponderEvent, page: number | string) => {
       setActiveCount(+page);
@@ -46,7 +52,7 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
       }
     };
 
-    const renderPaginationItems = () => {
+    const renderPaginationItems = (): (string | number)[] => {
       let paginationItems: (string | number)[] = [];
 
       if (count <= MAX_PAGINATION_ITEM_VISIBLE) {
@@ -94,14 +100,14 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
     }, [active]);
 
     return (
-      <Box ref={ref} style={[styles.paginationContainer, style]} {...props}>
+      <Box ref={ref} style={[styles.paginationContainer, mergeStyles]} {...props}>
         {renderPaginationItems().map((item, index) => {
           if (item === 'start-dots' || item === 'end-dots') {
             return (
               <Box key={`pagination_dots_${index}`} {...dotContainerProps}>
                 <Text
                   variation="h2"
-                  style={StyleSheet.flatten([{ marginHorizontal: 5, opacity: disabled ? 0.4 : 1 }, themeDotStyles])}>
+                  style={StyleSheet.flatten([{ marginHorizontal: 5, opacity: disabled ? 0.4 : 1 }, mergePaginationDotStyles])}>
                   ···
                 </Text>
               </Box>
@@ -119,7 +125,7 @@ export const Pagination = React.forwardRef<View, PaginationProps>(
               active={activeCount === item}
               disabled={disabled}
               color={color}
-              shape={themeItemShape}
+              shape={paginationItemShape}
               variant={variant}
               themeColorScheme={themeColorScheme}
               {...paginationItemProps}

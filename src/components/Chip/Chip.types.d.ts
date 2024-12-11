@@ -37,6 +37,10 @@ export interface ChipProps extends Omit<BaseButtonProps, 'sx'> {
    */
   square?: boolean;
   /**
+   * Override the root chip square style
+   */
+  overrideRootSquareConfig?: boolean;
+  /**
    * Used for change the label color
    */
   labelColor?: ColorValue;

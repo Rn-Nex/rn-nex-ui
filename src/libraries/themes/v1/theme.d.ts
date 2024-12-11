@@ -148,8 +148,8 @@ export type ThemeComponentConfig = {
     ButtonGroupProps,
     'roundSize' | 'borderWidth' | 'removeBorders' | 'disableRipple' | 'baseButtonStyles' | 'style'
   >;
-  cardProps?: Pick<CardProps, 'sx' | 'style'>;
-  cardHeaderProps?: Pick<CardHeaderProps, 'sx' | 'style'>;
+  cardProps?: Pick<CardProps, 'style'>;
+  cardHeaderProps?: Pick<CardHeaderProps, 'style'>;
   checkBoxProps?: Pick<
     CheckBoxProps,
     | 'checkBoxColor'
@@ -158,14 +158,12 @@ export type ThemeComponentConfig = {
     | 'labelStyles'
     | 'subLabelStyles'
     | 'labelContainerStyles'
-    | 'actionType'
   > &
     CheckBoxVariationThemeConfig;
-  chipProps?: Pick<ChipProps, 'chipWrapperContainerStyles' | 'square' | 'labelColor' | 'syncBorderAndLabelColor'> &
-    ChipColorThemeConfig;
+  chipProps?: Pick<ChipProps, 'chipWrapperContainerStyles' | 'square' | 'labelColor' | 'style'> & ChipColorThemeConfig;
   dividerProps?: Pick<DividerProps, 'startLineStyles' | 'endLineStyles' | 'borderColor' | 'gap' | 'variantSpacing'> &
     DividerColorThemeConfig;
-  listProps?: Pick<ListProps, 'sx' | 'subheaderContainerStyles' | 'disablePadding'>;
+  listProps?: Pick<ListProps, 'subheaderContainerStyles' | 'disablePadding' | 'style'>;
   listItemProps?: Pick<
     ListItemProps,
     | 'listContainerStyles'
@@ -173,22 +171,18 @@ export type ThemeComponentConfig = {
     | 'startAdornmentContainerStyles'
     | 'selectedColor'
     | 'disableBottomSpacing'
-    | 'actionType'
     | 'outlineColor'
-    | 'softRadius'
+    | 'style'
   >;
-  paginationProps?: Pick<PaginationProps, 'dotStyles' | 'itemShape'> & PaginationThemeConfig;
-  radioProps?: Pick<RadioProps, 'labelContainerStyles' | 'radioItemContainerStyles' | 'baseButtonStyles' | 'sizeConfig'> &
+  paginationProps?: Pick<PaginationProps, 'dotStyles' | 'itemShape' | 'style'> & PaginationThemeConfig;
+  radioProps?: Pick<
+    RadioProps,
+    'labelContainerStyles' | 'radioItemContainerStyles' | 'baseButtonStyles' | 'sizeConfig' | 'style'
+  > &
     RadioThemeConfig;
   switchProps?: Pick<
     SwitchProps,
-    | 'toggleDuration'
-    | 'toggleWrapperBgDuration'
-    | 'wrapperDefaultBgColor'
-    | 'wrapperActiveBgColor'
-    | 'thumbStyles'
-    | 'style'
-    | 'sx'
+    'toggleDuration' | 'toggleWrapperBgDuration' | 'wrapperDefaultBgColor' | 'wrapperActiveBgColor' | 'thumbStyles' | 'style'
   > &
     SwitchThemeConfig;
   textFieldProps?: Pick<
@@ -196,7 +190,6 @@ export type ThemeComponentConfig = {
     | 'animatedDuration'
     | 'inputStyles'
     | 'style'
-    | 'sx'
     | 'hideLabel'
     | 'activeColor'
     | 'errorColor'
