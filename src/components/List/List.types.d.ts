@@ -1,8 +1,7 @@
 import React from 'react';
-import { ColorValue, TextStyle, View, ViewProps } from 'react-native';
+import { ColorValue, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { Theme } from '../../libraries/themes/v1/theme';
-import { BoxProps } from '../Box/Box.types';
 import { BaseButtonProps } from '../Button/Button.types';
 import { TextProps } from '../Typography/Text.types';
 
@@ -28,7 +27,7 @@ export interface ListProps extends React.ComponentPropsWithRef<typeof View> {
    * Styles for the container of the subheader.
    * This property can be used to style the box containing the subheader.
    */
-  subheaderContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
+  subheaderContainerStyles?: ViewStyle;
 
   /**
    * Test id for sub header container
@@ -57,7 +56,7 @@ export interface ListItemProps extends Omit<BaseButtonProps, 'sx'> {
    * Optional styles for the container of the ListItem.
    * This can be used to apply additional styling to the ListItem container.
    */
-  listContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
+  listContainerStyles?: ViewStyle;
 
   /**
    * Test id for list item container
@@ -74,7 +73,7 @@ export interface ListItemProps extends Omit<BaseButtonProps, 'sx'> {
    * Optional styles for the container of the endAdornment.
    * This can be used to apply additional styling to the container of the endAdornment.
    */
-  endAdornmentContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
+  endAdornmentContainerStyles?: ViewStyle;
 
   /**
    * Optional element to be displayed at the start of the ListItem.
@@ -86,7 +85,7 @@ export interface ListItemProps extends Omit<BaseButtonProps, 'sx'> {
    * Optional styles for the container of the startAdornment.
    * This can be used to apply additional styling to the container of the endAdornment.
    */
-  startAdornmentContainerStyles?: Pick<BoxProps, 'style' | 'sx'>;
+  startAdornmentContainerStyles?: ViewStyle;
 
   /**
    * Use to apply selected styling.
@@ -103,6 +102,11 @@ export interface ListItemProps extends Omit<BaseButtonProps, 'sx'> {
    * Remove the bottom spacing
    */
   disableBottomSpacing?: boolean;
+
+  /**
+   * Override the root disable bottom spacing configuration
+   */
+  overrideRootBottomSpacing?: boolean;
 
   /**
    * Different types of bottom spacing

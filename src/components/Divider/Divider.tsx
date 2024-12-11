@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { ColorSchemeName, ColorValue, StyleProp, StyleSheet, useColorScheme, View, ViewProps, ViewStyle } from 'react-native';
 import { useThemeColorsSelector, useThemeDividerConfigSelector, useThemeSpacingSelector } from '../../libraries';
 import { Theme, ThemeDimensions } from '../../libraries/themes/v1/theme';
-import { DefaultVariationOptions, GetVariantArgs, VariantTypes, VariationThemeConfig } from '../../utils';
+import { DefaultVariationOptions, GetVariantArgs, merge, VariantTypes, VariationThemeConfig } from '../../utils';
 import { dividerLineStyles, dividerRootContainerStyles, styles } from './Divider.styles';
 
 export type DividerColorThemeConfig = {
@@ -117,49 +117,53 @@ export const Divider = React.forwardRef<View, DividerProps>(
     const themeSpacing = useThemeSpacingSelector();
     const colorScheme = useColorScheme();
     const hasChild = Boolean(children);
-
     const dividerThemeConfig = useThemeDividerConfigSelector();
 
-    const {
-      startLineStyles: themeDividerStartStyles = startLineStyles,
-      endLineStyles: themeDividerEndStyles = endLineStyles,
-      borderColor: themeBorderColor = borderColor,
-      gap: themeGap = gap,
-      variantSpacing: themeVariantSpacing = variantSpacing,
-      colors: themeVariantColors,
-    } = dividerThemeConfig || {};
+    const dividerBorderColor = borderColor ?? dividerThemeConfig?.borderColor;
+    const dividerGap = gap ?? dividerThemeConfig?.gap;
+    const dividerVariantSpacing = variantSpacing ?? dividerThemeConfig?.variantSpacing;
+
+    const mergeStartLineStyles = useMemo(() => {
+      return merge(dividerThemeConfig?.startLineStyles, startLineStyles);
+    }, [dividerThemeConfig?.startLineStyles, startLineStyles]);
+
+    const mergeEndLineStyles = useMemo(() => {
+      return merge(dividerThemeConfig?.endLineStyles, endLineStyles);
+    }, [dividerThemeConfig?.endLineStyles, endLineStyles]);
+
+    const { colors: themeVariantColors } = dividerThemeConfig || {};
 
     const containerStyles = useMemo(() => {
       return dividerRootContainerStyles({
         spacing: themeSpacing,
         variant,
         orientation,
-        gap: themeGap,
+        gap: dividerGap,
         hasChild,
-        variantSpacing: themeVariantSpacing,
+        variantSpacing: dividerVariantSpacing,
       });
-    }, [themeSpacing, variant, orientation, themeGap, hasChild, themeVariantSpacing]);
+    }, [themeSpacing, variant, orientation, dividerGap, hasChild, dividerVariantSpacing]);
 
     const lineStyles = useCallback(
       (lineType: LineType) => {
         return dividerLineStyles({
           colors: themeColors,
           mode: colorScheme,
-          borderColor: themeBorderColor,
+          borderColor: dividerBorderColor,
           textAlign,
           lineType,
           color,
           themeColorSchemeConfig: themeVariantColors,
         });
       },
-      [themeBorderColor, colorScheme, textAlign, color, themeColors, themeVariantColors],
+      [dividerBorderColor, colorScheme, textAlign, color, themeColors, themeVariantColors],
     );
 
     return (
       <View ref={ref} style={StyleSheet.flatten([styles.rootContainer, containerStyles, style])} {...props}>
-        <View style={StyleSheet.flatten([styles.line, lineStyles('start'), themeDividerStartStyles])} testID={startLineTestId} />
+        <View style={StyleSheet.flatten([styles.line, lineStyles('start'), mergeStartLineStyles])} testID={startLineTestId} />
         {children}
-        <View style={StyleSheet.flatten([styles.line, lineStyles('end'), themeDividerEndStyles])} testID={endLineTestId} />
+        <View style={StyleSheet.flatten([styles.line, lineStyles('end'), mergeEndLineStyles])} testID={endLineTestId} />
       </View>
     );
   },

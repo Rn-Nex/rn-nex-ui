@@ -56,7 +56,7 @@ describe('List Component', () => {
     const { getByTestId } = render(
       <List
         subheader={mockSubHeader}
-        subheaderContainerStyles={{ style: { backgroundColor: 'red' } }}
+        subheaderContainerStyles={{ backgroundColor: 'red' }}
         subHeaderContainerTestId={mockSubHeaderContainerTestId}
       />,
     );
@@ -108,10 +108,7 @@ describe('ListItem Component', () => {
 
   it('should apply the list item container styles', () => {
     const { getByTestId } = render(
-      <ListItem
-        listItemContainerTestId={mockListItemContainerTestId}
-        listContainerStyles={{ style: { backgroundColor: 'red' } }}
-      />,
+      <ListItem listItemContainerTestId={mockListItemContainerTestId} listContainerStyles={{ backgroundColor: 'red' }} />,
     );
 
     const listItem = getByTestId(mockListItemContainerTestId);

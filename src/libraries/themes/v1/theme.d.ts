@@ -163,7 +163,7 @@ export type ThemeComponentConfig = {
   chipProps?: Pick<ChipProps, 'chipWrapperContainerStyles' | 'square' | 'labelColor' | 'style'> & ChipColorThemeConfig;
   dividerProps?: Pick<DividerProps, 'startLineStyles' | 'endLineStyles' | 'borderColor' | 'gap' | 'variantSpacing'> &
     DividerColorThemeConfig;
-  listProps?: Pick<ListProps, 'sx' | 'subheaderContainerStyles' | 'disablePadding'>;
+  listProps?: Pick<ListProps, 'subheaderContainerStyles' | 'disablePadding' | 'style'>;
   listItemProps?: Pick<
     ListItemProps,
     | 'listContainerStyles'
@@ -171,9 +171,8 @@ export type ThemeComponentConfig = {
     | 'startAdornmentContainerStyles'
     | 'selectedColor'
     | 'disableBottomSpacing'
-    | 'actionType'
     | 'outlineColor'
-    | 'softRadius'
+    | 'style'
   >;
   paginationProps?: Pick<PaginationProps, 'dotStyles' | 'itemShape'> & PaginationThemeConfig;
   radioProps?: Pick<RadioProps, 'labelContainerStyles' | 'radioItemContainerStyles' | 'baseButtonStyles' | 'sizeConfig'> &
