@@ -148,8 +148,8 @@ export type ThemeComponentConfig = {
     ButtonGroupProps,
     'roundSize' | 'borderWidth' | 'removeBorders' | 'disableRipple' | 'baseButtonStyles' | 'style'
   >;
-  cardProps?: Pick<CardProps, 'sx' | 'style'>;
-  cardHeaderProps?: Pick<CardHeaderProps, 'sx' | 'style'>;
+  cardProps?: Pick<CardProps, 'style'>;
+  cardHeaderProps?: Pick<CardHeaderProps, 'style'>;
   checkBoxProps?: Pick<
     CheckBoxProps,
     | 'checkBoxColor'
@@ -158,11 +158,9 @@ export type ThemeComponentConfig = {
     | 'labelStyles'
     | 'subLabelStyles'
     | 'labelContainerStyles'
-    | 'actionType'
   > &
     CheckBoxVariationThemeConfig;
-  chipProps?: Pick<ChipProps, 'chipWrapperContainerStyles' | 'square' | 'labelColor' | 'syncBorderAndLabelColor'> &
-    ChipColorThemeConfig;
+  chipProps?: Pick<ChipProps, 'chipWrapperContainerStyles' | 'square' | 'labelColor' | 'style'> & ChipColorThemeConfig;
   dividerProps?: Pick<DividerProps, 'startLineStyles' | 'endLineStyles' | 'borderColor' | 'gap' | 'variantSpacing'> &
     DividerColorThemeConfig;
   listProps?: Pick<ListProps, 'sx' | 'subheaderContainerStyles' | 'disablePadding'>;
