@@ -55,21 +55,9 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
 
     const checkBoxColorValue = checkBoxColor ?? checkBoxThemeConfig?.checkBoxColor;
 
-    const mergeCheckboxWrapperStyles = useMemo(() => {
-      return merge(checkBoxThemeConfig?.checkBoxWrapperStyles, checkBoxWrapperStyles);
-    }, [checkBoxThemeConfig?.checkBoxWrapperStyles, checkBoxWrapperStyles]);
-
     const mergeCheckBoxAdornmentContainerStyles = useMemo(() => {
       return merge(checkBoxThemeConfig?.adornmentContainerStyles, adornmentContainerStyles);
     }, [checkBoxThemeConfig?.adornmentContainerStyles, adornmentContainerStyles]);
-
-    const mergeCheckBoxLabelStyles = useMemo(() => {
-      return merge(checkBoxThemeConfig?.labelStyles, labelStyles);
-    }, [checkBoxThemeConfig?.labelStyles, labelStyles]);
-
-    const mergeCheckBoxSubLabelStyles = useMemo(() => {
-      return merge(checkBoxThemeConfig?.subLabelStyles, subLabelStyles);
-    }, [checkBoxThemeConfig?.subLabelStyles, subLabelStyles]);
 
     const mergeCheckBoxLabelContainerStyles = useMemo(() => {
       return merge(checkBoxThemeConfig?.labelContainerStyles, labelContainerStyles);
@@ -122,11 +110,11 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
       } else {
         element = (
           <React.Fragment>
-            <Text variation="h4" style={mergeCheckBoxLabelStyles}>
+            <Text variation="h4" style={StyleSheet.flatten([checkBoxThemeConfig?.labelStyles, labelStyles])}>
               {label}
             </Text>
             {subLabel && (
-              <Text variation="h5" style={mergeCheckBoxSubLabelStyles}>
+              <Text variation="h5" style={StyleSheet.flatten([checkBoxThemeConfig?.subLabelStyles, subLabelStyles])}>
                 {subLabel}
               </Text>
             )}
@@ -154,8 +142,10 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
       onPress,
       isChecked,
       subLabel,
-      mergeCheckBoxLabelStyles,
-      mergeCheckBoxSubLabelStyles,
+      checkBoxThemeConfig?.labelStyles,
+      labelStyles,
+      checkBoxThemeConfig?.subLabelStyles,
+      subLabelStyles,
       adornmentTestId,
     ]);
 
@@ -171,7 +161,12 @@ export const CheckBox = React.forwardRef<View, CheckBoxProps>(
     return (
       <View ref={ref} style={StyleSheet.flatten([styles.container, style, { opacity: disabled ? 0.5 : 1 }])} {...containerProps}>
         {shouldRenderAdornment && renderAdornment()}
-        <View style={StyleSheet.flatten([styles.checkboxContainer, mergeCheckboxWrapperStyles])}>
+        <View
+          style={StyleSheet.flatten([
+            styles.checkboxContainer,
+            checkBoxThemeConfig?.checkBoxWrapperStyles,
+            checkBoxWrapperStyles,
+          ])}>
           <TouchableWithoutFeedback disabled={disabled} onPress={onPress} {...props}>
             {renderImage()}
           </TouchableWithoutFeedback>

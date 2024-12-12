@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useThemeChipConfigSelector, useThemeColorsSelector } from '../../libraries';
-import { merge } from '../../utils';
 import { Box } from '../Box';
 import { BaseButton } from '../Button/BaseButton';
 import { Text } from '../Typography';
@@ -46,14 +45,6 @@ export const Chip = React.forwardRef<View, ChipProps>(
       return chipThemeConfig?.square ?? square;
     };
 
-    const mergeChipWrapperContainerStyles = useMemo(() => {
-      return merge(chipThemeConfig?.chipWrapperContainerStyles, chipWrapperContainerStyles);
-    }, [chipThemeConfig?.chipWrapperContainerStyles, chipWrapperContainerStyles]);
-
-    const mergeStyles = useMemo(() => {
-      return merge(chipThemeConfig?.style, style);
-    }, [chipThemeConfig?.style, style]);
-
     const { colors: themeColorScheme } = chipThemeConfig || {};
 
     const chipStyles = useMemo(
@@ -83,7 +74,12 @@ export const Chip = React.forwardRef<View, ChipProps>(
         <Box
           style={StyleSheet.flatten([styles.chip, chipStyles, style, { borderRadius: chipSquareHandler() ? 5 : 20 }])}
           ref={ref}>
-          <Box style={StyleSheet.flatten([styles.chipWrapper, mergeChipWrapperContainerStyles])}>
+          <Box
+            style={StyleSheet.flatten([
+              styles.chipWrapper,
+              chipThemeConfig?.chipWrapperContainerStyles,
+              chipWrapperContainerStyles,
+            ])}>
             {startIcon && <TouchableOpacity {...startIconProps}>{startIcon}</TouchableOpacity>}
             {renderLabel()}
             {endIcon && <TouchableOpacity {...endIconProps}>{endIcon}</TouchableOpacity>}
@@ -100,11 +96,19 @@ export const Chip = React.forwardRef<View, ChipProps>(
           styles.chip,
           chipStyles,
           { borderRadius: chipSquareHandler() ? SQUARE_BORDER_RADIUS : DEFAULT_BORDER_RADIUS },
-          mergeStyles,
+          chipThemeConfig?.style,
+          style,
         ])}
         ref={ref}
         {...props}>
-        <Box style={StyleSheet.flatten([styles.chipWrapper, mergeChipWrapperContainerStyles])}>{children ?? renderLabel()}</Box>
+        <Box
+          style={StyleSheet.flatten([
+            styles.chipWrapper,
+            chipThemeConfig?.chipWrapperContainerStyles,
+            chipWrapperContainerStyles,
+          ])}>
+          {children ?? renderLabel()}
+        </Box>
       </BaseButton>
     );
   },

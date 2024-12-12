@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { useThemeColorsSelector, useThemeListItemConfigSelector } from '../../libraries';
 import { merge } from '../../utils';
@@ -48,14 +48,6 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
       return listItemThemeConfig?.disableBottomSpacing ?? disableBottomSpacing;
     };
 
-    const mergeListContainerStyles = useMemo(() => {
-      return merge(listItemThemeConfig?.listContainerStyles, listContainerStyles);
-    }, [listItemThemeConfig?.listContainerStyles, listContainerStyles]);
-
-    const mergeStyles = useMemo(() => {
-      return merge(listItemThemeConfig?.style, style);
-    }, [listItemThemeConfig?.style, style]);
-
     const mergeEndAdornmentContainerStyles = useMemo(() => {
       return merge(listItemThemeConfig?.endAdornmentContainerStyles, endAdornmentContainerStyles);
     }, [listItemThemeConfig?.endAdornmentContainerStyles, endAdornmentContainerStyles]);
@@ -96,28 +88,27 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bottomSpacingType, listItemThemeConfig?.disableBottomSpacing, overrideRootBottomSpacing, disableBottomSpacing]);
 
-    const renderAdornment = useCallback(
-      (type: 'start' | 'end', adornment?: React.ReactNode) => {
-        if (!adornment) {
-          return null;
-        }
+    const renderAdornment = (type: 'start' | 'end', adornment?: React.ReactNode) => {
+      if (!adornment) {
+        return null;
+      }
 
-        const isStartAdornment = type === 'start';
-        const adornmentStyles = isStartAdornment ? mergeStartAdornmentContainerStyles : mergeEndAdornmentContainerStyles;
+      const isStartAdornment = type === 'start';
+      const adornmentStyles = isStartAdornment ? mergeStartAdornmentContainerStyles : mergeEndAdornmentContainerStyles;
 
-        return <Box style={StyleSheet.flatten([styles.adornment, adornmentStyles])}>{adornment}</Box>;
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [startAdornment, endAdornment, mergeStartAdornmentContainerStyles, mergeEndAdornmentContainerStyles],
-    );
+      return <Box style={StyleSheet.flatten([styles.adornment, adornmentStyles])}>{adornment}</Box>;
+    };
 
-    const renderListItem = useCallback(() => {
+    const renderListItem = () => {
       if (actionType === 'list') {
         return (
           <View style={[styles.flexContainer, styles.listItemInnerContainer]}>
             {renderAdornment('start', startAdornment)}
             <Box sx={{ f: 1 }}>
-              <BaseButton disableRipple={disableRipple} style={StyleSheet.flatten([styles.baseButton, mergeStyles])} {...props}>
+              <BaseButton
+                disableRipple={disableRipple}
+                style={StyleSheet.flatten([styles.baseButton, listItemThemeConfig?.style, style])}
+                {...props}>
                 <View style={[styles.flexContainer]}>{children}</View>
               </BaseButton>
             </Box>
@@ -127,7 +118,10 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
       } else if (actionType === 'root') {
         return (
           <Box sx={{ f: 1 }}>
-            <BaseButton disableRipple={disableRipple} style={StyleSheet.flatten([styles.baseButton, mergeStyles])} {...props}>
+            <BaseButton
+              disableRipple={disableRipple}
+              style={StyleSheet.flatten([styles.baseButton, listItemThemeConfig?.style, style])}
+              {...props}>
               <View style={[styles.flexContainer]}>
                 {renderAdornment('start', startAdornment)}
                 {children}
@@ -139,12 +133,17 @@ export const ListItem = React.forwardRef<View, ListItemProps>(
       } else {
         return null;
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [actionType, startAdornment, endAdornment, props, mergeStyles, disableRipple]);
+    };
 
     return (
       <Box
-        style={StyleSheet.flatten([styles.listItemContainer, spacingStyles, containerStyles, mergeListContainerStyles])}
+        style={StyleSheet.flatten([
+          styles.listItemContainer,
+          spacingStyles,
+          containerStyles,
+          listItemThemeConfig?.listContainerStyles,
+          listContainerStyles,
+        ])}
         ref={ref}
         testID={listItemContainerTestId}>
         {renderListItem()}

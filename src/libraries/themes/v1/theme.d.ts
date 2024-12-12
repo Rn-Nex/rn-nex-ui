@@ -161,7 +161,7 @@ export type ThemeComponentConfig = {
   > &
     CheckBoxVariationThemeConfig;
   chipProps?: Pick<ChipProps, 'chipWrapperContainerStyles' | 'square' | 'labelColor' | 'style'> & ChipColorThemeConfig;
-  dividerProps?: Pick<DividerProps, 'startLineStyles' | 'endLineStyles' | 'borderColor' | 'gap' | 'variantSpacing'> &
+  dividerProps?: Pick<DividerProps, 'startLineStyles' | 'endLineStyles' | 'borderColor' | 'gap' | 'variantSpacing' | 'style'> &
     DividerColorThemeConfig;
   listProps?: Pick<ListProps, 'subheaderContainerStyles' | 'disablePadding' | 'style'>;
   listItemProps?: Pick<

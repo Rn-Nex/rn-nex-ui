@@ -6,7 +6,6 @@ import { Text } from '../Typography';
 import { badgeContentDefaultStyles, generateBadgeContainerStyles, generateBadgeStyles } from './Badge.styles';
 import { BadgeContainerProps, BadgeProps } from './Badge.types';
 import { BADGE_ANIMATION_DURATION, BADGE_MAX_DEFAULT_VALUE, BADGE_TOP_RIGHT_POSITION } from './constants';
-import { merge } from '../../utils';
 
 const BadgeContainer = React.forwardRef<View, BadgeContainerProps>(({ children, style, overlap, ...props }, ref) => {
   return (
@@ -44,8 +43,6 @@ export const Badge = React.forwardRef<View, BadgeProps>(
     const themeColors = useThemeColorsSelector();
 
     const animationDuration = badgeAnimationDuration ?? themeBadgeConfig?.badgeAnimationDuration;
-
-    const mergeStyles = useMemo(() => merge(themeBadgeConfig?.style, style), [themeBadgeConfig?.style, style]);
 
     const badgeStyles = useMemo(() => {
       return generateBadgeStyles({
@@ -131,7 +128,7 @@ export const Badge = React.forwardRef<View, BadgeProps>(
         <BadgeContainer overlap={overlap} {...badgeContainerProps}>
           {children}
         </BadgeContainer>
-        <Animated.View style={StyleSheet.flatten([styles.badge, badgeStyles, mergeStyles])} {...props}>
+        <Animated.View style={StyleSheet.flatten([styles.badge, badgeStyles, themeBadgeConfig?.style, style])} {...props}>
           {renderBadgeContent(badgeContent)}
         </Animated.View>
       </View>

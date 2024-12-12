@@ -68,26 +68,9 @@ export const Button = React.forwardRef<View, ButtonProps>(
       return buttonThemeConfig?.rippleEdge ?? rippleEdge;
     };
 
-    const themeLabelStyles = useMemo(
-      () => merge(buttonThemeConfig?.labelStyles, labelStyles),
-      [buttonThemeConfig?.labelStyles, labelStyles],
-    );
-
-    const mergeBaseButtonStyles = useMemo(() => {
-      return merge(buttonThemeConfig?.baseButtonStyles, baseButtonStyles);
-    }, [buttonThemeConfig?.baseButtonStyles, baseButtonStyles]);
-
-    const mergeBaseButtonContainerStyles = useMemo(() => {
-      return merge(buttonThemeConfig?.baseButtonContainerStyle, baseButtonContainerStyle);
-    }, [buttonThemeConfig?.baseButtonContainerStyle, baseButtonContainerStyle]);
-
     const mergeRippleProps = useMemo(() => {
       return merge(buttonThemeConfig?.rippleProps, rippleProps);
     }, [buttonThemeConfig?.rippleProps, rippleProps]);
-
-    const mergeStyles = useMemo(() => {
-      return merge(buttonThemeConfig?.style, style);
-    }, [buttonThemeConfig?.style, style]);
 
     const buttonStyles = useMemo(() => {
       let applySquareStyle = false;
@@ -135,7 +118,9 @@ export const Button = React.forwardRef<View, ButtonProps>(
           textColor = getVariant({ variant: buttonColor, colors: themeColors });
         }
 
-        return <Text style={StyleSheet.flatten([{ color: textColor }, themeLabelStyles])}>{label}</Text>;
+        return (
+          <Text style={StyleSheet.flatten([{ color: textColor }, buttonThemeConfig?.labelStyles, labelStyles])}>{label}</Text>
+        );
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
@@ -148,19 +133,20 @@ export const Button = React.forwardRef<View, ButtonProps>(
       labelColor,
       label,
       buttonThemeConfig?.labelColor,
-      themeLabelStyles,
+      buttonThemeConfig?.labelStyles,
+      labelStyles,
     ]);
 
     return (
-      <Box style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), mergeStyles])} sx={sx} ref={ref}>
+      <Box style={StyleSheet.flatten([buttonRootContainerStyles({ flex }), buttonThemeConfig?.style, style])} sx={sx} ref={ref}>
         <BaseButton
           disabled={loading || disabled}
-          style={StyleSheet.flatten([buttonStyles, mergeBaseButtonStyles])}
+          style={StyleSheet.flatten([buttonStyles, buttonThemeConfig?.baseButtonStyles, baseButtonStyles])}
           disableRipple={shouldDisableRipple}
           disableScaleAnimation={shouldDisableScaleAnimation()}
           scaleAnimationValue={buttonScaleAnimationValue()}
           rippleEdge={buttonRippleEdge()}
-          baseButtonContainerStyle={mergeBaseButtonContainerStyles}
+          baseButtonContainerStyle={(buttonThemeConfig?.baseButtonContainerStyle, baseButtonContainerStyle)}
           rippleProps={mergeRippleProps}
           sx={baseButtonSx}
           {...props}>

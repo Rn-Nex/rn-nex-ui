@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { View, ViewProps, ViewStyle } from 'react-native';
 import { grey, useThemeButtonGroupConfigSelector, useThemeColorsSelector } from '../../libraries';
-import { getVariant, merge, VariantTypes } from '../../utils';
+import { getVariant, VariantTypes } from '../../utils';
 import { Box } from '../Box';
 import { styles } from './Button.styles';
 import { ButtonProps, ButtonVariations } from './Button.types';
@@ -77,14 +77,6 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
       }
       return themeButtonGroupConfig?.removeBorders ?? removeBorders;
     };
-
-    const mergeBaseButtonStyles = useMemo(() => {
-      return merge(themeButtonGroupConfig?.baseButtonStyles, baseButtonStyles);
-    }, [themeButtonGroupConfig?.baseButtonStyles, baseButtonStyles]);
-
-    const mergeStyles = useMemo(() => {
-      return merge(themeButtonGroupConfig?.style, style);
-    }, [themeButtonGroupConfig?.style, style]);
 
     const childrenCount = React.Children.count(children);
     const isOutlinedButton = variation === 'outlined';
@@ -163,7 +155,7 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
 
         if (React.isValidElement(child)) {
           const childProps: ButtonProps = {
-            baseButtonStyles: _.merge({}, borderStyles, mergeBaseButtonStyles),
+            baseButtonStyles: _.merge({}, borderStyles, themeButtonGroupConfig?.baseButtonStyles, baseButtonStyles),
             disableScaleAnimation: true,
             variation,
             buttonColor,
@@ -187,11 +179,12 @@ export const ButtonGroup = React.forwardRef<View, ButtonGroupProps>(
       buttonColor,
       themeColors,
       buttonGroupDisableRipple,
-      mergeBaseButtonStyles,
+      themeButtonGroupConfig?.baseButtonStyles,
+      baseButtonStyles,
     ]);
 
     return (
-      <Box style={[styles.buttonGroupContainer, mergeStyles]} sx={sx} {...props} ref={ref}>
+      <Box style={[styles.buttonGroupContainer, themeButtonGroupConfig?.style, style]} sx={sx} {...props} ref={ref}>
         {renderElements()}
       </Box>
     );

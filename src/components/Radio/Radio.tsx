@@ -10,7 +10,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { useThemeColorsSelector, useThemeRadioConfigSelector } from '../../libraries';
-import { DefaultVariationOptions, getVariant, merge, VariantTypes, VariationThemeConfig } from '../../utils';
+import { DefaultVariationOptions, getVariant, VariantTypes, VariationThemeConfig } from '../../utils';
 import { BaseButton } from '../Button';
 import { Divider, DividerProps } from '../Divider';
 import { Text } from '../Typography';
@@ -170,14 +170,6 @@ export const Radio = React.forwardRef<View, RadioProps>(
   ) => {
     const radioThemeConfig = useThemeRadioConfigSelector();
 
-    const mergeLabelContainerStyles = useMemo(() => {
-      return merge(radioThemeConfig?.labelContainerStyles, labelContainerStyles);
-    }, [radioThemeConfig?.labelContainerStyles, labelContainerStyles]);
-
-    const mergeRadioItemContainerStyles = useMemo(() => {
-      return merge(radioThemeConfig?.radioItemContainerStyles, radioItemContainerStyles);
-    }, [radioThemeConfig?.radioItemContainerStyles, radioItemContainerStyles]);
-
     const { sizeConfig: themeSizeConfig = sizeConfig } = radioThemeConfig || {};
 
     const radioOnPressHandler = (event: GestureResponderEvent) => {
@@ -200,7 +192,7 @@ export const Radio = React.forwardRef<View, RadioProps>(
         const element = adornment ? (
           <View style={[adornmentContainerStyles]}>{adornment}</View>
         ) : (
-          <View style={mergeLabelContainerStyles}>
+          <View style={StyleSheet.flatten([radioThemeConfig?.labelContainerStyles, labelContainerStyles])}>
             {label && (
               <Text variation="h4" sx={labelSx} {...restLabelProps}>
                 {label}
@@ -229,7 +221,8 @@ export const Radio = React.forwardRef<View, RadioProps>(
       label,
       description,
       labelProps,
-      mergeLabelContainerStyles,
+      radioThemeConfig?.labelContainerStyles,
+      labelContainerStyles,
       descriptionProps,
       actionType,
       isActive,
@@ -263,7 +256,12 @@ export const Radio = React.forwardRef<View, RadioProps>(
             testID={radioBaseButtonTestId}>
             <RadioOutline isActive={isActive} animationDuration={animationDuration}>
               {radioItem ? (
-                <View style={StyleSheet.flatten([styles.radioItemContainer, mergeRadioItemContainerStyles])}>
+                <View
+                  style={StyleSheet.flatten([
+                    styles.radioItemContainer,
+                    radioThemeConfig?.radioItemContainerStyles,
+                    radioItemContainerStyles,
+                  ])}>
                   {isActive ? radioItem : null}
                 </View>
               ) : (

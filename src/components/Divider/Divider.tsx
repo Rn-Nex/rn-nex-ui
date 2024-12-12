@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { ColorSchemeName, ColorValue, StyleProp, StyleSheet, useColorScheme, View, ViewProps, ViewStyle } from 'react-native';
 import { useThemeColorsSelector, useThemeDividerConfigSelector, useThemeSpacingSelector } from '../../libraries';
 import { Theme, ThemeDimensions } from '../../libraries/themes/v1/theme';
-import { DefaultVariationOptions, GetVariantArgs, merge, VariantTypes, VariationThemeConfig } from '../../utils';
+import { DefaultVariationOptions, GetVariantArgs, VariantTypes, VariationThemeConfig } from '../../utils';
 import { dividerLineStyles, dividerRootContainerStyles, styles } from './Divider.styles';
 
 export type DividerColorThemeConfig = {
@@ -123,14 +123,6 @@ export const Divider = React.forwardRef<View, DividerProps>(
     const dividerGap = gap ?? dividerThemeConfig?.gap;
     const dividerVariantSpacing = variantSpacing ?? dividerThemeConfig?.variantSpacing;
 
-    const mergeStartLineStyles = useMemo(() => {
-      return merge(dividerThemeConfig?.startLineStyles, startLineStyles);
-    }, [dividerThemeConfig?.startLineStyles, startLineStyles]);
-
-    const mergeEndLineStyles = useMemo(() => {
-      return merge(dividerThemeConfig?.endLineStyles, endLineStyles);
-    }, [dividerThemeConfig?.endLineStyles, endLineStyles]);
-
     const { colors: themeVariantColors } = dividerThemeConfig || {};
 
     const containerStyles = useMemo(() => {
@@ -160,10 +152,19 @@ export const Divider = React.forwardRef<View, DividerProps>(
     );
 
     return (
-      <View ref={ref} style={StyleSheet.flatten([styles.rootContainer, containerStyles, style])} {...props}>
-        <View style={StyleSheet.flatten([styles.line, lineStyles('start'), mergeStartLineStyles])} testID={startLineTestId} />
+      <View
+        ref={ref}
+        style={StyleSheet.flatten([styles.rootContainer, containerStyles, dividerThemeConfig?.style, style])}
+        {...props}>
+        <View
+          style={StyleSheet.flatten([styles.line, lineStyles('start'), dividerThemeConfig?.startLineStyles, startLineStyles])}
+          testID={startLineTestId}
+        />
         {children}
-        <View style={StyleSheet.flatten([styles.line, lineStyles('end'), mergeEndLineStyles])} testID={endLineTestId} />
+        <View
+          style={StyleSheet.flatten([styles.line, lineStyles('end'), dividerThemeConfig?.endLineStyles, endLineStyles])}
+          testID={endLineTestId}
+        />
       </View>
     );
   },
