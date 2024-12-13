@@ -21,6 +21,7 @@ export const Text = React.forwardRef<RnText, TextProps>(
       mode,
       color,
       gutterBottomSpace = 10,
+      overrideRootGutterBottomConfig = false,
       disabled = false,
       ...props
     },
@@ -31,43 +32,13 @@ export const Text = React.forwardRef<RnText, TextProps>(
     const themeMode = useThemeModeSelector();
 
     const hasMaxLength = maxLength ?? themeTextConfig?.maxLength;
-    const themeGutterBottomSpace = gutterBottomSpace ?? themeTextConfig?.gutterBottomSpace;
 
-    const textStyles = useMemo(
-      () =>
-        generateTextStyles({
-          variation,
-          gutterBottom,
-          gutterBottomSpace: themeGutterBottomSpace,
-          isActive,
-          activeColor,
-          disabled,
-          error,
-          errorColor,
-          sx,
-          mode,
-          color,
-          themeComponentConfig: themeTextConfig,
-          themeFonts: themeFontConfig,
-          themeMode,
-        }),
-      [
-        variation,
-        gutterBottom,
-        themeGutterBottomSpace,
-        isActive,
-        activeColor,
-        disabled,
-        error,
-        errorColor,
-        sx,
-        mode,
-        color,
-        themeTextConfig,
-        themeFontConfig,
-        themeMode,
-      ],
-    );
+    const themeGutterBottomSpace = () => {
+      if (overrideRootGutterBottomConfig) {
+        return gutterBottomSpace;
+      }
+      return themeTextConfig?.gutterBottomSpace ?? gutterBottomSpace;
+    };
 
     const renderedChildren = useMemo(() => {
       if (hasMaxLength && typeof children !== 'string') {
@@ -81,7 +52,29 @@ export const Text = React.forwardRef<RnText, TextProps>(
     }, [children, hasMaxLength]);
 
     return (
-      <Animated.Text ref={ref} style={StyleSheet.flatten([textStyles, themeTextConfig?.style, style])} {...props}>
+      <Animated.Text
+        ref={ref}
+        style={StyleSheet.flatten([
+          generateTextStyles({
+            variation,
+            gutterBottom,
+            gutterBottomSpace: themeGutterBottomSpace(),
+            isActive,
+            activeColor,
+            disabled,
+            error,
+            errorColor,
+            sx,
+            mode,
+            color,
+            themeComponentConfig: themeTextConfig,
+            themeFonts: themeFontConfig,
+            themeMode,
+          }),
+          themeTextConfig?.style,
+          style,
+        ])}
+        {...props}>
         {renderedChildren}
       </Animated.Text>
     );

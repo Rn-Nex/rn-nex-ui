@@ -1,10 +1,23 @@
+import { render as testingRenderer } from '@testing-library/react-native';
 import React from 'react';
 import { Text as RnText, StyleProp, TextStyle } from 'react-native';
-import { red, secondary, Text } from '../src';
+import { red, secondary, Text, ThemeProvider } from '../src';
+import { TextVariation, TextVariationThemeConfig } from '../src/components/types';
 import { render } from './test-utils';
 
 describe('Text Component', () => {
   const mockTestId = 'text_mock_id';
+
+  const themeVariants: TextVariationThemeConfig = {
+    body1: { fontSize: 20 },
+    body2: { fontSize: 18 },
+    h1: { fontSize: 17 },
+    h2: { fontSize: 16 },
+    h3: { fontSize: 15 },
+    h4: { fontSize: 14 },
+    h5: { fontSize: 14 },
+    h6: { fontSize: 13 },
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -177,5 +190,192 @@ describe('Text Component', () => {
     };
 
     expect(renderComponent).toThrowError('maxLength props must be used with string');
+  });
+
+  it('should apply the gutterBottomSpace property from theme provider', () => {
+    const { getByTestId } = testingRenderer(
+      <ThemeProvider components={{ textProps: { gutterBottomSpace: 20 } }}>
+        <Text testID={mockTestId} gutterBottom>
+          Mock label
+        </Text>
+      </ThemeProvider>,
+    );
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual(expect.objectContaining({ marginBottom: 20 }));
+  });
+
+  it('should override the root gutterBottomSpace property', () => {
+    const { getByTestId } = testingRenderer(
+      <ThemeProvider components={{ textProps: { gutterBottomSpace: 20 } }}>
+        <Text testID={mockTestId} gutterBottom overrideRootGutterBottomConfig gutterBottomSpace={10}>
+          Mock label
+        </Text>
+      </ThemeProvider>,
+    );
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual(expect.objectContaining({ marginBottom: 10 }));
+  });
+
+  it('should apply the maxLength property from theme provider', () => {
+    const { getByText } = testingRenderer(
+      <ThemeProvider components={{ textProps: { maxLength: 10 } }}>
+        <Text>Sample Text</Text>
+      </ThemeProvider>,
+    );
+    expect(getByText('Sample Tex...')).toBeTruthy();
+  });
+
+  it('should override the root maxLength property', () => {
+    const { getByText } = testingRenderer(
+      <ThemeProvider components={{ textProps: { maxLength: 10 } }}>
+        <Text maxLength={5}>Sample Text</Text>
+      </ThemeProvider>,
+    );
+    expect(getByText('Sampl...')).toBeTruthy();
+  });
+
+  it('should apply the root errorColor property', () => {
+    const { getByTestId } = testingRenderer(
+      <ThemeProvider components={{ textProps: { errorColor: 'green' } }}>
+        <Text testID={mockTestId} error>
+          Sample Text
+        </Text>
+      </ThemeProvider>,
+    );
+
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual(expect.objectContaining({ color: 'green' }));
+  });
+
+  it('should override the root errorColor property', () => {
+    const { getByTestId } = testingRenderer(
+      <ThemeProvider components={{ textProps: { errorColor: 'green' } }}>
+        <Text testID={mockTestId} error errorColor={'red'}>
+          Sample Text
+        </Text>
+      </ThemeProvider>,
+    );
+
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual(expect.objectContaining({ color: 'red' }));
+  });
+
+  it('should apply the root activeColor property', () => {
+    const { getByTestId } = testingRenderer(
+      <ThemeProvider components={{ textProps: { activeColor: 'green' } }}>
+        <Text testID={mockTestId} isActive>
+          Sample Text
+        </Text>
+      </ThemeProvider>,
+    );
+
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual(expect.objectContaining({ color: 'green' }));
+  });
+
+  it('should override the root activeColor property', () => {
+    const { getByTestId } = testingRenderer(
+      <ThemeProvider components={{ textProps: { activeColor: 'green' } }}>
+        <Text testID={mockTestId} isActive activeColor={'red'}>
+          Sample Text
+        </Text>
+      </ThemeProvider>,
+    );
+
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual(expect.objectContaining({ color: 'red' }));
+  });
+
+  it('should apply the root color property', () => {
+    const { getByTestId } = testingRenderer(
+      <ThemeProvider components={{ textProps: { color: 'green' } }}>
+        <Text testID={mockTestId}>Sample Text</Text>
+      </ThemeProvider>,
+    );
+
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual(expect.objectContaining({ color: 'green' }));
+  });
+
+  it('should override the root color property', () => {
+    const { getByTestId } = testingRenderer(
+      <ThemeProvider components={{ textProps: { color: 'green' } }}>
+        <Text testID={mockTestId} color={'red'}>
+          Sample Text
+        </Text>
+      </ThemeProvider>,
+    );
+
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual(expect.objectContaining({ color: 'red' }));
+  });
+
+  it('should apply the root styles', () => {
+    const { getByTestId } = testingRenderer(
+      <ThemeProvider
+        components={{
+          textProps: {
+            style: {
+              fontSize: 20,
+              fontWeight: 'bold',
+            },
+          },
+        }}>
+        <Text testID={mockTestId}>Sample text</Text>
+      </ThemeProvider>,
+    );
+
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual(
+      expect.objectContaining({
+        fontSize: 20,
+        fontWeight: 'bold',
+      }),
+    );
+  });
+
+  it('should merge the root styles and component styles', () => {
+    const { getByTestId } = testingRenderer(
+      <ThemeProvider
+        components={{
+          textProps: {
+            style: {
+              fontSize: 20,
+              fontWeight: 'bold',
+            },
+          },
+        }}>
+        <Text testID={mockTestId} style={{ color: 'green' }}>
+          Sample text
+        </Text>
+      </ThemeProvider>,
+    );
+
+    const text = getByTestId(mockTestId);
+    expect(text.props.style).toEqual(
+      expect.objectContaining({
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'green',
+      }),
+    );
+  });
+
+  Object.entries(themeVariants).forEach(([variant, expectedStyle]) => {
+    console.log({ variant, expectedStyle });
+    it(`should apply the '${variant}' text theme variant`, () => {
+      const { getByTestId } = render(
+        <ThemeProvider
+          components={{
+            textProps: themeVariants,
+          }}>
+          <Text testID={mockTestId} variation={variant as TextVariation}>
+            Sample text
+          </Text>
+        </ThemeProvider>,
+      );
+      const textElement = getByTestId(mockTestId);
+      expect(textElement.props.style).toEqual(expect.objectContaining(expectedStyle));
+    });
   });
 });

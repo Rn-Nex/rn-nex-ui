@@ -86,7 +86,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       if (overrideRootIgnoreOpacity) {
         return ignoreOpacityOnNonEditable;
       }
-      return textFieldThemeConfig?.ignoreOpacityOnNonEditable;
+      return textFieldThemeConfig?.ignoreOpacityOnNonEditable ?? ignoreOpacityOnNonEditable;
     };
 
     const shouldApplySquare = square ?? textFieldThemeConfig?.square ?? false;
