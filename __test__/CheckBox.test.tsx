@@ -1,5 +1,6 @@
+import { render as testRenderer } from '@testing-library/react-native';
 import React from 'react';
-import { fireEvent, render } from './test-utils';
+import { View } from 'react-native';
 import {
   CheckBox,
   CHECKBOX_MEDIUM_SIZE,
@@ -11,9 +12,11 @@ import {
   red,
   secondary,
   Text,
+  ThemeProvider,
+  VariantTypes,
   yellow,
 } from '../src';
-import { View } from 'react-native';
+import { fireEvent, render } from './test-utils';
 
 describe('CheckBox Component', () => {
   const mockCheckBoxTestId = 'checkbox-test-id';
@@ -24,6 +27,19 @@ describe('CheckBox Component', () => {
 
   const mockRef = React.createRef<View>();
   const mockOnPress = jest.fn();
+
+  const checkBoxVariationThemeConfig = {
+    colors: {
+      primary: { color: 'green' },
+      secondary: { color: 'red' },
+      success: { color: 'yellow' },
+      error: { color: 'pink' },
+      info: { color: 'blue' },
+      grey: { color: 'red' },
+      lightGrey: { color: 'green' },
+      warning: { color: 'blue' },
+    },
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -175,5 +191,77 @@ describe('CheckBox Component', () => {
     fireEvent.press(adornment);
     expect(mockOnPress).toHaveBeenCalled();
     expect(mockOnPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('should apply the root checkBoxColor prop', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ checkBoxProps: { checkBoxColor: 'red' } }}>
+        <CheckBox isChecked checkBoxImageTestId={mockCheckBoxImageTestId} />
+      </ThemeProvider>,
+    );
+    const checkBoxImage = getByTestId(mockCheckBoxImageTestId);
+    expect(checkBoxImage.props.style).toEqual(expect.objectContaining({ tintColor: 'red' }));
+  });
+
+  it('should override the root checkBoxColor prop', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ checkBoxProps: { checkBoxColor: 'red' } }}>
+        <CheckBox isChecked checkBoxImageTestId={mockCheckBoxImageTestId} checkBoxColor="green" />
+      </ThemeProvider>,
+    );
+    const checkBoxImage = getByTestId(mockCheckBoxImageTestId);
+    expect(checkBoxImage.props.style).toEqual(expect.objectContaining({ tintColor: 'green' }));
+  });
+
+  it('should apply the root label styles prop', () => {
+    const { getByText } = testRenderer(
+      <ThemeProvider components={{ checkBoxProps: { labelStyles: { color: 'red' } } }}>
+        <CheckBox label={mockCheckBoxLabel} />
+      </ThemeProvider>,
+    );
+    const label = getByText(mockCheckBoxLabel);
+    expect(label.props.style).toEqual(expect.objectContaining({ color: 'red' }));
+  });
+
+  it('should combine the root label styles and component label styles', () => {
+    const { getByText } = testRenderer(
+      <ThemeProvider components={{ checkBoxProps: { labelStyles: { color: 'red' } } }}>
+        <CheckBox label={mockCheckBoxLabel} labelStyles={{ fontSize: 20 }} />
+      </ThemeProvider>,
+    );
+    const label = getByText(mockCheckBoxLabel);
+    expect(label.props.style).toEqual(expect.objectContaining({ color: 'red', fontSize: 20 }));
+  });
+
+  it('should apply root sub label styles', () => {
+    const { getByText } = testRenderer(
+      <ThemeProvider components={{ checkBoxProps: { subLabelStyles: { color: 'red' } } }}>
+        <CheckBox subLabel={mockCheckBoxLabel} />
+      </ThemeProvider>,
+    );
+    const subLabel = getByText(mockCheckBoxLabel);
+    expect(subLabel.props.style).toEqual(expect.objectContaining({ color: 'red' }));
+  });
+
+  it('should combine root sub label styles and component sub label styles', () => {
+    const { getByText } = testRenderer(
+      <ThemeProvider components={{ checkBoxProps: { subLabelStyles: { color: 'red' } } }}>
+        <CheckBox subLabel={mockCheckBoxLabel} subLabelStyles={{ fontWeight: 100 }} />
+      </ThemeProvider>,
+    );
+    const subLabel = getByText(mockCheckBoxLabel);
+    expect(subLabel.props.style).toEqual(expect.objectContaining({ color: 'red', fontWeight: 100 }));
+  });
+
+  Object.entries(checkBoxVariationThemeConfig.colors).forEach(([variant, expectedStyle]) => {
+    it(`should apply the root '${variant}' check box theme variant`, () => {
+      const { getByTestId } = render(
+        <ThemeProvider components={{ checkBoxProps: checkBoxVariationThemeConfig }}>
+          <CheckBox testID={mockCheckBoxTestId} isChecked variant={variant as VariantTypes} />
+        </ThemeProvider>,
+      );
+      const checkBox = getByTestId(mockCheckBoxTestId);
+      expect(checkBox.props.style).toEqual(expect.objectContaining({ tintColor: expectedStyle.color }));
+    });
   });
 });
