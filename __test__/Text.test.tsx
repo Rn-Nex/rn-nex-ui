@@ -362,7 +362,6 @@ describe('Text Component', () => {
   });
 
   Object.entries(themeVariants).forEach(([variant, expectedStyle]) => {
-    console.log({ variant, expectedStyle });
     it(`should apply the '${variant}' text theme variant`, () => {
       const { getByTestId } = render(
         <ThemeProvider
