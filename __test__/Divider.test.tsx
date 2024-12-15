@@ -1,8 +1,9 @@
+import { render as testRenderer } from '@testing-library/react-native';
 import React from 'react';
-import { render } from './test-utils';
-import { Divider, Text } from '../src';
 import { View } from 'react-native';
+import { Divider, Text, ThemeProvider } from '../src';
 import { spacing } from '../src/libraries/themes/v1/sizes';
+import { render } from './test-utils';
 
 describe('Divider Component', () => {
   const dividerMockTestId = 'divide-test-id';
@@ -105,5 +106,123 @@ describe('Divider Component', () => {
 
     const endLine = getByTestId(dividerEndLineTestId);
     expect(endLine.props.style).toEqual(expect.objectContaining({ backgroundColor: 'red' }));
+  });
+
+  it('should apply the root startLineStyles styles correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider
+        components={{
+          dividerProps: {
+            startLineStyles: { borderColor: 'red' },
+          },
+        }}>
+        <Divider startLineTestId={dividerStartLineTestId} />
+      </ThemeProvider>,
+    );
+    const startLine = getByTestId(dividerStartLineTestId);
+    expect(startLine.props.style).toEqual(expect.objectContaining({ borderColor: 'red' }));
+  });
+
+  it('should combine the root startLineStyles styles and component startLineStyles correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider
+        components={{
+          dividerProps: {
+            startLineStyles: { borderColor: 'red' },
+          },
+        }}>
+        <Divider startLineTestId={dividerStartLineTestId} startLineStyles={{ borderWidth: 2 }} />
+      </ThemeProvider>,
+    );
+    const startLine = getByTestId(dividerStartLineTestId);
+    expect(startLine.props.style).toEqual(expect.objectContaining({ borderColor: 'red', borderWidth: 2 }));
+  });
+
+  it('should apply the root endLineStyles styles correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ dividerProps: { endLineStyles: { borderColor: 'red' } } }}>
+        <Divider endLineTestId={dividerEndLineTestId} />
+      </ThemeProvider>,
+    );
+
+    const endLine = getByTestId(dividerEndLineTestId);
+    expect(endLine.props.style).toEqual(expect.objectContaining({ borderColor: 'red' }));
+  });
+
+  it('should combine the root endLineStyles styles and component endLineStyles correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ dividerProps: { endLineStyles: { borderColor: 'red' } } }}>
+        <Divider endLineTestId={dividerEndLineTestId} endLineStyles={{ borderWidth: 2 }} />
+      </ThemeProvider>,
+    );
+
+    const endLine = getByTestId(dividerEndLineTestId);
+    expect(endLine.props.style).toEqual(expect.objectContaining({ borderColor: 'red', borderWidth: 2 }));
+  });
+
+  it('should apply the root borderColor correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ dividerProps: { borderColor: 'red' } }}>
+        <Divider startLineTestId={dividerStartLineTestId} endLineTestId={dividerEndLineTestId} />
+      </ThemeProvider>,
+    );
+    const startLine = getByTestId(dividerStartLineTestId);
+    const endLine = getByTestId(dividerStartLineTestId);
+    expect(startLine.props.style).toEqual(expect.objectContaining({ borderColor: 'red' }));
+    expect(endLine.props.style).toEqual(expect.objectContaining({ borderColor: 'red' }));
+  });
+
+  it('should override the root borderColor correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ dividerProps: { borderColor: 'red' } }}>
+        <Divider startLineTestId={dividerStartLineTestId} endLineTestId={dividerEndLineTestId} borderColor={'green'} />
+      </ThemeProvider>,
+    );
+    const startLine = getByTestId(dividerStartLineTestId);
+    const endLine = getByTestId(dividerStartLineTestId);
+    expect(startLine.props.style).toEqual(expect.objectContaining({ borderColor: 'green' }));
+    expect(endLine.props.style).toEqual(expect.objectContaining({ borderColor: 'green' }));
+  });
+
+  it('should apply the root variant spacing of the divider component correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ dividerProps: { variantSpacing: 10 } }}>
+        <Divider ref={mockRef} testID={dividerMockTestId} variant="startSpacing" />
+      </ThemeProvider>,
+    );
+
+    const divider = getByTestId(dividerMockTestId);
+    expect(divider.props.style).toEqual(expect.objectContaining({ paddingLeft: 10 }));
+  });
+
+  it('should override the root variant spacing of the divider component correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ dividerProps: { variantSpacing: 10 } }}>
+        <Divider ref={mockRef} testID={dividerMockTestId} variant="startSpacing" variantSpacing={20} />
+      </ThemeProvider>,
+    );
+
+    const divider = getByTestId(dividerMockTestId);
+    expect(divider.props.style).toEqual(expect.objectContaining({ paddingLeft: 20 }));
+  });
+
+  it('should apply the root style of divider component correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ dividerProps: { style: { borderWidth: 2 } } }}>
+        <Divider testID={dividerMockTestId} />
+      </ThemeProvider>,
+    );
+    const divider = getByTestId(dividerMockTestId);
+    expect(divider.props.style).toEqual(expect.objectContaining({ borderWidth: 2 }));
+  });
+
+  it('should combine the root style of divider component and component styles correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ dividerProps: { style: { borderWidth: 2 } } }}>
+        <Divider testID={dividerMockTestId} style={{ backgroundColor: 'red' }} />
+      </ThemeProvider>,
+    );
+    const divider = getByTestId(dividerMockTestId);
+    expect(divider.props.style).toEqual(expect.objectContaining({ borderWidth: 2, backgroundColor: 'red' }));
   });
 });
