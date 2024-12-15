@@ -1,10 +1,12 @@
+import { render as testRenderer } from '@testing-library/react-native';
 import React from 'react';
-import { fireEvent, render } from './test-utils';
-import { Pagination, Text } from '../src';
 import { View } from 'react-native';
+import { Pagination, Text, ThemeProvider } from '../src';
+import { fireEvent, render } from './test-utils';
 
 describe('Pagination Component', () => {
   const mockPaginationItemTestId = 'pagination-item-test-id';
+  const mockPaginationTestId = 'pagination-test-id';
   const mockDotContainerTestId = 'dot-container-test-id';
 
   const mockRef = React.createRef<View>();
@@ -96,5 +98,57 @@ describe('Pagination Component', () => {
 
     const firstItem = getByTestId(`${mockPaginationItemTestId}-1`);
     expect(firstItem.props.style).toEqual(expect.objectContaining({ borderRadius: 100 }));
+  });
+
+  it('should apply the root pagination item shape when prop', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider
+        components={{
+          paginationProps: {
+            itemShape: 'rounded',
+          },
+        }}>
+        <Pagination count={10} paginationItemProps={{ testID: mockPaginationItemTestId }} />
+      </ThemeProvider>,
+    );
+
+    const firstItem = getByTestId(`${mockPaginationItemTestId}-1`);
+    expect(firstItem.props.style).toEqual(expect.objectContaining({ borderRadius: 5 }));
+  });
+
+  it('should override the root pagination item shape prop', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider
+        components={{
+          paginationProps: {
+            itemShape: 'rounded',
+          },
+        }}>
+        <Pagination count={10} itemShape="circular" paginationItemProps={{ testID: mockPaginationItemTestId }} />
+      </ThemeProvider>,
+    );
+
+    const firstItem = getByTestId(`${mockPaginationItemTestId}-1`);
+    expect(firstItem.props.style).toEqual(expect.objectContaining({ borderRadius: 100 }));
+  });
+
+  it('should apply the root styles config', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ paginationProps: { style: { backgroundColor: 'red' } } }}>
+        <Pagination count={10} testID={mockPaginationTestId} />
+      </ThemeProvider>,
+    );
+    const pagination = getByTestId(mockPaginationTestId);
+    expect(pagination.props.style).toEqual(expect.objectContaining({ backgroundColor: 'red' }));
+  });
+
+  it('should combine the root styles and component styles', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ paginationProps: { style: { backgroundColor: 'red' } } }}>
+        <Pagination count={10} testID={mockPaginationTestId} style={{ borderWidth: 2 }} />
+      </ThemeProvider>,
+    );
+    const pagination = getByTestId(mockPaginationTestId);
+    expect(pagination.props.style).toEqual(expect.objectContaining({ backgroundColor: 'red', borderWidth: 2 }));
   });
 });
