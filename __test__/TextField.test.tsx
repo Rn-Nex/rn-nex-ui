@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { grey, lightBlue, red, TextField } from '../src';
+import { grey, lightBlue, red, TextField, ThemeProvider } from '../src';
 import { fireEvent, render } from './test-utils';
+import { render as testRenderer } from '@testing-library/react-native';
 
 describe('TextField Component', () => {
   const mockTextFiledTestId = 'text-filed-test-id';
@@ -288,5 +289,131 @@ describe('TextField Component', () => {
 
     expect(mockOnFocus).toHaveBeenCalledTimes(1);
     expect(outlined.props.style).toEqual(expect.objectContaining({ borderColor: lightBlue[500] }));
+  });
+
+  it('should apply the root styles', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ textFieldProps: { style: { borderWidth: 10, borderColor: 'red' } } }}>
+        <TextField outlineContainerTestId={mockTextFieldOutlineTestId} />
+      </ThemeProvider>,
+    );
+    const outline = getByTestId(mockTextFieldOutlineTestId);
+    expect(outline.props.style).toEqual(expect.objectContaining({ borderWidth: 10, borderColor: 'red' }));
+  });
+
+  it('should combine the root styles and component styles', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ textFieldProps: { style: { borderWidth: 10, borderColor: 'red' } } }}>
+        <TextField outlineContainerTestId={mockTextFieldOutlineTestId} style={{ borderRadius: 10 }} />
+      </ThemeProvider>,
+    );
+    const outline = getByTestId(mockTextFieldOutlineTestId);
+    expect(outline.props.style).toEqual(expect.objectContaining({ borderWidth: 10, borderColor: 'red', borderRadius: 10 }));
+  });
+
+  it('should apply the root active color and show the active border color when text field in the focused state', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ textFieldProps: { activeColor: 'blue' } }}>
+        <TextField onFocus={mockOnFocus} testID={mockTextFiledTestId} outlineContainerTestId={mockTextFieldOutlineTestId} />
+      </ThemeProvider>,
+    );
+
+    const textFiled = getByTestId(mockTextFiledTestId);
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+
+    fireEvent(textFiled, 'focus');
+
+    expect(mockOnFocus).toHaveBeenCalledTimes(1);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ borderColor: 'blue' }));
+  });
+
+  it('should override the root active color and show the active border color when text field in the focused state', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ textFieldProps: { activeColor: 'blue' } }}>
+        <TextField
+          onFocus={mockOnFocus}
+          testID={mockTextFiledTestId}
+          outlineContainerTestId={mockTextFieldOutlineTestId}
+          activeColor={'green'}
+        />
+      </ThemeProvider>,
+    );
+
+    const textFiled = getByTestId(mockTextFiledTestId);
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+
+    fireEvent(textFiled, 'focus');
+
+    expect(mockOnFocus).toHaveBeenCalledTimes(1);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ borderColor: 'green' }));
+  });
+
+  it('should apply the root error color', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ textFieldProps: { errorColor: 'green' } }}>
+        <TextField variant="outlined" outlineContainerTestId={mockTextFieldOutlineTestId} error />
+      </ThemeProvider>,
+    );
+
+    const textFieldOutlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(textFieldOutlined.props.style).toEqual(expect.objectContaining({ borderColor: 'green' }));
+  });
+
+  it('should override the root error color', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ textFieldProps: { errorColor: 'green' } }}>
+        <TextField errorColor={'pink'} variant="outlined" outlineContainerTestId={mockTextFieldOutlineTestId} error />
+      </ThemeProvider>,
+    );
+
+    const textFieldOutlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(textFieldOutlined.props.style).toEqual(expect.objectContaining({ borderColor: 'pink' }));
+  });
+
+  it('should apply the root ignoreOpacityOnNonEditable and remove the opacity when the input is disabled', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ textFieldProps: { ignoreOpacityOnNonEditable: true } }}>
+        <TextField outlineContainerTestId={mockTextFieldOutlineTestId} editable={false} />
+      </ThemeProvider>,
+    );
+
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ opacity: 1 }));
+  });
+
+  it('should override the root ignoreOpacityOnNonEditable', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ textFieldProps: { ignoreOpacityOnNonEditable: true } }}>
+        <TextField
+          outlineContainerTestId={mockTextFieldOutlineTestId}
+          editable={false}
+          ignoreOpacityOnNonEditable={false}
+          overrideRootIgnoreOpacity
+        />
+      </ThemeProvider>,
+    );
+
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ opacity: 0.6 }));
+  });
+
+  it('should apply the root square prop', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ textFieldProps: { square: true } }}>
+        <TextField outlineContainerTestId={mockTextFieldOutlineTestId} />
+      </ThemeProvider>,
+    );
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ borderRadius: 0 }));
+  });
+
+  it('should override the the root square prop', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ textFieldProps: { square: true } }}>
+        <TextField outlineContainerTestId={mockTextFieldOutlineTestId} square={false} />
+      </ThemeProvider>,
+    );
+    const outlined = getByTestId(mockTextFieldOutlineTestId);
+    expect(outlined.props.style).toEqual(expect.objectContaining({ borderRadius: 5 }));
   });
 });
