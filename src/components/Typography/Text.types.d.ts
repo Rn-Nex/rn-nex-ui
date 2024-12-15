@@ -42,6 +42,11 @@ export interface TextProps extends React.ComponentPropsWithRef<typeof Text> {
   gutterBottomSpace?: number;
 
   /**
+   * Override the root gutter bottom spacing
+   */
+  overrideRootGutterBottomConfig?: boolean;
+
+  /**
    * Maximum length of the text content. Used for truncating or limiting text length.
    */
   maxLength?: number;

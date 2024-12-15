@@ -1,6 +1,7 @@
+import { render as testRenderer } from '@testing-library/react-native';
 import React from 'react';
 import { View } from 'react-native';
-import { Card, CardContent, CardHeader, grey } from '../src';
+import { Card, CardContent, CardHeader, grey, ThemeProvider } from '../src';
 import { render } from './test-utils';
 
 describe('Card Component', () => {
@@ -37,6 +38,26 @@ describe('Card Component', () => {
     const card = getByTestId(mockCardTestId);
     expect(card.props.style).toEqual(expect.objectContaining({ borderWidth: 0.5, borderColor: grey[500] }));
   });
+
+  it('should apply the root style', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ cardProps: { style: { backgroundColor: 'red' } } }}>
+        <Card variation="outlined" testID={mockCardTestId} />
+      </ThemeProvider>,
+    );
+    const card = getByTestId(mockCardTestId);
+    expect(card.props.style).toEqual(expect.objectContaining({ backgroundColor: 'red' }));
+  });
+
+  it('should combine the root style and component style', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ cardProps: { style: { backgroundColor: 'red' } } }}>
+        <Card variation="outlined" testID={mockCardTestId} style={{ borderWidth: 2 }} />
+      </ThemeProvider>,
+    );
+    const card = getByTestId(mockCardTestId);
+    expect(card.props.style).toEqual(expect.objectContaining({ backgroundColor: 'red', borderWidth: 2 }));
+  });
 });
 
 describe('CardHeader Component', () => {
@@ -65,6 +86,26 @@ describe('CardHeader Component', () => {
 
     const cardHeader = getByTestId(mockCardHeaderTestId);
     expect(cardHeader.props.style).toEqual(expect.objectContaining({ backgroundColor: 'red' }));
+  });
+
+  it('should apply the root style', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ cardHeaderProps: { style: { backgroundColor: 'red' } } }}>
+        <CardHeader testID={mockCardHeaderTestId} />
+      </ThemeProvider>,
+    );
+    const cardHeader = getByTestId(mockCardHeaderTestId);
+    expect(cardHeader.props.style).toEqual(expect.objectContaining({ backgroundColor: 'red' }));
+  });
+
+  it('should combine the root style and component style', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ cardHeaderProps: { style: { backgroundColor: 'red' } } }}>
+        <CardHeader testID={mockCardHeaderTestId} style={{ borderWidth: 2 }} />
+      </ThemeProvider>,
+    );
+    const cardHeader = getByTestId(mockCardHeaderTestId);
+    expect(cardHeader.props.style).toEqual(expect.objectContaining({ backgroundColor: 'red', borderWidth: 2 }));
   });
 });
 

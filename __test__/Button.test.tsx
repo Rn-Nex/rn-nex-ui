@@ -1,6 +1,7 @@
+import { render as testRenderer } from '@testing-library/react-native';
 import React from 'react';
 import { Text, View } from 'react-native';
-import { Button, green, lightBlue, primary, red, secondary, yellow } from '../src';
+import { Button, green, lightBlue, primary, red, secondary, ThemeProvider, yellow } from '../src';
 import { fireEvent, render } from './test-utils';
 
 describe('Button', () => {
@@ -215,5 +216,75 @@ describe('Button', () => {
     const label = getByText(mockLabel);
     expect(button.props.style).toEqual(expect.not.objectContaining({ borderWidth: 1 }));
     expect(label.props.style).toEqual(expect.objectContaining({ color: yellow[500] }));
+  });
+
+  it('should apply the root label style correctly', () => {
+    const { getByText } = testRenderer(
+      <ThemeProvider
+        components={{
+          buttonProps: {
+            labelStyles: { color: 'green' },
+          },
+        }}>
+        <Button label={mockLabel} testID={mockButtonTestId} />
+      </ThemeProvider>,
+    );
+    const labelText = getByText(mockLabel);
+    expect(labelText.props.style).toEqual({ color: 'green' });
+  });
+
+  it('should combine the root label style and component styles correctly', () => {
+    const { getByText } = testRenderer(
+      <ThemeProvider
+        components={{
+          buttonProps: {
+            labelStyles: { color: 'green' },
+          },
+        }}>
+        <Button label={mockLabel} labelStyles={{ fontWeight: 100 }} testID={mockButtonTestId} />
+      </ThemeProvider>,
+    );
+    const labelText = getByText(mockLabel);
+    expect(labelText.props.style).toEqual({ color: 'green', fontWeight: 100 });
+  });
+
+  it('should apply the root square props correctly', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ buttonProps: { square: true } }}>
+        <Button testID={mockButtonTestId} />
+      </ThemeProvider>,
+    );
+    const button = getByTestId(mockButtonTestId);
+    expect(button.props.style).toEqual(expect.objectContaining({ borderRadius: 0 }));
+  });
+
+  it('should override the root square prop', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ buttonProps: { square: true } }}>
+        <Button testID={mockButtonTestId} square={false} overrideRootSquareConfig />
+      </ThemeProvider>,
+    );
+    const button = getByTestId(mockButtonTestId);
+    expect(button.props.style).toEqual(expect.objectContaining({ borderRadius: 8 }));
+  });
+
+  it('should apply the root label color correctly', () => {
+    const { getByText } = testRenderer(
+      <ThemeProvider components={{ buttonProps: { labelColor: 'green' } }}>
+        <Button label={mockLabel} testID={mockButtonTestId} />
+      </ThemeProvider>,
+    );
+    const labelText = getByText(mockLabel);
+    expect(labelText.props.style).toEqual({ color: 'green' });
+  });
+
+  it('should override the root label color', () => {
+    const { getByText } = testRenderer(
+      <ThemeProvider components={{ buttonProps: { labelColor: 'green' } }}>
+        <Button label={mockLabel} testID={mockButtonTestId} labelColor={'pink'} />
+      </ThemeProvider>,
+    );
+    const labelText = getByText(mockLabel);
+    expect(labelText.props.style).toEqual({ color: 'pink' });
   });
 });

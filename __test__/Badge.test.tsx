@@ -1,3 +1,4 @@
+import { render as testRenderer } from '@testing-library/react-native';
 import React from 'react';
 import { View } from 'react-native';
 import {
@@ -11,6 +12,8 @@ import {
   primary,
   red,
   secondary,
+  ThemeProvider,
+  VariantTypes,
   yellow,
 } from '../src';
 import { render } from './test-utils';
@@ -19,6 +22,19 @@ describe('Badge', () => {
   const mockBadgeTestId = 'mock-badge-test-id';
   const mockRef = React.createRef<View>();
   const defaultBadgePositionSpace = -4;
+
+  const rootBadgeVariationThemeConfig = {
+    colors: {
+      primary: { color: 'green' },
+      secondary: { color: 'red' },
+      success: { color: 'yellow' },
+      error: { color: 'pink' },
+      info: { color: 'blue' },
+      grey: { color: 'red' },
+      lightGrey: { color: 'green' },
+      warning: { color: 'blue' },
+    },
+  };
 
   beforeAll(() => {
     jest.clearAllMocks();
@@ -143,5 +159,83 @@ describe('Badge', () => {
     expect(badge.props.style).toEqual(
       expect.objectContaining({ bottom: defaultBadgePositionSpace, right: defaultBadgePositionSpace }),
     );
+  });
+
+  it('should apply the root max config', () => {
+    const { getByText } = testRenderer(
+      <ThemeProvider components={{ badgeProps: { max: 10 } }}>
+        <Badge testID={mockBadgeTestId} badgeContent={100} />
+      </ThemeProvider>,
+    );
+
+    const label = getByText('9+');
+    expect(label).toBeDefined();
+  });
+
+  it('should override the root max config', () => {
+    const { getByText } = testRenderer(
+      <ThemeProvider components={{ badgeProps: { max: 10 } }}>
+        <Badge testID={mockBadgeTestId} max={100} badgeContent={100} shouldOverrideRootMaxValue />
+      </ThemeProvider>,
+    );
+
+    const label = getByText('99+');
+    expect(label).toBeDefined();
+  });
+
+  it('should apply then root anchorOrigin prop', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ badgeProps: { anchorOrigin: BADGE_TOP_LEFT_POSITION } }}>
+        <Badge testID={mockBadgeTestId} />
+      </ThemeProvider>,
+    );
+    const badge = getByTestId(mockBadgeTestId);
+    expect(badge.props.style).toEqual(
+      expect.objectContaining({ top: defaultBadgePositionSpace, left: defaultBadgePositionSpace }),
+    );
+  });
+
+  it('should override then root anchorOrigin prop', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ badgeProps: { anchorOrigin: BADGE_TOP_LEFT_POSITION } }}>
+        <Badge testID={mockBadgeTestId} anchorOrigin={BADGE_BOTTOM_LEFT_POSITION} shouldOverrideRootAnchor />
+      </ThemeProvider>,
+    );
+    const badge = getByTestId(mockBadgeTestId);
+    expect(badge.props.style).toEqual(
+      expect.objectContaining({ bottom: defaultBadgePositionSpace, left: defaultBadgePositionSpace }),
+    );
+  });
+
+  it('should apply the root style', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ badgeProps: { style: { backgroundColor: 'red' } } }}>
+        <Badge testID={mockBadgeTestId} />
+      </ThemeProvider>,
+    );
+    const badge = getByTestId(mockBadgeTestId);
+    expect(badge.props.style).toEqual(expect.objectContaining({ backgroundColor: 'red' }));
+  });
+
+  it('should combine the root style and component styles', () => {
+    const { getByTestId } = testRenderer(
+      <ThemeProvider components={{ badgeProps: { style: { backgroundColor: 'red' } } }}>
+        <Badge testID={mockBadgeTestId} style={{ borderWidth: 2 }} />
+      </ThemeProvider>,
+    );
+    const badge = getByTestId(mockBadgeTestId);
+    expect(badge.props.style).toEqual(expect.objectContaining({ backgroundColor: 'red', borderWidth: 2 }));
+  });
+
+  Object.entries(rootBadgeVariationThemeConfig.colors).forEach(([variant, expectedStyle]) => {
+    it(`should apply the root '${variant}' badge theme variant`, () => {
+      const { getByTestId } = render(
+        <ThemeProvider components={{ badgeProps: rootBadgeVariationThemeConfig }}>
+          <Badge testID={mockBadgeTestId} style={{ borderWidth: 2 }} variation={variant as VariantTypes} />
+        </ThemeProvider>,
+      );
+      const badge = getByTestId(mockBadgeTestId);
+      expect(badge.props.style).toEqual(expect.objectContaining({ backgroundColor: expectedStyle.color }));
+    });
   });
 });
