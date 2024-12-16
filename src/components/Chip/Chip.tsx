@@ -92,6 +92,7 @@ export const Chip = React.forwardRef<View, ChipProps>(
       <BaseButton
         disabled={disabled}
         disableRipple={disableRipple}
+        scaleAnimationValue={0.96}
         style={StyleSheet.flatten([
           styles.chip,
           chipStyles,

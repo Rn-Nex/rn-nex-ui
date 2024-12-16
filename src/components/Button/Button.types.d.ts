@@ -36,6 +36,11 @@ export interface BaseButtonProps extends React.ComponentPropsWithRef<typeof Touc
   scaleAnimationValue?: number;
 
   baseButtonContainerStyle?: ViewStyle;
+
+  /**
+   * button scale animation duration
+   */
+  scaleAnimationDuration?: number;
 }
 
 /**

@@ -30,6 +30,7 @@ export const BaseButton = React.forwardRef<View, BaseButtonProps>(
       onLongPress: onLongPressHandler,
       scaleAnimationValue = 0.99,
       disableScaleAnimation = false,
+      scaleAnimationDuration = 200,
       ...props
     },
     ref,
@@ -39,15 +40,17 @@ export const BaseButton = React.forwardRef<View, BaseButtonProps>(
     const scaleValue = useRef(new Animated.Value(1)).current;
 
     const handlePressIn = () => {
-      Animated.spring(scaleValue, {
+      Animated.timing(scaleValue, {
         toValue: scaleAnimationValue,
+        duration: scaleAnimationDuration,
         useNativeDriver: true,
       }).start(handlePressOut);
     };
 
     const handlePressOut = () => {
-      Animated.spring(scaleValue, {
+      Animated.timing(scaleValue, {
         toValue: 1,
+        duration: scaleAnimationDuration,
         useNativeDriver: true,
       }).start();
     };
