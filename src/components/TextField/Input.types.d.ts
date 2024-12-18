@@ -1,5 +1,14 @@
 import React from 'react';
-import { Animated, ColorValue, StyleProp, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
+import {
+  ActivityIndicatorProps,
+  Animated,
+  ColorValue,
+  StyleProp,
+  TextInputProps,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { BaseStyles } from '../../libraries/style/styleTypes';
 import { Theme } from '../../libraries/themes/v1/theme';
 import { BoxProps } from '../Box/Box.types';
@@ -131,6 +140,18 @@ export interface TextFieldProps extends BaseInputProps {
    * Outline container props
    */
   outlineProps?: OutlineProps;
+  /**
+   * Show the loading indicator
+   */
+  loading?: boolean;
+  /**
+   * Only show loading indicator when input is focused
+   */
+  showLoadingIndicatorWhenFocused?: boolean;
+  /**
+   * Loading indicator props
+   */
+  loadingIndicatorProps?: ActivityIndicatorProps;
 }
 
 /**

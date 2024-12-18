@@ -23,6 +23,7 @@ import { TextFieldProps } from './Input.types';
 import { InputLabel } from './InputLabel';
 import { Outline } from './InputOutline';
 import { textInputStyles as textInputStylesUtil } from './TextField.style';
+import { ActivityIndicator } from '../ActivityIndicator';
 
 export const TextField = React.forwardRef<View, TextFieldProps>(
   (
@@ -45,6 +46,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       onFocus: onTextInputFocusHandler,
       onBlur: onTextInputBlurHandler,
       onLayout: onTextInputLayoutHandler,
+      loadingIndicatorProps,
       animatedDuration = LABELED_ANIMATION_DURATION,
       overrideRootAnimationDuration = false,
       hideLabel = false,
@@ -55,6 +57,8 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       variant = 'outlined',
       ignoreOpacityOnNonEditable = false,
       overrideRootIgnoreOpacity = false,
+      showLoadingIndicatorWhenFocused = false,
+      loading = false,
       ...props
     },
     ref,
@@ -135,6 +139,34 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
       [variant, endAdornment, startAdornment],
     );
 
+    const renderEndAdornment = useCallback(() => {
+      if (!loading && !endAdornment) {
+        return null;
+      }
+
+      let element: React.ReactNode;
+
+      if (endAdornment) {
+        element = endAdornment;
+      } else {
+        if (showLoadingIndicatorWhenFocused && isFocused && loading) {
+          element = <ActivityIndicator {...loadingIndicatorProps} />;
+        } else if (!showLoadingIndicatorWhenFocused && loading) {
+          element = <ActivityIndicator {...loadingIndicatorProps} />;
+        }
+      }
+
+      if (!element) {
+        return null;
+      }
+
+      return (
+        <Box sx={{ me: 8, ms: 8 }} {...endAdornmentContainerProps}>
+          {element}
+        </Box>
+      );
+    }, [endAdornment, endAdornmentContainerProps, loading, loadingIndicatorProps, showLoadingIndicatorWhenFocused, isFocused]);
+
     useEffect(() => {
       inputLabelAnimatedValue.stopAnimation();
       if (isFocused || value || !!startAdornment || inputIsFocused) {
@@ -201,11 +233,7 @@ export const TextField = React.forwardRef<View, TextFieldProps>(
           placeholder={shouldHideLabel() ? placeholder : undefined}
           {...props}
         />
-        {endAdornment && (
-          <Box sx={{ me: 8 }} {...endAdornmentContainerProps}>
-            {endAdornment}
-          </Box>
-        )}
+        {renderEndAdornment()}
       </Outline>
     );
   },
