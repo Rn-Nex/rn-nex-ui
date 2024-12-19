@@ -24,6 +24,7 @@ import {
   PaginationProps,
   PaginationThemeConfig,
   TextFieldProps,
+  TextFiledVariation,
   TextProps,
   TextVariationThemeConfig,
 } from '../../../components/types';
@@ -118,6 +119,24 @@ export type CreateThemeDimensionsReturnValues = ThemeDimensions & InnerPartial<T
  * with support for specifying the theme property name (e.g., 'primary' or 'secondary') for each shade.
  */
 export type CreateColorShadesInterface = { shades: Partial<ColorShades>; themePropertyName: ThemeKeys };
+type TextFiledConfig = Pick<
+  TextFieldProps,
+  | 'animatedDuration'
+  | 'inputStyles'
+  | 'style'
+  | 'hideLabel'
+  | 'activeColor'
+  | 'errorColor'
+  | 'ignoreOpacityOnNonEditable'
+  | 'square'
+>;
+/**
+ * Define a configuration map for TextField variations.
+ * Each key corresponds to a specific TextField variation (e.g., 'outlined', 'filled'), and the value is a partial configuration specific to that variation.
+ */
+type TextFieldVariationConfig = Partial<
+  Record<TextFiledVariation, Pick<TextFiledConfig, 'activeColor' | 'errorColor' | 'inputStyles' | 'style'> | undefined>
+>;
 /**
  * Configuration type for customizing the look and feel of themeable components.
  * These configurations allow for easy styling adjustments for various components.
@@ -185,17 +204,7 @@ export type ThemeComponentConfig = {
     'toggleDuration' | 'toggleWrapperBgDuration' | 'wrapperDefaultBgColor' | 'wrapperActiveBgColor' | 'thumbStyles' | 'style'
   > &
     SwitchThemeConfig;
-  textFieldProps?: Pick<
-    TextFieldProps,
-    | 'animatedDuration'
-    | 'inputStyles'
-    | 'style'
-    | 'hideLabel'
-    | 'activeColor'
-    | 'errorColor'
-    | 'ignoreOpacityOnNonEditable'
-    | 'square'
-  >;
+  textFieldProps?: TextFiledConfig & TextFieldVariationConfig;
   iconInputProps?: Pick<IconInputProps, 'inputWrapperStyles' | 'endAdornmentContainerStyles' | 'startAdornmentContainerStyles'>;
 };
 /**
