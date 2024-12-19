@@ -16,16 +16,9 @@ export type SwitchSize = 'small' | 'medium' | 'large';
 
 export interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof TouchableWithoutFeedback>, 'onPress' | 'style'> {
   /**
-   * Indicates the initial toggle state of the switch.
-   * If true, the switch will be in the "on" position initially. Defaults to false.
-   */
-  initialToggleState?: boolean;
-
-  /**
    * Callback function that is called when the switch is toggled.
-   * The function receives the new toggle state as a boolean.
    */
-  onToggle?: (state: boolean) => void;
+  onToggle?: () => void;
 
   /**
    * Duration of the toggle animation in milliseconds.
@@ -96,6 +89,11 @@ export interface SwitchProps extends Omit<React.ComponentPropsWithoutRef<typeof 
    * testID for the switch thumb
    */
   thumbTestID?: string;
+
+  /**
+   * Active state of the switch
+   */
+  isActive?: boolean;
 }
 
 export interface GetSwitchSizesArgs extends Pick<SwitchProps, 'size'> {}
@@ -113,19 +111,18 @@ export const Switch = React.forwardRef<View, SwitchProps>(
       thumbTestID,
       variant = 'primary',
       size = 'medium',
-      initialToggleState = false,
       overrideRootToggleBgDuration = false,
       toggleWrapperBgDuration = 200,
       toggleDuration = 220,
       overrideRootToggleDuration = false,
+      isActive = false,
       ...props
     },
     ref,
   ) => {
-    const animatedValue = useRef(new Animated.Value(initialToggleState ? 1 : 0)).current;
+    const animatedValue = useRef(new Animated.Value(0)).current;
     const switchWrapperBgAnimatedValue = useRef(new Animated.Value(0)).current;
 
-    const [isToggled, setIsToggled] = useState(false);
     const [containerWidth, setContainerWidth] = useState(0);
     const [thumbWidth, setThumbWidth] = useState(0);
 
@@ -152,31 +149,20 @@ export const Switch = React.forwardRef<View, SwitchProps>(
     const { colors: themeColorScheme } = switchThemeConfig || {};
 
     useEffect(() => {
-      setIsToggled(initialToggleState);
-    }, [initialToggleState]);
-
-    useEffect(() => {
       Animated.parallel([
         Animated.timing(animatedValue, {
-          toValue: isToggled ? 1 : 0,
+          toValue: isActive ? 1 : 0,
           duration: switchToggleDuration(),
-          useNativeDriver: false,
+          useNativeDriver: true,
         }),
         Animated.timing(switchWrapperBgAnimatedValue, {
-          toValue: isToggled ? 1 : 0,
+          toValue: isActive ? 1 : 0,
           duration: switchToggleBgDuration(),
-          useNativeDriver: false,
+          useNativeDriver: true,
         }),
       ]).start();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isToggled]);
-
-    const toggleSwitch = () => {
-      setIsToggled(!isToggled);
-      if (onToggle && typeof onToggle === 'function') {
-        onToggle(!isToggled);
-      }
-    };
+    }, [isActive]);
 
     const handleContainerLayout = (event: LayoutChangeEvent) => {
       setContainerWidth(event.nativeEvent.layout.width);
@@ -211,7 +197,7 @@ export const Switch = React.forwardRef<View, SwitchProps>(
 
     return (
       <View ref={ref}>
-        <TouchableWithoutFeedback onPress={toggleSwitch} {...props}>
+        <TouchableWithoutFeedback onPress={onToggle} {...props}>
           <Animated.View
             style={StyleSheet.flatten([
               styles.switchContainer,
